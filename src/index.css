@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+  height: 100% !important;
+}
 
 body {
   margin: 0;
@@ -10,7 +13,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F8F9FD;
+  height: 100% !important;
+  width: 100%;
 }
+#root
+        {
+          height: 100% !important;
+          
+        }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

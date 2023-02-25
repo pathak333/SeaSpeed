@@ -6,7 +6,9 @@ const AuthenticatedRoute = ({
   accessToken,
   outlet,
 }: AuthenticatedRouteProps): JSX.Element => {
-  if (!accessToken) <Navigate to="/auth" replace />;
+  // const navigate = useNavigate();
+
+  if (accessToken === null) return <Navigate to="/auth/login" replace={true} />; //navigate("/auth/login"); //
   return outlet;
 };
 

@@ -10,13 +10,14 @@ interface Props {
   error?: string;
   icon?: any;
   disabled?: boolean;
+  defaultValue?: "";
 
   onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
   onChange(event: React.ChangeEvent<HTMLInputElement>): any;
 }
 
 function InputField(props: Props) {
-  const [isFocused, setIsFocused] = useState(false);
+  const [, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
 
@@ -39,6 +40,7 @@ function InputField(props: Props) {
           onBlur={handleBlur}
           disabled={props.disabled}
           onChange={props.onChange}
+          defaultValue={props.defaultValue}
         />
         <button
           type="button"

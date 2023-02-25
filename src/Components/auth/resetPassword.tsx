@@ -6,11 +6,14 @@ import { NoPropComponent } from "../../types/noProps.type";
 import InputField from "../inputField/inputField.component";
 import { validationAuth } from "./validation";
 import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ResetPasswordService } from "../../services/auth.service";
 
 const ResetPassword: NoPropComponent = () => {
+  const navigate = useNavigate();
   const [, dispatch] = useGlobalState();
   const [showPassword, setShowPassword] = useState(false);
-
+  const location = useLocation();
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
       const newEvent = { ...prev, ...next };
@@ -19,7 +22,7 @@ const ResetPassword: NoPropComponent = () => {
       return newEvent;
     },
     {
-      userId: "",
+      userId: location.state.data.data.userId,
       password: "",
       confirmPassword: "",
       error: { keys: "", values: "" },
@@ -28,13 +31,23 @@ const ResetPassword: NoPropComponent = () => {
 
   const handalerSubmit = async (event: any) => {
     toast.dismiss();
+    console.log(location.state);
     try {
       dispatch({ type: LOADING, payload: true });
       event.preventDefault();
       let formData = { ...formEvent };
       delete formData.error;
+
       let isValid = await validationAuth({ ...formData });
       if (isValid) {
+        delete formData.confirmPassword;
+        formData["oldPassword"] = location.state.password;
+        const { data } = await ResetPasswordService(formData);
+        navigate("/profile/profilePic", {
+          state: {
+            data,
+          },
+        });
         updateEvent({
           error: {
             keys: "",
@@ -80,6 +93,8 @@ const ResetPassword: NoPropComponent = () => {
           label="User ID"
           className="mb-4"
           type="text"
+          disabled={true}
+          defaultValue={location.state.data.data.userId}
           error={errorReturn("userId")}
           icon={<AccountCircle className="text-gray-300" />}
           onChange={(e) => updateEvent({ userId: e.target.value })}

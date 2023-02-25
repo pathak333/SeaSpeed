@@ -8,11 +8,28 @@ import { useGlobalState } from "../contexts/global.context";
 import AuthLayout from "../views/AuthLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SetProfilePic from "../Components/profile/setProfilePic";
+import Dashboard from "../Components/dashboard/dashboard";
+import AuthenticatedRoute from "../Components/auth/AuthenticatedRoute.component";
+import { useEffect } from "react";
+import { LOGIN } from "../constants/action.constant";
+import DashboardLayout from "../views/dashboardLayout";
+import PersonalDetail from "../Components/personalDetails/personalDetail";
+import PersonalDetailLayout from "../Components/personalDetails/personalDetailLayout";
+import ContactDetail from "../Components/personalDetails/contactDetail";
+import Education from "../Components/personalDetails/education";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
   let routes = useRoutes([
-    { path: "/", element: <Navigate to="/auth/login" /> },
+    {
+      path: "/*",
+      element: globalState.accessToken ? (
+        <Navigate to="/dashboard/home" />
+      ) : (
+        <Navigate to="/auth/login" />
+      ),
+    },
     {
       path: "/auth",
       element: <AuthLayout />,
@@ -37,11 +54,75 @@ const MainRoutes = () => {
         },
       ],
     },
+    {
+      path: "/profile",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "profilePic",
+          element: (
+            <UnAuthenticatedRoute
+              accessToken={globalState.accessToken}
+              outlet={<SetProfilePic />}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "",
+          element: <Navigate to="/dashboard/home" />,
+        },
+        {
+          path: "home",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              outlet={<Dashboard />}
+            />
+          ),
+        },
+        {
+          path: "personaldetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<PersonalDetailLayout />}
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element: <PersonalDetail />,
+            },
+            {
+              path: "contactDetail",
+              element: <ContactDetail />,
+            },
+            {
+              path: "educationDetail",
+              element: <Education />,
+            },
+          ],
+        },
+      ],
+    },
   ]);
   return routes;
 };
 const AppWrapper = () => {
-  const [globalState] = useGlobalState();
+  const [globalState, dispatch] = useGlobalState();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch({ type: LOGIN, payload: token });
+    }
+  }, [dispatch, globalState.accessToken]);
   return (
     <BrowserRouter>
       <ToastContainer

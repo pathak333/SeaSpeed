@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginForm from "../Components/auth/loginForm";
 import { NoPropComponent } from "../types/noProps.type";
 import { Outlet } from "react-router-dom";
 
 const AuthLayout: NoPropComponent = () => {
+  useEffect(() => {
+    console.log("login view init .....");
+  }, []);
+
   return (
     <div
       className="min-h-screen  items-center max-sm:items-start max-sm:pt-11 justify-center flex bg-cover max-sm:bg-contain max-sm:bg-bottom"

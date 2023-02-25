@@ -1,4 +1,11 @@
-import { createContext, Dispatch, useContext, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { LOADING, LOGIN, LOGOUT } from "../constants/action.constant";
 import {
   ChildrenProps,
@@ -6,8 +13,6 @@ import {
   GlobalState,
 } from "../types/propes.types";
 import { Auth } from "../types/user.type";
-
-
 
 const initialGlobalState = {
   accessToken: null,
@@ -38,6 +43,7 @@ const initValue: GlobalState = initialGlobalState;
 
 export const GlobalProvider = ({ children }: ChildrenProps) => {
   const [globalState, dispatch] = useReducer(AuthReducer, initValue);
+ 
   return (
     <globalContext.Provider value={{ globalState, dispatch }}>
       {children}
