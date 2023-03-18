@@ -32,3 +32,13 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
     nearest_airport: Joi.string(),
     isSameAddress: Joi.boolean(),
   }).validateAsync(data, { abortEarly: true });
+
+export const EducationValidation = (data: any) =>
+  Joi.object({
+    institution: Joi.string(),
+    qualification: Joi.string(),
+    startDate: Joi.string().allow(""),
+    endDate: Joi.string().allow(""),
+    city: Joi.string(),
+    country: Joi.string(),
+  }).validateAsync(data, { abortEarly: true });

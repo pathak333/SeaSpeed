@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Award,
   Briefcase,
@@ -8,12 +9,18 @@ import {
   UserPlus,
   Users,
 } from "react-feather";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import DashboardCard from "../smallerComponents/dashboardCard";
 import DashboardCard2 from "../smallerComponents/dashboardCard2";
 const Dashboard = () => {
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.pathname);
+
+    return () => {};
+  }, []);
+
   return (
     <div className="    ">
       <div className="w-full h-24 bg-white p-4 mb-8 items-baseline inline-grid rounded-lg">

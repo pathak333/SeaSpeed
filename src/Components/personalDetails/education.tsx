@@ -1,13 +1,25 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Trash2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
+import {
+  PersonalDetailContext,
+  Personalstate,
+} from "../../contexts/personalDetail.context";
 import InputField from "../inputField/inputField.component";
+import { EducationValidation } from "./validation";
 
 const Education = () => {
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
   const [, dispatch] = useGlobalState();
+
+  const { setState } = useContext(PersonalDetailContext)!;
+  useEffect(() => {
+    setState(Personalstate.educationBackground);
+  }, []);
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
@@ -69,6 +81,7 @@ const Education = () => {
   return (
     <div>
       <form ref={formRef}>
+        <h3 className="pl-4 font-semibold">Education background</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
           <InputField
             className="m-4"
@@ -119,25 +132,85 @@ const Education = () => {
             onChange={(e) => updateEvent({ country: e.target.value })}
           />
         </div>
+        {formEvent.dataList.length > 0 ? (
+          <div className="relative overflow-x-auto">
+            <table className="table-auto w-full text-sm text-left text-grey-500">
+              <thead className="text-xs text-grey-700 uppercase ">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Institution
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Start Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Qualification
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    End Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    City
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Country
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{listofData}</tbody>
+            </table>
+          </div>
+        ) : (
+          <div></div>
+        )}
         <div className="flex justify-center">
           <button
             type="button"
-            onClick={() => {
+            onClick={async () => {
               const { dataList, error, ...other } = formEvent;
               console.log(other);
-              updateEvent({
-                dataList: [...dataList, ...[other]],
-                institution: "",
-                qualification: "",
-                startDate: "",
-                endDate: "",
-                city: "",
-                country: "",
-                error: { keys: "", values: "" },
-              });
 
-              if (formRef.current !== null) {
-                formRef.current.reset();
+              try {
+                var data = { ...formEvent };
+                delete data.dataList;
+                delete data.error;
+                let isValid = await EducationValidation(data);
+                console.log(isValid);
+                if (isValid) {
+                  updateEvent({
+                    dataList: [...dataList, ...[other]],
+                    institution: "",
+                    qualification: "",
+                    startDate: "",
+                    endDate: "",
+                    city: "",
+                    country: "",
+                    error: { keys: "", values: "" },
+                  });
+
+                  if (formRef.current !== null) {
+                    formRef.current.reset();
+                  }
+                }
+              } catch (error: any) {
+                if (error.name === "ValidationError") {
+                  for (let errorDetail of error.details) {
+                    updateEvent({
+                      error: {
+                        key: errorDetail.context.key,
+                        values: errorDetail.message,
+                      },
+                    });
+                    console.log(errorDetail.context.key + "======");
+                    toast.error(errorDetail.message);
+                  }
+                } else if (error.name === "AxiosError")
+                  toast.error(error.response.data.message);
+              } finally {
+                dispatch({ type: LOADING, payload: false });
               }
             }}
             className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -146,8 +219,9 @@ const Education = () => {
           </button>
         </div>
         <button
-          type="submit"
-          className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          type="button"
+          onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Save & next
         </button>
@@ -168,40 +242,6 @@ const Education = () => {
           Previous
         </button>
       </form>
-      {formEvent.dataList.length > 0 ? (
-        <div className="relative overflow-x-auto">
-          <table className="table-auto w-full text-sm text-left text-grey-500">
-            <thead className="text-xs text-grey-700 uppercase ">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  Institution
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Start Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Qualification
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  End Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Country
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>{listofData}</tbody>
-          </table>
-        </div>
-      ) : (
-        <div></div>
-      )}
     </div>
   );
 };

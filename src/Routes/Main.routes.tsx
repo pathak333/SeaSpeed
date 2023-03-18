@@ -15,9 +15,11 @@ import { useEffect } from "react";
 import { LOGIN } from "../constants/action.constant";
 import DashboardLayout from "../views/dashboardLayout";
 import PersonalDetail from "../Components/personalDetails/personalDetail";
-import PersonalDetailLayout from "../Components/personalDetails/personalDetailLayout";
+import PersonalDetailLayout from "../views/personalDetailLayout";
 import ContactDetail from "../Components/personalDetails/contactDetail";
 import Education from "../Components/personalDetails/education";
+import BankDetail from "../Components/personalDetails/bankDetail";
+import KinDetail from "../Components/personalDetails/kinDetail";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -108,6 +110,14 @@ const MainRoutes = () => {
               path: "educationDetail",
               element: <Education />,
             },
+            {
+              path: "bankDetail",
+              element: <BankDetail />,
+            },
+            {
+              path: "kinDetail",
+              element: <KinDetail />,
+            },
           ],
         },
       ],
@@ -118,7 +128,7 @@ const MainRoutes = () => {
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       dispatch({ type: LOGIN, payload: token });
     }

@@ -36,8 +36,10 @@ const LoginForm: NoPropComponent = () => {
       let formData = { ...formEvent };
       delete formData.error;
       let isValid = await validationAuth({ ...formData });
+
       if (isValid) {
         const { data } = await LoginService(formData);
+        console.log(data);
         if (data.data.isNewUser) {
           navigate("/auth/resetPassword", {
             state: {
@@ -47,7 +49,7 @@ const LoginForm: NoPropComponent = () => {
           });
         } else {
           dispatch({ type: LOGIN, payload: data.data.refreshToken });
-          localStorage.setItem("token", data.data.refreshToken);
+          sessionStorage.setItem("token", data.data.refreshToken);
           navigate("/dashboard/home", {
             state: {
               data,
@@ -65,7 +67,7 @@ const LoginForm: NoPropComponent = () => {
         console.log(formData);
       }
     } catch (error: any) {
-      console.log(error.details);
+      console.log("70", error.details);
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
           updateEvent({

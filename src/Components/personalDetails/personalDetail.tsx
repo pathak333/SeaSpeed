@@ -1,18 +1,23 @@
-import { SetStateAction, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
+import {
+  PersonalDetailContext,
+  Personalstate,
+} from "../../contexts/personalDetail.context";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
-import PersonalDetailLayout from "./personalDetailLayout";
-import { PersonalDetailValidation } from "./validation";
 
 const PersonalDetail = () => {
-  const [, dispatch] = useGlobalState();
-
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const [, dispatch] = useGlobalState();
+  const [file, setFile] = useState(null);
+  const { setState } = useContext(PersonalDetailContext)!;
+  useEffect(() => {
+    setState(Personalstate.personalDetails);
+  }, []);
 
   const handleFileChange = (event: any) => {
     setFile(event.target.files[0]);
@@ -31,6 +36,8 @@ const PersonalDetail = () => {
       dob: "",
       gender: "male",
       marital_status: "Single",
+      birthPlace: "",
+      nationality: "",
       flatnumber: "",
       society: "",
       city: "",
@@ -123,6 +130,31 @@ const PersonalDetail = () => {
           error={errorReturn("marital_status")}
           onChange={(e) => updateEvent({ marital_status: e.target.value })}
           option={["Single", "Married"]}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"birthPlace"}
+          label={"Place of birth"}
+          type={"text"}
+          error={errorReturn("birthPlace")}
+          onChange={(e) => updateEvent({ flatenumber: e.target.value })}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"nationality"}
+          label={"Nationality"}
+          type={"text"}
+          error={errorReturn("nationality")}
+          onChange={(e) => updateEvent({ flatenumber: e.target.value })}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"fileNumber"}
+          label={"File Number"}
+          disabled={true}
+          type={"text"}
+          error={errorReturn("nationality")}
+          onChange={(e) => updateEvent({ flatenumber: e.target.value })}
         />
         {/* <InputField
           className="m-4"
