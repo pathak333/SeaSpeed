@@ -19,6 +19,7 @@ const Education = () => {
   const { setState } = useContext(PersonalDetailContext)!;
   useEffect(() => {
     setState(Personalstate.educationBackground);
+    console.log("educationBackground component ");
   }, []);
 
   const [formEvent, updateEvent] = useReducer(

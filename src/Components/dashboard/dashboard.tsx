@@ -9,7 +9,10 @@ import {
   UserPlus,
   Users,
 } from "react-feather";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { DATA } from "../../constants/action.constant";
+import { useGlobalState } from "../../contexts/global.context";
+import { ProfileService } from "../../services/user.service";
 import DashboardCard from "../smallerComponents/dashboardCard";
 import DashboardCard2 from "../smallerComponents/dashboardCard2";
 const Dashboard = () => {
@@ -17,6 +20,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     window.history.pushState(null, "", window.location.pathname);
+    console.log("dashboard component");
 
     return () => {};
   }, []);

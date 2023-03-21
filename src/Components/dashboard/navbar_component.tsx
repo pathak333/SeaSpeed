@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, Bell, ChevronDown, Menu } from "react-feather";
+import { useGlobalState } from "../../contexts/global.context";
 import SideBarMenuItem from "../smallerComponents/sidebarMenuItems";
 
 const NavbarComponent = (props: any) => {
+  const [globalState] = useGlobalState();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  let data = globalState.data != null ? globalState.data.data : null;
+  useEffect(() => {
+    console.log("data here = ", data);
+  }, [data]);
 
   return (
     <>
@@ -28,9 +34,15 @@ const NavbarComponent = (props: any) => {
               <div className="bg-blue-600 w-2 h-2 rounded-xl   ml-auto"></div>
             </div>
             <div className="flex flex-row items-center ">
-              <div className="profileImage rounded-full w-12 h-12 max-sm:w-6 max-sm:h-6 bg-slate-400"></div>
+              <div className="profileImage rounded-full w-12 h-12 max-sm:w-6 max-sm:h-6 bg-slate-400">
+                <img
+                  src={`${data ? data["avatar"] : ""}`}
+                  alt="seaSpeed"
+                  className="w-12 h-12 mx-auto rounded-full"
+                />
+              </div>
               <p className="ml-3 mr-1 text-xl text-activeIconColor font-medium max-sm:hidden ">
-                Jayesh Desai
+                {data ? `${data["firstname"]} ${data["lastname"]}` : ""}
               </p>
               <ChevronDown color="#0075FF" className="mr-3 " />
             </div>

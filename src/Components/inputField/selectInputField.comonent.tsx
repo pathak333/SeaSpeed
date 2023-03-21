@@ -9,7 +9,7 @@ interface Props {
   error?: string;
   disabled?: boolean;
   option: Array<string>;
-
+  value?: string;
   onChange(event: React.ChangeEvent<HTMLSelectElement>): any;
 }
 
@@ -22,6 +22,7 @@ const SelectInput = (props: Props) => {
        f-outline h-fit   pr-0 relative border border-inputBorderColor rounded-lg focus-within:border-indigo-500`}
       >
         <select
+          value={props.value}
           id="countries"
           onChange={props.onChange}
           className="block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent"

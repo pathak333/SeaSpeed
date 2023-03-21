@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
@@ -18,6 +18,10 @@ const PersonalDetailLayout = (props: any) => {
   function goBack() {
     navigate("/dashboard/home", { replace: true });
   }
+
+  useEffect(() => {
+    console.log("PersonalDetailLayout component");
+  }, []);
 
   return (
     <PersonalDetailContext.Provider value={contextValue}>

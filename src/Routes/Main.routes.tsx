@@ -75,10 +75,15 @@ const MainRoutes = () => {
       path: "/dashboard",
       element: <DashboardLayout />,
       children: [
-        {
-          path: "",
-          element: <Navigate to="/dashboard/home" />,
-        },
+        // {
+        //   path: "",
+        //   element: (
+        //     <AuthenticatedRoute
+        //       accessToken={globalState.accessToken}
+        //       outlet={<Dashboard />}
+        //     />
+        //   ),
+        // },
         {
           path: "home",
           element: (

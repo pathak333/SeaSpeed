@@ -94,7 +94,7 @@ const ResetPassword: NoPropComponent = () => {
           className="mb-4"
           type="text"
           disabled={true}
-          defaultValue={location.state.data.data.userId}
+          value={location.state.data.data.userId}
           error={errorReturn("userId")}
           icon={<AccountCircle className="text-gray-300" />}
           onChange={(e) => updateEvent({ userId: e.target.value })}
