@@ -1,5 +1,6 @@
 import { useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGlobalState } from "../../contexts/global.context";
 import {
   PersonalDetailContext,
   Personalstate,
@@ -8,6 +9,7 @@ import InputField from "../inputField/inputField.component";
 
 const ContactDetail = () => {
   const navigate = useNavigate();
+  const [globalState] = useGlobalState();
   // const errorReturn = (field: string) =>
   //     formEvent.error.keys === field ? formEvent.error.values : "";
 
@@ -22,11 +24,11 @@ const ContactDetail = () => {
       return newEvent;
     },
     {
-      email: "",
-      code: "",
-      phone: "",
+      // email: "",
+      // code: "",
+      // phone: "",
       altemail: "",
-      altcode: "",
+      alt_country_code: "",
       altphone: "",
     }
   );
@@ -44,34 +46,40 @@ const ContactDetail = () => {
           fieldName={"email"}
           label={"Email"}
           type={"text"}
+          disabled={true}
           //   error={errorReturn("firstname")}
           onChange={
             (e) => ""
             //updateEvent({ firstname: e.target.value })
           }
+          value={globalState.data.data.email}
         />
         <div className="flex flex-row">
           <InputField
             className="m-4 w-24"
             fieldName={"code"}
             label={"Code"}
+            disabled={true}
             type={"text"}
             //   error={errorReturn("firstname")}
             onChange={
               (e) => ""
               //updateEvent({ firstname: e.target.value })
             }
+            value={globalState.data.data.country_code}
           />
           <InputField
             className="m-4 "
             fieldName={"phone"}
             label={"Phone number"}
+            disabled={true}
             type={"text"}
             //   error={errorReturn("firstname")}
             onChange={
               (e) => ""
               //updateEvent({ firstname: e.target.value })
             }
+            value={globalState.data.data.phone_no}
           />
         </div>
       </div>
@@ -82,10 +90,8 @@ const ContactDetail = () => {
           label={"Alternate Email"}
           type={"text"}
           //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          onChange={(e) => updateEvent({ altemail: e.target.value })}
+          value={globalState.data.data.alt_email}
         />
         <div className="flex flex-row">
           <InputField
@@ -94,10 +100,8 @@ const ContactDetail = () => {
             label={"Code"}
             type={"text"}
             //   error={errorReturn("firstname")}
-            onChange={
-              (e) => ""
-              //updateEvent({ firstname: e.target.value })
-            }
+            onChange={(e) => updateEvent({ alt_country_code: e.target.value })}
+            value={globalState.data.data.alt_country_code}
           />
           <InputField
             className="m-4 "
@@ -105,10 +109,8 @@ const ContactDetail = () => {
             label={"Alternate phone number"}
             type={"text"}
             //   error={errorReturn("firstname")}
-            onChange={
-              (e) => ""
-              //updateEvent({ firstname: e.target.value })
-            }
+            onChange={(e) => updateEvent({ altphone: e.target.value })}
+            value={globalState.data.data.alt_phone_no}
           />
         </div>
       </div>

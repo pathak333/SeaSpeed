@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 
 import { API_URL } from "../constants/api.constant";
 let refresh = false;
-axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common["Authorization"] =
   sessionStorage.getItem("token") || "";
+axios.defaults.baseURL = API_URL;
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -32,9 +32,10 @@ axios.interceptors.response.use(
   }
 );
 
-axios.interceptors.request.use((request) => {
-  return request;
-});
+// axios.interceptors.request.use((request) => {
+
+//   return request;
+// });
 
 const httpService = {
   get: axios.get,

@@ -4,3 +4,6 @@ export const AddUserApi = "/auth/addUser";
 export const UpdatePasswordApi = "/auth/updatePasscode";
 export const GetProfileApi = "/user/getProfile";
 export const GetPersonalDetailApi = "/user/getPersonalDetail";
+export const AddEducationDetailApi = "/user/education";
+export const GetEducationDetailApi = "/user/getEducationDetail"
+

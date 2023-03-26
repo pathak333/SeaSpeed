@@ -15,7 +15,9 @@ const DashboardLayout: NoPropComponent = () => {
       console.log("profile data", data);
       dispatch({ type: DATA, payload: data });
     }
-    fetchdata();
+    setTimeout(() => {
+      fetchdata();
+    }, 800);
 
     // return () => {
     //   second
