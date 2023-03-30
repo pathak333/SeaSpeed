@@ -6,4 +6,6 @@ export const GetProfileApi = "/user/getProfile";
 export const GetPersonalDetailApi = "/user/getPersonalDetail";
 export const AddEducationDetailApi = "/user/education";
 export const GetEducationDetailApi = "/user/getEducationDetail"
+export const DeleteEducationDetailApi = "/user/deleteEducationDetail"
+export const BankDetailApi = "/user/bankDetail"
 

@@ -10,6 +10,7 @@ import {
 } from "../../contexts/personalDetail.context";
 import {
   AddEducationDetail,
+  DeleteEducationDetail,
   GetEducationDetail,
 } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
@@ -74,7 +75,7 @@ const Education = () => {
     </tr>
   ));
 
-  const listOfData = oldData.map((item: any, index: any) => (
+  const listOfOldData = oldData.map((item: any, index: any) => (
     <tr key={index} className="bg-white border-b">
       <td className="px-6 py-4">{item.institution}</td>
       <td className="px-6 py-4">{item.qualification}</td>
@@ -84,10 +85,22 @@ const Education = () => {
       <td className="px-6 py-4">{item.country}</td>
       <td className="px-6 py-4">
         <Trash2
-          onClick={() => {
+          onClick={async () => {
+            dispatch({ type: LOADING, payload: true });
             let newData = [...oldData];
+
+            const { data } = await DeleteEducationDetail(newData[index]["_id"]);
             newData.splice(index, 1);
             setOldData(newData);
+            console.log(data);
+            console.log(data.message);
+            console.log(data.success);
+            if (data.success) {
+              dispatch({ type: LOADING, payload: false });
+              toast.done(data.message);
+            } else {
+              dispatch({ type: LOADING, payload: false });
+            }
           }}
         />
       </td>
@@ -286,42 +299,57 @@ const Education = () => {
             Add more
           </button>
         </div>
-        <div className="relative overflow-x-auto">
-          <table className="table-auto w-full text-sm text-left text-grey-500">
-            <thead className="text-xs text-grey-700 uppercase ">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  Institution
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Qualification
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Start Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  End Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  City
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Country
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>{listOfData}</tbody>
-          </table>
-        </div>
+        {oldData.length > 0 ? (
+          <div className="relative overflow-x-auto">
+            <table className="table-auto w-full text-sm text-left text-grey-500">
+              <thead className="text-xs text-grey-700 uppercase ">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Institution
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Qualification
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Start Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    End Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    City
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Country
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{listOfOldData}</tbody>
+            </table>
+          </div>
+        ) : (
+          <div></div>
+        )}
         <button
           type="submit"
           //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
           className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Save & next
+        </button>
+        <button
+          type="button"
+          className="ml-8 text-xl text-blue-700"
+          onClick={() => {
+            clearAllData();
+            updateEvent({ dataList: [] });
+            navigate("/dashboard/personaldetails/bankDetail");
+          }}
+        >
+          Skip and Next
         </button>
         <button
           type="button"

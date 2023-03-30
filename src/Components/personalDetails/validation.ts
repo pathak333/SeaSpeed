@@ -34,11 +34,25 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
   }).validateAsync(data, { abortEarly: true });
 
 export const EducationValidation = async (data: any) =>
-  Joi.array().items(await Joi.object({
+  Joi.array().items(
+    await Joi.object({
       institution: Joi.string(),
       qualification: Joi.string(),
       startDate: Joi.string().allow(""),
       endDate: Joi.string().allow(""),
       city: Joi.string(),
       country: Joi.string(),
-    }).validateAsync(data, { abortEarly: true }));
+    }).validateAsync(data, { abortEarly: true })
+  );
+
+export const BankDetailValidation = async (data: any) =>
+  await Joi.object({
+    bank_name: Joi.string().required(),
+    account_holder_name: Joi.string().required(),
+    branch_code: Joi.string().required(),
+    account_number: Joi.number().required(),
+    swift_code: Joi.string().required(),
+    IBAN_number: Joi.string().required(),
+    IFSC_code: Joi.string().required(),
+    account_type: Joi.string().required(),
+  }).validateAsync(data, { abortEarly: true });
