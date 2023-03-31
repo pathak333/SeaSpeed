@@ -1,11 +1,14 @@
 import axios from "axios";
 import {
   AddEducationDetailApi,
+  AddPersonalDetailApi,
   BankDetailApi,
   DeleteEducationDetailApi,
+  GetBankDetailApi,
   GetEducationDetailApi,
   GetPersonalDetailApi,
   GetProfileApi,
+  KinDetailApi,
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -15,13 +18,24 @@ export const ProfileService = () => {
   return httpService.get(GetProfileApi);
 };
 
+// post routes
+export const AddPersonalDetail = (data: any) => {
+  return httpService.post(AddPersonalDetailApi,data)
+}
+
 export const AddEducationDetail = (data: any) => {
   return httpService.post(AddEducationDetailApi, data);
 };
 
 export const BankDetailService = (data: any) => {
   return httpService.post(BankDetailApi, data);
-}
+};
+
+export const KinDetailService = (data: any) => {
+  return httpService.post(KinDetailApi, data);
+};
+
+// get routes
 
 export const GetPersonalDetail = () => {
   return httpService.get(GetPersonalDetailApi);
@@ -29,6 +43,10 @@ export const GetPersonalDetail = () => {
 export const GetEducationDetail = () => {
   return httpService.get(GetEducationDetailApi);
 };
+export const GetBankDetail = () => {
+  return httpService.get(GetBankDetailApi);
+};
+
 export const DeleteEducationDetail = (id: string) => {
   return httpService.delete(DeleteEducationDetailApi + `/${id}`);
 };

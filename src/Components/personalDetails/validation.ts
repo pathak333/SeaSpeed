@@ -1,4 +1,4 @@
-import Joi from "joi";
+import joi from "joi";
 
 interface ValidatePersonalDetailData {
   firstname: String;
@@ -17,42 +17,74 @@ interface ValidatePersonalDetailData {
 }
 
 export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
-  Joi.object({
-    firstname: Joi.string(),
-    lastname: Joi.string(),
-    dob: Joi.string().label("BirthDate"),
-    gender: Joi.string(),
-    marital_status: Joi.string(),
-    flatnumber: Joi.string(),
-    society: Joi.string(),
-    city: Joi.string(),
-    state: Joi.string(),
-    country: Joi.string(),
-    pincode: Joi.number(),
-    nearest_airport: Joi.string(),
-    isSameAddress: Joi.boolean(),
+  joi.object({
+    firstname: joi.string(),
+    lastname: joi.string(),
+    dob: joi.string().label("BirthDate"),
+    gender: joi.string(),
+    marital_status: joi.string(),
+    flatnumber: joi.string(),
+    society: joi.string(),
+    city: joi.string(),
+    state: joi.string(),
+    country: joi.string(),
+    pincode: joi.number(),
+    nearest_airport: joi.string(),
+    isSameAddress: joi.boolean(),
   }).validateAsync(data, { abortEarly: true });
 
 export const EducationValidation = async (data: any) =>
-  Joi.array().items(
-    await Joi.object({
-      institution: Joi.string(),
-      qualification: Joi.string(),
-      startDate: Joi.string().allow(""),
-      endDate: Joi.string().allow(""),
-      city: Joi.string(),
-      country: Joi.string(),
+  joi.array().items(
+    await joi.object({
+      institution: joi.string(),
+      qualification: joi.string(),
+      startDate: joi.string().allow(""),
+      endDate: joi.string().allow(""),
+      city: joi.string(),
+      country: joi.string(),
     }).validateAsync(data, { abortEarly: true })
   );
 
 export const BankDetailValidation = async (data: any) =>
-  await Joi.object({
-    bank_name: Joi.string().required(),
-    account_holder_name: Joi.string().required(),
-    branch_code: Joi.string().required(),
-    account_number: Joi.number().required(),
-    swift_code: Joi.string().required(),
-    IBAN_number: Joi.string().required(),
-    IFSC_code: Joi.string().required(),
-    account_type: Joi.string().required(),
+  await joi.object({
+    bank_name: joi.string().required(),
+    account_holder_name: joi.string().required(),
+    branch_code: joi.string().required(),
+    account_number: joi.number().required(),
+    swift_code: joi.string().required(),
+    IBAN_number: joi.string().required(),
+    IFSC_code: joi.string().required(),
+    account_type: joi.string().required(),
   }).validateAsync(data, { abortEarly: true });
+
+
+export const KinDetailValidation = async (data: any) => joi.object({
+  fullName: joi.string().required(),
+  relationship: joi.string().required(),
+  code: joi.string().required(),
+  phoneNumber: joi.string().required(),
+  email: joi.string().required(),
+  flatnumber: joi.string().required(),
+  society: joi.string().required(),
+  city: joi.string().required(),
+  state: joi.string().required(),
+  country: joi.string().required(),
+  pincode: joi.string().required(),
+  bankName: joi.string().required(),
+  accountHolderName: joi.string().required(),
+  branchCode: joi.string().required(),
+  accountNumber: joi.string().required(),
+  swiftCode: joi.string().required(),
+  ifscCode: joi.string().required(),
+  iban: joi.string().required(),
+  accountType: joi.string().required(),
+  wifeDetail: joi.object({
+    name: joi.string().required(),
+    dob: joi.string().required(),
+    passport: joi.string().required(),
+    passportNumber: joi.string().required(),
+    dateOfIssues: joi.string().required(),
+    dateOfExpiry: joi.string().required(),
+    nameOfChild: joi.string().required(),
+  }),
+}).validateAsync(data, { abortEarly: true });

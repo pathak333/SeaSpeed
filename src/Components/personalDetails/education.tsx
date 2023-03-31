@@ -14,7 +14,7 @@ import {
   GetEducationDetail,
 } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
-import EducationDetailList from "./educationDetailList";
+
 import { EducationValidation } from "./validation";
 
 const Education = () => {
@@ -132,11 +132,18 @@ const Education = () => {
       let formData;
       if (formEvent.dataList.length > 0) {
         formData = formEvent.dataList;
-      } else if (formEvent.institution) {
+      } else {
         let data = { ...formEvent };
         delete data.dataList;
         delete data.error;
-        formData = [data];
+        let isValid = await EducationValidation(data);
+        if (isValid) {
+          delete data.dataList;
+          delete data.error;
+          formData = [data];
+        } else {
+          throw Error(isValid);
+        }
       }
 
       // formData = formEvent.dataList.length > 0 ? formEvent.dataList : ;
@@ -154,6 +161,8 @@ const Education = () => {
         dispatch({ type: LOADING, payload: false });
       }
     } catch (e: any) {
+      console.log(e);
+
       toast.error(e.message);
       dispatch({ type: LOADING, payload: false });
     }
@@ -336,7 +345,7 @@ const Education = () => {
         <button
           type="submit"
           //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
-          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Save & next
         </button>

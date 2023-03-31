@@ -7,7 +7,7 @@ import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
-import { BankDetailService } from "../../services/user.service";
+import { BankDetailService, GetBankDetail } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
 import { BankDetailValidation } from "./validation";
 
@@ -17,7 +17,15 @@ const BankDetail = () => {
   const [, dispatch] = useGlobalState();
   useEffect(() => {
     setState(Personalstate.bankDetails);
+    fetchData();
   }, []);
+
+  async function fetchData() {
+    const { data } = await GetBankDetail();
+    if (data.data.bankDetail) {
+      updateEvent(data.data.bankDetail);
+    }
+  }
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
@@ -44,22 +52,37 @@ const BankDetail = () => {
     try {
       event.preventDefault();
       console.log(formEvent);
-
-      const isValid = await BankDetailValidation({ formEvent });
+      let formData = { ...formEvent };
+      delete formData.error;
+      const isValid = await BankDetailValidation(formData);
       if (isValid) {
-        console.log(formEvent);
-        const { data } = await BankDetailService(formEvent);
+        console.log(formData);
+        const { data } = await BankDetailService(formData);
         console.log(data);
-        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          navigate("/dashboard/personaldetails/kinDetail");
+        }
+        // dispatch({ type: LOADING, payload: false });
       } else {
         console.log(isValid);
 
         throw Error(isValid);
       }
     } catch (error: any) {
-      console.log(error);
-
-      toast.error(error.message);
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              keys: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError") {
+        toast.error(error.response.data.message);
+      }
+    } finally {
       dispatch({ type: LOADING, payload: false });
     }
   };
@@ -90,6 +113,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("bank_name")}
           onChange={(e) => updateEvent({ bank_name: e.target.value })}
+          value={formEvent.bank_name}
         />
         <InputField
           className="m-4"
@@ -98,6 +122,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("account_holder_name")}
           onChange={(e) => updateEvent({ account_holder_name: e.target.value })}
+          value={formEvent.account_holder_name}
         />
         <InputField
           className="m-4"
@@ -106,6 +131,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("branch_code")}
           onChange={(e) => updateEvent({ branch_code: e.target.value })}
+          value={formEvent.branch_code}
         />
         <InputField
           className="m-4"
@@ -114,6 +140,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("account_number")}
           onChange={(e) => updateEvent({ account_number: e.target.value })}
+          value={formEvent.account_number}
         />
         <InputField
           className="m-4"
@@ -122,6 +149,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("swift_code")}
           onChange={(e) => updateEvent({ swift_code: e.target.value })}
+          value={formEvent.swift_code}
         />
         <InputField
           className="m-4"
@@ -130,6 +158,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("IFSC_code")}
           onChange={(e) => updateEvent({ IFSC_code: e.target.value })}
+          value={formEvent.IFSC_code}
         />
         <InputField
           className="m-4"
@@ -138,6 +167,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("IBAN_number")}
           onChange={(e) => updateEvent({ IBAN_number: e.target.value })}
+          value={formEvent.IBAN_number}
         />
         <InputField
           className="m-4"
@@ -146,6 +176,7 @@ const BankDetail = () => {
           type={"text"}
           error={errorReturn("account_type")}
           onChange={(e) => updateEvent({ account_type: e.target.value })}
+          value={formEvent.account_type}
         />
       </div>
       <button

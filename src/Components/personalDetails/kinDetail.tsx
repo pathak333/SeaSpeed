@@ -1,8 +1,17 @@
 import { useReducer } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { LOADING } from "../../constants/action.constant";
+import { useGlobalState } from "../../contexts/global.context";
+import { KinDetailService } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
+import { KinDetailValidation } from "./validation";
 
 const KinDetail = () => {
+  const [globalState, dispatch] = useGlobalState();
+  const navigate = useNavigate();
+
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
       const newEvent = { ...prev, ...next };
@@ -35,16 +44,53 @@ const KinDetail = () => {
         passportNumber: "",
         dateOfIssues: "",
         dateOfExpiry: "",
-        nameOfChild:"",
+        nameOfChild: "",
       },
       error: { keys: "", values: "" },
     }
   );
+
+  const handlerSubmit = async (event: any) => {
+    toast.dismiss();
+    event.preventDefault();
+    try {
+      let formData = { ...formEvent };
+      delete formData.error;
+      console.log(formData);
+
+      const isValid = await KinDetailValidation(formData);
+      if (isValid) {
+        const { data } = await KinDetailService(formData);
+        if (data.success) {
+          navigate("/");
+        }
+      } else {
+        throw Error(isValid);
+      }
+    } catch (error: any) {
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              keys: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError") {
+        toast.error(error.response.data.message);
+      }
+    } finally {
+      dispatch({ type: LOADING, payload: false });
+    }
+  };
+
   const errorReturn = (field: string) =>
     formEvent.error.keys === field ? formEvent.error.values : "";
 
   return (
-    <form>
+    <form onSubmit={handlerSubmit}>
       <h3 className="ml-4 font-semibold">Kin details</h3>
       <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
         <InputField
@@ -53,7 +99,7 @@ const KinDetail = () => {
           label={"Full name"}
           type={"text"}
           error={errorReturn("fullName")}
-          onChange={(e) => updateEvent({ firstname: e.target.value })}
+          onChange={(e) => updateEvent({ fullName: e.target.value })}
         />
         <InputField
           className="m-4"
@@ -61,7 +107,7 @@ const KinDetail = () => {
           label={"Relationship"}
           type={"text"}
           error={errorReturn("relationship")}
-          onChange={(e) => updateEvent({ firstname: e.target.value })}
+          onChange={(e) => updateEvent({ relationship: e.target.value })}
         />
         <div className="flex flex-row">
           <InputField
@@ -70,15 +116,15 @@ const KinDetail = () => {
             label={"Code"}
             type={"text"}
             error={errorReturn("code")}
-            onChange={(e) => updateEvent({ firstname: e.target.value })}
+            onChange={(e) => updateEvent({ code: e.target.value })}
           />
           <InputField
             className="m-4 w-full"
-            fieldName={"phone"}
+            fieldName={"phoneNumber"}
             label={"Phone number"}
             type={"text"}
-            error={errorReturn("phone")}
-            onChange={(e) => updateEvent({ firstname: e.target.value })}
+            error={errorReturn("phoneNumber")}
+            onChange={(e) => updateEvent({ phoneNumber: e.target.value })}
           />
         </div>
         <InputField
@@ -87,7 +133,7 @@ const KinDetail = () => {
           label={"Email"}
           type={"text"}
           error={errorReturn("email")}
-          onChange={(e) => updateEvent({ firstname: e.target.value })}
+          onChange={(e) => updateEvent({ email: e.target.value })}
         />
       </div>
       <p className="text-xl font-medium ml-4">Kin address details</p>
@@ -148,88 +194,64 @@ const KinDetail = () => {
           fieldName={"bankName"}
           label={"Bank name"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("bankName")}
+          onChange={(e) => updateEvent({ bankName: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"accountHolderName"}
           label={"Account holder name"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("accountHolderName")}
+          onChange={(e) => updateEvent({ accountHolderName: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"branchCode"}
           label={"Branch code"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("branchCode")}
+          onChange={(e) => updateEvent({ branchCode: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"accountNumber"}
           label={"Account number"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("accountNumber")}
+          onChange={(e) => updateEvent({ accountNumber: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"swiftCode"}
           label={"Swift code"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("swiftCode")}
+          onChange={(e) => updateEvent({ swiftCode: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"ifscCode"}
           label={"IFSC code only for Indians"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("ifscCode")}
+          onChange={(e) => updateEvent({ ifscCode: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"iban"}
           label={"IBAN.number (Not for indian)"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("iban")}
+          onChange={(e) => updateEvent({ iban: e.target.value })}
         />
         <InputField
           className="m-4"
           fieldName={"accountType"}
           label={"Types of account"}
           type={"text"}
-          //   error={errorReturn("firstname")}
-          onChange={
-            (e) => ""
-            //updateEvent({ firstname: e.target.value })
-          }
+          error={errorReturn("accountType")}
+          onChange={(e) => updateEvent({ accountType: e.target.value })}
         />
       </div>
       <p className="text-xl font-medium ml-4">Wife detail</p>

@@ -7,9 +7,10 @@ import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
-import { GetPersonalDetail } from "../../services/user.service";
+import { AddPersonalDetail, GetPersonalDetail } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
+import { PersonalDetailValidation } from "./validation";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -88,12 +89,18 @@ const PersonalDetail = () => {
       event.preventDefault();
       let formData = { ...formEvent };
       delete formData.error;
-      // let isValid = await PersonalDetailValidation({ ...formData });
-      navigate("/dashboard/personaldetails/contactDetail");
-      // if (isValid) {
-      //   console.log(formData);
-      //   dispatch({ type: LOADING, payload: false });
-      // }
+       let isValid = await PersonalDetailValidation(formData );
+     
+      if (isValid) {
+        console.log(formData);
+        const { data } = await AddPersonalDetail(formData)
+        if (data.success) {
+          navigate("/dashboard/personaldetails/contactDetail");
+        }
+        dispatch({ type: LOADING, payload: false });
+      } else {
+        throw Error(isValid)
+      }
     } catch (error: any) {
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
@@ -115,6 +122,27 @@ const PersonalDetail = () => {
 
   const errorReturn = (field: string) =>
     formEvent.error.keys === field ? formEvent.error.values : "";
+
+  function clearAllData() {
+    updateEvent({
+      firstname: "",
+      lastname: "",
+      dob: "",
+      gender: "male",
+      marital_status: "Single",
+      birthPlace: "",
+      nationality: "",
+      flatnumber: "",
+      society: "",
+      city: "",
+      state: "",
+      country: "",
+      pincode: "",
+      nearest_airport: "",
+      isSameAddress: false,
+      error: { keys: "", values: "" },
+    });
+  }
 
   return (
     //  <PersonalDetailLayout>
@@ -424,7 +452,23 @@ const PersonalDetail = () => {
       >
         Save & next
       </button>
-      <button className="ml-8 text-xl text-blue-700">Clear all</button>
+      <button
+        type="button"
+        className="ml-8 text-xl text-blue-700"
+        onClick={() => {
+          // clearAllData();
+          navigate("/dashboard/personaldetails/contactDetail");
+        }}
+      >
+        Skip and Next
+      </button>
+      <button
+        type="button"
+        onClick={clearAllData}
+        className="ml-8 text-xl text-blue-700"
+      >
+        Clear all
+      </button>
     </form>
     // </PersonalDetailLayout>
   );
