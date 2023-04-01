@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
@@ -7,10 +7,19 @@ import { KinDetailService } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
 import { KinDetailValidation } from "./validation";
+import {
+  PersonalDetailContext,
+  Personalstate,
+} from "../../contexts/personalDetail.context";
 
 const KinDetail = () => {
   const [globalState, dispatch] = useGlobalState();
   const navigate = useNavigate();
+  const { setState } = useContext(PersonalDetailContext)!;
+
+  useEffect(() => {
+    setState(Personalstate.kinDetails);
+  }, []);
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
@@ -40,7 +49,7 @@ const KinDetail = () => {
       wifeDetail: {
         name: "",
         dob: "",
-        passport: "",
+        passport: "Yes",
         passportNumber: "",
         dateOfIssues: "",
         dateOfExpiry: "",
@@ -112,6 +121,7 @@ const KinDetail = () => {
         <div className="flex flex-row">
           <InputField
             className="m-4 w-28"
+            inputClass="pr-2"
             fieldName={"code"}
             label={"Code"}
             type={"text"}
@@ -122,7 +132,7 @@ const KinDetail = () => {
             className="m-4 w-full"
             fieldName={"phoneNumber"}
             label={"Phone number"}
-            type={"text"}
+            type={"number"}
             error={errorReturn("phoneNumber")}
             onChange={(e) => updateEvent({ phoneNumber: e.target.value })}
           />
@@ -143,8 +153,8 @@ const KinDetail = () => {
           fieldName={"flatnumber"}
           label={"Flat number,House number"}
           type={"text"}
-          error={errorReturn("flatnumber2")}
-          onChange={(e) => updateEvent({ flatenumber: e.target.value })}
+          error={errorReturn("flatnumber")}
+          onChange={(e) => updateEvent({ flatnumber: e.target.value })}
         />
         <InputField
           className="m-4"
@@ -217,7 +227,7 @@ const KinDetail = () => {
           className="m-4"
           fieldName={"accountNumber"}
           label={"Account number"}
-          type={"text"}
+          type={"number"}
           error={errorReturn("accountNumber")}
           onChange={(e) => updateEvent({ accountNumber: e.target.value })}
         />
@@ -262,7 +272,10 @@ const KinDetail = () => {
           label={"Name"}
           type={"text"}
           error={errorReturn("name")}
-          onChange={(e) => updateEvent({ name: e.target.value })}
+          onChange={(e) => updateEvent({ wifeDetail: {
+            ...formEvent.wifeDetail,
+            name: e.target.value
+          } })}
         />
         <InputField
           className="m-4"
@@ -270,45 +283,60 @@ const KinDetail = () => {
           label={"Birthdate"}
           type={"date"}
           error={errorReturn("dob")}
-          onChange={(e) => updateEvent({ dob: e.target.value })}
+          onChange={(e) => updateEvent({ wifeDetail: {
+            ...formEvent.wifeDetail,
+            dob: e.target.value
+          }})}
         />
         <SelectInput
           className="m-4"
           fieldName={"passport"}
           label={"Passport"}
           type={""}
-          onChange={(e) => updateEvent({ passport: e.target.value })}
+          onChange={(e) => updateEvent({wifeDetail: {
+            ...formEvent.wifeDetail,
+            passport: e.target.value
+          } })}
           error={errorReturn("passport")}
           option={["Yes", "No"]}
         />
-        {formEvent.passport === "Yes" && (
+        {formEvent.wifeDetail.passport === "Yes" && (
           <InputField
             className="m-4"
             fieldName={"passportNumber"}
             label={"Passport number"}
             type={"text"}
             error={errorReturn("passportNumber")}
-            onChange={(e) => updateEvent({ passportNumber: e.target.value })}
+            onChange={(e) => updateEvent({ wifeDetail: {
+              ...formEvent.wifeDetail,
+              passportNumber: e.target.value
+            }  })}
           />
         )}
-        {formEvent.passport === "Yes" && (
+        {formEvent.wifeDetail.passport === "Yes" && (
           <InputField
             className="m-4"
             fieldName={"dateOfIssues"}
             label={"Date of issue"}
             type={"date"}
             error={errorReturn("dateOfIssues")}
-            onChange={(e) => updateEvent({ dateOfIssues: e.target.value })}
+            onChange={(e) => updateEvent({ wifeDetail: {
+              ...formEvent.wifeDetail,
+              dateOfIssues: e.target.value
+            } })}
           />
         )}{" "}
-        {formEvent.passport === "Yes" && (
+        {formEvent.wifeDetail.passport === "Yes" && (
           <InputField
             className="m-4"
             fieldName={"dateOfExpiry"}
             label={"Date of Expiry"}
             type={"date"}
             error={errorReturn("dateOfExpiry")}
-            onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
+            onChange={(e) => updateEvent({ wifeDetail: {
+              ...formEvent.wifeDetail,
+              dateOfExpiry: e.target.value
+            } })}
           />
         )}
         <InputField
@@ -317,7 +345,10 @@ const KinDetail = () => {
           label={"Name of child if any"}
           type={"text"}
           error={errorReturn("nameOfChild")}
-          onChange={(e) => updateEvent({ nameOfChild: e.target.value })}
+          onChange={(e) => updateEvent({wifeDetail: {
+            ...formEvent.wifeDetail,
+            nameOfChild: e.target.value
+          } })}
         />
       </div>
       <button

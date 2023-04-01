@@ -3,6 +3,7 @@ import "../../App.css";
 
 interface Props {
   className?: string;
+  inputClass?: string;
   fieldName: string;
   label: string;
   type: string;
@@ -34,7 +35,7 @@ function InputField(props: Props) {
           type={props.type}
           id={props.fieldName}
           name={props.fieldName}
-          className="block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent"
+          className={`block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent ${props.inputClass}`}
           placeholder=" "
           onFocus={handleFocus}
           onBlur={handleBlur}

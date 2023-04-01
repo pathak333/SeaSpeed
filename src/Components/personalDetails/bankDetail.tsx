@@ -15,9 +15,10 @@ const BankDetail = () => {
   const navigate = useNavigate();
   const { setState } = useContext(PersonalDetailContext)!;
   const [, dispatch] = useGlobalState();
+
   useEffect(() => {
-    setState(Personalstate.bankDetails);
     fetchData();
+    setState(Personalstate.bankDetails);
   }, []);
 
   async function fetchData() {

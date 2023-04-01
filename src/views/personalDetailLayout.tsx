@@ -37,23 +37,27 @@ const PersonalDetailLayout = (props: any) => {
         </p>
         <div className=" my-5 ml-4">
           <p className="flex flex-auto max-sm:flex-wrap  items-center">
-            <span className={state <= 0 ? "" : "text-blue-500"}>
+            <span className={state >= 0 ? "text-blue-500" : ""}>
               Personal <span className="max-sm:hidden">details</span>
             </span>
+
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />
-            <span className={state <= 1 ? "" : "text-blue-500"}>
+            <span className={state >= 1 ? "text-blue-500" : ""}>
               Contact <span className="max-sm:hidden">details</span>
             </span>
+
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />
-            <span className={state <= 2 ? "" : "text-blue-500"}>
+            <span className={state >= 2 ? "text-blue-500" : ""}>
               Education <span className="max-sm:hidden">background</span>
             </span>
+
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />
-            <span className={state <= 3 ? "" : "text-blue-500"}>
-              Bank <span className="max-sm:hidden">details</span>
+            <span className={state >= 3 ? "text-blue-500" : ""}>
+              Bank{state} <span className="max-sm:hidden">details</span>
             </span>
+
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />
-            <span className={state <= 4 ? "" : "text-blue-500"}>
+            <span className={state >= 4 ? "text-blue-500" : ""}>
               Kin <span className="max-sm:hidden">details</span>
             </span>
           </p>
