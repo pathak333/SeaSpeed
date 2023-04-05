@@ -78,7 +78,7 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
-      error: { keys: "", values: "" },
+      error: { key: "", value: "" },
     }
   );
 
@@ -121,7 +121,7 @@ const PersonalDetail = () => {
   };
 
   const errorReturn = (field: string) =>
-    formEvent.error.keys === field ? formEvent.error.values : "";
+    formEvent.error.key === field ? formEvent.error.value : "";
 
   function clearAllData() {
     updateEvent({
@@ -140,7 +140,7 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
-      error: { keys: "", values: "" },
+      error: { key: "", value: "" },
     });
   }
 

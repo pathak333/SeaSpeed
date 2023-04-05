@@ -59,7 +59,9 @@ const Dashboard = () => {
               Traveling <br /> documents
             </span>
           }
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/dashboard/traveldetails");
+          }}
         />
 
         {/* card */}

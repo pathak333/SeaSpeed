@@ -20,6 +20,9 @@ import ContactDetail from "../Components/personalDetails/contactDetail";
 import Education from "../Components/personalDetails/education";
 import BankDetail from "../Components/personalDetails/bankDetail";
 import KinDetail from "../Components/personalDetails/kinDetail";
+import TravelDetailLayout from "../views/travelDetailLayout";
+import PassPortDetail from "../Components/travelDetails/passportDetails";
+import VisaDetail from "../Components/travelDetails/visaDetails";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -122,6 +125,26 @@ const MainRoutes = () => {
             {
               path: "kinDetail",
               element: <KinDetail />,
+            },
+          ],
+        },
+        {
+          path: "traveldetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<TravelDetailLayout />}
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element: <PassPortDetail />,
+            },
+            {
+              path: "visadetail",
+              element: <VisaDetail />,
             },
           ],
         },
