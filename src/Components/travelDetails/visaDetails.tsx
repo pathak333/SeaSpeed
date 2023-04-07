@@ -15,7 +15,12 @@ const VisaDetail = (props: any) => {
       number: "",
       dateOfIssue: "",
       dateOfExpiry: "",
+      us_placeOfIssue: "",
+      us_number: "",
+      us_dateOfIssue: "",
+      us_dateOfExpiry: "",
       error: { key: "", value: "" },
+      isFormChanged:false
     }
   );
 
@@ -33,7 +38,7 @@ const VisaDetail = (props: any) => {
           value={formEvent.haveNoVisa}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ haveNoVisa: e.target.checked });
+            updateEvent({ haveNoVisa: e.target.checked, isFormChanged:true});
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -50,7 +55,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={true}
           error={errorReturn("visatype")}
-          onChange={(e) => updateEvent({ visatype: e.target.value })}
+          onChange={(e) => updateEvent({ visatype: e.target.value, isFormChanged:true })}
           value={formEvent.visatype}
         />
         <InputField
@@ -60,7 +65,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={true}
           error={errorReturn("placeOfIssue")}
-          onChange={(e) => updateEvent({ placeOfIssue: e.target.value })}
+          onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged:true })}
           value={formEvent.placeOfIssue}
         />
         <InputField
@@ -70,7 +75,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={true}
           error={errorReturn("number")}
-          onChange={(e) => updateEvent({ number: e.target.value })}
+          onChange={(e) => updateEvent({ number: e.target.value, isFormChanged:true })}
           value={formEvent.number}
         />
         <InputField
@@ -79,7 +84,7 @@ const VisaDetail = (props: any) => {
           label={"Date of issue"}
           type={"date"}
           error={errorReturn("dateOfIssue")}
-          onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
+          onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged:true })}
           value={formEvent.dateOfIssue}
         />
         <InputField
@@ -88,7 +93,7 @@ const VisaDetail = (props: any) => {
           label={"Date of expiry"}
           type={"date"}
           error={errorReturn("dateOfExpiry")}
-          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
+          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged:true })}
           value={formEvent.dateOfExpiry}
         />
         <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
@@ -105,7 +110,7 @@ const VisaDetail = (props: any) => {
           value={formEvent.haveNoVisa}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ haveNoVisa: e.target.checked });
+            updateEvent({ haveNoVisa: e.target.checked, isFormChanged:true });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -113,6 +118,46 @@ const VisaDetail = (props: any) => {
           {" "}
           i don't have a visa
         </label>
+      </div>
+      <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
+        <InputField
+          className="m-4"
+          fieldName={"us_placeOfIssue"}
+          label={"Place of issue"}
+          type={"text"}
+          disabled={true}
+          error={errorReturn("us_placeOfIssue")}
+          onChange={(e) => updateEvent({ us_placeOfIssue: e.target.value, isFormChanged:true })}
+          value={formEvent.us_placeOfIssue}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"us_number"}
+          label={"Number"}
+          type={"text"}
+          disabled={true}
+          error={errorReturn("us_number")}
+          onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged:true })}
+          value={formEvent.us_number}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"us_us_dateOfIssue"}
+          label={"Date of issue"}
+          type={"date"}
+          error={errorReturn("us_us_dateOfIssue")}
+          onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged:true })}
+          value={formEvent.us_us_dateOfIssue}
+        />
+        <InputField
+          className="m-4"
+          fieldName={"us_dateOfExpiry"}
+          label={"Date of expiry"}
+          type={"date"}
+          error={errorReturn("us_dateOfExpiry")}
+          onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged:true })}
+          value={formEvent.us_dateOfExpiry}
+        />
       </div>
     </form>
   );

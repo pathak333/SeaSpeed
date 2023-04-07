@@ -41,6 +41,7 @@ const PersonalDetail = () => {
         pincode: formData.pincode,
         nearest_airport: formData.nearest_airport,
         isSameAddress: formData.isSameAddress,
+        isFormChanged:false
       });
     }
   }
@@ -78,6 +79,7 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
+       isFormChanged:true,
       error: { key: "", value: "" },
     }
   );
@@ -89,6 +91,7 @@ const PersonalDetail = () => {
       event.preventDefault();
       let formData = { ...formEvent };
       delete formData.error;
+      delete formData.isFormChanged
        let isValid = await PersonalDetailValidation(formData );
      
       if (isValid) {
@@ -141,6 +144,7 @@ const PersonalDetail = () => {
       nearest_airport: "",
       isSameAddress: false,
       error: { key: "", value: "" },
+      isFormChanged:false
     });
   }
 
@@ -155,7 +159,7 @@ const PersonalDetail = () => {
           type={"text"}
           disabled={true}
           error={errorReturn("firstname")}
-          onChange={(e) => updateEvent({ firstname: e.target.value })}
+          onChange={(e) => updateEvent({ firstname: e.target.value, isFormChanged:true })}
           value={globalState.data.data.firstname}
         />
         <InputField
@@ -165,7 +169,7 @@ const PersonalDetail = () => {
           type={"text"}
           disabled={true}
           error={errorReturn("lastname")}
-          onChange={(e) => updateEvent({ lastname: e.target.value })}
+          onChange={(e) => updateEvent({ lastname: e.target.value, isFormChanged:true })}
           value={globalState.data.data.lastname}
         />
         <InputField
@@ -174,7 +178,7 @@ const PersonalDetail = () => {
           label={"Birthdate"}
           type={"date"}
           error={errorReturn("dob")}
-          onChange={(e) => updateEvent({ dob: e.target.value })}
+          onChange={(e) => updateEvent({ dob: e.target.value, isFormChanged:true })}
           value={formEvent.dob}
         />
         <SelectInput
@@ -182,7 +186,7 @@ const PersonalDetail = () => {
           fieldName={"gender"}
           label={"Gender"}
           type={""}
-          onChange={(e) => updateEvent({ gender: e.target.value })}
+          onChange={(e) => updateEvent({ gender: e.target.value, isFormChanged:true })}
           value={formEvent.gender}
           error={errorReturn("gender")}
           option={["male", "female"]}
@@ -193,7 +197,7 @@ const PersonalDetail = () => {
           label={"Marital status"}
           type={""}
           error={errorReturn("marital_status")}
-          onChange={(e) => updateEvent({ marital_status: e.target.value })}
+          onChange={(e) => updateEvent({ marital_status: e.target.value, isFormChanged:true })}
           value={formEvent.marital_status}
           option={["Single", "Married"]}
         />
@@ -203,7 +207,7 @@ const PersonalDetail = () => {
           label={"Place of birth"}
           type={"text"}
           error={errorReturn("birthPlace")}
-          onChange={(e) => updateEvent({ birthPlace: e.target.value })}
+          onChange={(e) => updateEvent({ birthPlace: e.target.value, isFormChanged:true })}
           value={formEvent.birthPlace}
         />
         <InputField
@@ -212,7 +216,7 @@ const PersonalDetail = () => {
           label={"Nationality"}
           type={"text"}
           error={errorReturn("nationality")}
-          onChange={(e) => updateEvent({ nationality: e.target.value })}
+          onChange={(e) => updateEvent({ nationality: e.target.value, isFormChanged:true })}
           value={formEvent.nationality}
         />
         <InputField
@@ -241,7 +245,7 @@ const PersonalDetail = () => {
           label={"Flat number,House number"}
           type={"text"}
           error={errorReturn("flatnumber")}
-          onChange={(e) => updateEvent({ flatnumber: e.target.value })}
+          onChange={(e) => updateEvent({ flatnumber: e.target.value, isFormChanged:true })}
           value={formEvent.flatnumber}
         />
         <InputField
@@ -250,7 +254,7 @@ const PersonalDetail = () => {
           label={"Society, street"}
           type={"text"}
           error={errorReturn("society")}
-          onChange={(e) => updateEvent({ society: e.target.value })}
+          onChange={(e) => updateEvent({ society: e.target.value, isFormChanged:true })}
           value={formEvent.society}
         />
         <InputField
@@ -259,7 +263,7 @@ const PersonalDetail = () => {
           label={"City"}
           type={"text"}
           error={errorReturn("city")}
-          onChange={(e) => updateEvent({ city: e.target.value })}
+          onChange={(e) => updateEvent({ city: e.target.value, isFormChanged:true })}
           value={formEvent.city}
         />
         <InputField
@@ -268,7 +272,7 @@ const PersonalDetail = () => {
           label={"State"}
           type={"text"}
           error={errorReturn("state")}
-          onChange={(e) => updateEvent({ state: e.target.value })}
+          onChange={(e) => updateEvent({ state: e.target.value, isFormChanged:true })}
           value={formEvent.state}
         />
         <InputField
@@ -277,7 +281,7 @@ const PersonalDetail = () => {
           label={"Country"}
           type={"text"}
           error={errorReturn("country")}
-          onChange={(e) => updateEvent({ country: e.target.value })}
+          onChange={(e) => updateEvent({ country: e.target.value , isFormChanged:true})}
           value={formEvent.country}
         />
         <InputField
@@ -286,7 +290,7 @@ const PersonalDetail = () => {
           label={"Pin code/Zip code"}
           type={"text"}
           error={errorReturn("pincode")}
-          onChange={(e) => updateEvent({ pincode: e.target.value })}
+          onChange={(e) => updateEvent({ pincode: e.target.value, isFormChanged:true })}
           value={formEvent.pincode}
         />
         <InputField
@@ -295,7 +299,7 @@ const PersonalDetail = () => {
           label={"Nearest airport"}
           type={"text"}
           error={errorReturn("nearest_airport")}
-          onChange={(e) => updateEvent({ nearest_airport: e.target.value })}
+          onChange={(e) => updateEvent({ nearest_airport: e.target.value, isFormChanged:true })}
           value={formEvent.nearest_airport}
         />
       </div>
@@ -313,7 +317,7 @@ const PersonalDetail = () => {
           value={formEvent.isSameAddress}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ isSameAddress: e.target.checked });
+            updateEvent({ isSameAddress: e.target.checked, isFormChanged:true });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -334,7 +338,7 @@ const PersonalDetail = () => {
               label={"Flat number,House number"}
               type={"text"}
               error={errorReturn("flatnumber2")}
-              onChange={(e) => updateEvent({ flatenumber2: e.target.value })}
+              onChange={(e) => updateEvent({ flatenumber2: e.target.value, isFormChanged:true })}
               value={formEvent.flatnumber2}
             />
             <InputField
@@ -343,7 +347,7 @@ const PersonalDetail = () => {
               label={"Society, street"}
               type={"text"}
               error={errorReturn("society2")}
-              onChange={(e) => updateEvent({ society2: e.target.value })}
+              onChange={(e) => updateEvent({ society2: e.target.value, isFormChanged:true })}
               value={formEvent.society2}
             />
             <InputField
@@ -352,7 +356,7 @@ const PersonalDetail = () => {
               label={"City"}
               type={"text"}
               error={errorReturn("city2")}
-              onChange={(e) => updateEvent({ city2: e.target.value })}
+              onChange={(e) => updateEvent({ city2: e.target.value, isFormChanged:true })}
               value={formEvent.city2}
             />
             <InputField
@@ -361,7 +365,7 @@ const PersonalDetail = () => {
               label={"State"}
               type={"text"}
               error={errorReturn("state2")}
-              onChange={(e) => updateEvent({ state2: e.target.value })}
+              onChange={(e) => updateEvent({ state2: e.target.value, isFormChanged:true })}
               value={formEvent.state2}
             />
             <InputField
@@ -370,7 +374,7 @@ const PersonalDetail = () => {
               label={"Country"}
               type={"text"}
               error={errorReturn("country2")}
-              onChange={(e) => updateEvent({ country2: e.target.value })}
+              onChange={(e) => updateEvent({ country2: e.target.value, isFormChanged:true })}
               value={formEvent.country2}
             />
             <InputField
@@ -379,7 +383,7 @@ const PersonalDetail = () => {
               label={"Pin code/Zip code"}
               type={"text"}
               error={errorReturn("pincode2")}
-              onChange={(e) => updateEvent({ pincode2: e.target.value })}
+              onChange={(e) => updateEvent({ pincode2: e.target.value, isFormChanged:true })}
               value={formEvent.pincode2}
             />
             <InputField
@@ -389,7 +393,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("nearest_airport2")}
               onChange={(e) =>
-                updateEvent({ nearest_airport2: e.target.value })
+                updateEvent({ nearest_airport2: e.target.value, isFormChanged:true })
               }
               value={formEvent.nearest_airport2}
             />
