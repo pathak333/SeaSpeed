@@ -27,9 +27,10 @@ const ContactDetail = () => {
       // email: "",
       // code: "",
       // phone: "",
-      altemail: "",
-      alt_country_code: "",
-      altphone: "",
+      alt_email: globalState.data.data.alt_email || "",
+      alt_country_code: globalState.data.data.alt_country_code || "",
+      alt_phone: globalState.data.data.alt_phone_no || "",
+      isFormChanged:false
     }
   );
 
@@ -90,8 +91,8 @@ const ContactDetail = () => {
           label={"Alternate Email"}
           type={"text"}
           //   error={errorReturn("firstname")}
-          onChange={(e) => updateEvent({ altemail: e.target.value })}
-          value={globalState.data.data.alt_email}
+          onChange={(e) => updateEvent({ alt_email: e.target.value,isFormChanged:true })}
+          value={formEvent.alt_email}
         />
         <div className="flex flex-row">
           <InputField
@@ -100,8 +101,8 @@ const ContactDetail = () => {
             label={"Code"}
             type={"text"}
             //   error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ alt_country_code: e.target.value })}
-            value={globalState.data.data.alt_country_code}
+            onChange={(e) => updateEvent({ alt_country_code: e.target.value,isFormChanged:true })}
+            value={formEvent.alt_country_code }
           />
           <InputField
             className="m-4 "
@@ -109,17 +110,27 @@ const ContactDetail = () => {
             label={"Alternate phone number"}
             type={"text"}
             //   error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ altphone: e.target.value })}
-            value={globalState.data.data.alt_phone_no}
+            onChange={(e) => updateEvent({ alt_phone: e.target.value,isFormChanged:true })}
+            value={formEvent.alt_phone}
           />
         </div>
       </div>
-      <button
+    { formEvent.isFormChanged ? <button
         type="submit"
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
       >
         Save & next
-      </button>
+      </button>:
+      <button
+    type="button"
+    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    onClick={() => {
+      // clearAllData();
+      navigate("/dashboard/personaldetails/educationDetail");
+    }}
+  >
+    Skip and Next
+  </button>}
       <button className="ml-8 text-xl text-blue-700">Clear all</button>
       <button
         className="ml-8 text-xl text-gray-500"

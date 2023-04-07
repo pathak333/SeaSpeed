@@ -49,6 +49,7 @@ const Education = () => {
       city: "",
       country: "",
       dataList: [],
+      isFormChanged:false,
       error: { keys: "", values: "" },
     }
   );
@@ -116,6 +117,7 @@ const Education = () => {
       city: "",
       country: "",
       dataList: [],
+      isFormChanged:false,
       error: { keys: "", values: "" },
     });
     if (formRef.current !== null) {
@@ -136,6 +138,7 @@ const Education = () => {
         let data = { ...formEvent };
         delete data.dataList;
         delete data.error;
+        delete data.isFormChanged;
         let isValid = await EducationValidation(data);
         if (isValid) {
           delete data.dataList;
@@ -179,7 +182,7 @@ const Education = () => {
             label={"Name of school/ college attended/ institute"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ institution: e.target.value })}
+            onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:false })}
           />
           <InputField
             className="m-4"
@@ -187,7 +190,7 @@ const Education = () => {
             label={"Qualification achieved"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ qualification: e.target.value })}
+            onChange={(e) => updateEvent({ qualification: e.target.value,isFormChanged:false })}
           />
           <InputField
             className="m-4"
@@ -195,7 +198,7 @@ const Education = () => {
             label={"Start date"}
             type={"date"}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ startDate: e.target.value })}
+            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:false })}
           />
           <InputField
             className="m-4"
@@ -203,7 +206,7 @@ const Education = () => {
             label={"End date"}
             type={"date"}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ endDate: e.target.value })}
+            onChange={(e) => updateEvent({ endDate: e.target.value,isFormChanged:false })}
           />
           <InputField
             className="m-4"
@@ -211,7 +214,7 @@ const Education = () => {
             label={"City"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ city: e.target.value })}
+            onChange={(e) => updateEvent({ city: e.target.value,isFormChanged:false })}
           />
           <InputField
             className="m-4"
@@ -219,7 +222,7 @@ const Education = () => {
             label={"Country"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ country: e.target.value })}
+            onChange={(e) => updateEvent({ country: e.target.value,isFormChanged:false })}
           />
         </div>
         {formEvent.dataList.length > 0 ? (
@@ -342,16 +345,16 @@ const Education = () => {
         ) : (
           <div></div>
         )}
-        <button
+       {formEvent.isFormChanged ?<button
           type="submit"
           //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
           className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Save & next
-        </button>
+        </button>:
         <button
           type="button"
-          className="ml-8 text-xl text-blue-700"
+          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={() => {
             clearAllData();
             updateEvent({ dataList: [] });
@@ -359,7 +362,7 @@ const Education = () => {
           }}
         >
           Skip and Next
-        </button>
+        </button>}
         <button
           type="button"
           className="ml-8 text-xl text-blue-700"
