@@ -23,6 +23,11 @@ import KinDetail from "../Components/personalDetails/kinDetail";
 import TravelDetailLayout from "../views/travelDetailLayout";
 import PassPortDetail from "../Components/travelDetails/passportDetails";
 import VisaDetail from "../Components/travelDetails/visaDetails";
+import SeaMenBookDetail from "../Components/travelDetails/seaMenBookDetails";
+import CertificateLayout from "../views/certificateLayout";
+import CertificateOfCompetency from "../Components/certification/CertificateOfCompetency";
+import DangerousCargoEndorsement from "../Components/certification/DangerousCargoEndorsement";
+import FlagEndorsement from "../Components/certification/FlagEndorsement";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -146,8 +151,37 @@ const MainRoutes = () => {
               path: "visadetail",
               element: <VisaDetail />,
             },
+            {
+              path: "SeaMenBookdetail",
+              element: <SeaMenBookDetail />,
+            },
           ],
         },
+        {
+          path: "certificates",
+          element:(
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CertificateLayout />}
+            />
+
+          ),
+          children: [
+            {
+              path: "",
+              element:<CertificateOfCompetency />
+            },
+            {
+              path: "flagEndorsement",
+              element:<FlagEndorsement />
+            },
+            {
+              path: "dangerousCargo",
+              element:<DangerousCargoEndorsement />
+            },
+          ]
+        }
       ],
     },
   ]);

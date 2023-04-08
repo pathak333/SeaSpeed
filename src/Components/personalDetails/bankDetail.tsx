@@ -42,6 +42,7 @@ const BankDetail = () => {
       IFSC_code: "",
       IBAN_number: "",
       account_type: "",
+      isFormChanged:false,
       error: { keys: "", values: "" },
     }
   );
@@ -55,6 +56,7 @@ const BankDetail = () => {
       console.log(formEvent);
       let formData = { ...formEvent };
       delete formData.error;
+      delete formData.isFormChanged
       const isValid = await BankDetailValidation(formData);
       if (isValid) {
         console.log(formData);
@@ -98,6 +100,7 @@ const BankDetail = () => {
       IFSC_code: "",
       IBAN_number: "",
       account_type: "",
+      isFormChanged:false
     });
   };
   const errorReturn = (field: string) =>
@@ -113,7 +116,7 @@ const BankDetail = () => {
           label={"Bank name"}
           type={"text"}
           error={errorReturn("bank_name")}
-          onChange={(e) => updateEvent({ bank_name: e.target.value })}
+          onChange={(e) => updateEvent({ bank_name: e.target.value,isFormChanged:true })}
           value={formEvent.bank_name}
         />
         <InputField
@@ -122,7 +125,7 @@ const BankDetail = () => {
           label={"Account holder name"}
           type={"text"}
           error={errorReturn("account_holder_name")}
-          onChange={(e) => updateEvent({ account_holder_name: e.target.value })}
+          onChange={(e) => updateEvent({ account_holder_name: e.target.value,isFormChanged:true })}
           value={formEvent.account_holder_name}
         />
         <InputField
@@ -131,7 +134,7 @@ const BankDetail = () => {
           label={"Branch code"}
           type={"text"}
           error={errorReturn("branch_code")}
-          onChange={(e) => updateEvent({ branch_code: e.target.value })}
+          onChange={(e) => updateEvent({ branch_code: e.target.value,isFormChanged:true })}
           value={formEvent.branch_code}
         />
         <InputField
@@ -140,7 +143,7 @@ const BankDetail = () => {
           label={"Account number"}
           type={"text"}
           error={errorReturn("account_number")}
-          onChange={(e) => updateEvent({ account_number: e.target.value })}
+          onChange={(e) => updateEvent({ account_number: e.target.value,isFormChanged:true })}
           value={formEvent.account_number}
         />
         <InputField
@@ -149,7 +152,7 @@ const BankDetail = () => {
           label={"Swift code"}
           type={"text"}
           error={errorReturn("swift_code")}
-          onChange={(e) => updateEvent({ swift_code: e.target.value })}
+          onChange={(e) => updateEvent({ swift_code: e.target.value,isFormChanged:true })}
           value={formEvent.swift_code}
         />
         <InputField
@@ -158,7 +161,7 @@ const BankDetail = () => {
           label={"IFSC code only for Indians"}
           type={"text"}
           error={errorReturn("IFSC_code")}
-          onChange={(e) => updateEvent({ IFSC_code: e.target.value })}
+          onChange={(e) => updateEvent({ IFSC_code: e.target.value,isFormChanged:true })}
           value={formEvent.IFSC_code}
         />
         <InputField
@@ -167,7 +170,7 @@ const BankDetail = () => {
           label={"IBAN number (Not for indian)"}
           type={"text"}
           error={errorReturn("IBAN_number")}
-          onChange={(e) => updateEvent({ IBAN_number: e.target.value })}
+          onChange={(e) => updateEvent({ IBAN_number: e.target.value ,isFormChanged:true})}
           value={formEvent.IBAN_number}
         />
         <InputField
@@ -176,27 +179,27 @@ const BankDetail = () => {
           label={"Types of account"}
           type={"text"}
           error={errorReturn("account_type")}
-          onChange={(e) => updateEvent({ account_type: e.target.value })}
+          onChange={(e) => updateEvent({ account_type: e.target.value,isFormChanged:true })}
           value={formEvent.account_type}
         />
       </div>
-      <button
+    { formEvent.isFormChanged ?<button
         type="submit"
         // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
       >
         Save & next
-      </button>
+      </button>:
       <button
         type="button"
-        className="ml-8 text-xl text-blue-700"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         onClick={() => {
           clearAllData();
           navigate("/dashboard/personaldetails/kinDetail");
         }}
       >
         Skip and Next
-      </button>
+      </button>}
       <button
         type="button"
         className="ml-8 text-xl text-blue-700"

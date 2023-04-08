@@ -55,9 +55,47 @@ const KinDetail = () => {
         dateOfExpiry: "",
         nameOfChild: "",
       },
+      isFormChanged:false,
       error: { keys: "", values: "" },
     }
   );
+
+  const clearAllData = () => {
+   
+    updateEvent({
+      fullName: "",
+      relationship: "",
+      code: "",
+      phoneNumber: "",
+      email: "",
+      flatnumber: "",
+      society: "",
+      city: "",
+      state: "",
+      country: "",
+      pincode: "",
+      bankName: "",
+      accountHolderName: "",
+      branchCode: "",
+      accountNumber: "",
+      swiftCode: "",
+      ifscCode: "",
+      iban: "",
+      accountType: "",
+      wifeDetail: {
+        name: "",
+        dob: "",
+        passport: "Yes",
+        passportNumber: "",
+        dateOfIssues: "",
+        dateOfExpiry: "",
+        nameOfChild: "",
+      },
+      isFormChanged:false,
+      error: { keys: "", values: "" },
+    });
+  };
+
 
   const handlerSubmit = async (event: any) => {
     toast.dismiss();
@@ -108,7 +146,7 @@ const KinDetail = () => {
           label={"Full name"}
           type={"text"}
           error={errorReturn("fullName")}
-          onChange={(e) => updateEvent({ fullName: e.target.value })}
+          onChange={(e) => updateEvent({ fullName: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -116,7 +154,7 @@ const KinDetail = () => {
           label={"Relationship"}
           type={"text"}
           error={errorReturn("relationship")}
-          onChange={(e) => updateEvent({ relationship: e.target.value })}
+          onChange={(e) => updateEvent({ relationship: e.target.value,isFormChanged:true })}
         />
         <div className="flex flex-row">
           <InputField
@@ -126,7 +164,7 @@ const KinDetail = () => {
             label={"Code"}
             type={"text"}
             error={errorReturn("code")}
-            onChange={(e) => updateEvent({ code: e.target.value })}
+            onChange={(e) => updateEvent({ code: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4 w-full"
@@ -134,7 +172,7 @@ const KinDetail = () => {
             label={"Phone number"}
             type={"number"}
             error={errorReturn("phoneNumber")}
-            onChange={(e) => updateEvent({ phoneNumber: e.target.value })}
+            onChange={(e) => updateEvent({ phoneNumber: e.target.value,isFormChanged:true })}
           />
         </div>
         <InputField
@@ -143,7 +181,7 @@ const KinDetail = () => {
           label={"Email"}
           type={"text"}
           error={errorReturn("email")}
-          onChange={(e) => updateEvent({ email: e.target.value })}
+          onChange={(e) => updateEvent({ email: e.target.value,isFormChanged:true })}
         />
       </div>
       <p className="text-xl font-medium ml-4">Kin address details</p>
@@ -154,7 +192,7 @@ const KinDetail = () => {
           label={"Flat number,House number"}
           type={"text"}
           error={errorReturn("flatnumber")}
-          onChange={(e) => updateEvent({ flatnumber: e.target.value })}
+          onChange={(e) => updateEvent({ flatnumber: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -162,7 +200,7 @@ const KinDetail = () => {
           label={"Society, street"}
           type={"text"}
           error={errorReturn("society")}
-          onChange={(e) => updateEvent({ society: e.target.value })}
+          onChange={(e) => updateEvent({ society: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -170,7 +208,7 @@ const KinDetail = () => {
           label={"City"}
           type={"text"}
           error={errorReturn("city")}
-          onChange={(e) => updateEvent({ city: e.target.value })}
+          onChange={(e) => updateEvent({ city: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -178,7 +216,7 @@ const KinDetail = () => {
           label={"State"}
           type={"text"}
           error={errorReturn("state")}
-          onChange={(e) => updateEvent({ state: e.target.value })}
+          onChange={(e) => updateEvent({ state: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -186,7 +224,7 @@ const KinDetail = () => {
           label={"Country"}
           type={"text"}
           error={errorReturn("country")}
-          onChange={(e) => updateEvent({ country: e.target.value })}
+          onChange={(e) => updateEvent({ country: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -194,7 +232,7 @@ const KinDetail = () => {
           label={"Pin code/Zip code"}
           type={"text"}
           error={errorReturn("pincode")}
-          onChange={(e) => updateEvent({ pincode: e.target.value })}
+          onChange={(e) => updateEvent({ pincode: e.target.value,isFormChanged:true })}
         />
       </div>
       <p className="text-xl font-medium ml-4">Kin bank details</p>
@@ -205,7 +243,7 @@ const KinDetail = () => {
           label={"Bank name"}
           type={"text"}
           error={errorReturn("bankName")}
-          onChange={(e) => updateEvent({ bankName: e.target.value })}
+          onChange={(e) => updateEvent({ bankName: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -213,7 +251,7 @@ const KinDetail = () => {
           label={"Account holder name"}
           type={"text"}
           error={errorReturn("accountHolderName")}
-          onChange={(e) => updateEvent({ accountHolderName: e.target.value })}
+          onChange={(e) => updateEvent({ accountHolderName: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -221,7 +259,7 @@ const KinDetail = () => {
           label={"Branch code"}
           type={"text"}
           error={errorReturn("branchCode")}
-          onChange={(e) => updateEvent({ branchCode: e.target.value })}
+          onChange={(e) => updateEvent({ branchCode: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -229,7 +267,7 @@ const KinDetail = () => {
           label={"Account number"}
           type={"number"}
           error={errorReturn("accountNumber")}
-          onChange={(e) => updateEvent({ accountNumber: e.target.value })}
+          onChange={(e) => updateEvent({ accountNumber: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -237,7 +275,7 @@ const KinDetail = () => {
           label={"Swift code"}
           type={"text"}
           error={errorReturn("swiftCode")}
-          onChange={(e) => updateEvent({ swiftCode: e.target.value })}
+          onChange={(e) => updateEvent({ swiftCode: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -245,7 +283,7 @@ const KinDetail = () => {
           label={"IFSC code only for Indians"}
           type={"text"}
           error={errorReturn("ifscCode")}
-          onChange={(e) => updateEvent({ ifscCode: e.target.value })}
+          onChange={(e) => updateEvent({ ifscCode: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -253,7 +291,7 @@ const KinDetail = () => {
           label={"IBAN.number (Not for indian)"}
           type={"text"}
           error={errorReturn("iban")}
-          onChange={(e) => updateEvent({ iban: e.target.value })}
+          onChange={(e) => updateEvent({ iban: e.target.value,isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -261,7 +299,7 @@ const KinDetail = () => {
           label={"Types of account"}
           type={"text"}
           error={errorReturn("accountType")}
-          onChange={(e) => updateEvent({ accountType: e.target.value })}
+          onChange={(e) => updateEvent({ accountType: e.target.value,isFormChanged:true })}
         />
       </div>
       <p className="text-xl font-medium ml-4">Wife detail</p>
@@ -275,7 +313,7 @@ const KinDetail = () => {
           onChange={(e) => updateEvent({ wifeDetail: {
             ...formEvent.wifeDetail,
             name: e.target.value
-          } })}
+          },isFormChanged:true })}
         />
         <InputField
           className="m-4"
@@ -286,7 +324,7 @@ const KinDetail = () => {
           onChange={(e) => updateEvent({ wifeDetail: {
             ...formEvent.wifeDetail,
             dob: e.target.value
-          }})}
+          },isFormChanged:true})}
         />
         <SelectInput
           className="m-4"
@@ -296,7 +334,7 @@ const KinDetail = () => {
           onChange={(e) => updateEvent({wifeDetail: {
             ...formEvent.wifeDetail,
             passport: e.target.value
-          } })}
+          },isFormChanged:true })}
           error={errorReturn("passport")}
           option={["Yes", "No"]}
         />
@@ -310,7 +348,7 @@ const KinDetail = () => {
             onChange={(e) => updateEvent({ wifeDetail: {
               ...formEvent.wifeDetail,
               passportNumber: e.target.value
-            }  })}
+            } ,isFormChanged:true })}
           />
         )}
         {formEvent.wifeDetail.passport === "Yes" && (
@@ -323,7 +361,7 @@ const KinDetail = () => {
             onChange={(e) => updateEvent({ wifeDetail: {
               ...formEvent.wifeDetail,
               dateOfIssues: e.target.value
-            } })}
+            },isFormChanged:true })}
           />
         )}{" "}
         {formEvent.wifeDetail.passport === "Yes" && (
@@ -336,7 +374,7 @@ const KinDetail = () => {
             onChange={(e) => updateEvent({ wifeDetail: {
               ...formEvent.wifeDetail,
               dateOfExpiry: e.target.value
-            } })}
+            },isFormChanged:true })}
           />
         )}
         <InputField
@@ -348,16 +386,26 @@ const KinDetail = () => {
           onChange={(e) => updateEvent({wifeDetail: {
             ...formEvent.wifeDetail,
             nameOfChild: e.target.value
-          } })}
+          },isFormChanged:true })}
         />
       </div>
-      <button
+   {formEvent.isFormChanged  ? <button
         type="submit"
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
       >
         Save & next
-      </button>
-      <button className="ml-8 text-xl text-blue-700">Clear all</button>
+      </button>:
+      <button
+        type="button"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        onClick={() => {
+          
+          navigate("/dashboard/traveldetails");
+        }}
+      >
+        Skip and Next
+      </button>}
+      <button type="button" onClick={  ()=>clearAllData()} className="ml-8 text-xl text-blue-700">Clear all</button>
     </form>
   );
 };

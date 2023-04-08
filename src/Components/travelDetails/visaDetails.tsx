@@ -1,8 +1,21 @@
-import { useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import InputField from "../inputField/inputField.component";
 import { Upload } from "react-feather";
+import { useNavigate } from "react-router-dom";
+import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 
 const VisaDetail = (props: any) => {
+  const { setState } = useContext(TravelDetailContext)!;
+  useEffect(() => {
+    
+    setState(TravelState.visa);
+    
+  }, [])
+  
+
+  const navigate = useNavigate();
+
+
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
       let newEvent = { ...prev, ...next };
@@ -10,6 +23,7 @@ const VisaDetail = (props: any) => {
     },
     {
       haveNoVisa: false,
+      haveNoUsVisa: false,
       visatype: "",
       placeOfIssue: "",
       number: "",
@@ -53,7 +67,7 @@ const VisaDetail = (props: any) => {
           fieldName={"visatype"}
           label={"Visa type"}
           type={"text"}
-          disabled={true}
+          disabled={formEvent.haveNoVisa}
           error={errorReturn("visatype")}
           onChange={(e) => updateEvent({ visatype: e.target.value, isFormChanged:true })}
           value={formEvent.visatype}
@@ -63,7 +77,7 @@ const VisaDetail = (props: any) => {
           fieldName={"placeOfIssue"}
           label={"Place of issue"}
           type={"text"}
-          disabled={true}
+          disabled={formEvent.haveNoVisa}
           error={errorReturn("placeOfIssue")}
           onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged:true })}
           value={formEvent.placeOfIssue}
@@ -73,7 +87,7 @@ const VisaDetail = (props: any) => {
           fieldName={"number"}
           label={"Number"}
           type={"text"}
-          disabled={true}
+          disabled={formEvent.haveNoVisa}
           error={errorReturn("number")}
           onChange={(e) => updateEvent({ number: e.target.value, isFormChanged:true })}
           value={formEvent.number}
@@ -82,6 +96,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"dateOfIssue"}
           label={"Date of issue"}
+          disabled={formEvent.haveNoVisa}
           type={"date"}
           error={errorReturn("dateOfIssue")}
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged:true })}
@@ -91,6 +106,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"dateOfExpiry"}
           label={"Date of expiry"}
+          disabled={formEvent.haveNoVisa}
           type={"date"}
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged:true })}
@@ -106,11 +122,11 @@ const VisaDetail = (props: any) => {
         <input
           id="haveNoVisa"
           type="checkbox"
-          checked={formEvent.haveNoVisa}
-          value={formEvent.haveNoVisa}
+          checked={formEvent.haveNoUsVisa}
+          value={formEvent.haveNoUsVisa}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ haveNoVisa: e.target.checked, isFormChanged:true });
+            updateEvent({ haveNoUsVisa: e.target.checked, isFormChanged:true });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -125,7 +141,7 @@ const VisaDetail = (props: any) => {
           fieldName={"us_placeOfIssue"}
           label={"Place of issue"}
           type={"text"}
-          disabled={true}
+          disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_placeOfIssue")}
           onChange={(e) => updateEvent({ us_placeOfIssue: e.target.value, isFormChanged:true })}
           value={formEvent.us_placeOfIssue}
@@ -135,7 +151,7 @@ const VisaDetail = (props: any) => {
           fieldName={"us_number"}
           label={"Number"}
           type={"text"}
-          disabled={true}
+          disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_number")}
           onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged:true })}
           value={formEvent.us_number}
@@ -144,6 +160,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"us_us_dateOfIssue"}
           label={"Date of issue"}
+          disabled={formEvent.haveNoUsVisa}
           type={"date"}
           error={errorReturn("us_us_dateOfIssue")}
           onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged:true })}
@@ -153,12 +170,46 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"us_dateOfExpiry"}
           label={"Date of expiry"}
+          disabled={formEvent.haveNoUsVisa}
           type={"date"}
           error={errorReturn("us_dateOfExpiry")}
           onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged:true })}
           value={formEvent.us_dateOfExpiry}
         />
       </div>
+      <button
+          className="ml-8 text-xl text-gray-500"
+          onClick={() => navigate("/dashboard/traveldetails")}
+        >
+          Previous
+        </button>
+      {formEvent.isFormChanged  ? <button
+        type="submit"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      >
+        Save & next
+      </button>:
+      <button
+        type="button"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        onClick={() => {
+          
+          navigate("/dashboard/traveldetails/SeaMenBookdetail");
+        }}
+      >
+        Skip and Next
+      </button>}
+      <button
+          type="button"
+          className="ml-8 text-xl text-blue-700"
+          onClick={() => {
+            //clearAllData();
+            updateEvent({ dataList: [] });
+          }}
+        >
+          Clear all
+        </button>
+      
     </form>
   );
 };

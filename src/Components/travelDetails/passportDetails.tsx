@@ -1,11 +1,22 @@
-import { useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
 import { Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 
 const PassPortDetail = (props: any) => {
   const navigate = useNavigate();
+
+  const { setState } = useContext(TravelDetailContext)!;
+  useEffect(() => {
+    
+    setState(TravelState.passport);
+    
+  }, [])
+
+
+
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
       const newEvent = { ...prev, ...next };
