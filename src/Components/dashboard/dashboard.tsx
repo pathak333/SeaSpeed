@@ -72,7 +72,7 @@ const Dashboard = () => {
           }
           icon={<Award className="text-[#A212E4]" />}
           label={<span>Certificates</span>}
-          onClick={() => {}}
+          onClick={() => {navigate("/dashboard/certificates");}}
         />
 
         {/* card */}
