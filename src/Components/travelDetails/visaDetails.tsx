@@ -1,19 +1,24 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useRef } from "react";
 import InputField from "../inputField/inputField.component";
-import { Upload } from "react-feather";
+import { Trash2, Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
+import { NormalVisaValidation } from "./validation";
+import { toast } from "react-toastify";
+import { useGlobalState } from "../../contexts/global.context";
+import { LOADING } from "../../constants/action.constant";
 
 const VisaDetail = (props: any) => {
   const { setState } = useContext(TravelDetailContext)!;
   useEffect(() => {
-    
-    setState(TravelState.visa);
-    
-  }, [])
-  
 
+    setState(TravelState.visa);
+
+  }, [])
+
+  const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const [, dispatch] = useGlobalState();
 
 
   const [formEvent, updateEvent] = useReducer(
@@ -29,20 +34,74 @@ const VisaDetail = (props: any) => {
       number: "",
       dateOfIssue: "",
       dateOfExpiry: "",
+      visaList: [],
       us_placeOfIssue: "",
       us_number: "",
       us_dateOfIssue: "",
       us_dateOfExpiry: "",
       error: { key: "", value: "" },
-      isFormChanged:false
+      isFormChanged: false
     }
   );
+
+  const addMore = async () => {
+    try {
+      let { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry } = formEvent;
+      let data = { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry };
+      let isValid = await NormalVisaValidation(data)
+      if (isValid) {
+        updateEvent({
+          visaList: [...formEvent.visaList, data],
+          visatype: "",
+          placeOfIssue: "",
+          number: "",
+          dateOfIssue: "",
+          dateOfExpiry: "",
+        })
+      }
+    } catch (error: any) {
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              key: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          console.log(errorDetail.context.key + "======");
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError")
+        toast.error(error.response.data.message);
+    }
+    
+  }
+
+  const listofData = formEvent.visaList.map((item: any, index: any) => (
+    <tr key={index} className="bg-white border-b">
+      <td className="px-6 py-4">{item.visatype}</td>
+      <td className="px-6 py-4">{item.placeOfIssue}</td>
+      <td className="px-6 py-4">{item.number}</td>
+      <td className="px-6 py-4">{item.dateOfIssue}</td>
+      <td className="px-6 py-4">{item.dateOfExpiry}</td>
+      <td className="px-6 py-4">file</td>
+      <td className="px-6 py-4">
+        <Trash2
+          onClick={() => {
+            formEvent.visaList.splice(index, 1);
+            updateEvent({ visaList: formEvent.visaList });
+          }}
+        />
+      </td>
+    </tr>
+  ));
+
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
 
   return (
-    <form>
+    <form ref={formRef}>
       <div className="flex flex-row items-center">
         <h3 className="pl-4 font-semibold mr-2">Visa details</h3>
         <input
@@ -52,7 +111,7 @@ const VisaDetail = (props: any) => {
           value={formEvent.haveNoVisa}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ haveNoVisa: e.target.checked, isFormChanged:true});
+            updateEvent({ haveNoVisa: e.target.checked, isFormChanged: true });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -69,7 +128,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={formEvent.haveNoVisa}
           error={errorReturn("visatype")}
-          onChange={(e) => updateEvent({ visatype: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ visatype: e.target.value, isFormChanged: true })}
           value={formEvent.visatype}
         />
         <InputField
@@ -79,7 +138,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={formEvent.haveNoVisa}
           error={errorReturn("placeOfIssue")}
-          onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.placeOfIssue}
         />
         <InputField
@@ -89,7 +148,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={formEvent.haveNoVisa}
           error={errorReturn("number")}
-          onChange={(e) => updateEvent({ number: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
           value={formEvent.number}
         />
         <InputField
@@ -99,7 +158,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoVisa}
           type={"date"}
           error={errorReturn("dateOfIssue")}
-          onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfIssue}
         />
         <InputField
@@ -109,7 +168,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoVisa}
           type={"date"}
           error={errorReturn("dateOfExpiry")}
-          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfExpiry}
         />
         <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
@@ -117,6 +176,53 @@ const VisaDetail = (props: any) => {
           <p className="text-IbColor">Upload Visa PDF</p>
         </div>
       </div>
+      <div className="flex justify-center m-2 ">
+        <button type="button" onClick={() => addMore()} className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        >
+          Add more
+        </button>
+
+      </div>
+
+
+      {formEvent.visaList.length > 0 ? (
+        <div className="relative overflow-x-auto mb-3">
+          <table className="table-auto w-full text-sm text-left text-grey-500">
+            <thead className="text-xs text-grey-700 uppercase ">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Visa type
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Place Of Issue
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Number
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date Of Issue
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date Of Expiry
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  File
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>{listofData}</tbody>
+          </table>
+        </div>
+      ) : (
+        <div></div>
+      )}
+
+
+
+
       <div className="flex flex-row items-center">
         <h3 className="pl-4 font-semibold mr-2">US visa type </h3>
         <input
@@ -126,7 +232,7 @@ const VisaDetail = (props: any) => {
           value={formEvent.haveNoUsVisa}
           onChange={(e) => {
             console.log(e.target.checked);
-            updateEvent({ haveNoUsVisa: e.target.checked, isFormChanged:true });
+            updateEvent({ haveNoUsVisa: e.target.checked, isFormChanged: true });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -143,7 +249,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_placeOfIssue")}
-          onChange={(e) => updateEvent({ us_placeOfIssue: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ us_placeOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.us_placeOfIssue}
         />
         <InputField
@@ -153,7 +259,7 @@ const VisaDetail = (props: any) => {
           type={"text"}
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_number")}
-          onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged: true })}
           value={formEvent.us_number}
         />
         <InputField
@@ -163,7 +269,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoUsVisa}
           type={"date"}
           error={errorReturn("us_us_dateOfIssue")}
-          onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.us_us_dateOfIssue}
         />
         <InputField
@@ -173,43 +279,43 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoUsVisa}
           type={"date"}
           error={errorReturn("us_dateOfExpiry")}
-          onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged:true })}
+          onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.us_dateOfExpiry}
         />
       </div>
       <button
-          className="ml-8 text-xl text-gray-500"
-          onClick={() => navigate("/dashboard/traveldetails")}
-        >
-          Previous
-        </button>
-      {formEvent.isFormChanged  ? <button
+        className="ml-8 text-xl text-gray-500"
+        onClick={() => navigate("/dashboard/traveldetails")}
+      >
+        Previous
+      </button>
+      {formEvent.isFormChanged ? <button
         type="submit"
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
       >
         Save & next
-      </button>:
-      <button
-        type="button"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onClick={() => {
-          
-          navigate("/dashboard/traveldetails/SeaMenBookdetail");
-        }}
-      >
-        Skip and Next
-      </button>}
-      <button
+      </button> :
+        <button
           type="button"
-          className="ml-8 text-xl text-blue-700"
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={() => {
-            //clearAllData();
-            updateEvent({ dataList: [] });
+
+            navigate("/dashboard/traveldetails/SeaMenBookdetail");
           }}
         >
-          Clear all
-        </button>
-      
+          Skip and Next
+        </button>}
+      <button
+        type="button"
+        className="ml-8 text-xl text-blue-700"
+        onClick={() => {
+          //clearAllData();
+          updateEvent({ dataList: [] });
+        }}
+      >
+        Clear all
+      </button>
+
     </form>
   );
 };

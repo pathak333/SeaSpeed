@@ -1,8 +1,13 @@
 import { useReducer } from "react";
 import { Upload } from "react-feather";
 import InputField from "../inputField/inputField.component";
+import { useNavigate } from "react-router-dom";
 
 const FlagEndorsement = () => {
+    const navigate = useNavigate()
+
+    
+
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next };
         return newEvent;
@@ -12,7 +17,7 @@ const FlagEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
-        issuingAuthorityCountry: "",
+       
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
@@ -70,14 +75,53 @@ const FlagEndorsement = () => {
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
             />
-           
-             <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
-            <Upload className="text-IbColor" />
-            <p className="text-IbColor">Upload Passport PDF</p>
+
+            <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
+                <Upload className="text-IbColor" />
+                <p className="text-IbColor">Upload Passport PDF</p>
             </div>
            
 
         </div>
+        <div className="flex justify-center m-2 ">
+                <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                >
+                    Add more
+                </button>
+
+        </div>
+        <button
+            className="ml-8 text-xl text-gray-500"
+            onClick={() => navigate("/dashboard/traveldetails")}
+        >
+            Previous
+        </button>
+        {formEvent.isFormChanged ? <button
+            type="submit"
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+            Save & next
+        </button> :
+            <button
+                type="button"
+                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                onClick={() => {
+
+                    navigate("/dashboard/certificates/dangerousCargo");
+                }}
+            >
+                Skip and Next
+            </button>}
+        <button
+            type="button"
+            className="ml-8 text-xl text-blue-700"
+            onClick={() => {
+                //clearAllData();
+
+            }}
+        >
+            Clear all
+        </button>
     </form>
 }
 export default FlagEndorsement
