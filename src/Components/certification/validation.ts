@@ -12,7 +12,7 @@ export const CertificateOfCompetencyValidation = (data: any) => joi.object({
 
 
 
-export const FlagEndorsement = (data: any) => joi.object({
+export const FlagEndorsementValidation = (data: any) => joi.object({
     name: joi.string(),
     number: joi.string(),
     dateOfIssue: joi.string(),

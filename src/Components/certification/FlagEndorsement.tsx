@@ -1,7 +1,9 @@
 import { useReducer } from "react";
-import { Upload } from "react-feather";
+import { Trash2, Upload } from "react-feather";
 import InputField from "../inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { FlagEndorsementValidation } from "./validation";
 
 const FlagEndorsement = () => {
     const navigate = useNavigate()
@@ -17,10 +19,71 @@ const FlagEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
-       
+        dataList:[],
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
+
+
+
+    const addMore = async () => {
+        try {
+            let data = { ...formEvent }
+            delete data.error
+            delete data.isFormChanged
+            delete data.dataList
+            let isValid = await FlagEndorsementValidation(data)
+            if (isValid) {
+                updateEvent({
+                    dataList: [...formEvent.dataList, data],
+                    name: "",
+                    number: "",
+                    dateOfIssue: "",
+                    dateOfExpiry: "",
+                    placeOfIssue: "",
+                   
+                })
+            }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            key: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    console.log(errorDetail.context.key + "======");
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError")
+                toast.error(error.response.data.message);
+        }
+    }
+
+
+    const listofData = formEvent.dataList.map((item: any, index: any) => (
+        <tr key={index} className="bg-white border-b">
+            <td className="px-6 py-4">{item.name}</td>
+            <td className="px-6 py-4">{item.number}</td>
+            <td className="px-6 py-4">{item.dateOfIssue}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.placeOfIssue}</td>
+           
+            <td className="px-6 py-4">file</td>
+            <td className="px-6 py-4">
+                <Trash2
+                    onClick={() => {
+                        formEvent.visaList.splice(index, 1);
+                        updateEvent({ visaList: formEvent.visaList });
+                    }}
+                />
+            </td>
+        </tr>
+    ));
+
+
+
 
     const errorReturn = (field: string) =>
         formEvent.error.keys === field ? formEvent.error.values : "";
@@ -83,13 +146,50 @@ const FlagEndorsement = () => {
            
 
         </div>
-        <div className="flex justify-center m-2 ">
-                <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                >
-                    Add more
-                </button>
+        <div className="flex justify-center m-2">
+            <button type="button" onClick={() => addMore()} className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            >
+                Add more
+            </button>
 
         </div>
+
+        {formEvent.dataList.length > 0 ? (
+            <div className="relative overflow-x-auto mb-3">
+                <table className="table-auto w-full text-sm text-left text-grey-500">
+                    <thead className="text-xs text-grey-700 uppercase ">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Number
+                            </th>
+
+                            <th scope="col" className="px-6 py-3">
+                                Date Of Issue
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Date Of Expiry
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Place Of Issue
+                            </th>
+                           
+                            <th scope="col" className="px-6 py-3">
+                                File
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{listofData}</tbody>
+                </table>
+            </div>
+        ) : (
+            <div></div>
+        )}
         <button
             className="ml-8 text-xl text-gray-500"
             onClick={() => navigate("/dashboard/traveldetails")}
