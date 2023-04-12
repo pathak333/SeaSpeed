@@ -100,7 +100,7 @@ const BankDetail = () => {
       IFSC_code: "",
       IBAN_number: "",
       account_type: "",
-      isFormChanged:false
+      
     });
   };
   const errorReturn = (field: string) =>

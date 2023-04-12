@@ -86,7 +86,10 @@ const Dashboard = () => {
               experience
             </span>
           }
-          onClick={() => {}}
+          onClick={() => {
+            //workExperiance
+            navigate("/dashboard/workExperiance");
+          }}
         />
 
         {/* card */}
