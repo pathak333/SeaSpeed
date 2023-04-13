@@ -73,7 +73,7 @@ const SeaMenBookDetail = () => {
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
-            formEvent.visaList.splice(index, 1);
+            formEvent.dataList.splice(index, 1);
             updateEvent({ visaList: formEvent.visaList });
           }}
         />
