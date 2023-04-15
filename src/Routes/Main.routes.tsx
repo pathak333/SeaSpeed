@@ -30,6 +30,8 @@ import DangerousCargoEndorsement from "../Components/certification/DangerousCarg
 import FlagEndorsement from "../Components/certification/FlagEndorsement";
 import WorkExperianceLayout from "../views/workExperianceLayout";
 import WorkExperiance from "../Components/WorkExperiance/workExperiance";
+import CourseCertificateLayout from "../views/course&CertificateLayout";
+import CourseCertificate from "../Components/course&certificate/Course&Certificate";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -199,7 +201,23 @@ const MainRoutes = () => {
               element:<WorkExperiance />
             },
             ]
-        }
+        },
+        {
+          path: "courseCertificate",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CourseCertificateLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<CourseCertificate />
+            },
+            ]
+        },
       ],
     },
   ]);

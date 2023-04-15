@@ -3,10 +3,11 @@ import InputField from "../inputField/inputField.component";
 import { Trash2 } from "react-feather";
 import { toast } from "react-toastify";
 import { WorkExperianceValidation } from "./validation";
+import { useNavigate } from "react-router-dom";
 
 
 const WorkExperiance = () => {
-
+const navigate = useNavigate()
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next }
@@ -119,7 +120,7 @@ const WorkExperiance = () => {
                 <Trash2
                     onClick={() => {
                         formEvent.dataList.splice(index, 1);
-                        updateEvent({ visaList: formEvent.visaList });
+                        updateEvent({ dataList: formEvent.dataList });
                     }}
                 />
             </td>
@@ -307,7 +308,32 @@ const WorkExperiance = () => {
         ) : (
             <div></div>
         )}
-
+ { formEvent.isFormChanged ?<button
+        type="submit"
+        // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      >
+        Save & next
+      </button>:
+      <button
+        type="button"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        onClick={() => {
+          clearAllData();
+          navigate("/dashboard/courseCertificate");
+        }}
+      >
+        Skip and Next
+      </button>}
+      <button
+        type="button"
+        className="ml-8 text-xl text-blue-700"
+        onClick={() => {
+          clearAllData();
+        }}
+      >
+        Clear all
+      </button>
     </form>
 }
 export default WorkExperiance;

@@ -100,7 +100,9 @@ const Dashboard = () => {
         <DashboardCard2
           label={"Course and certificate"}
           icon={<Layout className="" />}
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/dashboard/courseCertificate");
+          }}
         />
         <DashboardCard2
           label={"Medical details"}
