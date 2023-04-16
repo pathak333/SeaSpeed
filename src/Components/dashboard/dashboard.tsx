@@ -107,7 +107,9 @@ const Dashboard = () => {
         <DashboardCard2
           label={"Medical details"}
           icon={<PlusCircle className="" />}
-          onClick={() => {}}
+          onClick={() => {       
+            navigate("/dashboard/medicalDetails");
+          }}
         />
         <DashboardCard2
           label={"Union Registraion"}

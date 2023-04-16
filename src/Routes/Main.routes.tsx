@@ -32,6 +32,8 @@ import WorkExperianceLayout from "../views/workExperianceLayout";
 import WorkExperiance from "../Components/WorkExperiance/workExperiance";
 import CourseCertificateLayout from "../views/course&CertificateLayout";
 import CourseCertificate from "../Components/course&certificate/Course&Certificate";
+import MedicalDetailsLayout from "../views/medicalDetailsLayout";
+import MedicalDetails from "../Components/MedicalDetails/MedicalDetails";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -215,6 +217,22 @@ const MainRoutes = () => {
             {
               path: "",
               element:<CourseCertificate />
+            },
+            ]
+        },
+        {
+          path: "medicalDetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<MedicalDetailsLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<MedicalDetails />
             },
             ]
         },
