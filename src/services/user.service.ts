@@ -6,6 +6,7 @@ import {
   DeleteEducationDetailApi,
   GetBankDetailApi,
   GetEducationDetailApi,
+  GetKinDetailApi,
   GetPersonalDetailApi,
   GetProfileApi,
   KinDetailApi,
@@ -45,6 +46,9 @@ export const GetEducationDetail = () => {
 };
 export const GetBankDetail = () => {
   return httpService.get(GetBankDetailApi);
+};
+export const GetKinDetail = () => {
+  return httpService.get(GetKinDetailApi);
 };
 
 export const DeleteEducationDetail = (id: string) => {

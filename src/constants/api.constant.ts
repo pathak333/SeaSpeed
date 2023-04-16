@@ -11,6 +11,8 @@ export const DeleteEducationDetailApi = "/user/deleteEducationDetail"
 export const BankDetailApi = "/user/bankDetail"
 export const GetBankDetailApi = "/user/getBankDetail"
 export const KinDetailApi = "/user/kinDetail"
+export const GetKinDetailApi = "/user/getKinDetail"
+
 
 
 
