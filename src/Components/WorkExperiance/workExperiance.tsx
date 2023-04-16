@@ -215,7 +215,7 @@ const navigate = useNavigate()
                 fieldName={"startDate"}
                 label={"Start date"}
                 type={"date"}
-                // error={errorReturn("dob")}
+                 error={errorReturn("startDate")}
                 onChange={(e) => updateEvent({ startDate: e.target.value, isFormChanged: false })}
             />
             <InputField
@@ -223,7 +223,7 @@ const navigate = useNavigate()
                 fieldName={"endDate"}
                 label={"End date"}
                 type={"date"}
-                // error={errorReturn("dob")}
+                 error={errorReturn("endDate")}
                 onChange={(e) => updateEvent({ endDate: e.target.value, isFormChanged: false })}
             />
             <InputField

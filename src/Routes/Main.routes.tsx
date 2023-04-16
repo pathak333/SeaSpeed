@@ -34,6 +34,10 @@ import CourseCertificateLayout from "../views/course&CertificateLayout";
 import CourseCertificate from "../Components/course&certificate/Course&Certificate";
 import MedicalDetailsLayout from "../views/medicalDetailsLayout";
 import MedicalDetails from "../Components/MedicalDetails/MedicalDetails";
+import UnionRegistrationLayout from "../views/unionRegistrationLayout";
+import UnionRegistrationDetail from "../Components/unionRegistration/unionRegistration";
+import References from "../Components/references/References";
+import ReferencesLayout from "../views/referencesLayout";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -233,6 +237,38 @@ const MainRoutes = () => {
             {
               path: "",
               element:<MedicalDetails />
+            },
+            ]
+        },
+        {
+          path: "unionRegistrationDetail",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<UnionRegistrationLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<UnionRegistrationDetail />
+            },
+            ]
+        },
+        {
+          path: "references",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ReferencesLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<References />
             },
             ]
         },

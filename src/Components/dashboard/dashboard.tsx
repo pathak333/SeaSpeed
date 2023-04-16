@@ -114,12 +114,16 @@ const Dashboard = () => {
         <DashboardCard2
           label={"Union Registraion"}
           icon={<Users className="" />}
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/dashboard/unionRegistrationDetail");
+          }}
         />
         <DashboardCard2
           label={"References"}
           icon={<UserPlus className="" />}
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/dashboard/references");
+          }}
         />
         {/* card */}
       </div>
