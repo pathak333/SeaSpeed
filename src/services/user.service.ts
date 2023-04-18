@@ -1,12 +1,14 @@
 import axios from "axios";
 import {
   AddEducationDetailApi,
+  AddPassportDetailApi,
   AddPersonalDetailApi,
   BankDetailApi,
   DeleteEducationDetailApi,
   GetBankDetailApi,
   GetEducationDetailApi,
   GetKinDetailApi,
+  GetPassportDetailApi,
   GetPersonalDetailApi,
   GetProfileApi,
   KinDetailApi,
@@ -54,3 +56,11 @@ export const GetKinDetail = () => {
 export const DeleteEducationDetail = (id: string) => {
   return httpService.delete(DeleteEducationDetailApi + `/${id}`);
 };
+
+
+export const PassportDetailService = (data:any) => {
+  return httpService.post(AddPassportDetailApi,data)
+}
+export const GetPassportDetailService = () => {
+  return httpService.get(GetPassportDetailApi);
+}

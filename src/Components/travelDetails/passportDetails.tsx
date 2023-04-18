@@ -4,18 +4,70 @@ import SelectInput from "../inputField/selectInputField.comonent";
 import { Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
+import { GetPassportDetailService, PassportDetailService } from "../../services/user.service";
+import { toast } from "react-toastify";
+import { PassportValidation } from "./validation";
+import { LOADING } from "../../constants/action.constant";
+import { useGlobalState } from "../../contexts/global.context";
 
 const PassPortDetail = (props: any) => {
   const navigate = useNavigate();
-
+  const [, dispatch] = useGlobalState();
   const { setState } = useContext(TravelDetailContext)!;
   useEffect(() => {
-    
+    fetchData();
     setState(TravelState.passport);
     
   }, [])
 
+  
+  async function fetchData() {
+    const { data } = await GetPassportDetailService()
+    console.log(data)
+    if (data.success && data.data) {
+      console.log("data inter")
+      updateEvent(data.data)
+    }
+}
 
+  const handlerSubmit = async (event: any) => {
+    toast.dismiss();
+    event.preventDefault();
+    try {
+      let formData = { ...formEvent };
+      delete formData.error;
+      delete formData.isFormChanged;
+
+      console.log(formData);
+
+      const isValid = await PassportValidation(formData);
+      if (isValid) {
+        const { data } = await PassportDetailService(formData);
+        if (data.success) {
+          toast.info(data.message)
+          navigate("/");
+        }
+      } else {
+        throw Error(isValid);
+      }
+    } catch (error: any) {
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              keys: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError") {
+        toast.error(error.response.data.message);
+      }
+    } finally {
+      dispatch({ type: LOADING, payload: false });
+    }
+  };
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
@@ -27,19 +79,21 @@ const PassPortDetail = (props: any) => {
       placeOfIssue: "",
       dateOfIssue: "",
       dateOfExpiry: "",
-      ECNR: "",
-
+      ECNR: "Yes",
+      isFormChanged:false,
       error: { key: "", value: "" },
     }
   );
 
-  function clearAllData() {}
+  function clearAllData() {
+
+  }
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
 
   return (
-    <form>
+    <form onSubmit={handlerSubmit}>
       <h3 className="pl-4 font-semibold">Passport Detail</h3>
       <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
         <InputField
@@ -47,9 +101,9 @@ const PassPortDetail = (props: any) => {
           fieldName={"passportNumber"}
           label={"Passport Number"}
           type={"text"}
-          disabled={true}
+         
           error={errorReturn("passportNumber")}
-          onChange={(e) => updateEvent({ passportNumber: e.target.value })}
+          onChange={(e) => updateEvent({ passportNumber: e.target.value,isFormChanged:true })}
           value={formEvent.passportNumber}
         />
         <InputField
@@ -57,9 +111,9 @@ const PassPortDetail = (props: any) => {
           fieldName={"placeOfIssue"}
           label={"Place of issue"}
           type={"text"}
-          disabled={true}
+         // disabled={true}
           error={errorReturn("placeOfIssue")}
-          onChange={(e) => updateEvent({ placeOfIssue: e.target.value })}
+          onChange={(e) => updateEvent({ placeOfIssue: e.target.value,isFormChanged:true })}
           value={formEvent.placeOfIssue}
         />
         <InputField
@@ -68,7 +122,7 @@ const PassPortDetail = (props: any) => {
           label={"Date of issue"}
           type={"date"}
           error={errorReturn("dateOfIssue")}
-          onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
+          onChange={(e) => updateEvent({ dateOfIssue: e.target.value,isFormChanged:true })}
           value={formEvent.dateOfIssue}
         />
         <InputField
@@ -77,7 +131,7 @@ const PassPortDetail = (props: any) => {
           label={"Date of expiry"}
           type={"date"}
           error={errorReturn("dateOfExpiry")}
-          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
+          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value ,isFormChanged:true})}
           value={formEvent.dateOfExpiry}
         />
         <SelectInput
@@ -85,7 +139,7 @@ const PassPortDetail = (props: any) => {
           fieldName={"ECNR"}
           label={"ECNR"}
           type={""}
-          onChange={(e) => updateEvent({ ECNR: e.target.value })}
+          onChange={(e) => updateEvent({ ECNR: e.target.value,isFormChanged:true })}
           value={formEvent.ECNR}
           error={errorReturn("ECNR")}
           option={["Yes", "No"]}
@@ -109,15 +163,22 @@ const PassPortDetail = (props: any) => {
         </div>
       </div>
       <div className="m-3">
-        <button
-          type="button"
-          onClick={() => {
-            navigate("/dashboard/traveldetails/visadetail");
-          }}
-          className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          Save & next
-        </button>
+      {formEvent.isFormChanged  ? <button
+        type="submit"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      >
+        Save & next
+      </button>:
+      <button
+        type="button"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        onClick={() => {
+          
+          navigate("/dashboard/traveldetails/visadetail");
+        }}
+      >
+        Skip and Next
+      </button>}
         <button
           type="button"
           onClick={clearAllData}

@@ -179,7 +179,7 @@ const Education = () => {
           <InputField
             className="m-4"
             fieldName={"institution"}
-            label={"Name of school/ college attended/ institute"}
+            label={"Name of school / college / institute"}
             type={"text"}
             error={errorReturn("firstname")}
             onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:false })}
