@@ -34,7 +34,7 @@ const NavbarComponent = (props: any) => {
               <div className="bg-blue-600 w-2 h-2 rounded-xl   ml-auto"></div>
             </div>
             <div className="flex flex-row items-center ">
-              <div className="profileImage rounded-full w-12 h-12 max-sm:w-6 max-sm:h-6 bg-slate-400">
+              <div className="profileImage rounded-full w-12 h-12 max-sm:hidden bg-slate-400">
                 <img
                   src={`${data ? data["avatar"] : ""}`}
                   alt="seaSpeed"
@@ -51,7 +51,7 @@ const NavbarComponent = (props: any) => {
       </nav>
 
       <div className="relative flex flex-row items-start h-full  ">
-        <div className="absolute w-28 h-full  z-50 ">
+        <div className={`absolute w-28 h-full ${!isSidebarOpen ? "max-sm:h-full":"max-sm:h-auto"}  z-50 `}>
           <Menu
             className={`${
               !isSidebarOpen && "max-sm:hidden"

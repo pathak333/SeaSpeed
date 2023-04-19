@@ -270,6 +270,7 @@ const Education = () => {
                 var data = { ...formEvent };
                 delete data.dataList;
                 delete data.error;
+                delete data.isFormChanged;
                 let isValid = await EducationValidation(data);
                 console.log(isValid);
                 if (isValid) {

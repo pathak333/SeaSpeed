@@ -210,7 +210,17 @@ const PersonalDetail = () => {
           onChange={(e) => updateEvent({ birthPlace: e.target.value, isFormChanged:true })}
           value={formEvent.birthPlace}
         />
-        <InputField
+          <SelectInput
+          className="m-4"
+          fieldName={"nationality"}
+          label={"Nationality"}
+          type={""}
+          error={errorReturn("nationality")}
+          onChange={(e) => updateEvent({ nationality: e.target.value, isFormChanged:true })}
+          value={formEvent.nationality}
+          option={["Indian", "Pakistani","Ukrainian","Russian"]}
+        />
+        {/* <InputField
           className="m-4"
           fieldName={"nationality"}
           label={"Nationality"}
@@ -218,7 +228,7 @@ const PersonalDetail = () => {
           error={errorReturn("nationality")}
           onChange={(e) => updateEvent({ nationality: e.target.value, isFormChanged:true })}
           value={formEvent.nationality}
-        />
+        /> */}
         <InputField
           className="m-4"
           fieldName={"fileNumber"}
@@ -303,7 +313,7 @@ const PersonalDetail = () => {
           value={formEvent.nearest_airport}
         />
       </div>
-      <div className="flex items-center">
+      <div className="flex mb-3 items-center">
         <label
           htmlFor="checked-checkbox"
           className="ml-4 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -323,13 +333,13 @@ const PersonalDetail = () => {
         />
         <label
           htmlFor="checked-checkbox"
-          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          className="ml-2  text-sm font-medium text-gray-900 dark:text-gray-300"
         >
           Same as above
         </label>
       </div>
       {!formEvent.isSameAddress && (
-        <div>
+        <div >
           <p className="ml-4 text-xl font-medium">Address</p>
           <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
@@ -400,9 +410,9 @@ const PersonalDetail = () => {
           </div>
         </div>
       )}
-      <p className="ml-4 text-xl font-medium">National ID card detials</p>
+      {formEvent.nationality === "Indian" && <p className="ml-4 text-xl font-medium">National ID card detials</p>}
       {/* <p className="ml-4 text-base text-[#A0A0A0]">Only for Indian resident </p> */}
-      <div className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">
+     {formEvent.nationality === "Indian" && <div  className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">
         <div className="m-3">
           <InputField
             type="text"
@@ -410,7 +420,7 @@ const PersonalDetail = () => {
             label="Aadhar number"
             className="mb-4"
             error={errorReturn("aadhar")}
-            onChange={(e) => updateEvent({ aadhar: e.target.value })}
+            onChange={(e) => updateEvent({ aadhar: e.target.value, isFormChanged:true  })}
           />
           <label
             htmlFor="aadharFile"
@@ -433,7 +443,7 @@ const PersonalDetail = () => {
             label="Pan card"
             className="mb-4"
             error={errorReturn("pancard")}
-            onChange={(e) => updateEvent({ pancard: e.target.value })}
+            onChange={(e) => updateEvent({ pancard: e.target.value , isFormChanged:true })}
           />
           <label
             htmlFor="panFile"
@@ -448,7 +458,7 @@ const PersonalDetail = () => {
             onChange={handleFileChange}
           />
         </div>
-      </div>
+      </div>}
 
 {formEvent.isFormChanged ?  <button
     type="submit"

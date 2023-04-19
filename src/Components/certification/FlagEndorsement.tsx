@@ -19,6 +19,7 @@ const FlagEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
+        //type:"",
         dataList:[],
         isFormChanged: false,
         error: { keys: "", values: "" },
