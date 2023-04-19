@@ -12,6 +12,7 @@ import {
   GetPersonalDetailApi,
   GetProfileApi,
   KinDetailApi,
+  updatePassportDetailApi,
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -61,6 +62,12 @@ export const DeleteEducationDetail = (id: string) => {
 export const PassportDetailService = (data:any) => {
   return httpService.post(AddPassportDetailApi,data)
 }
+
+export const updatePassportDetailService = (data: any) => {
+  return httpService.put(updatePassportDetailApi,data)
+  
+}
+
 export const GetPassportDetailService = () => {
   return httpService.get(GetPassportDetailApi);
 }

@@ -17,6 +17,7 @@ export const GetKinDetailApi = "/user/getKinDetail"
 // travel ssection 
 export const AddPassportDetailApi = "/user/passportDetail"
 export const GetPassportDetailApi = "/user/getPassportDetail"
+export const updatePassportDetailApi = "/user/updatePassportDetail"
 
 
 

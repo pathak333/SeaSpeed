@@ -4,11 +4,12 @@ import SelectInput from "../inputField/selectInputField.comonent";
 import { Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
-import { GetPassportDetailService, PassportDetailService } from "../../services/user.service";
+import { GetPassportDetailService, PassportDetailService, updatePassportDetailService } from "../../services/user.service";
 import { toast } from "react-toastify";
 import { PassportValidation } from "./validation";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
+import { updatePassportDetailApi } from "../../constants/api.constant";
 
 const PassPortDetail = (props: any) => {
   const navigate = useNavigate();
@@ -34,18 +35,34 @@ const PassPortDetail = (props: any) => {
     toast.dismiss();
     event.preventDefault();
     try {
-      let formData = { ...formEvent };
-      delete formData.error;
-      delete formData.isFormChanged;
+     // let formData = { ...formEvent };
+      // delete formData.error;
+      // delete formData.isFormChanged;
+      // delete formData._id
+      // delete form
+      let {passportNumber,
+      placeOfIssue,
+      dateOfIssue,
+      dateOfExpiry,
+      ECNR} = formEvent;
 
-      console.log(formData);
+      let postData = {
+        passportNumber,
+      placeOfIssue,
+      dateOfIssue,
+      dateOfExpiry,
+      ECNR
+      }
+      console.log(postData);
 
-      const isValid = await PassportValidation(formData);
+      const isValid = await PassportValidation(postData);
       if (isValid) {
-        const { data } = await PassportDetailService(formData);
+        const { data } =  formEvent.hasOwnProperty("user_id")  ? await updatePassportDetailService(postData) : await PassportDetailService(postData)
+        // const { data } = await updatePassportDetailApi(postData);
+        // const { data } = await PassportDetailService(postData);
         if (data.success) {
           toast.info(data.message)
-          navigate("/");
+          navigate("/dashboard/traveldetails/visadetail");
         }
       } else {
         throw Error(isValid);
@@ -123,7 +140,7 @@ const PassPortDetail = (props: any) => {
           type={"date"}
           error={errorReturn("dateOfIssue")}
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value,isFormChanged:true })}
-          value={formEvent.dateOfIssue}
+          value={formEvent.dateOfIssue.split("T")[0]}
         />
         <InputField
           className="m-4"
@@ -132,7 +149,7 @@ const PassPortDetail = (props: any) => {
           type={"date"}
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value ,isFormChanged:true})}
-          value={formEvent.dateOfExpiry}
+          value={formEvent.dateOfExpiry.split("T")[0]}
         />
         <SelectInput
           className="m-4"
