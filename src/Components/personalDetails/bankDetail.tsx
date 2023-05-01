@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
@@ -7,14 +7,15 @@ import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
-import { BankDetailService, GetBankDetail } from "../../services/user.service";
+import { BankDetailService, GetBankDetail, UpdateBankDetailService } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
-import { BankDetailValidation } from "./validation";
+import { BankDetailValidation, UpdateBankDetailValidation } from "./validation";
 
 const BankDetail = () => {
   const navigate = useNavigate();
   const { setState } = useContext(PersonalDetailContext)!;
   const [, dispatch] = useGlobalState();
+  const [updateData, setUpdateData] = useState<any>({})
 
   useEffect(() => {
     fetchData();
@@ -24,12 +25,15 @@ const BankDetail = () => {
   async function fetchData() {
     const { data } = await GetBankDetail();
     if (data.data.bankDetail) {
-      updateEvent(data.data.bankDetail);
+      updateEvent({...data.data.bankDetail,isFormChanged:false});
     }
   }
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
+      if (next.isFormChanged) {
+        setUpdateData({ ...updateData, ...next})
+      }
       const newEvent = { ...prev, ...next };
       return newEvent;
     },
@@ -54,13 +58,13 @@ const BankDetail = () => {
     try {
       event.preventDefault();
       console.log(formEvent);
-      let formData = { ...formEvent };
+      let formData =formEvent.hasOwnProperty("user_id")? {...updateData} : { ...formEvent };
       delete formData.error;
       delete formData.isFormChanged
-      const isValid = await BankDetailValidation(formData);
+      const isValid =formEvent.hasOwnProperty("user_id")? await UpdateBankDetailValidation(formData) : await BankDetailValidation(formData);
       if (isValid) {
         console.log(formData);
-        const { data } = await BankDetailService(formData);
+        const { data } =formEvent.hasOwnProperty("user_id") ? await UpdateBankDetailService(formData) : await BankDetailService(formData);
         console.log(data);
         if (data.success) {
           navigate("/dashboard/personaldetails/kinDetail");
@@ -183,6 +187,12 @@ const BankDetail = () => {
           value={formEvent.account_type}
         />
       </div>
+      <button
+        className="ml-8 text-xl text-gray-500"
+        onClick={() => navigate("/dashboard/personaldetails/educationDetail")}
+      >
+        Previous
+      </button>
     { formEvent.isFormChanged ?<button
         type="submit"
         // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
@@ -209,12 +219,7 @@ const BankDetail = () => {
       >
         Clear all
       </button>
-      <button
-        className="ml-8 text-xl text-gray-500"
-        onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
-      >
-        Previous
-      </button>
+     
     </form>
   );
 };

@@ -182,7 +182,7 @@ const Education = () => {
             label={"Name of school / college / institute"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4"
@@ -190,7 +190,7 @@ const Education = () => {
             label={"Qualification achieved"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ qualification: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ qualification: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4"
@@ -198,7 +198,7 @@ const Education = () => {
             label={"Start date"}
             type={"date"}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4"
@@ -206,7 +206,7 @@ const Education = () => {
             label={"End date"}
             type={"date"}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ endDate: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ endDate: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4"
@@ -214,7 +214,7 @@ const Education = () => {
             label={"City"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ city: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ city: e.target.value,isFormChanged:true })}
           />
           <InputField
             className="m-4"
@@ -222,7 +222,7 @@ const Education = () => {
             label={"Country"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ country: e.target.value,isFormChanged:false })}
+            onChange={(e) => updateEvent({ country: e.target.value,isFormChanged:true })}
           />
         </div>
         {formEvent.dataList.length > 0 ? (
@@ -346,6 +346,12 @@ const Education = () => {
         ) : (
           <div></div>
         )}
+          <button
+          className="ml-8 text-xl text-gray-500"
+          onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
+        >
+          Previous
+        </button>
        {formEvent.isFormChanged ?<button
           type="submit"
           //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
@@ -374,12 +380,7 @@ const Education = () => {
         >
           Clear all
         </button>
-        <button
-          className="ml-8 text-xl text-gray-500"
-          onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
-        >
-          Previous
-        </button>
+      
       </form>
     </div>
   );

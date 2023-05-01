@@ -7,16 +7,18 @@ import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
-import { AddPersonalDetail, GetPersonalDetail } from "../../services/user.service";
+import { AddPersonalDetail, GetPersonalDetail, UpdatePersonalDetail } from "../../services/user.service";
 import InputField from "../inputField/inputField.component";
 import SelectInput from "../inputField/selectInputField.comonent";
-import { PersonalDetailValidation } from "./validation";
+import { PersonalDetailValidation, UpdatePersonalDetailValidation } from "./validation";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
   const [globalState, dispatch] = useGlobalState();
-  const [file, setFile] = useState(null);
+  const [, setFile] = useState(null);
   const { setState } = useContext(PersonalDetailContext)!;
+  const [updateData, setUpdateData] = useState<any>({})
+  // const [isSaved, setIsSaved] = useState(false);
 
   async function fetchData() {
     const { data } = await GetPersonalDetail();
@@ -25,24 +27,26 @@ const PersonalDetail = () => {
     console.log("personal formData = ", formData);
     if (formData) {
       console.log("update event ");
-      updateEvent({
-        firstname: "",
-        lastname: "",
-        dob: formData.dob,
-        gender: formData.gender,
-        marital_status: formData.marital_status,
-        birthPlace: formData.birthPlace,
-        nationality: formData.nationality,
-        flatnumber: formData.flatnumber,
-        society: formData.society,
-        city: formData.city,
-        state: formData.state,
-        country: formData.country,
-        pincode: formData.pincode,
-        nearest_airport: formData.nearest_airport,
-        isSameAddress: formData.isSameAddress,
-        isFormChanged:false
-      });
+      updateEvent(formData)
+      // updateEvent({
+      //   user_id:formData.user_id,
+      //   firstname: "",
+      //   lastname: "",
+      //   dob: formData.dob,
+      //   gender: formData.gender,
+      //   marital_status: formData.marital_status,
+      //   birthPlace: formData.birthPlace,
+      //   nationality: formData.nationality,
+      //   flatnumber: formData.flatnumber,
+      //   society: formData.society,
+      //   city: formData.city,
+      //   state: formData.state,
+      //   country: formData.country,
+      //   pincode: formData.pincode,
+      //   nearest_airport: formData.nearest_airport,
+      //   isSameAddress: formData.isSameAddress,
+      //   isFormChanged:false
+      // });
     }
   }
 
@@ -56,11 +60,18 @@ const PersonalDetail = () => {
     setFile(event.target.files[0]);
   };
 
+
+
+
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
+      if (next.isFormChanged) {
+        setUpdateData({ ...updateData, ...next})
+      }
+      console.log(JSON.stringify(next)+"==========================");
+      console.log(updateData)
       const newEvent = { ...prev, ...next };
       console.log(newEvent);
-
       return newEvent;
     },
     {
@@ -79,7 +90,9 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
-       isFormChanged:true,
+      aadhaar: "",  
+      pan:"",
+       isFormChanged:false,
       error: { key: "", value: "" },
     }
   );
@@ -89,18 +102,25 @@ const PersonalDetail = () => {
     try {
       dispatch({ type: LOADING, payload: true });
       event.preventDefault();
-      let formData = { ...formEvent };
+     
+
+      let formData = formEvent.hasOwnProperty("user_id")? {...updateData} :{ ...formEvent};
       delete formData.error;
       delete formData.isFormChanged
-       let isValid = await PersonalDetailValidation(formData );
+      delete formData.firstname
+      delete formData.lastname
+      delete formData.user_id
+      console.log(JSON.stringify(formData)+"????????????????");
+       let isValid = formEvent.hasOwnProperty("user_id") ?  await UpdatePersonalDetailValidation(formData) : await PersonalDetailValidation(formData );
      
       if (isValid) {
-        console.log(formData);
-        const { data } = await AddPersonalDetail(formData)
+        console.log(JSON.stringify(formData));
+        delete updateData["isFormChanged"];
+        const { data } = formEvent.hasOwnProperty("user_id")? await UpdatePersonalDetail(updateData): await AddPersonalDetail(formData)
         if (data.success) {
           navigate("/dashboard/personaldetails/contactDetail");
         }
-        dispatch({ type: LOADING, payload: false });
+        //dispatch({ type: LOADING, payload: false });
       } else {
         throw Error(isValid)
       }
@@ -179,7 +199,7 @@ const PersonalDetail = () => {
           type={"date"}
           error={errorReturn("dob")}
           onChange={(e) => updateEvent({ dob: e.target.value, isFormChanged:true })}
-          value={formEvent.dob}
+          value={formEvent.dob.split("T")[0]}
         />
         <SelectInput
           className="m-4"
@@ -416,11 +436,12 @@ const PersonalDetail = () => {
         <div className="m-3">
           <InputField
             type="text"
-            fieldName="aadhar"
+            fieldName="aadhaar"
             label="Aadhar number"
             className="mb-4"
-            error={errorReturn("aadhar")}
-            onChange={(e) => updateEvent({ aadhar: e.target.value, isFormChanged:true  })}
+            error={errorReturn("aadhaar")}
+            onChange={(e) => updateEvent({ aadhaar: e.target.value, isFormChanged: true })}
+            value={formEvent.aadhaar}
           />
           <label
             htmlFor="aadharFile"
@@ -439,11 +460,13 @@ const PersonalDetail = () => {
         <div className="m-3">
           <InputField
             type="text"
-            fieldName="pancard"
+            fieldName="pan"
             label="Pan card"
             className="mb-4"
-            error={errorReturn("pancard")}
-            onChange={(e) => updateEvent({ pancard: e.target.value , isFormChanged:true })}
+            error={errorReturn("pan")}
+            onChange={(e) => updateEvent({ pan: e.target.value, isFormChanged: true })}
+            value={formEvent.pan}
+            
           />
           <label
             htmlFor="panFile"

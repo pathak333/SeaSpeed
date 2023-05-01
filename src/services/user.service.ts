@@ -12,6 +12,9 @@ import {
   GetPersonalDetailApi,
   GetProfileApi,
   KinDetailApi,
+  UpdateBankDetailApi,
+  UpdatePersonalDetailApi,
+  UpdateProfile,
   updatePassportDetailApi,
 } from "../constants/api.constant";
 import httpService from "./api.service";
@@ -21,6 +24,10 @@ export const ProfileService = () => {
     sessionStorage.getItem("token") || "";
   return httpService.get(GetProfileApi);
 };
+
+export const ProfileUpdate = (data: any) => {
+  return httpService.put(UpdateProfile,data)
+}
 
 // post routes
 export const AddPersonalDetail = (data: any) => {
@@ -35,6 +42,13 @@ export const BankDetailService = (data: any) => {
   return httpService.post(BankDetailApi, data);
 };
 
+export const UpdateBankDetailService = (data: any) => {
+  return httpService.put(UpdateBankDetailApi, data)
+}
+
+
+
+
 export const KinDetailService = (data: any) => {
   return httpService.post(KinDetailApi, data);
 };
@@ -44,6 +58,10 @@ export const KinDetailService = (data: any) => {
 export const GetPersonalDetail = () => {
   return httpService.get(GetPersonalDetailApi);
 };
+export const UpdatePersonalDetail = (data:any) => {
+  return httpService.put(UpdatePersonalDetailApi,data);
+};
+
 export const GetEducationDetail = () => {
   return httpService.get(GetEducationDetailApi);
 };
