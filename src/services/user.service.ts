@@ -16,6 +16,9 @@ import {
   UpdatePersonalDetailApi,
   UpdateProfile,
   updatePassportDetailApi,
+  AddVisaDetailApi,
+  UpdateVisaDetailApi,
+  GetVisaDetailApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -88,4 +91,14 @@ export const updatePassportDetailService = (data: any) => {
 
 export const GetPassportDetailService = () => {
   return httpService.get(GetPassportDetailApi);
+}
+
+export const addVisaDetailService = (data:any) => {
+  return httpService.post(AddVisaDetailApi,data)
+}
+export const UpdateVisaDetailService = (data:any) => {
+  return httpService.put(UpdateVisaDetailApi,data)
+}
+export const GetVisaDetailService = () => {
+  return httpService.get(GetVisaDetailApi)
 }

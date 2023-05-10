@@ -3,18 +3,29 @@ import InputField from "../inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
-import { NormalVisaValidation } from "./validation";
+import { NormalVisaValidation, VisaDetailValidation } from "./validation";
 import { toast } from "react-toastify";
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
+import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } from "../../services/user.service";
 
 const VisaDetail = (props: any) => {
   const { setState } = useContext(TravelDetailContext)!;
   useEffect(() => {
-
+    fetchData();
     setState(TravelState.visa);
 
   }, [])
+
+  async function fetchData() {
+    const { data } = await GetVisaDetailService()
+    console.log(data)
+    if (data.success && data.data) {
+      console.log("data inter")
+      updateEvent(data.data)
+    }
+}
+
 
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
@@ -96,12 +107,52 @@ const VisaDetail = (props: any) => {
     </tr>
   ));
 
+  const handleSubmit = async(event:any) => {
+    toast.dismiss();
+    event.preventDefault();
+    let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
+    let formdata = {
+      visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry
+    }
+  
+    try {
+      const isValid = await VisaDetailValidation(formdata)
+      if (isValid) {
+        const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata) 
+        if (data.success) {
+          toast.info(data.message)
+          navigate("/dashboard/traveldetails/SeaMenBookdetail");
+        }
+      }else {
+        throw Error(isValid);
+      }
+    } catch (error:any) {
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              keys: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError") {
+        toast.error(error.response.data.message);
+      }
+    }finally {
+      dispatch({ type: LOADING, payload: false });
+    }
+}
+
+  
+
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
 
   return (
-    <form ref={formRef}>
+    <form ref={formRef} onSubmit={handleSubmit} >
       <div className="flex flex-row items-center">
         <h3 className="pl-4 font-semibold mr-2">Visa details</h3>
         <input

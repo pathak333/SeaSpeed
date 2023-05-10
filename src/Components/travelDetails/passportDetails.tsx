@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { PassportValidation } from "./validation";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
-import { updatePassportDetailApi } from "../../constants/api.constant";
+
 
 const PassPortDetail = (props: any) => {
   const navigate = useNavigate();

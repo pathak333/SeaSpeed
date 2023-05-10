@@ -28,6 +28,9 @@ export const GetKinDetailApi = "/user/getKinDetail"
 export const AddPassportDetailApi = "/user/passportDetail"
 export const GetPassportDetailApi = "/user/getPassportDetail"
 export const updatePassportDetailApi = "/user/updatePassportDetail"
+export const AddVisaDetailApi = "/user/addVisaDetail"
+export const UpdateVisaDetailApi = "/user/updateVisaDetail"
+export const GetVisaDetailApi = "/user/getVisaDetail"
 
 
 
