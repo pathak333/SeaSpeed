@@ -11,7 +11,9 @@ interface Props {
   error?: string;
   icon?: any;
   disabled?: boolean;
-  value?: "";
+  value?: string;
+  min?: string;
+  max?: string;
 
   onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
   onChange(event: React.ChangeEvent<HTMLInputElement>): any;
@@ -42,6 +44,8 @@ function InputField(props: Props) {
           disabled={props.disabled}
           onChange={props.onChange}
           value={props.value}
+          min={props.min}
+          max={props.max}
         />
         <button
           type="button"

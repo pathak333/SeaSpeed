@@ -4,13 +4,16 @@ import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import { GetKinDetail, KinDetailService } from "../../services/user.service";
-import InputField from "../inputField/inputField.component";
-import SelectInput from "../inputField/selectInputField.comonent";
+
 import { KinDetailValidation } from "./validation";
 import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
+import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
+
+import InputField from "../../uiComponents/inputField/inputField.component";
+import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 
 const KinDetail = () => {
   const [, dispatch] = useGlobalState();
@@ -353,6 +356,7 @@ const KinDetail = () => {
           fieldName={"dob"}
           label={"Birthdate"}
           type={"date"}
+          max={IssuesformattedDate}
           error={errorReturn("dob")}
           onChange={(e) => updateEvent({ wifeDetail: {
             ...formEvent.wifeDetail,
@@ -393,6 +397,7 @@ const KinDetail = () => {
             fieldName={"dateOfIssues"}
             label={"Date of issue"}
             type={"date"}
+          max={IssuesformattedDate}
             error={errorReturn("dateOfIssues")}
             onChange={(e) => updateEvent({ wifeDetail: {
               ...formEvent.wifeDetail,
@@ -407,6 +412,7 @@ const KinDetail = () => {
             fieldName={"dateOfExpiry"}
             label={"Date of Expiry"}
             type={"date"}
+            min={ExpireformattedDateFormNow}
             error={errorReturn("dateOfExpiry")}
             onChange={(e) => updateEvent({ wifeDetail: {
               ...formEvent.wifeDetail,

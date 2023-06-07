@@ -3,7 +3,7 @@ import { useReducer, useState } from "react";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import { NoPropComponent } from "../../types/noProps.type";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
 import { validationAuth } from "./validation";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";

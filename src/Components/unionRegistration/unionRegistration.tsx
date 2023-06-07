@@ -1,13 +1,39 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
 import { UnionRegistrationValidation } from "./validation";
 import { toast } from "react-toastify";
 import { Trash2 } from "react-feather";
+import { useGlobalState } from "../../contexts/global.context";
+import { addUnionRegistration, deletetUnionRegistration, getUnionRegistration } from "../../services/user.service";
+import { LOADING } from "../../constants/action.constant";
 
 const UnionRegistrationDetail = () => {
 
     const navigate = useNavigate()
+
+
+   
+    const [, dispatch] = useGlobalState();
+
+
+
+    async function fetchData() {
+        const { data } = await getUnionRegistration();
+        updateEvent({ savedData: data.data })
+    }
+    
+    
+    useEffect(() => {
+        fetchData();
+        // setState(TravelState.seamenBook);
+    
+    }, [])
+        
+        
+
+
+
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next }
@@ -18,6 +44,7 @@ const UnionRegistrationDetail = () => {
         dateOfJoiningUnion: "",
         rank: "",
         dataList: [],
+        savedData: [],
         isFormChanged: false,
         error: { key: "", value: "" },
     })
@@ -33,6 +60,8 @@ const UnionRegistrationDetail = () => {
             delete data.error
             delete data.isFormChanged
             delete data.dataList
+            delete data.savedData
+
             let isValid = await UnionRegistrationValidation(data)
             if (isValid) {
                 updateEvent({
@@ -95,10 +124,72 @@ const UnionRegistrationDetail = () => {
         </tr>
     ));
 
+    const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
+        <tr key={index} className="bg-white border-b">
+            <td className="px-6 py-4">{item.unionName}</td>
+            <td className="px-6 py-4">{item.membershipNumber}</td>
+            <td className="px-6 py-4">{item.dateOfJoiningUnion}</td>
+            <td className="px-6 py-4">{item.rank}</td>
+
+
+            {/* <td className="px-6 py-4">file</td> */}
+            <td className="px-6 py-4">
+                <Trash2
+                    onClick={async() => {
+                        try {
+                            const { data } = await deletetUnionRegistration(item._id)
+                            if (data.success && data.length !== 0) {
+                                toast.info(data.message)
+                                console.log(data);
+                                formEvent.savedData.splice(index, 1);
+                                updateEvent({ savedData: formEvent.savedData });
+                             
+                              } else {
+                                throw Error(data.message)
+                              }
+                           } catch (error:any) {
+                            toast.error(error.response.data.message);
+                           }
+                    }}
+                />
+            </td>
+        </tr>
+    ));
+
+    const handlerSubmit = async (event: any) => {
+        toast.dismiss();
+        event.preventDefault();
+        dispatch({ type: LOADING, payload: true });
+        try {
+            const { data } = await addUnionRegistration(formEvent.dataList);
+            if (data.success) {
+                toast.info(data.message)
+                navigate("/dashboard/references");
+            } else {
+                throw Error(data.message)
+            }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            keys: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            dispatch({ type: LOADING, payload: false });
+        }
+    }
 
 
 
-    return <form >
+    return <form onSubmit={handlerSubmit}>
 
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
@@ -125,7 +216,9 @@ const UnionRegistrationDetail = () => {
                 label={"Date of joining union"}
                 type={"date"}
                 error={errorReturn("dateOfJoiningUnion")}
-                onChange={(e) => updateEvent({ dateOfJoiningUnion: e.target.value, isFormChanged: false })}
+                onChange={(e) => updateEvent({ dateOfJoiningUnion: e.target.value, isFormChanged: true })}
+                value={formEvent.dateOfJoiningUnion}
+            
             />
 
             <InputField
@@ -146,7 +239,7 @@ const UnionRegistrationDetail = () => {
             </button>
 
         </div>
-        {formEvent.dataList.length > 0 ? (
+        {formEvent.dataList.length > 0 || formEvent.savedData.length > 0  ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
                     <thead className="text-xs text-grey-700 uppercase ">
@@ -170,6 +263,7 @@ const UnionRegistrationDetail = () => {
                         </tr>
                     </thead>
                     <tbody>{listofData}</tbody>
+                    <tbody>{SavelistofData}</tbody>
                 </table>
             </div>
         ) : (
@@ -177,8 +271,9 @@ const UnionRegistrationDetail = () => {
         )}
         {formEvent.isFormChanged ? <button
             type="submit"
+            disabled={formEvent.dataList.length === 0}
             // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
         >
             Save & next
         </button> :

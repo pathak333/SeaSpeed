@@ -5,11 +5,12 @@ import {
   PersonalDetailContext,
   Personalstate,
 } from "../../contexts/personalDetail.context";
-import InputField from "../inputField/inputField.component";
+
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { ContactDetailValidation } from "./validation";
 import { ProfileUpdate } from "../../services/user.service";
+import InputField from "../../uiComponents/inputField/inputField.component";
 
 const ContactDetail = () => {
   const navigate = useNavigate();

@@ -32,6 +32,46 @@ export const AddVisaDetailApi = "/user/addVisaDetail"
 export const UpdateVisaDetailApi = "/user/updateVisaDetail"
 export const GetVisaDetailApi = "/user/getVisaDetail"
 
+export const AddSeamenBookApi = "/user/addSeamenBook"
+export const GetSeamenBookApi ="/user/getSeamenBook"
+
+export const AddCertificateApi = "/user/addCertificateOfCompetency"
+export const GetCertificateApi = "/user/getCertificateOfCompetency"
+export const DeleteCertificateOfCompetencyApi = "/user/deleteCertificateOfCompetency"
+
+
+export const AddFlagEndorsementApi = "/user/addFlagEndorsement"
+export const GetFlagEndorsementApi = "/user/getFlagEndorsement"
+export const DeleteFlagEndorsementApi = "/user/deleteFlagEndorsement"
+
+export const AddDangerousCargoEndorsementApi = "/user/addDangerousCargoEndorsement"
+export const GetDangerousCargoEndorsementApi = "/user/getDangerousCargoEndorsement"
+export const DeleteDangerousCargoEndorsementApi = "/user/deleteDangerousCargoEndorsement"
+
+export const AddWorkExperienceApi = "/user/addWorkExperience"
+export const GetWorkExperienceApi = "/user/getWorkExperience"
+export const DeletetWorkExperienceApi = "/user/deletetWorkExperience"
+
+export const AddCourseCertificateApi = "/user/addCourseCertificate"
+export const GetCourseCertificateApi = "/user/getCourseCertificate"
+export const DeletetCourseCertificateApi = "/user/deletetCourseCertificate"
+
+
+export const AddReferencesApi = "/user/addReferences"
+export const GetReferencesApi = "/user/getReferences"
+export const DeletetReferencesApi = "/user/deletetReferences"
+
+
+export const AddUnionRegistrationApi = "/user/addUnionRegistration"
+export const GetUnionRegistrationApi = "/user/getUnionRegistration"
+export const DeletetUnionRegistrationApi = "/user/deletetUnionRegistration"
+
+
+export const AddMedicalDetailApi = "/user/addMedicalDetail"
+export const UpdateMedicalDetailApi = "/user/updateMedicalDetail"
+export const GetMedicalDetailApi = "/user/getMedicalDetail"
+export const DeletetMedicalDetailApi = "/user/deletetMedicalDetail"
+export const DeleteTypeMedicalDetailApi = "/user/deleteTypeMedicalDetail"
 
 
 

@@ -12,6 +12,7 @@ export interface ContextProps {
 export interface GlobalState {
   loading: boolean;
   accessToken: string | null;
+  role: String;
   data: any;
 }
 

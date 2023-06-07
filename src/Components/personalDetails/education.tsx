@@ -13,9 +13,10 @@ import {
   DeleteEducationDetail,
   GetEducationDetail,
 } from "../../services/user.service";
-import InputField from "../inputField/inputField.component";
+
 
 import { EducationValidation } from "./validation";
+import InputField from "../../uiComponents/inputField/inputField.component";
 
 const Education = () => {
   const navigate = useNavigate();

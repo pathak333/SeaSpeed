@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export interface LoginSchema {
-  userId: number;
+  email: string;
   adminPassword: string;
   confirmPassword?: string;
 }
@@ -12,7 +12,7 @@ interface validationSchema extends LoginSchema {
 
 export const validationAuth = (auth: Partial<validationSchema>) =>
   Joi.object({
-    userId: Joi.number().label("Enter user ID"),
+  email: Joi.string().label("Enter emai ID"),
     password: Joi.string().min(10),
     confirmPassword: Joi.ref("password"),
   }).validateAsync(auth, { abortEarly: true });

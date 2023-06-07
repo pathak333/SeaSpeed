@@ -1,15 +1,40 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RefrenceValidation } from "./validation";
 import { Trash2 } from "react-feather";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
+import { addReferences, deletetReferences, getReferences } from "../../services/user.service";
+import { useGlobalState } from "../../contexts/global.context";
+import { LOADING } from "../../constants/action.constant";
 
 
 
 const References = () => {
 
     const navigate = useNavigate()
+
+
+        
+const [, dispatch] = useGlobalState();
+
+
+
+async function fetchData() {
+    const { data } = await getReferences();
+    updateEvent({ savedData: data.data })
+}
+
+
+useEffect(() => {
+    fetchData();
+    // setState(TravelState.seamenBook);
+
+}, [])
+    
+    
+
+
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next }
@@ -22,17 +47,24 @@ const References = () => {
         phoneNumber: "",
         email: "",
         dataList: [],
+        savedData: [],
         isFormChanged: false,
         error: { key: "", value: "" },
     })
 
     const addMore = async () => {
+        console.log("Refrence");
+        
         try {
             let data = { ...formEvent }
             delete data.error
             delete data.isFormChanged
             delete data.dataList
+            delete data.savedData
+
             let isValid = await RefrenceValidation(data)
+            console.log("IsValid")
+            console.log(isValid)
             if (isValid) {
                 updateEvent({
                     dataList: [...formEvent.dataList, data],
@@ -42,9 +74,15 @@ const References = () => {
                     titledOfPersonInCharge: "",
                     phoneNumber: "",
                     email: "",
+        error: { key: "", value: "" },
+
                 })
+            } else {
+                throw new Error(isValid);
             }
         } catch (error: any) {
+            console.log(error);
+            
             if (error.name === "ValidationError") {
                 for (let errorDetail of error.details) {
                     updateEvent({
@@ -97,13 +135,81 @@ const References = () => {
         </tr>
     ));
 
+    const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
+        <tr key={index} className="bg-white border-b">
+            <td className="px-6 py-4">{item.companyName}</td>
+            <td className="px-6 py-4">{item.address}</td>
+            <td className="px-6 py-4">{item.personInCharge}</td>
+            <td className="px-6 py-4">{item.titledOfPersonInCharge}</td>
+            <td className="px-6 py-4">{item.phoneNumber}</td>
+            <td className="px-6 py-4">{item.email}</td>
+
+
+            {/* <td className="px-6 py-4">file</td> */}
+            <td className="px-6 py-4">
+                <Trash2
+                    onClick={async () => {
+                        try {
+                            const { data } = await deletetReferences(item._id)
+                            if (data.success && data.length !== 0) {
+                                toast.info(data.message)
+                                console.log(data);
+                                formEvent.savedData.splice(index, 1);
+                                updateEvent({ savedData: formEvent.savedData });
+                             
+                              } else {
+                                throw Error(data.message)
+                              }
+                           } catch (error:any) {
+                            toast.error(error.response.data.message);
+                           }
+                    }}
+                />
+            </td>
+        </tr>
+    ));
+
+
+
+    const handlerSubmit = async (event: any) => {
+        toast.dismiss();
+        event.preventDefault();
+        dispatch({ type: LOADING, payload: true });
+        try {
+            const { data } = await addReferences(formEvent.dataList);
+            if (data.success) {
+                toast.info(data.message)
+                navigate("/");
+            } else {
+                throw Error(data.message)
+            }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            keys: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            dispatch({ type: LOADING, payload: false });
+        }
+    }
+
+
 
 
     const errorReturn = (field: string) =>
         formEvent.error.key === field ? formEvent.error.value : "";
 
 
-    return <form >
+    return <form onSubmit={handlerSubmit}>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
                 className="m-4"
@@ -167,7 +273,7 @@ const References = () => {
             </button>
 
         </div>
-        {formEvent.dataList.length > 0 ? (
+        {formEvent.dataList.length > 0 || formEvent.savedData.length > 0 ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
                     <thead className="text-xs text-grey-700 uppercase ">
@@ -191,6 +297,7 @@ const References = () => {
                         </tr>
                     </thead>
                     <tbody>{listofData}</tbody>
+                    <tbody>{SavelistofData}</tbody>
                 </table>
             </div>
         ) : (
@@ -198,8 +305,9 @@ const References = () => {
         )}
         {formEvent.isFormChanged ? <button
             type="submit"
+            disabled={formEvent.dataList.length === 0}
             // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800  disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
         >
             Save & next
         </button> :

@@ -1,7 +1,9 @@
 import { useContext, useEffect, useReducer } from "react";
-import InputField from "../inputField/inputField.component";
-import SelectInput from "../inputField/selectInputField.comonent";
-import { Upload } from "react-feather";
+// import InputField from "../../uiComponents/inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
+import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+// import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
+
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 import { GetPassportDetailService, PassportDetailService, updatePassportDetailService } from "../../services/user.service";
@@ -9,6 +11,7 @@ import { toast } from "react-toastify";
 import { PassportValidation } from "./validation";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
+import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 
 
 const PassPortDetail = (props: any) => {
@@ -44,14 +47,15 @@ const PassPortDetail = (props: any) => {
       placeOfIssue,
       dateOfIssue,
       dateOfExpiry,
-      ECNR} = formEvent;
+       // ECNR
+      } = formEvent;
 
       let postData = {
         passportNumber,
       placeOfIssue,
       dateOfIssue,
       dateOfExpiry,
-      ECNR
+      //ECNR
       }
       console.log(postData);
 
@@ -96,7 +100,7 @@ const PassPortDetail = (props: any) => {
       placeOfIssue: "",
       dateOfIssue: "",
       dateOfExpiry: "",
-      ECNR: "Yes",
+      //ECNR: "Yes",
       isFormChanged:false,
       error: { key: "", value: "" },
     }
@@ -138,6 +142,7 @@ const PassPortDetail = (props: any) => {
           fieldName={"dateOfIssue"}
           label={"Date of issue"}
           type={"date"}
+          max={IssuesformattedDate}
           error={errorReturn("dateOfIssue")}
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value,isFormChanged:true })}
           value={formEvent.dateOfIssue.split("T")[0]}
@@ -147,11 +152,12 @@ const PassPortDetail = (props: any) => {
           fieldName={"dateOfExpiry"}
           label={"Date of expiry"}
           type={"date"}
+          min={ExpireformattedDateFormNow}
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value ,isFormChanged:true})}
           value={formEvent.dateOfExpiry.split("T")[0]}
         />
-        <SelectInput
+        {/* <SelectInput
           className="m-4"
           fieldName={"ECNR"}
           label={"ECNR"}
@@ -160,13 +166,14 @@ const PassPortDetail = (props: any) => {
           value={formEvent.ECNR}
           error={errorReturn("ECNR")}
           option={["Yes", "No"]}
-        />
+        /> */}
 
         <div>
-          <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
+          {/* <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload Passport PDF</p>
-          </div>
+          </div> */}
+             <FileUpload folder={"/passport"} />
 
           <ul className="list-disc ml-4">
             <li className="text-textGrey text-sm ml-3">

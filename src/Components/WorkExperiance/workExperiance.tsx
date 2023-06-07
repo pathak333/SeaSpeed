@@ -1,14 +1,42 @@
-import { useReducer } from "react";
-import InputField from "../inputField/inputField.component";
+import { useEffect, useReducer } from "react";
+
 import { Trash2 } from "react-feather";
 import { toast } from "react-toastify";
 import { WorkExperianceValidation } from "./validation";
 import { useNavigate } from "react-router-dom";
+import { useGlobalState } from "../../contexts/global.context";
+import { addWorkExperience, deletetWorkExperience, getWorkExperience } from "../../services/user.service";
+import { LOADING } from "../../constants/action.constant";
+import InputField from "../../uiComponents/inputField/inputField.component";
+
 
 
 const WorkExperiance = () => {
 const navigate = useNavigate()
 
+    
+const [, dispatch] = useGlobalState();
+
+
+
+async function fetchData() {
+    const { data } = await getWorkExperience();
+    updateEvent({ savedData: data.data })
+}
+
+
+useEffect(() => {
+    fetchData();
+    // setState(TravelState.seamenBook);
+
+}, [])
+    
+    
+    
+    
+    
+
+    
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next }
         return newEvent;
@@ -26,6 +54,7 @@ const navigate = useNavigate()
         manningAgentsOrOwners: "",
         reason: "",
         dataList: [],
+        savedData: [],
         isFormChanged: false,
         error: { key: "", value: "" },
     })
@@ -39,6 +68,8 @@ const navigate = useNavigate()
             delete data.error
             delete data.isFormChanged
             delete data.dataList
+            delete data.savedData
+
             let isValid = await WorkExperianceValidation(data)
             if (isValid) {
                 updateEvent({
@@ -55,6 +86,7 @@ const navigate = useNavigate()
                     endDate: "",
                     manningAgentsOrOwners: "",
                     reason: "",
+                    error: { key: "", value: "" },
                 })
             }
         } catch (error: any) {
@@ -128,6 +160,77 @@ const navigate = useNavigate()
     ));
 
 
+    const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
+        <tr key={index} className="bg-white border-b">
+            <td className="px-6 py-4">{item.vessel}</td>
+            <td className="px-6 py-4">{item.vesselType}</td>
+            <td className="px-6 py-4">{item.flag}</td>
+            <td className="px-6 py-4">{item.rank}</td>
+            <td className="px-6 py-4">{item.dwt}</td>
+            <td className="px-6 py-4">{item.grt}</td>
+            <td className="px-6 py-4">{item.bhp}</td>
+            <td className="px-6 py-4">{item.engineType}</td>
+            <td className="px-6 py-4">{item.startDate}</td>
+            <td className="px-6 py-4">{item.endDate}</td>
+            <td className="px-6 py-4">{item.manningAgentsOrOwners}</td>
+            <td className="px-6 py-4">{item.reason}</td>
+            <td className="px-6 py-4">{item.dataList}</td>
+          
+            {/* <td className="px-6 py-4">file</td> */}
+            <td className="px-6 py-4">
+                <Trash2
+                    onClick={async () => {
+                        try {
+                            const { data } = await deletetWorkExperience(item._id)
+                            if (data.success && data.length !== 0) {
+                                toast.info(data.message)
+                                console.log(data);
+                                formEvent.savedData.splice(index, 1);
+                                updateEvent({ savedData: formEvent.savedData });
+                             
+                              } else {
+                                throw Error(data.message)
+                              }
+                           } catch (error:any) {
+                            toast.error(error.response.data.message);
+                           }
+                    }}
+                />
+            </td>
+        </tr>
+    ));
+
+
+    const handlerSubmit = async (event: any) => {
+        toast.dismiss();
+        event.preventDefault();
+        dispatch({ type: LOADING, payload: true });
+        try {
+            const { data } = await addWorkExperience(formEvent.dataList);
+            if (data.success) {
+                toast.info(data.message)
+                navigate("/dashboard/courseCertificate");
+            } else {
+                throw Error(data.message)
+            }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            keys: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            dispatch({ type: LOADING, payload: false });
+        }
+    }
 
 
 
@@ -135,8 +238,8 @@ const navigate = useNavigate()
         formEvent.error.key === field ? formEvent.error.value : "";
 
 
-    return <form >
-        <h3 className="pl-4 font-semibold">Bank details</h3>
+    return <form onSubmit={handlerSubmit}>
+        {/* <h3 className="pl-4 font-semibold">Bank details</h3> */}
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
                 className="m-4"
@@ -216,7 +319,8 @@ const navigate = useNavigate()
                 label={"Start date"}
                 type={"date"}
                  error={errorReturn("startDate")}
-                onChange={(e) => updateEvent({ startDate: e.target.value, isFormChanged: false })}
+                onChange={(e) => updateEvent({ startDate: e.target.value, isFormChanged: true })}
+                value={formEvent.startDate}
             />
             <InputField
                 className="m-4"
@@ -224,7 +328,8 @@ const navigate = useNavigate()
                 label={"End date"}
                 type={"date"}
                  error={errorReturn("endDate")}
-                onChange={(e) => updateEvent({ endDate: e.target.value, isFormChanged: false })}
+                onChange={(e) => updateEvent({ endDate: e.target.value, isFormChanged: true })}
+                value={formEvent.endDate}
             />
             <InputField
                 className="m-4"
@@ -255,7 +360,7 @@ const navigate = useNavigate()
         </div>
 
 
-        {formEvent.dataList.length > 0 ? (
+        {formEvent.dataList.length > 0 || formEvent.savedData.length > 0 ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
                     <thead className="text-xs text-grey-700 uppercase ">
@@ -303,15 +408,17 @@ const navigate = useNavigate()
                         </tr>
                     </thead>
                     <tbody>{listofData}</tbody>
+                    <tbody>{SavelistofData}</tbody>
                 </table>
             </div>
         ) : (
             <div></div>
         )}
  { formEvent.isFormChanged ?<button
-        type="submit"
+            type="submit"
+            disabled={formEvent.dataList.length === 0}
         // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
       >
         Save & next
       </button>:

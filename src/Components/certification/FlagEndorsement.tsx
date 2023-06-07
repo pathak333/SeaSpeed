@@ -1,14 +1,38 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Trash2, Upload } from "react-feather";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FlagEndorsementValidation } from "./validation";
+import { useGlobalState } from "../../contexts/global.context";
+import { addFlagEndorsement, deleteFlagEndorsement, getFlagEndorsement, } from "../../services/user.service";
+import { LOADING } from "../../constants/action.constant";
+
+import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 
 const FlagEndorsement = () => {
     const navigate = useNavigate()
 
-    
+
+    const [, dispatch] = useGlobalState();
+
+
+
+    async function fetchData() {
+        const { data } = await getFlagEndorsement();
+        updateEvent({ savedData: data.data })
+    }
+
+
+    useEffect(() => {
+        fetchData();
+        // setState(TravelState.seamenBook);
+
+    }, [])
+
+
+
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next };
@@ -19,8 +43,10 @@ const FlagEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
+        Oil_tanker_DCE:"Support",
         //type:"",
-        dataList:[],
+        dataList: [],
+        savedData: [],
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
@@ -33,6 +59,8 @@ const FlagEndorsement = () => {
             delete data.error
             delete data.isFormChanged
             delete data.dataList
+            delete data.savedData
+
             let isValid = await FlagEndorsementValidation(data)
             if (isValid) {
                 updateEvent({
@@ -42,7 +70,7 @@ const FlagEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
-                   
+
                 })
             }
         } catch (error: any) {
@@ -70,19 +98,80 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
-           
+
             <td className="px-6 py-4">file</td>
             <td className="px-6 py-4">
                 <Trash2
                     onClick={() => {
-                        formEvent.visaList.splice(index, 1);
-                        updateEvent({ visaList: formEvent.visaList });
+                        formEvent.dataList.splice(index, 1);
+                        updateEvent({ dataList: formEvent.dataList });
+                    }}
+                />
+            </td>
+        </tr>
+    ));
+    const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
+        <tr key={index} className="bg-white border-b">
+            <td className="px-6 py-4">{item.name}</td>
+            <td className="px-6 py-4">{item.number}</td>
+            <td className="px-6 py-4">{item.dateOfIssue}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.placeOfIssue}</td>
+
+            <td className="px-6 py-4">file</td>
+            <td className="px-6 py-4">
+                <Trash2
+                    onClick={async() => {
+                        try {
+                            const { data } = await deleteFlagEndorsement(item._id)
+                            if (data.success && data.length !== 0) {
+                                toast.info(data.message)
+                                console.log(data);
+                                formEvent.savedData.splice(index, 1);
+                                updateEvent({ savedData: formEvent.savedData });
+                             
+                              } else {
+                                throw Error(data.message)
+                              }
+                           } catch (error:any) {
+                            toast.error(error.response.data.message);
+                           }
                     }}
                 />
             </td>
         </tr>
     ));
 
+    const handlerSubmit = async (event: any) => {
+        toast.dismiss();
+        event.preventDefault();
+        dispatch({ type: LOADING, payload: true });
+        try {
+            const { data } = await addFlagEndorsement(formEvent.dataList);
+            if (data.success) {
+                toast.info(data.message)
+                navigate("/dashboard/certificates/dangerousCargo");
+            } else {
+                throw Error(data.message)
+            }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            keys: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            dispatch({ type: LOADING, payload: false });
+        }
+    }
 
 
 
@@ -91,7 +180,7 @@ const FlagEndorsement = () => {
 
 
 
-    return <form>
+    return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Flag endorsement</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
@@ -139,12 +228,23 @@ const FlagEndorsement = () => {
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
             />
+            <SelectInput
+                className="m-4"
+                fieldName={"Oil_tanker_DCE"}
+                label={"Oil tanker DCE"}
+                type={""}
+                onChange={(e) => updateEvent({ Oil_tanker_DCE: e.target.value, isFormChanged: true })}
+                value={formEvent.Oil_tanker_DCE}
+                error={errorReturn("Oil_tanker_DCE")}
+                option={["Support", "Operation", "Management"]}
+            />
 
-            <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
+            {/* <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
-            </div>
-           
+            </div> */}
+             <FileUpload folder={"flag"} />
+
 
         </div>
         <div className="flex justify-center m-2">
@@ -155,7 +255,7 @@ const FlagEndorsement = () => {
 
         </div>
 
-        {formEvent.dataList.length > 0 ? (
+        {formEvent.dataList.length > 0 || formEvent.savedData.length > 0 ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
                     <thead className="text-xs text-grey-700 uppercase ">
@@ -176,7 +276,7 @@ const FlagEndorsement = () => {
                             <th scope="col" className="px-6 py-3">
                                 Place Of Issue
                             </th>
-                           
+
                             <th scope="col" className="px-6 py-3">
                                 File
                             </th>
@@ -186,6 +286,7 @@ const FlagEndorsement = () => {
                         </tr>
                     </thead>
                     <tbody>{listofData}</tbody>
+                    <tbody>{SavelistofData}</tbody>
                 </table>
             </div>
         ) : (
@@ -193,13 +294,14 @@ const FlagEndorsement = () => {
         )}
         <button
             className="ml-8 text-xl text-gray-500"
-            onClick={() => navigate("/dashboard/traveldetails")}
+            onClick={() => navigate("/dashboard/certificates")}
         >
             Previous
         </button>
         {formEvent.isFormChanged ? <button
             type="submit"
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            disabled={formEvent.dataList.length === 0}
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
         >
             Save & next
         </button> :

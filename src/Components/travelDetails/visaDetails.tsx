@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer, useRef } from "react";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
 import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } from "../../services/user.service";
+import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 
 const VisaDetail = (props: any) => {
   const { setState } = useContext(TravelDetailContext)!;
@@ -111,11 +112,31 @@ const VisaDetail = (props: any) => {
     toast.dismiss();
     event.preventDefault();
     let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
-    let formdata = {
-      visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry
+    let formdata ={};
+    if (haveNoVisa ) {
+     formdata = {...formdata,haveNoVisa}
+    } 
+   
+    if (haveNoUsVisa) {
+      formdata = {...formdata,haveNoUsVisa}
+    }
+    if(!haveNoVisa) {
+      if (visaList.length === 0) {
+        addMore();
+}
+      formdata = {
+       ...formdata,haveNoVisa,visaList
+     }
+    }
+    if (!haveNoUsVisa) {
+      formdata = {
+        ...formdata,haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry
+      }
     }
   
     try {
+     console.log(formdata)
+     
       const isValid = await VisaDetailValidation(formdata)
       if (isValid) {
         const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata) 
@@ -180,7 +201,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoVisa}
           error={errorReturn("visatype")}
           onChange={(e) => updateEvent({ visatype: e.target.value, isFormChanged: true })}
-          value={formEvent.visatype}
+          value={formEvent.visatype ?? ""}
         />
         <InputField
           className="m-4"
@@ -190,7 +211,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoVisa}
           error={errorReturn("placeOfIssue")}
           onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged: true })}
-          value={formEvent.placeOfIssue}
+          value={formEvent.placeOfIssue ?? ""}
         />
         <InputField
           className="m-4"
@@ -200,7 +221,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoVisa}
           error={errorReturn("number")}
           onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
-          value={formEvent.number}
+          value={formEvent.number ?? ""}
         />
         <InputField
           className="m-4"
@@ -210,7 +231,7 @@ const VisaDetail = (props: any) => {
           type={"date"}
           error={errorReturn("dateOfIssue")}
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
-          value={formEvent.dateOfIssue}
+          value={formEvent.dateOfIssue ?? ""}
         />
         <InputField
           className="m-4"
@@ -220,12 +241,14 @@ const VisaDetail = (props: any) => {
           type={"date"}
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
-          value={formEvent.dateOfExpiry}
+          value={formEvent.dateOfExpiry ?? ""}
         />
-        <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
+        {/* <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
-        </div>
+        </div> */}
+             <FileUpload folder={"/visaDetailDoc"} />
+
       </div>
       <div className="flex justify-center m-2 ">
         <button type="button" onClick={() => addMore()} className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -280,7 +303,7 @@ const VisaDetail = (props: any) => {
           id="haveNoVisa"
           type="checkbox"
           checked={formEvent.haveNoUsVisa}
-          value={formEvent.haveNoUsVisa}
+          value={formEvent.haveNoUsVisa ?? ""}
           onChange={(e) => {
             console.log(e.target.checked);
             updateEvent({ haveNoUsVisa: e.target.checked, isFormChanged: true });
@@ -301,7 +324,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_placeOfIssue")}
           onChange={(e) => updateEvent({ us_placeOfIssue: e.target.value, isFormChanged: true })}
-          value={formEvent.us_placeOfIssue}
+          value={formEvent.us_placeOfIssue ?? ""}
         />
         <InputField
           className="m-4"
@@ -311,7 +334,7 @@ const VisaDetail = (props: any) => {
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_number")}
           onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged: true })}
-          value={formEvent.us_number}
+          value={formEvent.us_number ?? ""}
         />
         <InputField
           className="m-4"
@@ -321,7 +344,7 @@ const VisaDetail = (props: any) => {
           type={"date"}
           error={errorReturn("us_us_dateOfIssue")}
           onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged: true })}
-          value={formEvent.us_us_dateOfIssue}
+          value={formEvent.us_us_dateOfIssue ?? ""}
         />
         <InputField
           className="m-4"
@@ -331,7 +354,7 @@ const VisaDetail = (props: any) => {
           type={"date"}
           error={errorReturn("us_dateOfExpiry")}
           onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged: true })}
-          value={formEvent.us_dateOfExpiry}
+          value={formEvent.us_dateOfExpiry ?? ""}
         />
       </div>
       <button

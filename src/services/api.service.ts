@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 import { API_URL } from "../constants/api.constant";
 let refresh = false;
+
 axios.defaults.headers.common["Authorization"] =
   sessionStorage.getItem("token") || "";
 axios.defaults.baseURL = API_URL;

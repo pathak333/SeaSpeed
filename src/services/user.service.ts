@@ -18,11 +18,40 @@ import {
   updatePassportDetailApi,
   AddVisaDetailApi,
   UpdateVisaDetailApi,
-  GetVisaDetailApi
+  GetVisaDetailApi,
+  AddSeamenBookApi,
+  GetSeamenBookApi,
+  AddCertificateApi,
+  GetCertificateApi,
+  DeleteCertificateOfCompetencyApi,
+  AddFlagEndorsementApi,
+  GetFlagEndorsementApi,
+  DeleteFlagEndorsementApi,
+  AddDangerousCargoEndorsementApi,
+  DeleteDangerousCargoEndorsementApi,
+  GetDangerousCargoEndorsementApi,
+  AddWorkExperienceApi,
+  DeletetWorkExperienceApi,
+  GetWorkExperienceApi,
+  AddCourseCertificateApi,
+  DeletetCourseCertificateApi,
+  GetCourseCertificateApi,
+  DeletetReferencesApi,
+  AddReferencesApi,
+  GetReferencesApi,
+  AddUnionRegistrationApi,
+  DeletetUnionRegistrationApi,
+  GetUnionRegistrationApi,
+  UpdateMedicalDetailApi,
+  AddMedicalDetailApi,
+  DeletetMedicalDetailApi,
+  GetMedicalDetailApi,
+  DeleteTypeMedicalDetailApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
 export const ProfileService = () => {
+  
   axios.defaults.headers.common["Authorization"] =
     sessionStorage.getItem("token") || "";
   return httpService.get(GetProfileApi);
@@ -102,3 +131,120 @@ export const UpdateVisaDetailService = (data:any) => {
 export const GetVisaDetailService = () => {
   return httpService.get(GetVisaDetailApi)
 }
+
+export const addSeamenBookDetail = (data: any) => {
+  return httpService.post(AddSeamenBookApi, data)
+}
+
+export const getSeamenBookDetail = () => {
+  return httpService.get(GetSeamenBookApi)
+}
+
+
+export const addCertificateOfCompetency = (data:any) => {
+  return httpService.post(AddCertificateApi,data)
+}
+
+export const getCertificateOfCompetency = () => {
+  return httpService.get(GetCertificateApi)
+}
+
+export const deleteCertificateOfCompetency = (id:String) => {
+  return httpService.delete(DeleteCertificateOfCompetencyApi+`?docId=${id}`)
+}
+
+export const addFlagEndorsement = (data:any) => {
+  return httpService.post(AddFlagEndorsementApi,data)
+}
+
+export const getFlagEndorsement = () => {
+  return httpService.get(GetFlagEndorsementApi)
+}
+
+export const deleteFlagEndorsement = (id:String) => {
+  return httpService.delete(DeleteFlagEndorsementApi+`?docId=${id}`)
+}
+
+export const addDangerousCargoEndorsement = (data:any) => {
+  return httpService.post(AddDangerousCargoEndorsementApi,data)
+}
+
+export const getDangerousCargoEndorsement = () => {
+  return httpService.get(GetDangerousCargoEndorsementApi)
+}
+
+export const deleteDangerousCargoEndorsement = (id:String) => {
+  return httpService.delete(DeleteDangerousCargoEndorsementApi+`?docId=${id}`)
+}
+
+export const addWorkExperience = (data:any) => {
+  return httpService.post(AddWorkExperienceApi,data)
+}
+
+export const getWorkExperience = () => {
+  return httpService.get(GetWorkExperienceApi)
+}
+
+export const deletetWorkExperience = (id:String) => {
+  return httpService.delete(DeletetWorkExperienceApi+`?docId=${id}`)
+}
+
+export const addCourseCertificate = (data:any) => {
+  return httpService.post(AddCourseCertificateApi,data)
+}
+
+export const getCourseCertificate = () => {
+  return httpService.get(GetCourseCertificateApi)
+}
+
+export const deletetCourseCertificate = (id:String) => {
+  return httpService.delete(DeletetCourseCertificateApi+`?docId=${id}`)
+}
+
+
+export const addReferences = (data:any) => {
+  return httpService.post(AddReferencesApi,data)
+}
+
+export const getReferences = () => {
+  return httpService.get(GetReferencesApi)
+}
+
+export const deletetReferences = (id:String) => {
+  return httpService.delete(DeletetReferencesApi+`?docId=${id}`)
+}
+
+
+export const addUnionRegistration = (data:any) => {
+  return httpService.post(AddUnionRegistrationApi,data)
+}
+
+export const getUnionRegistration = () => {
+  return httpService.get(GetUnionRegistrationApi)
+}
+
+export const deletetUnionRegistration = (id:String) => {
+  return httpService.delete(DeletetUnionRegistrationApi+`?docId=${id}`)
+}
+
+
+export const addMedicalDetail = (data:any) => {
+  return httpService.post(AddMedicalDetailApi,data)
+}
+
+export const updateMedicalDetail = (data:any,id:String) => {
+  return httpService.post(UpdateMedicalDetailApi+`?docId=${id}`,data)
+}
+
+export const getMedicalDetail = () => {
+  return httpService.get(GetMedicalDetailApi)
+}
+
+export const deletetMedicalDetail = (id:String) => {
+  return httpService.delete(DeletetMedicalDetailApi+`?docId=${id}`)
+}
+
+export const deleteTypeMedicalDetail = (id:String,mdocId:String) => {
+  return httpService.delete(DeleteTypeMedicalDetailApi+`?docId=${id}&mdocId=${mdocId}`)
+}
+

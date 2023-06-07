@@ -19,6 +19,7 @@ interface ValidatePersonalDetailData {
   isSameAddress: Boolean;
   aadhaar: String;
   pan: String;
+  CNC: String;
 }
 
 
@@ -40,7 +41,7 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       gender: joi.string().valid("male", "female"),
       marital_status: joi.string().valid("married", "unmarried"),
       birthPlace: joi.string().optional(),
-      nationality: joi.string().required(),
+      nationality: joi.string().valid("Indian", "Pakistani","Ukrainian","Russian").required(),
       flatnumber: joi.string().required(),
       society: joi.string().required(),
       city: joi.string().required(),
@@ -80,7 +81,8 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
         otherwise: joi.number(),
       }),
       aadhaar: joi.string(),
-      pan: joi.string()
+      pan: joi.string(),
+      CNC:joi.string().optional().allow("")
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -103,7 +105,9 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       nearest_airport: joi.string().optional(),
       isSameAddress: joi.boolean().optional(),
       aadhaar: joi.string().optional(),
-      pan: joi.string().optional()
+      pan: joi.string().optional(),
+      CNC:joi.string().optional()
+
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -131,7 +135,7 @@ export const BankDetailValidation = async (data: any) =>
       swift_code: joi.string().required(),
       IBAN_number: joi.string().required(),
       IFSC_code: joi.string().required(),
-      account_type: joi.string().required(),
+      account_type: joi.string().valid("USD", "INR", "PKR", "AED").required(),
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -145,7 +149,7 @@ export const UpdateBankDetailValidation = async (data: any) =>
       swift_code: joi.string().optional(),
       IBAN_number: joi.string().optional(),
       IFSC_code: joi.string().optional(),
-      account_type: joi.string().optional(),
+      account_type: joi.string().valid("USD", "INR", "PKR", "AED").optional(),
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -155,8 +159,8 @@ export const KinDetailValidation = async (data: any) =>
       fullName: joi.string().required(),
       relationship: joi.string().required(),
       code: joi.string().required(),
-      phoneNumber: joi.number().required(),
-      email: joi.string().required(),
+      phoneNumber: joi.string().pattern(/^[0-9]{10}$/).required(),
+      email: joi.string().email({ tlds: { allow: false } }).required(),
       flatnumber: joi.string().required(),
       society: joi.string().required(),
       city: joi.string().required(),

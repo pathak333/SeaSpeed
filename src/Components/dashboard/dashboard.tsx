@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   Award,
   Briefcase,
@@ -16,6 +16,7 @@ import DashboardCard2 from "../smallerComponents/dashboardCard2";
 const Dashboard = () => {
   const navigate = useNavigate();
 
+
   useEffect(() => {
     window.history.pushState(null, "", window.location.pathname);
     console.log("dashboard component");
@@ -23,16 +24,26 @@ const Dashboard = () => {
     return () => {};
   }, []);
 
+  var state = sessionStorage.getItem("formState");
+
+  const memoizedValue = useMemo(() => {
+    var arr = state?.split(",");
+
+    console.log(((10   ?? 0)/16)*100);
+    
+    return ((arr?.length ?? 0) /16)*100;
+  }, [state]);
+
   return (
     <div className="    ">
       <div className="w-full h-24 bg-white p-4 mb-8 items-baseline inline-grid rounded-lg">
         <p>
-          Your Application <span>50%</span>
+          Your Application <span>50% - { memoizedValue}</span>
         </p>
         <div className=" w-full  bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
           <div
-            className="bg-green-600  h-2.5 rounded-full w-2/5"
-            // style="width: 45%"
+            className={`bg-green-600  h-2.5 rounded-full `}
+             style={{"width":memoizedValue}}
           ></div>
         </div>
       </div>

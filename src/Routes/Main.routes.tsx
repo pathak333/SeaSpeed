@@ -12,7 +12,7 @@ import SetProfilePic from "../Components/profile/setProfilePic";
 import Dashboard from "../Components/dashboard/dashboard";
 import AuthenticatedRoute from "../Components/auth/AuthenticatedRoute.component";
 import { useEffect } from "react";
-import { LOGIN } from "../constants/action.constant";
+
 import DashboardLayout from "../views/dashboardLayout";
 import PersonalDetail from "../Components/personalDetails/personalDetail";
 import PersonalDetailLayout from "../views/personalDetailLayout";
@@ -38,6 +38,11 @@ import UnionRegistrationLayout from "../views/unionRegistrationLayout";
 import UnionRegistrationDetail from "../Components/unionRegistration/unionRegistration";
 import References from "../Components/references/References";
 import ReferencesLayout from "../views/referencesLayout";
+import AdminDashboardLayout from "../views/AdminViews/adminDashboardLayout";
+import AdminDashboard from "../Components/admin/dashboard/admin_dashboard";
+import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_member";
+import { LOGIN } from "../constants/action.constant";
+import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -275,12 +280,103 @@ const MainRoutes = () => {
       ],
     },
   ]);
-  return routes;
+
+
+  let AdminRoutes = useRoutes([
+    {
+      path: "/*",
+      element: globalState.accessToken ? (
+        <Navigate to="/admindashboard/home" />
+      ) : (
+        <Navigate to="/auth/login" />
+      ),
+    },
+    {
+      path: "/auth",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "login",
+          element: (
+            <UnAuthenticatedRoute
+              accessToken={globalState.accessToken}
+              outlet={<LoginForm />}
+            />
+          ),
+        },
+        {
+          path: "resetPassword",
+          element: (
+            <UnAuthenticatedRoute
+              accessToken={globalState.accessToken}
+              outlet={<ResetPassword />}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      path: "/profile",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "profilePic",
+          element: (
+            <UnAuthenticatedRoute
+              accessToken={globalState.accessToken}
+              outlet={<SetProfilePic />}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      path: "/adminDashboard",
+      element: <AdminDashboardLayout />,
+      children: [
+        {
+          path: "home",
+          element: (<AuthenticatedRoute
+          accessToken={globalState.accessToken}
+          // outlet={<PersonalDetail />}
+          outlet={ <AdminDashboard />}
+        />)
+        },
+        {
+          path: "createCrew",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CreateCrewMember />}
+            />
+            ),
+         
+        },
+        {
+          path: "createSubAdmin",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CreateSubAdmin />}
+            />
+            ),
+         
+        },
+      ]
+    },
+   
+  ]);
+
+  var role = sessionStorage.getItem("role") ?? "user";
+
+  return role.toLocaleLowerCase() === "user"   ?  routes : AdminRoutes;
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+   const token =  sessionStorage.getItem("token");
     if (token) {
       dispatch({ type: LOGIN, payload: token });
     }

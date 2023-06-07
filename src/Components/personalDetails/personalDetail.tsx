@@ -8,9 +8,11 @@ import {
   Personalstate,
 } from "../../contexts/personalDetail.context";
 import { AddPersonalDetail, GetPersonalDetail, UpdatePersonalDetail } from "../../services/user.service";
-import InputField from "../inputField/inputField.component";
-import SelectInput from "../inputField/selectInputField.comonent";
+import InputField from "../../uiComponents/inputField/inputField.component";
+
 import { PersonalDetailValidation, UpdatePersonalDetailValidation } from "./validation";
+import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
+import { dobDateValidation } from "../../constants/values.constants";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -79,9 +81,9 @@ const PersonalDetail = () => {
       lastname: "",
       dob: "",
       gender: "male",
-      marital_status: "Single",
+      marital_status: "unmarried",
       birthPlace: "",
-      nationality: "",
+      nationality: "Indian",
       flatnumber: "",
       society: "",
       city: "",
@@ -91,7 +93,8 @@ const PersonalDetail = () => {
       nearest_airport: "",
       isSameAddress: false,
       aadhaar: "",  
-      pan:"",
+      pan: "",
+      CNC:"",
        isFormChanged:false,
       error: { key: "", value: "" },
     }
@@ -152,9 +155,9 @@ const PersonalDetail = () => {
       lastname: "",
       dob: "",
       gender: "male",
-      marital_status: "Single",
+      marital_status: "unmarried",
       birthPlace: "",
-      nationality: "",
+      nationality: "Indian",
       flatnumber: "",
       society: "",
       city: "",
@@ -197,6 +200,7 @@ const PersonalDetail = () => {
           fieldName={"dob"}
           label={"Birthdate"}
           type={"date"}
+          max={dobDateValidation}
           error={errorReturn("dob")}
           onChange={(e) => updateEvent({ dob: e.target.value, isFormChanged:true })}
           value={formEvent.dob.split("T")[0]}
@@ -219,7 +223,7 @@ const PersonalDetail = () => {
           error={errorReturn("marital_status")}
           onChange={(e) => updateEvent({ marital_status: e.target.value, isFormChanged:true })}
           value={formEvent.marital_status}
-          option={["Single", "Married"]}
+          option={["unmarried","Married"]}
         />
         <InputField
           className="m-4"
@@ -430,6 +434,26 @@ const PersonalDetail = () => {
           </div>
         </div>
       )}
+      {formEvent.nationality === "Pakistani" && <p className="ml-4 text-xl font-medium">Pakistani National ID card detials</p>}
+      {formEvent.nationality === "Pakistani" && <div className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">
+      <div className="m-3">
+          <InputField
+            type="text"
+            fieldName="CNC"
+            label="CNC"
+            className="mb-4"
+            error={errorReturn("CNC")}
+            onChange={(e) => updateEvent({ CNC: e.target.value, isFormChanged: true })}
+            value={formEvent.CNC}
+          />
+          <label
+            htmlFor="aadharFile"
+            className="btn font-semibold text-xl text-[#3B77BE]"
+          >
+            <u>upload CNC</u>
+          </label></div>
+      </div>}
+      
       {formEvent.nationality === "Indian" && <p className="ml-4 text-xl font-medium">National ID card detials</p>}
       {/* <p className="ml-4 text-base text-[#A0A0A0]">Only for Indian resident </p> */}
      {formEvent.nationality === "Indian" && <div  className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">

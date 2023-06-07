@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from "react";
 import { NoPropComponent } from "../../types/noProps.type";
-import InputField from "../inputField/inputField.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
 import { AccountCircle, VisibilityOff } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import { LOADING, LOGIN } from "../../constants/action.constant";
@@ -22,7 +22,7 @@ const LoginForm: NoPropComponent = () => {
       return newEvent;
     },
     {
-      userId: "",
+      email: "",
       password: "",
       error: { keys: "", values: "" },
     }
@@ -48,8 +48,9 @@ const LoginForm: NoPropComponent = () => {
             },
           });
         } else {
-          dispatch({ type: LOGIN, payload: data.data.refreshToken });
+          dispatch({ type: LOGIN, payload: data.data.refreshToken,role: data.data.role });
           sessionStorage.setItem("token", data.data.refreshToken);
+          sessionStorage.setItem("role", data.data.role);
           navigate("/dashboard/home", {
             state: {
               data,
@@ -99,17 +100,17 @@ const LoginForm: NoPropComponent = () => {
       <div className="max-sm:w-80 max-md:w-96 max-lg:w-96 lg:w-96 ">
         <InputField
           type="text"
-          fieldName="userId"
-          label="Enter user ID"
+          fieldName="email"
+          label="Enter Email"
           className="mb-4"
-          error={errorReturn("userId")}
+          error={errorReturn("email")}
           icon={<AccountCircle className="text-gray-300" />}
-          onChange={(e) => updateEvent({ userId: e.target.value })}
+          onChange={(e) => updateEvent({ email: e.target.value })}
         />
         <InputField
           type={showPassword ? "text" : "password"}
           fieldName="password"
-          label="Enter admin generated password"
+          label="Enter password"
           error={errorReturn("password")}
           icon={
             <VisibilityOff

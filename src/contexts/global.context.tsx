@@ -4,6 +4,7 @@ import { ChildrenProps, GlobalState } from "../types/propes.types";
 
 const initialGlobalState = {
   accessToken: null,
+  role:"",
   loading: false,
   data: null,
 };
@@ -20,7 +21,7 @@ const AuthReducer = (state: any, action: any) => {
     case DATA:
       return { ...state, data: action.payload };
     case LOGIN:
-      return { ...state, accessToken: action.payload };
+      return { ...state, accessToken: action.payload, role:action.role };
     case LOGOUT:
       //logout();
       return null;

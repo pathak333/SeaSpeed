@@ -8,8 +8,13 @@ import {
   Personalstate,
 } from "../../contexts/personalDetail.context";
 import { BankDetailService, GetBankDetail, UpdateBankDetailService } from "../../services/user.service";
-import InputField from "../inputField/inputField.component";
+
 import { BankDetailValidation, UpdateBankDetailValidation } from "./validation";
+
+import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import InputField from "../../uiComponents/inputField/inputField.component";
+import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
+
 
 const BankDetail = () => {
   const navigate = useNavigate();
@@ -177,7 +182,7 @@ const BankDetail = () => {
           onChange={(e) => updateEvent({ IBAN_number: e.target.value ,isFormChanged:true})}
           value={formEvent.IBAN_number}
         />
-        <InputField
+        {/* <InputField
           className="m-4"
           fieldName={"account_type"}
           label={"Types of account"}
@@ -185,7 +190,19 @@ const BankDetail = () => {
           error={errorReturn("account_type")}
           onChange={(e) => updateEvent({ account_type: e.target.value,isFormChanged:true })}
           value={formEvent.account_type}
+        /> */}
+         <SelectInput
+                className="m-4"
+                fieldName={"account_type"}
+                label={"Types of account"}
+                type={""}
+                onChange={(e) => updateEvent({ account_type: e.target.value, isFormChanged: true })}
+                value={formEvent.account_type}
+                error={errorReturn("account_type")}
+                option={["USD", "INR", "PKR", "AED"]}
         />
+        <FileUpload folder={"/bankDetailDoc"} />
+        <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
       </div>
       <button
         className="ml-8 text-xl text-gray-500"
