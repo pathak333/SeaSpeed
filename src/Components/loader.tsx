@@ -2,7 +2,7 @@ import { NoPropComponent } from "../types/noProps.type";
 
 const Loader: NoPropComponent = () => {
   return (
-    <section className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center w-full h-100 bg-black opacity-75 z-10">
+    <section className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center w-full h-100 bg-black opacity-75 z-30">
       <div className="absolute top-1/2 left-1/2 -mt-4 -ml-2 h-8 w-4 text-indigo-700">
         <div className="absolute z-10 -ml-2 h-8 w-8 animate-bounce">
           <svg

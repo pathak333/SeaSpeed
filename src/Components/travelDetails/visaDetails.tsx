@@ -9,6 +9,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
 import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } from "../../services/user.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 
 const VisaDetail = (props: any) => {
   const { setState } = useContext(TravelDetailContext)!;
@@ -94,8 +95,8 @@ const VisaDetail = (props: any) => {
       <td className="px-6 py-4">{item.visatype}</td>
       <td className="px-6 py-4">{item.placeOfIssue}</td>
       <td className="px-6 py-4">{item.number}</td>
-      <td className="px-6 py-4">{item.dateOfIssue}</td>
-      <td className="px-6 py-4">{item.dateOfExpiry}</td>
+      <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
+      <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">file</td>
       <td className="px-6 py-4">
         <Trash2
@@ -217,7 +218,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"number"}
           label={"Number"}
-          type={"text"}
+          type={"number"}
           disabled={formEvent.haveNoVisa}
           error={errorReturn("number")}
           onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
@@ -229,6 +230,7 @@ const VisaDetail = (props: any) => {
           label={"Date of issue"}
           disabled={formEvent.haveNoVisa}
           type={"date"}
+          max={IssuesformattedDate}
           error={errorReturn("dateOfIssue")}
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfIssue ?? ""}
@@ -239,6 +241,7 @@ const VisaDetail = (props: any) => {
           label={"Date of expiry"}
           disabled={formEvent.haveNoVisa}
           type={"date"}
+          min={ExpireformattedDateFormNow}
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfExpiry ?? ""}
@@ -247,7 +250,7 @@ const VisaDetail = (props: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-             <FileUpload folder={"/visaDetailDoc"} />
+             <FileUpload folder={"/visaDetailDoc"} name="visa" />
 
       </div>
       <div className="flex justify-center m-2 ">
@@ -330,7 +333,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"us_number"}
           label={"Number"}
-          type={"text"}
+          type={"number"}
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_number")}
           onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged: true })}
@@ -338,13 +341,14 @@ const VisaDetail = (props: any) => {
         />
         <InputField
           className="m-4"
-          fieldName={"us_us_dateOfIssue"}
+          fieldName={"us_dateOfIssue"}
           label={"Date of issue"}
           disabled={formEvent.haveNoUsVisa}
           type={"date"}
-          error={errorReturn("us_us_dateOfIssue")}
-          onChange={(e) => updateEvent({ us_us_dateOfIssue: e.target.value, isFormChanged: true })}
-          value={formEvent.us_us_dateOfIssue ?? ""}
+          max={IssuesformattedDate}
+          error={errorReturn("us_dateOfIssue")}
+          onChange={(e) => updateEvent({ us_dateOfIssue: e.target.value, isFormChanged: true })}
+          value={formEvent.us_dateOfIssue.split("T")[0] ?? ""}
         />
         <InputField
           className="m-4"
@@ -352,9 +356,10 @@ const VisaDetail = (props: any) => {
           label={"Date of expiry"}
           disabled={formEvent.haveNoUsVisa}
           type={"date"}
+          min={ExpireformattedDateFormNow}
           error={errorReturn("us_dateOfExpiry")}
           onChange={(e) => updateEvent({ us_dateOfExpiry: e.target.value, isFormChanged: true })}
-          value={formEvent.us_dateOfExpiry ?? ""}
+          value={formEvent.us_dateOfExpiry.split("T")[0] ?? ""}
         />
       </div>
       <button

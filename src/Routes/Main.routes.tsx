@@ -43,6 +43,10 @@ import AdminDashboard from "../Components/admin/dashboard/admin_dashboard";
 import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_member";
 import { LOGIN } from "../constants/action.constant";
 import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
+import AddCompany from "../Components/admin/company/add_company";
+import AddManager from "../Components/admin/company/add_manager";
+import AddVessel from "../Components/admin/company/add_vessel";
+import CompanyLayout from "../views/AdminViews/companyLayout";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -360,6 +364,45 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<CreateSubAdmin />}
+            />
+            ),
+         
+        },
+        {
+          path: "addCompany",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CompanyLayout /> }
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element:<AddCompany />
+            }
+          ]
+         
+        },
+        {
+          path: "addManager",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<AddManager />}
+            />
+            ),
+         
+        },
+        {
+          path: "addVessel",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<AddVessel />}
             />
             ),
          

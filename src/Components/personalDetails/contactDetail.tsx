@@ -55,6 +55,7 @@ const ContactDetail = () => {
        
         const { data } = await ProfileUpdate(formData);
         if (data.success) { 
+          toast.info(data.message)
           navigate("/dashboard/personaldetails/educationDetail");
         }
        // dispatch({ type: LOADING, payload: false });
@@ -100,7 +101,7 @@ const ContactDetail = () => {
           }
           value={globalState.data.data.email}
         />
-        <div className="flex flex-row">
+        <div className="flex flex-row  max-sm:flex-col">
           <InputField
             className="m-4 w-24"
             fieldName={"code"}
@@ -139,9 +140,9 @@ const ContactDetail = () => {
           onChange={(e) => updateEvent({ alt_email: e.target.value,isFormChanged:true })}
           value={formEvent.alt_email}
         />
-        <div className="flex flex-row">
+        <div className="flex flex-row max-sm:flex-col">
           <InputField
-            className="m-4 w-24"
+            className="m-4 w-24 max-sm:w-100"
             fieldName={"altcode"}
             label={"Code"}
             type={"text"}
@@ -168,7 +169,7 @@ const ContactDetail = () => {
       </button>:
       <button
     type="button"
-    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     onClick={() => {
       // clearAllData();
       navigate("/dashboard/personaldetails/educationDetail");

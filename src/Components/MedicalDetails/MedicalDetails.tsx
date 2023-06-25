@@ -257,7 +257,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/regularMedicalCertificate"} />
+             <FileUpload folder={"/regularMedicalCertificate"} name="regular certificate" />
             
 
         </div>
@@ -331,7 +331,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/YellowFeverMedicalCertificate"} />
+             <FileUpload folder={"/YellowFeverMedicalCertificate"} name="yellow certificate" />
 
         </div>
         <p className="font-medium text-[22px] leading-none flex flex-row ml-5 items-center">Covid vaccination</p>
@@ -350,7 +350,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/covidMedicalCertificate"} />
+             <FileUpload folder={"/covidMedicalCertificate"} name="covid certificate" />
 
         </div>
         {formEvent.isFormChanged ? <button

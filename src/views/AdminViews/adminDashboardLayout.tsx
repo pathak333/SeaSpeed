@@ -5,7 +5,7 @@ import { NoPropComponent } from "../../types/noProps.type";
 
 
 const AdminDashboardLayout: NoPropComponent = () => { 
-    return  <NavbarComponent>
+    return  <NavbarComponent name="Admin Dashboard">
     <Outlet />
   </NavbarComponent>
 }

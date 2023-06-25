@@ -3,7 +3,7 @@ import joi from "joi";
 
 export const CertificateOfCompetencyValidation = (data: any) => joi.object({
     grade: joi.string(),
-    licenseNumber: joi.string(),
+    licenseNumber: joi.number(),
     dateOfIssue: joi.string(),
     dateOfExpiry: joi.string(),
     placeOfIssue: joi.string(),
@@ -15,7 +15,7 @@ export const CertificateOfCompetencyValidation = (data: any) => joi.object({
 
 export const FlagEndorsementValidation = (data: any) => joi.object({
     name: joi.string(),
-    number: joi.string(),
+    number: joi.number(),
     dateOfIssue: joi.string(),
     dateOfExpiry: joi.string(),
     placeOfIssue: joi.string(),

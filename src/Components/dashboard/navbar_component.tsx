@@ -38,7 +38,7 @@ const NavbarComponent = (props: any) => {
               />
             </div>
             <p className="align-middle my-auto pl-3 not-italic font-medium text-2xl max-sm:text-xs">
-              Dashboard
+             {props.name ?? "Dashboard"} 
             </p>
           </div>
           <div className=" flex flex-row items-end justify-evenly  w-1/3">

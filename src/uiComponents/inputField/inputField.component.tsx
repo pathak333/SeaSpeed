@@ -37,7 +37,7 @@ function InputField(props: Props) {
           type={props.type}
           id={props.fieldName}
           name={props.fieldName}
-          className={`block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent ${props.inputClass}`}
+          className={`block pl-2 pr-12 max-sm:pr-0  w-full h-10 text-lg appearance-none focus:outline-none bg-transparent ${props.inputClass}`}
           placeholder=" "
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -47,13 +47,13 @@ function InputField(props: Props) {
           min={props.min}
           max={props.max}
         />
-        <button
+       {props.icon && <button
           type="button"
           onClick={props.onIconClick}
-          className="inputIcon items-center top-0 bottom-0 absolute right-1  mr-2"
+          className="inputIcon items-center top-0 bottom-0 absolute right-1  mr-2 max-sm:hidden"
         >
           {props.icon}
-        </button>
+        </button>}
         <label
           htmlFor={props.fieldName}
           className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0   text-gray-400 bg-white mt-2  duration-300 origin-0 "

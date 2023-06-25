@@ -50,7 +50,7 @@ const BankDetail = () => {
       swift_code: "",
       IFSC_code: "",
       IBAN_number: "",
-      account_type: "",
+      account_type: "USD",
       isFormChanged:false,
       error: { keys: "", values: "" },
     }
@@ -72,6 +72,7 @@ const BankDetail = () => {
         const { data } =formEvent.hasOwnProperty("user_id") ? await UpdateBankDetailService(formData) : await BankDetailService(formData);
         console.log(data);
         if (data.success) {
+          toast.info(data.message)
           navigate("/dashboard/personaldetails/kinDetail");
         }
         // dispatch({ type: LOADING, payload: false });
@@ -108,7 +109,7 @@ const BankDetail = () => {
       swift_code: "",
       IFSC_code: "",
       IBAN_number: "",
-      account_type: "",
+      account_type: "USD",
       
     });
   };
@@ -201,7 +202,7 @@ const BankDetail = () => {
                 error={errorReturn("account_type")}
                 option={["USD", "INR", "PKR", "AED"]}
         />
-        <FileUpload folder={"/bankDetailDoc"} />
+        <FileUpload folder={"/bankDetailDoc"} name="bank/cancel cheque" />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
       </div>
       <button

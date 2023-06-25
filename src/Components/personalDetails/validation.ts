@@ -1,4 +1,4 @@
-import joi from "joi";
+import joi, { options } from "joi";
 
 interface ValidatePersonalDetailData {
   // firstname: String;
@@ -80,8 +80,21 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
         then: joi.number().required(),
         otherwise: joi.number(),
       }),
-      aadhaar: joi.string(),
-      pan: joi.string(),
+      //  nearest_airport2: joi.string().when("isSameAddress", {
+      //   is: false,
+      //   then: joi.string().required(),
+      //   otherwise: joi.string(),
+      // }),
+      aadhaar: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      }),
+      pan: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      }),
       CNC:joi.string().optional().allow("")
     })
     .validateAsync(data, { abortEarly: true });
@@ -93,7 +106,7 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       // lastname: joi.string(),
       dob: joi.string().label("BirthDate").optional(),
       gender: joi.string().optional(),
-      marital_status: joi.string().optional(),
+      marital_status: joi.string().valid("married", "unmarried").optional(),
       birthPlace: joi.string().optional(),
       nationality: joi.string().required().optional(),
       flatnumber: joi.string().optional(),
@@ -106,7 +119,42 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       isSameAddress: joi.boolean().optional(),
       aadhaar: joi.string().optional(),
       pan: joi.string().optional(),
-      CNC:joi.string().optional()
+      CNC: joi.string().optional(),
+       flatnumber2: joi.string().when("isSameAddress", {
+        is: false,
+        then: joi.string().required(),
+        otherwise: joi.string(),
+      }),
+      society2: joi.string().when("isSameAddress", {
+        is: false,
+        then: joi.string().required(),
+        otherwise: joi.string(),
+      }),
+      city2: joi.string().when("isSameAddress", {
+        is: false,
+        then: joi.string().required(),
+        otherwise: joi.string(),
+      }),
+      state2: joi.string().when("isSameAddress", {
+        is: false,
+        then: joi.string().required(),
+        otherwise: joi.string(),
+      }),
+      country2: joi.string().when("isSameAddress", {
+        is: false,
+        then: joi.string().required(),
+        otherwise: joi.string(),
+      }),
+      pincode2: joi.number().when("isSameAddress", {
+        is: false,
+        then: joi.number().required(),
+        otherwise: joi.number(),
+      }),
+      //  nearest_airport2: joi.string().when("isSameAddress", {
+      //   is: false,
+      //   then: joi.string().required(),
+      //   otherwise: joi.string(),
+      // }),
 
     })
     .validateAsync(data, { abortEarly: true });
@@ -133,8 +181,8 @@ export const BankDetailValidation = async (data: any) =>
       branch_code: joi.string().required(),
       account_number: joi.number().required(),
       swift_code: joi.string().required(),
-      IBAN_number: joi.string().required(),
-      IFSC_code: joi.string().required(),
+      IBAN_number: joi.string().optional().allow(""),
+      IFSC_code: joi.string().optional().allow(""),
       account_type: joi.string().valid("USD", "INR", "PKR", "AED").required(),
     })
     .validateAsync(data, { abortEarly: true });
@@ -172,8 +220,8 @@ export const KinDetailValidation = async (data: any) =>
       branchCode: joi.string().required(),
       accountNumber: joi.number().required(),
       swiftCode: joi.string().required(),
-      ifscCode: joi.string().required(),
-      iban: joi.string().optional(),
+      ifscCode: joi.string().optional().allow(""),
+      iban: joi.string().optional().allow(""),
       accountType: joi.string().required(),
       wifeDetail: joi.object({
         name: joi.string().required(),

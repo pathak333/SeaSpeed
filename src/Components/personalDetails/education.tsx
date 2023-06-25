@@ -24,7 +24,9 @@ const Education = () => {
   const [, dispatch] = useGlobalState();
   const [oldData, setOldData] = useState([]);
   const { setState } = useContext(PersonalDetailContext)!;
-
+  let date =new Date();
+  let todaydate = date.toISOString().substring(0, 10);
+  
   async function fetchData() {
     const { data } = await GetEducationDetail();
     console.log("Education data = ", data);
@@ -134,6 +136,10 @@ const Education = () => {
       event.preventDefault();
       let formData;
       if (formEvent.dataList.length > 0) {
+        for (let index = 0; index < formEvent.dataList.length; index++) {
+          delete formEvent.dataList[index].isFormChanged;
+          
+        }
         formData = formEvent.dataList;
       } else {
         let data = { ...formEvent };
@@ -156,9 +162,9 @@ const Education = () => {
         const { data } = await AddEducationDetail(formData);
         console.log(data);
         if (data) {
+          toast.done(data.message);
           navigate("/dashboard/personaldetails/bankDetail");
           dispatch({ type: LOADING, payload: false });
-          toast.done(data.message);
         }
       } else {
         toast.error("Add minimum one education detail");
@@ -180,7 +186,7 @@ const Education = () => {
           <InputField
             className="m-4"
             fieldName={"institution"}
-            label={"Name of school / college / institute"}
+            label={"Name of school/college/institute"}
             type={"text"}
             error={errorReturn("firstname")}
             onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:true })}
@@ -198,14 +204,16 @@ const Education = () => {
             fieldName={"startDate"}
             label={"Start date"}
             type={"date"}
+            max={todaydate}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:true, endDate:"" })}
           />
           <InputField
             className="m-4"
             fieldName={"endDate"}
             label={"End date"}
             type={"date"}
+            min={formEvent.startDate}
             // error={errorReturn("dob")}
             onChange={(e) => updateEvent({ endDate: e.target.value,isFormChanged:true })}
           />
@@ -347,12 +355,7 @@ const Education = () => {
         ) : (
           <div></div>
         )}
-          <button
-          className="ml-8 text-xl text-gray-500"
-          onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
-        >
-          Previous
-        </button>
+        
        {formEvent.isFormChanged ?<button
           type="submit"
           //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
@@ -362,7 +365,7 @@ const Education = () => {
         </button>:
         <button
           type="button"
-          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={() => {
             clearAllData();
             updateEvent({ dataList: [] });
@@ -380,6 +383,12 @@ const Education = () => {
           }}
         >
           Clear all
+        </button>
+        <button
+          className="ml-8 text-xl text-gray-500"
+          onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
+        >
+          Previous
         </button>
       
       </form>

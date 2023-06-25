@@ -251,7 +251,7 @@ const CourseCertificate = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"/courseCertificate"} />
+            <FileUpload folder={"/courseCertificate"} name="certificate" />
 
         </div>
         <div className="flex justify-center m-2">

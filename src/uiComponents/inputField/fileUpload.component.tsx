@@ -2,7 +2,8 @@ import { useRef, useState } from "react"
 import { Upload } from "react-feather"
 
 interface Props{
-    folder:String
+    folder: String,
+    name:String
 }
 
 
@@ -23,7 +24,7 @@ const FileUpload = (props: Props) => {
     return <div onClick={handleButtonClick} className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A] cursor-pointer">
     <input ref={uploadRef} className="hidden" type="file" name="uploadPdf"  accept="application/pdf" id="" />
 <Upload className="text-IbColor" />
-<p className="text-IbColor">Upload Passport PDF</p>
+<p className="text-IbColor">Upload {props.name} PDF</p>
 </div> 
 }
 

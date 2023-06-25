@@ -44,7 +44,7 @@ const AdminDashboard = () => {
           iconbg="bg-[#ECC5FF]"
           label={<span>Add Company</span>}
           onClick={() => {
-            //navigate("/dashboard/personaldetails");
+            navigate("/adminDashboard/addCompany");
           }}
         />
         <DashboardCard
@@ -55,7 +55,7 @@ const AdminDashboard = () => {
           iconbg="bg-[#D8D5FA]"
           label={<span>Add vessel</span>}
           onClick={() => {
-            //navigate("/dashboard/personaldetails");
+            navigate("/adminDashboard/addVessel");
           }}
         />
       </div>

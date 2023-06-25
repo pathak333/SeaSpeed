@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,14 @@ import { useGlobalState } from "../../contexts/global.context";
 import { addCertificateOfCompetency, deleteCertificateOfCompetency, getCertificateOfCompetency } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
+import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 
 
 const CertificateOfCompetency = () => {
     const navigate = useNavigate()
     const [, dispatch] = useGlobalState();
-
+    const { setState } = useContext(CertificateContext)!;
 
 
     async function fetchData() {
@@ -24,7 +26,7 @@ const CertificateOfCompetency = () => {
         
       useEffect(() => {
         fetchData();
-       // setState(TravelState.seamenBook);
+        setState(CertificateState.competency);
         
       }, [])
         
@@ -202,7 +204,7 @@ const CertificateOfCompetency = () => {
                 className="m-4"
                 fieldName={"licenseNumber"}
                 label={"License number"}
-                type={"text"}
+                type={"number"}
                 error={errorReturn("licenseNumber")}
                 onChange={(e) => updateEvent({ licenseNumber: e.target.value, isFormChanged: true })}
                 value={formEvent.licenseNumber}
@@ -221,6 +223,7 @@ const CertificateOfCompetency = () => {
                 fieldName={"dateOfIssue"}
                 label={"Date of issue"}
                 type={"date"}
+                max={IssuesformattedDate}
                 error={errorReturn("dateOfIssue")}
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
                 value={formEvent.dateOfIssue}
@@ -230,6 +233,7 @@ const CertificateOfCompetency = () => {
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
+                min={ExpireformattedDateFormNow}
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
@@ -247,7 +251,7 @@ const CertificateOfCompetency = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-             <FileUpload folder={"/competencyCertificate"} />
+             <FileUpload folder={"/competencyCertificate"} name="certificate" />
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
 
         </div>

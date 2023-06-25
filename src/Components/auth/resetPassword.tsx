@@ -22,7 +22,7 @@ const ResetPassword: NoPropComponent = () => {
       return newEvent;
     },
     {
-      userId: location.state.data.data.userId,
+      email: location.state.data.data.email,
       password: "",
       confirmPassword: "",
       error: { keys: "", values: "" },
@@ -89,15 +89,15 @@ const ResetPassword: NoPropComponent = () => {
     <form onSubmit={handalerSubmit}>
       <div className="max-sm:w-80 max-md:w-96 max-lg:w-96 lg:w-96 ">
         <InputField
-          fieldName="userId"
-          label="User ID"
+          fieldName="email"
+          label="Email ID"
           className="mb-4"
           type="text"
           disabled={true}
-          value={location.state.data.data.userId}
-          error={errorReturn("userId")}
+          value={location.state.data.data.email}
+          error={errorReturn("email")}
           icon={<AccountCircle className="text-gray-300" />}
-          onChange={(e) => updateEvent({ userId: e.target.value })}
+          onChange={(e) => updateEvent({ email: e.target.value })}
         />
         <InputField
           type={showPassword ? "text" : "password"}

@@ -173,7 +173,7 @@ const PassPortDetail = (props: any) => {
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload Passport PDF</p>
           </div> */}
-             <FileUpload folder={"/passport"} />
+             <FileUpload folder={"/passport"} name="passport" />
 
           <ul className="list-disc ml-4">
             <li className="text-textGrey text-sm ml-3">

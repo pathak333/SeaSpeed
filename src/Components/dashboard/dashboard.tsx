@@ -29,7 +29,7 @@ const Dashboard = () => {
   const memoizedValue = useMemo(() => {
     var arr = state?.split(",");
 
-    console.log(((10   ?? 0)/16)*100);
+    console.log(((arr?.length   ?? 0)/16)*100);
     
     return ((arr?.length ?? 0) /16)*100;
   }, [state]);
@@ -38,12 +38,12 @@ const Dashboard = () => {
     <div className="    ">
       <div className="w-full h-24 bg-white p-4 mb-8 items-baseline inline-grid rounded-lg">
         <p>
-          Your Application <span>50% - { memoizedValue}</span>
+          Your Application <span>{ memoizedValue}%</span>
         </p>
-        <div className=" w-full  bg-gray-200 rounded-full h-2.5 dark:bg-gray-200">
+        <div className=" w-full  bg-gray-200 rounded-full h-2.5 dark:bg-gray-200 overflow-clip relative">
           <div
-            className={`bg-green-600  h-2.5 rounded-full `}
-             style={{"width":memoizedValue}}
+            className={`bg-green-600  h-2.5 rounded-full  absolute`}
+             style={{"width":memoizedValue*10}}
           ></div>
         </div>
       </div>

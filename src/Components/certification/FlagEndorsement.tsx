@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { Trash2, Upload } from "react-feather";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
@@ -10,13 +10,15 @@ import { LOADING } from "../../constants/action.constant";
 
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
+import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
+import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
 
 const FlagEndorsement = () => {
     const navigate = useNavigate()
 
 
     const [, dispatch] = useGlobalState();
-
+    const { setState } = useContext(CertificateContext)!;
 
 
     async function fetchData() {
@@ -26,6 +28,7 @@ const FlagEndorsement = () => {
 
 
     useEffect(() => {
+        setState(CertificateState.flag);
         fetchData();
         // setState(TravelState.seamenBook);
 
@@ -196,7 +199,7 @@ const FlagEndorsement = () => {
                 className="m-4"
                 fieldName={"number"}
                 label={"Number"}
-                type={"text"}
+                type={"number"}
                 error={errorReturn("number")}
                 onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
                 value={formEvent.number}
@@ -215,6 +218,7 @@ const FlagEndorsement = () => {
                 fieldName={"dateOfIssue"}
                 label={"Date of issue"}
                 type={"date"}
+                max={IssuesformattedDate}
                 error={errorReturn("dateOfIssue")}
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
                 value={formEvent.dateOfIssue}
@@ -224,6 +228,7 @@ const FlagEndorsement = () => {
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
+                min={ExpireformattedDateFormNow}
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
@@ -243,7 +248,7 @@ const FlagEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-             <FileUpload folder={"flag"} />
+             <FileUpload folder={"flag"} name="endorsement" />
 
 
         </div>

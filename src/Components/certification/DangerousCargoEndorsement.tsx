@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { Trash2, Upload } from "react-feather";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
@@ -9,13 +9,14 @@ import { addDangerousCargoEndorsement, deleteDangerousCargoEndorsement, getDange
 import { LOADING } from "../../constants/action.constant";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 
 
 
 
 const DangerousCargoEndorsement = () => {
     const navigate = useNavigate()
-
+    const { setState } = useContext(CertificateContext)!;
 
 
     const [, dispatch] = useGlobalState();
@@ -30,8 +31,7 @@ const DangerousCargoEndorsement = () => {
 
     useEffect(() => {
         fetchData();
-        // setState(TravelState.seamenBook);
-
+        setState(CertificateState.dangerousCargo);
     }, [])
 
 
@@ -204,7 +204,7 @@ const DangerousCargoEndorsement = () => {
                 className="m-4"
                 fieldName={"number"}
                 label={"Number"}
-                type={"text"}
+                type={"number"}
                 error={errorReturn("number")}
                 onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
                 value={formEvent.number}
@@ -251,7 +251,7 @@ const DangerousCargoEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"dangerousCargo"} />
+            <FileUpload folder={"dangerousCargo"} name="endorsement" />
 
         </div>
         <div className="flex justify-center m-2">

@@ -119,12 +119,14 @@ const KinDetail = () => {
     try {
       let formData = { ...formEvent };
       delete formData.error;
+      delete formData.isFormChanged;
       console.log(formData);
 
       const isValid = await KinDetailValidation(formData);
       if (isValid) {
         const { data } = await KinDetailService(formData);
         if (data.success) {
+          toast.info(data.message)
           navigate("/");
         }
       } else {
@@ -177,7 +179,7 @@ const KinDetail = () => {
         <div className="flex flex-row">
           <InputField
             className="m-4 w-28"
-            inputClass="pr-2"
+            inputClass="pr-1"
             fieldName={"code"}
             label={"Code"}
             type={"text"}

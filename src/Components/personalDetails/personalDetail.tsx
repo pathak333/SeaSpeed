@@ -92,10 +92,17 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
+      flatnumber2: "",
+      society2: "",
+      city2: "",
+      state2: "",
+      country2: "",
+      pincode2: "",
+     // nearest_airport2:"",
       aadhaar: "",  
       pan: "",
       CNC:"",
-       isFormChanged:false,
+      isFormChanged:false,
       error: { key: "", value: "" },
     }
   );
@@ -121,6 +128,7 @@ const PersonalDetail = () => {
         delete updateData["isFormChanged"];
         const { data } = formEvent.hasOwnProperty("user_id")? await UpdatePersonalDetail(updateData): await AddPersonalDetail(formData)
         if (data.success) {
+          toast.info(data.message)
           navigate("/dashboard/personaldetails/contactDetail");
         }
         //dispatch({ type: LOADING, payload: false });
@@ -166,6 +174,13 @@ const PersonalDetail = () => {
       pincode: "",
       nearest_airport: "",
       isSameAddress: false,
+      flatnumber2: "",
+      society2: "",
+      city2: "",
+      state2: "",
+      country2: "",
+      pincode2: "",
+      nearest_airport2:"",
       error: { key: "", value: "" },
       isFormChanged:false
     });
@@ -223,7 +238,7 @@ const PersonalDetail = () => {
           error={errorReturn("marital_status")}
           onChange={(e) => updateEvent({ marital_status: e.target.value, isFormChanged:true })}
           value={formEvent.marital_status}
-          option={["unmarried","Married"]}
+          option={["unmarried","married"]}
         />
         <InputField
           className="m-4"
@@ -369,10 +384,10 @@ const PersonalDetail = () => {
             <InputField
               className="m-4"
               fieldName={"flatnumber2"}
-              label={"Flat number,House number"}
+              label={"Flat/House number"}
               type={"text"}
               error={errorReturn("flatnumber2")}
-              onChange={(e) => updateEvent({ flatenumber2: e.target.value, isFormChanged:true })}
+              onChange={(e) => updateEvent({ flatnumber2: e.target.value, isFormChanged:true })}
               value={formEvent.flatnumber2}
             />
             <InputField
@@ -420,7 +435,7 @@ const PersonalDetail = () => {
               onChange={(e) => updateEvent({ pincode2: e.target.value, isFormChanged:true })}
               value={formEvent.pincode2}
             />
-            <InputField
+            {/* <InputField
               className="m-4"
               fieldName={"nearest_airport2"}
               label={"Nearest airport"}
@@ -430,14 +445,14 @@ const PersonalDetail = () => {
                 updateEvent({ nearest_airport2: e.target.value, isFormChanged:true })
               }
               value={formEvent.nearest_airport2}
-            />
+            /> */}
           </div>
         </div>
       )}
       {formEvent.nationality === "Pakistani" && <p className="ml-4 text-xl font-medium">Pakistani National ID card detials</p>}
-      {formEvent.nationality === "Pakistani" && <div className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">
-      <div className="m-3">
-          <InputField
+      {formEvent.nationality === "Pakistani" && <div className="grid grid-flow-col grid-cols-2 max-sm:grid-cols">
+      <div className="m-3" id="cnc">
+          <InputField 
             type="text"
             fieldName="CNC"
             label="CNC"
@@ -447,7 +462,7 @@ const PersonalDetail = () => {
             value={formEvent.CNC}
           />
           <label
-            htmlFor="aadharFile"
+            htmlFor="cnc"
             className="btn font-semibold text-xl text-[#3B77BE]"
           >
             <u>upload CNC</u>
@@ -456,7 +471,7 @@ const PersonalDetail = () => {
       
       {formEvent.nationality === "Indian" && <p className="ml-4 text-xl font-medium">National ID card detials</p>}
       {/* <p className="ml-4 text-base text-[#A0A0A0]">Only for Indian resident </p> */}
-     {formEvent.nationality === "Indian" && <div  className="grid grid-flow-col grid-cols-2 max-sm:grid-cols-1">
+     {formEvent.nationality === "Indian" && <div  className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1">
         <div className="m-3">
           <InputField
             type="text"
@@ -469,7 +484,7 @@ const PersonalDetail = () => {
           />
           <label
             htmlFor="aadharFile"
-            className="btn font-semibold text-xl text-[#3B77BE]"
+            className="btn font-semibold text-lg text-[#3B77BE]"
           >
             <u>upload Aadhar</u>
           </label>
@@ -494,7 +509,7 @@ const PersonalDetail = () => {
           />
           <label
             htmlFor="panFile"
-            className="btn font-semibold text-xl text-[#3B77BE]"
+            className="btn font-semibold text-lg text-[#3B77BE]"
           >
             <u>upload Pan card</u>
           </label>
@@ -515,7 +530,7 @@ const PersonalDetail = () => {
   </button> :
   <button
     type="button"
-    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     onClick={() => {
       // clearAllData();
       navigate("/dashboard/personaldetails/contactDetail");
