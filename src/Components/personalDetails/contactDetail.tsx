@@ -57,6 +57,7 @@ const ContactDetail = () => {
         if (data.success) { 
           toast.info(data.message)
           navigate("/dashboard/personaldetails/educationDetail");
+          
         }
        // dispatch({ type: LOADING, payload: false });
 
@@ -154,7 +155,7 @@ const ContactDetail = () => {
             className="m-4 "
             fieldName={"alt_phone_no"}
             label={"Alternate phone number"}
-            type={"number"}
+            type={"text"}
             //   error={errorReturn("firstname")}
             onChange={(e) => updateEvent({ alt_phone_no: e.target.value,isFormChanged:true })}
             value={formEvent.alt_phone_no}

@@ -19,3 +19,9 @@ export interface GlobalState {
 export interface ChildrenProps {
   children: JSX.Element;
 }
+
+
+export interface Option {
+  readonly label: string;
+  readonly value: string;
+}

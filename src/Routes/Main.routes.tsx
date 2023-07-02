@@ -385,17 +385,17 @@ const MainRoutes = () => {
           ]
          
         },
-        {
-          path: "addManager",
-          element: (
-            <AuthenticatedRoute
-              accessToken={globalState.accessToken}
-              // outlet={<PersonalDetail />}
-              outlet={<AddManager />}
-            />
-            ),
+        // {
+        //   path: "addManager",
+        //   element: (
+        //     <AuthenticatedRoute
+        //       accessToken={globalState.accessToken}
+        //       // outlet={<PersonalDetail />}
+        //       outlet={<AddManager />}
+        //     />
+        //     ),
          
-        },
+        // },
         {
           path: "addVessel",
           element: (
