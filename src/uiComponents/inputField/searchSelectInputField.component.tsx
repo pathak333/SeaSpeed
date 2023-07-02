@@ -1,17 +1,15 @@
-import React, { ReactNode, useState } from 'react';
+
 
 import CreatableSelect from 'react-select/creatable';
 
-interface Option {
-  readonly label: string;
-  readonly value: string;
-}
+import { Option } from '../../types/propes.types';
 
 
 interface Props{
   className: string;
   options: Array<Option>;
-  onChange:(value:any) => void;
+  onChange: (value: any) => void;
+  onInputChange: any;
   onCreateOption: any;
   value: Option;
   isDisabled: boolean;
@@ -51,13 +49,15 @@ const SearchSelect = (props:Props) => {
 
   return (
     <CreatableSelect className={props.className}
+      
       createOptionPosition='first'
       placeholder={props.label}
       isClearable
       isDisabled={props.isDisabled}
       isLoading={props.isLoading}
       onChange={props.onChange}
-      onCreateOption={(v:string)=>props.onCreateOption(v)}
+      onInputChange={props.onInputChange}
+      onCreateOption={props.onCreateOption}
       options={props.options}
       value={props.value}
     />

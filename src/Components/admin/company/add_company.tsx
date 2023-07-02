@@ -18,6 +18,10 @@ const AddCompany = () => {
         const newEvent = { ...prev, ...next };
         return newEvent;
     }, {
+        name: "",
+        email: "",
+        phone: "",
+        Address: "",
         error: { key: "", value: "" },
     })
 

@@ -2,7 +2,7 @@ import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Trash2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { LOADING } from "../../constants/action.constant";
+import { DATA, LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import {
   PersonalDetailContext,
@@ -12,6 +12,7 @@ import {
   AddEducationDetail,
   DeleteEducationDetail,
   GetEducationDetail,
+  ProfileService,
 } from "../../services/user.service";
 
 
@@ -32,10 +33,17 @@ const Education = () => {
     console.log("Education data = ", data);
     setOldData(data.data.educationList);
   }
+  async function updateProfileData() {
+    const { data } = await ProfileService();
+    console.log("profile data", data);
+    sessionStorage.setItem("formState",data.data.formState)
+    dispatch({ type: DATA, payload: data });
+ }
 
   useEffect(() => {
     setState(Personalstate.educationBackground);
     fetchData();
+    updateProfileData();
     console.log("educationBackground component ");
   }, []);
 
