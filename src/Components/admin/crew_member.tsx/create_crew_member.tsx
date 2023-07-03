@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "react-feather";
+import { getAllRank } from "../../../services/admin.service";
 
 
 
@@ -15,10 +16,24 @@ const CreateCrewMember = () => {
     }
 
 
+    async function fetchData() {
+        const { data } = await getAllRank();
+        if (data.success) {
+            
+        }
+    }
+
+
+
     const [formEvent, updateEvent] = useReducer((pre:any, next:any) => {
         let newEvent = { ...pre, ...next };
         return newEvent;
     }, {
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone_no: "",
+        code:"",
         error: { key: "", value: "" },
     })
 

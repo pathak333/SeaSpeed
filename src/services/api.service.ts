@@ -5,7 +5,11 @@ let refresh = false;
 
 axios.defaults.headers.common["Authorization"] =
   sessionStorage.getItem("token") || "";
-axios.defaults.baseURL =  process.env.REACT_APP_API_ENDPOINT;//API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;//API_URL;
+
+
+
+
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {

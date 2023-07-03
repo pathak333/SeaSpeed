@@ -1,5 +1,5 @@
 
-import { addSubAdminApi, allCrewMember, getAllVessel } from "../constants/api.admin.constant";
+import { addSubAdminApi, getAllRankApi, getAllVessel } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -15,7 +15,9 @@ export const AddSubAdmin = (data:any) => {
 }
 
 
-export const AllCrewMember = () => {
-    return httpService.get(allCrewMember);
+export const getAllRank = () => {
+    return httpService.get(getAllRankApi);
 }
+
+
 

@@ -47,6 +47,7 @@ import AddCompany from "../Components/admin/company/add_company";
 import AddManager from "../Components/admin/company/add_manager";
 import AddVessel from "../Components/admin/company/add_vessel";
 import CompanyLayout from "../views/AdminViews/companyLayout";
+import axios from "axios";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -418,6 +419,9 @@ const MainRoutes = () => {
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
+  
+axios.defaults.headers.common["Authorization"] =
+sessionStorage.getItem("token") || "";
   useEffect(() => {
    const token =  sessionStorage.getItem("token");
     if (token) {

@@ -3,12 +3,13 @@ import { ArrowLeft } from "react-feather"
 import { useNavigate } from "react-router-dom";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import Select from 'react-select'
-import { AllVessel } from "../../../services/admin.service";
+import { AddSubAdmin, AllVessel } from "../../../services/admin.service";
 
 import { Option } from "../../../types/propes.types";
 import { toast } from "react-toastify";
 import { useGlobalState } from "../../../contexts/global.context";
 import { LOADING } from "../../../constants/action.constant";
+import { SubAdminValidation } from "./validation";
 
 
 const CreateSubAdmin = () => {
@@ -34,8 +35,6 @@ const CreateSubAdmin = () => {
             data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
             updateVesselOption(allData);
         }
-
-
     }
 
 
@@ -48,32 +47,45 @@ const CreateSubAdmin = () => {
         lastname: "",
         email: "",
         phone_no: "",
-        permission:[],
+        code: "",
+        rank: "",
+        joiningDate: "",
+        joiningPort: "",
+         vessel:"",
+        permission: [],
+        otherPermission: {},
         error: { key: "", value: "" },
     })
 
 
-   function addRemovePermission(value:string,state:boolean){
-       if (state) {
-           if (!formEvent.permission.includes(value)) {
-               updateEvent({permission:[...formEvent.permission,value]})
-           }
-           setTimeout(() => {
-               console.log("per",formEvent.permission);
-           }, 2000);
-           
-       } else {
-         
-           
-           
-           formEvent.permission.splice(formEvent.permission.indexOf(value), 1);
-           updateEvent({ permission: [...formEvent.permission] })
-           setTimeout(() => {
-            console.log("per2",formEvent.permission);
-        }, 2000);
-        }
-}
+    function addRemovePermission(value: string, state: boolean) {
+        if (state) {
+            if (!formEvent.permission.includes(value)) {
+                updateEvent({ permission: [...formEvent.permission, value] })
+            }
+            setTimeout(() => {
+                console.log("per", formEvent.permission);
+            }, 2000);
 
+        } else {
+
+
+
+            formEvent.permission.splice(formEvent.permission.indexOf(value), 1);
+            updateEvent({ permission: [...formEvent.permission] })
+            setTimeout(() => {
+                console.log("per2", formEvent.permission);
+            }, 2000);
+        }
+    }
+
+
+    function onselectionchange(e: any) {
+        console.log(e);
+        updateEvent({
+            otherPermission: { "vessel": e }
+        })
+    }
 
     const errorReturn = (field: string) =>
         formEvent.error.key === field ? formEvent.error.value : "";
@@ -84,23 +96,56 @@ const CreateSubAdmin = () => {
     }) as Option;
 
 
-    const handleSubmit = async (event: any)=>{
+    const handleSubmit = async (event: any) => {
         toast.dismiss();
+        dispatch({ type: LOADING, payload: true });
         try {
-            dispatch({ type: LOADING, payload: true });
-            event.preventDefault();
+           console.log("eeeee");
+           
+           event.preventDefault();
             let formData = { ...formEvent };
             delete formData.error;
+            delete formData.isFormChanged;
             console.log(formData);
-            setTimeout(() => {
-                dispatch({ type: LOADING, payload: false });
-            }, 2000);
-
-
-
-        } catch (error) {
+           
+           const isValid = await SubAdminValidation(formData)
+           console.log("eeeee");
+            console.log(isValid);
             
-        }
+            if (isValid) {
+                console.log(formData);
+                const { data } = await AddSubAdmin(formData);
+                if (data.success) {
+                    toast.info(data.message);
+                    navigate("/adminDashboard/home")
+                }
+            }else {
+        console.log(isValid);
+
+
+        throw Error(isValid);
+      }
+
+         
+
+
+        } catch (error:any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                  updateEvent({
+                    error: {
+                      keys: errorDetail.context.key,
+                      values: errorDetail.message,
+                    },
+                  });
+                  toast.error(errorDetail.message);
+                }
+              } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+              }
+        } finally {
+            dispatch({ type: LOADING, payload: false });
+          }
     }
 
 
@@ -155,6 +200,18 @@ const CreateSubAdmin = () => {
                     onChange={(e) => updateEvent({ phone_no: e.target.value, isFormChanged: true })}
                     value={formEvent.phone_no}
                 />
+                <InputField
+                    className="m-4 "
+                    fieldName={"code"}
+                    label={"Country Code"}
+                   
+                    type={"text"}
+                    //   error={errorReturn("firstname")}
+                    onChange={
+                        (e) =>  updateEvent({ code: e.target.value, isFormChanged: true  })
+                    }
+                    value={formEvent.code}
+                />
             </div>
 
             <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 content-center">
@@ -163,26 +220,26 @@ const CreateSubAdmin = () => {
                     <div className="flex ml-2">
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" id="user" onChange={(e: any) => {
-                               
-                                
-                                addRemovePermission("user",e.target.checked);
+
+
+                                addRemovePermission("user", e.target.checked);
                             }} />
                             <label htmlFor="user">User</label>
                         </div>
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="company" id="company" onChange={(e: any) => {
-                               
-                                
-                               addRemovePermission("company",e.target.checked);
-                           }}/>
+
+
+                                addRemovePermission("company", e.target.checked);
+                            }} />
                             <label htmlFor="company">Company</label>
                         </div>
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="rank" id="rank" onChange={(e: any) => {
-                               
-                                
-                               addRemovePermission("rank",e.target.checked);
-                           }}/>
+
+
+                                addRemovePermission("rank", e.target.checked);
+                            }} />
                             <label htmlFor="rank">Rank</label>
                         </div>
 
@@ -200,6 +257,7 @@ const CreateSubAdmin = () => {
                             options={vesselOption}
                             className="basic-multi-select  ml-2 w-full"
                             classNamePrefix="select"
+                            onChange={(e) => { onselectionchange(e) }}
                         />
                     </div>
                 </div>
@@ -214,7 +272,7 @@ const CreateSubAdmin = () => {
                     //   navigate("/dashboard/courseCertificate");
                 }}
             >
-                Create an admin account
+                Create account
             </button>
             <button
                 type="button"
