@@ -1,28 +1,61 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "react-feather";
-import { getAllRank } from "../../../services/admin.service";
-
+import { AllVessel, createNewUser, getAllRank } from "../../../services/admin.service";
+import { SearchSelect } from "../../../uiComponents/inputField/searchSelectInputField.component";
+import { Option } from "../../../types/propes.types";
+import { TodayDate } from "../../../constants/values.constants";
+import { toast } from "react-toastify";
+import { useGlobalState } from "../../../contexts/global.context";
+import { LOADING } from "../../../constants/action.constant";
+import { ValidationCrew } from "./validation";
 
 
 
 
 const CreateCrewMember = () => {
     const navigate = useNavigate()
-
+    const [, dispatch] = useGlobalState();
+    const [vesselOption, updateVesselOption] = useState<Option[]>([]);
+    const [rankOption, updateRankOption] = useState<Option[]>([]);
     function goBack() {
         navigate("/dashboard/home", { replace: true });
     }
 
+    const createOption = (label: string, value: string) => ({
+        label,
+        value,
+    }) as Option;
 
-    async function fetchData() {
+
+    async function fetchRankData() {
         const { data } = await getAllRank();
         if (data.success) {
-            
+            console.log(data);
+            let rankOptions : Option[] = []
+            data.data.map((e: any) => rankOptions.push(createOption(e.name, e._id)))
+            updateRankOption(rankOptions)
+        }
+    }
+    async function fetchVesselData() {
+        const { data } = await AllVessel();
+        //updateEvent({vesselData:data})
+        console.log("vessel data", data);
+        if (data) {
+            let allData: Option[] = [];
+            data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
+            updateVesselOption(allData)
         }
     }
 
+
+    useEffect(() => {
+        fetchRankData();
+        fetchVesselData();
+     
+    }, [])
+    
 
 
     const [formEvent, updateEvent] = useReducer((pre:any, next:any) => {
@@ -33,7 +66,11 @@ const CreateCrewMember = () => {
         lastname: "",
         email: "",
         phone_no: "",
-        code:"",
+        code: "",
+        rank: "",
+        vessel: {label:"vessel",value:""},
+        joiningPort: "",
+        joiningDate:"",
         error: { key: "", value: "" },
     })
 
@@ -41,8 +78,52 @@ const CreateCrewMember = () => {
         formEvent.error.key === field ? formEvent.error.value : "";
 
 
+//createNewUser
+    const handleSubmit = async (event: any) => {
+        toast.dismiss();
+        dispatch({ type: LOADING, payload: true });
+        try {
+            event.preventDefault();
+            let formData = { ...formEvent };
+            delete formData.error;
+            delete formData.isFormChanged;
+            console.log(formData);
+            const isValid = await ValidationCrew(formData)
+            
+            console.log("eeeee");
+             console.log(isValid);
+             
+            if (isValid) {
+                const { data } = await createNewUser(formData);
+                if (data.success) {
+                    toast.info(data.message);
+                    navigate("/adminDashboard/home")
+                }
+             }
 
+        } catch (error:any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                  updateEvent({
+                    error: {
+                      keys: errorDetail.context.key,
+                      values: errorDetail.message,
+                    },
+                  });
+                  toast.error(errorDetail.message);
+                }
+              } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+              }
+        } finally{
+            dispatch({ type: LOADING, payload: false });
+        }
+    }
 
+    
+
+    
+    
 
     return <>
             <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px]">
@@ -87,6 +168,15 @@ const CreateCrewMember = () => {
                 />
             <InputField
                 className="m-4"
+                fieldName={"code"}
+                label={"Code"}
+                type={"text"}
+                error={errorReturn("code")}
+                onChange={(e) => updateEvent({ code: e.target.value, isFormChanged: true })}
+                value={formEvent.code}
+                />
+            <InputField
+                className="m-4"
                 fieldName={"phone_no"}
                 label={"Phone number"}
                 type={"text"}
@@ -94,7 +184,20 @@ const CreateCrewMember = () => {
                 onChange={(e) => updateEvent({ phone_no: e.target.value, isFormChanged: true })}
                 value={formEvent.phone_no}
                 />
-            <InputField
+                  <SearchSelect
+                       className="m-4"
+
+                       label={"Vessel"}
+                       //type={""}
+                       onChange={(e) => updateEvent({ vessel: e, isFormChanged: true, })}
+                       value={formEvent.vessel}
+                       //error={errorReturn("Oil_tanker_DCE")}
+                       options={vesselOption}
+                      // onCreateOption={onCreate}
+                       isDisabled={false}
+                       isLoading={false}
+                />
+            {/* <InputField
                 className="m-4"
                 fieldName={"vessel"}
                 label={"Enter vessel or ship name"}
@@ -102,8 +205,21 @@ const CreateCrewMember = () => {
                 error={errorReturn("vessel")}
                 onChange={(e) => updateEvent({ vessel: e.target.value, isFormChanged: true })}
                 value={formEvent.vessel}
+                /> */}
+                <SearchSelect
+                       className="m-4"
+
+                       label={"Rank"}
+                       //type={""}
+                       onChange={(e) => updateEvent({ rank: e, isFormChanged: true, })}
+                       value={formEvent.rank}
+                       //error={errorReturn("Oil_tanker_DCE")}
+                       options={rankOption}
+                      // onCreateOption={onCreate}
+                       isDisabled={false}
+                       isLoading={false}
                 />
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"rank"}
                 label={"Rank"}
@@ -111,7 +227,7 @@ const CreateCrewMember = () => {
                 error={errorReturn("rank")}
                 onChange={(e) => updateEvent({ rank: e.target.value, isFormChanged: true })}
                 value={formEvent.rank}
-                />
+                /> */}
             <InputField
                 className="m-4"
                 fieldName={"joiningPort"}
@@ -125,17 +241,23 @@ const CreateCrewMember = () => {
                 className="m-4"
                 fieldName={"joiningDate"}
                 label={"Joining date"}
-                type={"text"}
+                type={"date"}
                 error={errorReturn("joiningDate")}
+                min={TodayDate}
                 onChange={(e) => updateEvent({ joiningDate: e.target.value, isFormChanged: true })}
                 value={formEvent.joiningDate}
                 />
                 
+
+               
+
+
             </div>
             <button
         type="button"
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onClick={() => {
+                onClick={(e) => {
+                    handleSubmit(e)
          // clearAllData();
         //   navigate("/dashboard/courseCertificate");
         }}

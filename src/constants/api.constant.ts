@@ -23,6 +23,7 @@ export const UpdateBankDetailApi = "/user/updateBankDetail"
 
 export const KinDetailApi = "/user/kinDetail"
 export const GetKinDetailApi = "/user/getKinDetail"
+export const UpdateKinDetailApi = "/user/updateKinDetail"
 
 
 // travel ssection 

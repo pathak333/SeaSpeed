@@ -171,8 +171,8 @@ const AddVessel = () => {
                 /> */}
 
                 <DialogBox label="Add New Company" isOpen={formEvent.isCompanyOpen} onClose={() => { updateEvent({ isCompanyOpen: false }); }} component={<><AddCompany /></>} />
-                <DialogBox label="Add New crew manager" isOpen={formEvent.isCrewOpen} onClose={() => { updateEvent({ isCrewOpen: false }); }} component={<><AddManager types={"crew"} /></>} />
-                <DialogBox label="Add New ship manager" isOpen={formEvent.isShipOpen} onClose={() => { updateEvent({ isShipOpen: false }); }} component={<><AddManager types={"ship"} /></>} />
+                <DialogBox label="Add New crew manager" isOpen={formEvent.isCrewOpen} onClose={() => { updateEvent({ isCrewOpen: false }); }} component={<><AddManager types={"crew"} from="popup" /></>} />
+                <DialogBox label="Add New ship manager" isOpen={formEvent.isShipOpen} onClose={() => { updateEvent({ isShipOpen: false }); }} component={<><AddManager types={"ship"} from="popup" /></>} />
             </div>
             <button
                 type="button"

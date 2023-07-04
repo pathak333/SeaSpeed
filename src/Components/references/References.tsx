@@ -279,16 +279,22 @@ useEffect(() => {
                     <thead className="text-xs text-grey-700 uppercase ">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                Union Name
+                            Company Name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Membership Number
+                            Address
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Date Of Joining Union
+                            Person In Charge
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Rank
+                             Rank
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                            Phone Number
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Email
                             </th>
 
                             <th scope="col" className="px-6 py-3">

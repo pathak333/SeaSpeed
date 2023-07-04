@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
-import { GetKinDetail, KinDetailService } from "../../services/user.service";
+import { GetKinDetail, KinDetailService, UpdateKinDetailService } from "../../services/user.service";
 
 import { KinDetailValidation } from "./validation";
 import {
@@ -120,11 +120,17 @@ const KinDetail = () => {
       let formData = { ...formEvent };
       delete formData.error;
       delete formData.isFormChanged;
+      if (formData.hasOwnProperty('_id')) {
+        delete formData._id;
+        delete formData.user_id;
+        delete formData.createdAt;
+        delete formData.updatedAt;
+     }
       console.log(formData);
 
       const isValid = await KinDetailValidation(formData);
       if (isValid) {
-        const { data } = await KinDetailService(formData);
+        const { data } =formEvent.hasOwnProperty("user_id") ? await UpdateKinDetailService(formData) : await KinDetailService(formData);
         if (data.success) {
           toast.info(data.message)
           navigate("/");

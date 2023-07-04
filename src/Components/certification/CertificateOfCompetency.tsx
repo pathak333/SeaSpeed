@@ -117,8 +117,8 @@ const CertificateOfCompetency = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.grade}</td>
             <td className="px-6 py-4">{item.licenseNumber}</td>
-            <td className="px-6 py-4">{item.dateOfIssue}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.issuingAuthorityCountry}</td>
             <td className="px-6 py-4">file</td>

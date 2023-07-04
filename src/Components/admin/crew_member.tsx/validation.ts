@@ -1,9 +1,10 @@
 import joi from "joi";
 
-export const ValidationCrew = () => joi.object({
-    firstname: joi.string().required(),
+export const ValidationCrew = async (data: any) => await joi.object({
+  firstname: joi.string().required(),
   lastname: joi.string().required(),
-  email: joi.string().email().required(),
+  email: joi.string().email({ tlds: { allow: false } }).required(),
+  code: joi.string().required(),
   phone_no: joi
     .string()
     .pattern(new RegExp("^[0-9]{10}$"))
@@ -11,8 +12,8 @@ export const ValidationCrew = () => joi.object({
     .messages({
       "string.pattern.base": "Phone number must be a 10-digit number",
     }),
-  rank: joi.string().required(),
-  joiningDate: joi.string().required(),
-  joiningPort: joi.string().required(),
-  vessel: joi.string().required(),
-})
+  rank: joi.object().required(),
+  joiningDate: joi.string().allow(""),
+  joiningPort: joi.string().allow(""),
+  vessel: joi.object().empty({}).unknown(true).optional(),
+}).validateAsync(data, { abortEarly: true });

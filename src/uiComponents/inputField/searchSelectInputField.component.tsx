@@ -9,8 +9,8 @@ interface Props{
   className: string;
   options: Array<Option>;
   onChange: (value: any) => void;
-  onInputChange: any;
-  onCreateOption: any;
+  onInputChange?: any;
+  onCreateOption?: any;
   value: Option;
   isDisabled: boolean;
   isLoading: boolean;

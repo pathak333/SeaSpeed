@@ -1,5 +1,5 @@
 
-import { addSubAdminApi, getAllRankApi, getAllVessel } from "../constants/api.admin.constant";
+import { addSubAdminApi, createNewUserApi, getAllRankApi, getAllVessel } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -20,4 +20,6 @@ export const getAllRank = () => {
 }
 
 
-
+export const createNewUser = (data: any) => {
+    return httpService.post(createNewUserApi, data);
+}

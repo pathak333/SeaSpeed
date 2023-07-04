@@ -73,6 +73,7 @@ const FlagEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
+                    Oil_tanker_DCE:"Support",
 
                 })
             }
@@ -101,6 +102,7 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
+            <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
 
             <td className="px-6 py-4">file</td>
             <td className="px-6 py-4">
@@ -117,9 +119,10 @@ const FlagEndorsement = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.number}</td>
-            <td className="px-6 py-4">{item.dateOfIssue}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
+            <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
 
             <td className="px-6 py-4">file</td>
             <td className="px-6 py-4">
@@ -280,6 +283,9 @@ const FlagEndorsement = () => {
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Place Of Issue
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                            Oil tanker DCE
                             </th>
 
                             <th scope="col" className="px-6 py-3">

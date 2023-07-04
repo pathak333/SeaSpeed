@@ -227,7 +227,11 @@ export const KinDetailValidation = async (data: any) =>
         name: joi.string().required(),
         dob: joi.string().required(),
         passport: joi.string().required(),
-        passportNumber: joi.string().required(),
+        passportNumber: joi.string().when("passport", {
+          is: "No",
+          then: joi.string().optional().allow(""),
+          otherwise:joi.string().required()
+        }),
         dateOfIssues: joi.string().required(),
         dateOfExpiry: joi.string().required(),
         nameOfChild: joi.string().required(),

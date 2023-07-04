@@ -212,7 +212,7 @@ const CourseCertificate = () => {
             <InputField
                 className="m-4"
                 fieldName={"certificateName"}
-                label={"Certificate Name"}
+                label={"Certificate Number"}
                 type={"text"}
                 error={errorReturn("certificateName")}
                 onChange={(e:any) => updateEvent({ certificateName: e.target.value, isFormChanged: true })}

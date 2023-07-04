@@ -46,7 +46,8 @@ import {
   AddMedicalDetailApi,
   DeletetMedicalDetailApi,
   GetMedicalDetailApi,
-  DeleteTypeMedicalDetailApi
+  DeleteTypeMedicalDetailApi,
+  UpdateKinDetailApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -83,6 +84,9 @@ export const UpdateBankDetailService = (data: any) => {
 
 export const KinDetailService = (data: any) => {
   return httpService.post(KinDetailApi, data);
+};
+export const UpdateKinDetailService = (data: any) => {
+  return httpService.put(UpdateKinDetailApi, data);
 };
 
 // get routes
