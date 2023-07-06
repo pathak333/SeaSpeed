@@ -47,6 +47,7 @@ import AddCompany from "../Components/admin/company/add_company";
 import AddManager from "../Components/admin/company/add_manager";
 import AddVessel from "../Components/admin/company/add_vessel";
 import CompanyLayout from "../views/AdminViews/companyLayout";
+import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member";
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
 
@@ -353,6 +354,17 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<CreateCrewMember />}
+            />
+            ),
+         
+        },
+        {
+          path: "allCrewMember",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<AllCrewMembers />}
             />
             ),
          
