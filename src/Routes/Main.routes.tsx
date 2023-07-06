@@ -44,7 +44,6 @@ import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_me
 import { LOGIN } from "../constants/action.constant";
 import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
 import AddCompany from "../Components/admin/company/add_company";
-import AddManager from "../Components/admin/company/add_manager";
 import AddVessel from "../Components/admin/company/add_vessel";
 import CompanyLayout from "../views/AdminViews/companyLayout";
 import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member";
@@ -365,6 +364,7 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<AllCrewMembers />}
+              // Error Showing 
             />
             ),
          
