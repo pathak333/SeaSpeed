@@ -66,7 +66,7 @@ const AdminDashboard = () => {
           label={"All crew members"}
           icon={<People className="" />}
           onClick={() => {
-            //navigate("/dashboard/courseCertificate");
+          navigate("/adminDashboard/allCrewMember");
           }}
         />
         <DashboardCard2

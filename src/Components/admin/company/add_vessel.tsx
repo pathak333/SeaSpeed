@@ -1,31 +1,54 @@
 
 
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { ArrowLeft } from "react-feather";
-import { SearchSelect, createOption } from "../../../uiComponents/inputField/searchSelectInputField.component";
+import { SearchSelect } from "../../../uiComponents/inputField/searchSelectInputField.component";
 import DialogBox from "../../../uiComponents/dialogBox";
 import AddCompany from "./add_company";
 import AddManager from "./add_manager";
+import { getAllCompanyService, getAllManagerByCompanyId } from "../../../services/admin.service";
 
+import { Option } from "../../../types/propes.types";
 
 
 
 const AddVessel = () => {
     const navigate = useNavigate();
+    const [companyOption, updateCompanyOption] = useState<Option[]>([]);
+    const [managerOption, updateManagerOption] = useState<Option[]>([]);
+    
+    const createOption = (label: string, value: string) => ({
+        label,
+        value,
+    }) as Option;
+
 
     function goBack() {
         navigate("/dashboard/home", { replace: true });
     }
  
 
+    useEffect(() => {
+        fetchData();
+    
+    
+    }, [])
+    
+
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
     }, {
-        company:"",
+        name: "",
+        imoNumber: "",
+        flag: "",
+        type:"",
+        company: {label:"Company",value:""},
+        crewManagerId: {label:"crew",value:""},
+        shipManagerId:{label:"ship",value:""},
         isCompanyOpen: false,
         isCrewOpen: false,
         isShipOpen: false,
@@ -33,6 +56,24 @@ const AddVessel = () => {
         error: { key: "", value: "" },
     })
 
+
+
+    const fetchData = async () => {
+        const { data } = await getAllCompanyService();
+        if (data) {
+            let allData: Option[] = [];
+            data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
+            updateCompanyOption(allData)
+        }
+}
+const fetchManagerData = async (id:string) => {
+    const { data } = await getAllManagerByCompanyId(id);
+    if (data) {
+        let allData: Option[] = [];
+        data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
+        updateManagerOption(allData)
+    }
+}
 
 
     const errorReturn = (field: string) =>
@@ -64,7 +105,7 @@ const AddVessel = () => {
             <p className="pl-8 text-[#A5A5A5]">
                 Add new vessel with the required details
             </p>
-            <span className="ml-4 text-lg">vessel basic details {formEvent.currentDialog} {formEvent.company}</span>
+            <span className="ml-4 text-lg">vessel basic details</span>
 
             <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
                 <InputField
@@ -108,11 +149,16 @@ const AddVessel = () => {
 
                     label={"Company"}
                     //type={""}
-                    onChange={(e) => updateEvent({ company: e.target.value, isFormChanged: true, currentDialog: "company" })}
+                    onChange={(e) => {
+                        console.log(e);
+                        
+                        updateEvent({ company: e, isFormChanged: true, currentDialog: "company" });
+                            fetchManagerData(e.value);
+                    }}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "company" })}
                     value={formEvent.company}
                     //error={errorReturn("Oil_tanker_DCE")}
-                    options={[createOption("Support"), createOption("Operation"), createOption("Management")]}
+                    options={companyOption}
                     onCreateOption={onCreate}
                     isDisabled={false}
                     isLoading={false} />
@@ -125,16 +171,16 @@ const AddVessel = () => {
                     onChange={(e) => updateEvent({ company: e.target.value, isFormChanged: true })}
                     value={formEvent.company}
                 /> */}
-               {formEvent.company && <SearchSelect
+               {formEvent.company.value !== "" && <SearchSelect
                     className="m-4"
 
                     label={"Crew Manager"}
                     //type={""}
-                    onChange={(e) => updateEvent({ crewManager: e.target.value, isFormChanged: true, currentDialog: "crew" })}
+                    onChange={(e) => updateEvent({ crewManager: e, isFormChanged: true, currentDialog: "crew" })}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "crew" })}
                     value={formEvent.crewManager}
                     //error={errorReturn("Oil_tanker_DCE")}
-                    options={[createOption("Support"), createOption("Operation"), createOption("Management")]}
+                    options={managerOption}
                     onCreateOption={onCreate}
                     isDisabled={false}
                     isLoading={false} />}
@@ -147,16 +193,16 @@ const AddVessel = () => {
                     onChange={(e) => updateEvent({ crewManagerId: e.target.value, isFormChanged: true })}
                     value={formEvent.crewManagerId}
                 /> */}
-                {formEvent.company && <SearchSelect
+                {formEvent.company.value !== "" && <SearchSelect
                     className="m-4"
 
                     label={"Ship Manager"}
                     //type={""}
-                    onChange={(e) => updateEvent({ shipManager: e.target.value, isFormChanged: true, currentDialog: "ship" })}
+                    onChange={(e) => updateEvent({ shipManager: e, isFormChanged: true, currentDialog: "ship" })}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "ship" })}
                     value={formEvent.shipManager}
                     //error={errorReturn("Oil_tanker_DCE")}
-                    options={[createOption("Support"), createOption("Operation"), createOption("Management")]}
+                    options={managerOption}
                     onCreateOption={onCreate}
                     isDisabled={false}
                     isLoading={false} />}

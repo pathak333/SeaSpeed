@@ -4,11 +4,15 @@ import { useReducer } from "react";
 import { useNavigate } from "react-router-dom"
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../../uiComponents/inputField/selectInputField.comonent";
+import { managerJoi } from "./validation";
+import { toast } from "react-toastify";
+import { addManagerService } from "../../../services/admin.service";
 
 
 interface Props{
     types: String;
-    from:String
+    from: String
+    callback?: (data: any) => void;
 }
 
 
@@ -29,7 +33,8 @@ const AddManager = (props:Props) => {
         email: "",
         phone: "",
         address: "",
-        type: props.types ?? "",
+        type: props.types ?? "crew",
+        isFormChanged:false,
         error: { key: "", value: "" },
     })
 
@@ -102,16 +107,54 @@ const AddManager = (props:Props) => {
                 option={["crew", "ship", "company"]}
             />}
         </div>
-        {props.from === "popup" && <button
-        type="button"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onClick={() => {
-         // clearAllData();
-        //   navigate("/dashboard/courseCertificate");
-        }}
-      >
-       Save
-            </button>}
+        <div className="flex justify-center m-2">
+            <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                onClick={async (e:any) => {
+                    e.preventDefault();
+                    try {
+                        var formData = { ...formEvent }
+                        delete formData.error;
+                        delete formData.isFormChanged
+                        var isValid = await managerJoi(formData);
+                        if (isValid) {
+                            if (props.callback != null) {
+                                props.callback(formData);
+                            } else {
+                                const { data } = await addManagerService(formData);
+                                if (data) {
+                                    toast.success(data.message);
+                                }
+                          }
+                            updateEvent({
+                                name: "",
+                                email: "",
+                                phone: "",
+                                address: "",
+                                type: props.types ?? "crew",
+                                isFormChanged:false,
+                                error: { key: "", value: "" },
+                            })
+                        }
+                    } catch (error:any) {
+                        if (error.name === "ValidationError") {
+                            for (let errorDetail of error.details) {
+                              updateEvent({
+                                error: {
+                                  keys: errorDetail.context.key,
+                                  values: errorDetail.message,
+                                },
+                              });
+                              toast.error(errorDetail.message);
+                            }
+                          } else if (error.name === "AxiosError") {
+                            toast.error(error.response.data.message);
+                          }
+                    }
+                }} >
+                Add Manager
+            </button>
+
+        </div>
     {/* </div > */}
     </>
 
