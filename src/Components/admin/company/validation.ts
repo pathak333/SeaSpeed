@@ -28,7 +28,7 @@ export const vesselJoi = (data:any) => joi.object({
   name: joi.string().required(),
   imoNumber: joi.string().required(),
   flag: joi.string().required(),
-  certificate: joi.array().required(),
+ // certificate: joi.array().required(),
   type: joi.string().required(),
   company: joi.object().required(),
   crewManagerId:joi.object().required(),

@@ -73,14 +73,14 @@ const AdminDashboard = () => {
           label={"All admins"}
           icon={<SupervisedUserCircleRounded className="" />}
           onClick={() => {
-            //navigate("/dashboard/courseCertificate");
+            navigate("/adminDashboard/viewAllAdmin");
           }}
         />
         <DashboardCard2
           label={"View all vessels"}
           icon={<Sailing className="" />}
           onClick={() => {
-            //navigate("/dashboard/courseCertificate");
+           navigate("/adminDashboard/viewVessel");
           }}
         />
         <DashboardCard2

@@ -8,17 +8,20 @@ import { SearchSelect } from "../../../uiComponents/inputField/searchSelectInput
 import DialogBox from "../../../uiComponents/dialogBox";
 import AddCompany from "./add_company";
 import AddManager from "./add_manager";
-import { getAllCompanyService, getAllManagerByCompanyId } from "../../../services/admin.service";
+import { createVessel, getAllCompanyService, getAllManagerByCompanyId } from "../../../services/admin.service";
 
 import { Option } from "../../../types/propes.types";
+import { vesselJoi } from "./validation";
+import { toast } from "react-toastify";
 
 
 
 const AddVessel = () => {
     const navigate = useNavigate();
     const [companyOption, updateCompanyOption] = useState<Option[]>([]);
-    const [managerOption, updateManagerOption] = useState<Option[]>([]);
-    
+    const [crewManagerOption, updateCrewManagerOption] = useState<Option[]>([]);
+    const [shipManagerOption, updateShipManagerOption] = useState<Option[]>([]);
+
     const createOption = (label: string, value: string) => ({
         label,
         value,
@@ -28,14 +31,12 @@ const AddVessel = () => {
     function goBack() {
         navigate("/dashboard/home", { replace: true });
     }
- 
+
 
     useEffect(() => {
         fetchData();
-    
-    
     }, [])
-    
+
 
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
@@ -45,14 +46,15 @@ const AddVessel = () => {
         name: "",
         imoNumber: "",
         flag: "",
-        type:"",
-        company: {label:"Company",value:""},
-        crewManagerId: {label:"crew",value:""},
-        shipManagerId:{label:"ship",value:""},
+        type: "",
+        company: { label: "Company", value: "" },
+        crewManagerId: { label: "crew", value: "" },
+        shipManagerId: { label: "ship", value: "" },
         isCompanyOpen: false,
         isCrewOpen: false,
         isShipOpen: false,
         currentDialog: "",
+        isFormChanged:false,
         error: { key: "", value: "" },
     })
 
@@ -65,15 +67,18 @@ const AddVessel = () => {
             data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
             updateCompanyOption(allData)
         }
-}
-const fetchManagerData = async (id:string) => {
-    const { data } = await getAllManagerByCompanyId(id);
-    if (data) {
-        let allData: Option[] = [];
-        data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
-        updateManagerOption(allData)
     }
-}
+    const fetchManagerData = async (id: string) => {
+        const { data } = await getAllManagerByCompanyId(id);
+        if (data) {
+            let allShipData: Option[] = [];
+            let allCrewData: Option[] = [];
+
+            data.data.map((e: any) => e.type === "crew" ? allCrewData.push(createOption(e.name, e._id)) : allShipData.push(createOption(e.name, e._id)))
+            updateCrewManagerOption(allCrewData)
+            updateShipManagerOption(allShipData)
+        }
+    }
 
 
     const errorReturn = (field: string) =>
@@ -91,6 +96,64 @@ const fetchManagerData = async (id:string) => {
             updateEvent({ isShipOpen: true })
         }
     }
+
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        try {
+            var formData = { ...formEvent };
+            delete formData.isCompanyOpen;
+            delete formData.isCrewOpen;
+            delete formData.isShipOpen;
+            delete formData.currentDialog;
+            delete formData.isFormChanged;
+            delete formData.error;
+            console.log(formData)
+            let isValid = await vesselJoi(formData);
+            console.log(formData);
+            
+            if (isValid) {
+                const { data } = await createVessel(formData);
+                if (data) {
+                    toast.success(data.message);
+                }
+          
+                updateEvent({
+                    name: "",
+                    imoNumber: "",
+                    flag: "",
+                    type: "",
+                    company: { label: "Company", value: "" },
+                    crewManagerId: { label: "crew", value: "" },
+                    shipManagerId: { label: "ship", value: "" },
+                    isCompanyOpen: false,
+                    isCrewOpen: false,
+                    isShipOpen: false,
+                    currentDialog: "",
+                    isFormChanged:false,
+                    error: { key: "", value: "" },
+                });
+            }
+        } catch (error:any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                  updateEvent({
+                    error: {
+                      keys: errorDetail.context.key,
+                      values: errorDetail.message,
+                    },
+                  });
+                  toast.error(errorDetail.message);
+                }
+              } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+              }
+        }
+        
+    }
+
+
+
 
 
     return <>
@@ -151,9 +214,9 @@ const fetchManagerData = async (id:string) => {
                     //type={""}
                     onChange={(e) => {
                         console.log(e);
-                        
+
                         updateEvent({ company: e, isFormChanged: true, currentDialog: "company" });
-                            fetchManagerData(e.value);
+                        fetchManagerData(e.value);
                     }}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "company" })}
                     value={formEvent.company}
@@ -171,16 +234,16 @@ const fetchManagerData = async (id:string) => {
                     onChange={(e) => updateEvent({ company: e.target.value, isFormChanged: true })}
                     value={formEvent.company}
                 /> */}
-               {formEvent.company.value !== "" && <SearchSelect
+                {formEvent.company.value !== "" && <SearchSelect
                     className="m-4"
 
                     label={"Crew Manager"}
                     //type={""}
-                    onChange={(e) => updateEvent({ crewManager: e, isFormChanged: true, currentDialog: "crew" })}
+                    onChange={(e) => updateEvent({ crewManagerId: e, isFormChanged: true, currentDialog: "crew" })}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "crew" })}
-                    value={formEvent.crewManager}
+                    value={formEvent.crewManagerId}
                     //error={errorReturn("Oil_tanker_DCE")}
-                    options={managerOption}
+                    options={crewManagerOption}
                     onCreateOption={onCreate}
                     isDisabled={false}
                     isLoading={false} />}
@@ -198,11 +261,11 @@ const fetchManagerData = async (id:string) => {
 
                     label={"Ship Manager"}
                     //type={""}
-                    onChange={(e) => updateEvent({ shipManager: e, isFormChanged: true, currentDialog: "ship" })}
+                    onChange={(e) => updateEvent({ shipManagerId: e, isFormChanged: true, currentDialog: "ship" })}
                     onInputChange={(e: any) => updateEvent({ currentDialog: "ship" })}
-                    value={formEvent.shipManager}
+                    value={formEvent.shipManagerId}
                     //error={errorReturn("Oil_tanker_DCE")}
-                    options={managerOption}
+                    options={shipManagerOption}
                     onCreateOption={onCreate}
                     isDisabled={false}
                     isLoading={false} />}
@@ -223,7 +286,8 @@ const fetchManagerData = async (id:string) => {
             <button
                 type="button"
                 className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                onClick={() => {
+                onClick={(e) => {
+                    handleSubmit(e);
                     // clearAllData();
                     //   navigate("/dashboard/courseCertificate");
                 }}

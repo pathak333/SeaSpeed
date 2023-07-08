@@ -48,6 +48,8 @@ import AddVessel from "../Components/admin/company/add_vessel";
 import CompanyLayout from "../views/AdminViews/companyLayout";
 import axios from "axios";
 import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member";
+import ViewAllAdmin from "../Components/admin/sub_admin.tsx/view_all_admin";
+import ViewAllVessel from "../Components/admin/company/view_all_vessel";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -382,6 +384,17 @@ const MainRoutes = () => {
          
         },
         {
+          path: "viewAllAdmin",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ViewAllAdmin />}
+            />
+            ),
+         
+        },
+        {
           path: "addCompany",
           element: (
             <AuthenticatedRoute
@@ -420,6 +433,18 @@ const MainRoutes = () => {
             ),
          
         },
+        {
+          path: "viewVessel",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ViewAllVessel />}
+            />
+            ),
+         
+        },
+      
       ]
     },
    
