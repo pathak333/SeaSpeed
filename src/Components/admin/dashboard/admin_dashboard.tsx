@@ -2,7 +2,7 @@
 import DashboardCard from "../../smallerComponents/dashboardCard";
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { Business, Contacts, DirectionsBoatRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@material-ui/icons";
+import { Business, Contacts, DirectionsBoatRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@mui/icons-material";
 import DashboardCard2 from "../../smallerComponents/dashboardCard2";
 import { Sailing } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { AccountCircle, VisibilityOff } from "@material-ui/icons";
+
 import { useReducer, useState } from "react";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
@@ -8,6 +8,7 @@ import { validationAuth } from "./validation";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ResetPasswordService } from "../../services/auth.service";
+import { AccountCircle, VisibilityOff } from "@mui/icons-material";
 
 const ResetPassword: NoPropComponent = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from "react";
 import { NoPropComponent } from "../../types/noProps.type";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { AccountCircle, VisibilityOff } from "@material-ui/icons";
+import { AccountCircle, VisibilityOff } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { LOADING, LOGIN } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
