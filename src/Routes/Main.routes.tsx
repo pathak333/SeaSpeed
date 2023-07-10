@@ -50,6 +50,7 @@ import axios from "axios";
 import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member";
 import ViewAllAdmin from "../Components/admin/sub_admin.tsx/view_all_admin";
 import ViewAllVessel from "../Components/admin/company/view_all_vessel";
+import ViewAllCompany from "../Components/admin/company/view_all_company";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -409,6 +410,17 @@ const MainRoutes = () => {
               element:<AddCompany />
             }
           ]
+         
+        },
+        {
+          path: "viewAllCompany",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ViewAllCompany />}
+            />
+            ),
          
         },
         // {
