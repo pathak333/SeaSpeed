@@ -7,7 +7,7 @@ import joi from "joi";
     email: joi.string().required(),
     phone: joi.number().required(),
     address: joi.string().allow(""),
-    type: joi.string().valid("ship", "crew", "agency").required()
+    type: joi.string().valid("SHIP MANAGER", "CREW MANAGER", "CREW AGENCY").required()
 });
 
 export const managerJoi = (data:any)=>manager.validateAsync(data, { abortEarly: true });

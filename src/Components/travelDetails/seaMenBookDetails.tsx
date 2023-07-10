@@ -89,10 +89,10 @@ const SeaMenBookDetail = () => {
 
   const listofData = formEvent.dataList.map((item: any, index: any) => (
     <tr key={index} className="bg-white border-b">
-      <td className="px-6 py-4">{item.placeOfIssue}</td>
       <td className="px-6 py-4">{item.number}</td>
-      <td className="px-6 py-4">{item.dateOfIssue}</td>
-      <td className="px-6 py-4">{item.dateOfExpiry}</td>
+      <td className="px-6 py-4">{item.placeOfIssue}</td>
+      <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
+      <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
       <td className="px-6 py-4">file</td>
@@ -108,10 +108,10 @@ const SeaMenBookDetail = () => {
   ));
   const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
     <tr key={index} className="bg-white border-b">
-      <td className="px-6 py-4">{item.placeOfIssue}</td>
       <td className="px-6 py-4">{item.number}</td>
-      <td className="px-6 py-4">{item.dateOfIssue}</td>
-      <td className="px-6 py-4">{item.dateOfExpiry}</td>
+      <td className="px-6 py-4">{item.placeOfIssue}</td>
+      <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
+      <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
       <td className="px-6 py-4">file</td>
@@ -247,20 +247,24 @@ const SeaMenBookDetail = () => {
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                Visa type
+            <th scope="col" className="px-6 py-3">
+                Number
               </th>
               <th scope="col" className="px-6 py-3">
                 Place Of Issue
               </th>
-              <th scope="col" className="px-6 py-3">
-                Number
-              </th>
+             
               <th scope="col" className="px-6 py-3">
                 Date Of Issue
               </th>
               <th scope="col" className="px-6 py-3">
                 Date Of Expiry
+              </th>
+              <th scope="col" className="px-6 py-3">
+                SID
+              </th>
+              <th scope="col" className="px-6 py-3">
+                INDOS
               </th>
               <th scope="col" className="px-6 py-3">
                 File

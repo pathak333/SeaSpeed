@@ -41,6 +41,17 @@ const ContactDetail = () => {
     }
   );
 
+  const clearAll = () => {
+   updateEvent( {
+   
+    alt_email: "",
+    alt_country_code:"",
+    alt_phone_no: "",
+    isFormChanged:false
+  })
+ }
+
+
   const handlerSubmit = async (event: any) => {
     toast.dismiss();
     console.log("constact ")
@@ -178,7 +189,7 @@ const ContactDetail = () => {
   >
     Skip and Next
   </button>}
-      <button className="ml-8 text-xl text-blue-700">Clear all</button>
+      <button type="button" className="ml-8 text-xl text-blue-700" onClick={()=>{clearAll()}}  >Clear all</button>
       <button
         className="ml-8 text-xl text-gray-500"
         onClick={() => navigate("/dashboard/personaldetails")}

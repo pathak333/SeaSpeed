@@ -104,22 +104,22 @@ export const UpdatePersonalDetailValidation = (data: any) =>
     .object({
       // firstname: joi.string().optional(),
       // lastname: joi.string(),
-      dob: joi.string().label("BirthDate").optional(),
-      gender: joi.string().optional(),
-      marital_status: joi.string().valid("married", "unmarried").optional(),
-      birthPlace: joi.string().optional(),
-      nationality: joi.string().required().optional(),
-      flatnumber: joi.string().optional(),
-      society: joi.string().optional(),
-      city: joi.string().optional(),
-      state: joi.string().optional(),
-      country: joi.string().optional(),
-      pincode: joi.number().optional(),
-      nearest_airport: joi.string().optional(),
+      dob: joi.string().label("BirthDate").optional().allow(""),
+      gender: joi.string().optional().allow(""),
+      marital_status: joi.string().valid("married", "unmarried").optional().allow(""),
+      birthPlace: joi.string().optional().allow(""),
+      nationality: joi.string().required().optional().allow(""),
+      flatnumber: joi.string().optional().allow(""),
+      society: joi.string().optional().allow(""),
+      city: joi.string().optional().allow(""),
+      state: joi.string().optional().allow(""),
+      country: joi.string().optional().allow(""),
+      pincode: joi.number().optional().allow(""),
+      nearest_airport: joi.string().optional().allow(""),
       isSameAddress: joi.boolean().optional(),
-      aadhaar: joi.string().optional(),
-      pan: joi.string().optional(),
-      CNC: joi.string().optional(),
+      aadhaar: joi.string().optional().allow(""),
+      pan: joi.string().optional().allow(""),
+      CNC: joi.string().optional().allow(""),
        flatnumber2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
@@ -163,12 +163,12 @@ export const EducationValidation = async (data: any) =>
   joi.array().items(
     await joi
       .object({
-        institution: joi.string(),
+        institution: joi.string().required(),
         qualification: joi.string(),
-        startDate: joi.string().allow(""),
-        endDate: joi.string().allow(""),
-        city: joi.string(),
-        country: joi.string(),
+        startDate: joi.string().required(),
+        endDate: joi.string().required(),
+        city: joi.string().required(),
+        country: joi.string().required(),
       })
       .validateAsync(data, { abortEarly: true })
   );
@@ -218,7 +218,7 @@ export const KinDetailValidation = async (data: any) =>
       bankName: joi.string().required(),
       accountHolderName: joi.string().required(),
       branchCode: joi.string().required(),
-      accountNumber: joi.number().required(),
+      accountNumber: joi.string().required(),
       swiftCode: joi.string().required(),
       ifscCode: joi.string().optional().allow(""),
       iban: joi.string().optional().allow(""),
@@ -232,9 +232,17 @@ export const KinDetailValidation = async (data: any) =>
           then: joi.string().optional().allow(""),
           otherwise:joi.string().required()
         }),
-        dateOfIssues: joi.string().required(),
-        dateOfExpiry: joi.string().required(),
-        nameOfChild: joi.string().required(),
+        dateOfIssues: joi.string().when("passport", {
+          is: "No",
+          then: joi.string().optional().allow(""),
+          otherwise:joi.string().required()
+        }),
+        dateOfExpiry: joi.string().when("passport", {
+          is: "No",
+          then: joi.string().optional().allow(""),
+          otherwise:joi.string().required()
+        }),
+        nameOfChild: joi.string().optional().allow(""),
       }),
     })
     .validateAsync(data, { abortEarly: true });

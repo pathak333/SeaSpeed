@@ -53,7 +53,7 @@ const PersonalDetailLayout = (props: any) => {
 
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />
             <span className={state >= 3 ? "text-blue-500" : ""}>
-              Bank<span className="max-sm:hidden">details</span>
+              Bank <span className="max-sm:hidden">details</span>
             </span>
 
             <span className="ml-2 mr-2 flex-grow border-t border-gray-400" />

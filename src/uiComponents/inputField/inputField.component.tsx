@@ -14,6 +14,7 @@ interface Props {
   value?: string;
   min?: string;
   max?: string;
+  id?: string;
 
   onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
   onChange(event: React.ChangeEvent<HTMLInputElement>): any;
@@ -35,7 +36,7 @@ function InputField(props: Props) {
       >
         <input
           type={props.type}
-          id={props.fieldName}
+          id={props.id ?? props.fieldName}
           name={props.fieldName}
           className={`block pl-2 pr-12 max-sm:pr-0  w-full h-10 text-lg appearance-none focus:outline-none bg-transparent ${props.inputClass}`}
           placeholder=" "
@@ -46,6 +47,8 @@ function InputField(props: Props) {
           value={props.value}
           min={props.min}
           max={props.max}
+          autoComplete="off"
+          autoCorrect="off"
         />
        {props.icon && <button
           type="button"

@@ -72,6 +72,7 @@ const AddCompany = () => {
             error={errorReturn("name")}
             onChange={(e) => updateEvent({ name: e.target.value, isFormChanged: true })}
             value={formEvent.name}
+            id="cName"
         />
         <InputField
             className="m-4"
@@ -81,6 +82,7 @@ const AddCompany = () => {
             error={errorReturn("email")}
             onChange={(e) => updateEvent({ email: e.target.value, isFormChanged: true })}
             value={formEvent.email}
+            id="cemail"
         />
         <InputField
             className="m-4"
@@ -90,8 +92,9 @@ const AddCompany = () => {
             error={errorReturn("phone")}
             onChange={(e) => updateEvent({ phone: e.target.value, isFormChanged: true })}
             value={formEvent.phone}
+            id="cphone"
         />
-        <InputField
+        <InputField 
             className="m-4"
             fieldName={"address"}
             label={"Address"}
@@ -99,6 +102,7 @@ const AddCompany = () => {
             error={errorReturn("address")}
             onChange={(e) => updateEvent({ address: e.target.value, isFormChanged: true })}
             value={formEvent.address}
+            id="addressCompany"
         />
         <FileUpload folder={"/company"} name="logo" />
         <FileUpload folder={"/company"} name="copmany doc" />
@@ -106,7 +110,7 @@ const AddCompany = () => {
     </div>
         <hr />
        <p className="text-lg ml-3">Manager basic details</p>
-        <AddManager types={""} from={"company"} callback={addMoreManager} />
+        <AddManager  from={"company"} callback={addMoreManager} />
         {formEvent.manager.length > 0  ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">

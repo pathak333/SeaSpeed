@@ -239,7 +239,7 @@ const FlagEndorsement = () => {
             <SelectInput
                 className="m-4"
                 fieldName={"Oil_tanker_DCE"}
-                label={"Oil tanker DCE"}
+                label={"Label"}
                 type={""}
                 onChange={(e) => updateEvent({ Oil_tanker_DCE: e.target.value, isFormChanged: true })}
                 value={formEvent.Oil_tanker_DCE}
@@ -285,7 +285,7 @@ const FlagEndorsement = () => {
                                 Place Of Issue
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Oil tanker DCE
+                            Label
                             </th>
 
                             <th scope="col" className="px-6 py-3">

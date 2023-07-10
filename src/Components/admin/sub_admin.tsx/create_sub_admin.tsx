@@ -114,6 +114,16 @@ const CreateSubAdmin = () => {
                 if (data.success) {
                     toast.info(data.message);
                     navigate("/adminDashboard/home")
+                    updateEvent({
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        phone_no: "",
+                        code: "",
+                        permission: [],
+                        otherPermission: {},
+                        error: { key: "", value: "" },
+                    })
                 }
             }else {
         console.log(isValid);
@@ -218,32 +228,32 @@ const CreateSubAdmin = () => {
                             <input className="m-2" type="checkbox" id="user" onChange={(e: any) => {
 
 
-                                addRemovePermission("user", e.target.checked);
+                                addRemovePermission("admin", e.target.checked);
                             }} />
-                            <label htmlFor="user">User</label>
+                            <label htmlFor="user">Admin</label>
                         </div>
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="company" id="company" onChange={(e: any) => {
 
 
-                                addRemovePermission("company", e.target.checked);
+                                addRemovePermission("application", e.target.checked);
                             }} />
-                            <label htmlFor="company">Company</label>
+                            <label htmlFor="company">Application</label>
                         </div>
-                        <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
+                        {/* <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="rank" id="rank" onChange={(e: any) => {
 
 
                                 addRemovePermission("rank", e.target.checked);
                             }} />
                             <label htmlFor="rank">Rank</label>
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
                 <div>
 
-                    <p className="ml-4 text-lg">Vessel access</p>
+                    <p className="ml-4 text-lg">Vessel Manager</p>
                     <div className="flex flex-row  ml-4">
                         <Select
                             id="vessel"

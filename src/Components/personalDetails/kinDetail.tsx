@@ -133,7 +133,7 @@ const KinDetail = () => {
         const { data } =formEvent.hasOwnProperty("user_id") ? await UpdateKinDetailService(formData) : await KinDetailService(formData);
         if (data.success) {
           toast.info(data.message)
-          navigate("/");
+          navigate("/dashboard/traveldetails");
         }
       } else {
         throw Error(isValid);
@@ -303,7 +303,7 @@ const KinDetail = () => {
           className="m-4"
           fieldName={"accountNumber"}
           label={"Account number"}
-          type={"number"}
+          type={"text"}
           error={errorReturn("accountNumber")}
           onChange={(e) => updateEvent({ accountNumber: e.target.value,isFormChanged:true })}
           value={formEvent.accountNumber}

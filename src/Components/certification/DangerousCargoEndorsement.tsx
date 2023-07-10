@@ -10,6 +10,7 @@ import { LOADING } from "../../constants/action.constant";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
+import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 
 
 
@@ -225,6 +226,7 @@ const DangerousCargoEndorsement = () => {
                 fieldName={"dateOfIssue"}
                 label={"Date of issue"}
                 type={"date"}
+                max={IssuesformattedDate}
                 error={errorReturn("dateOfIssue")}
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
                 value={formEvent.dateOfIssue}
@@ -234,6 +236,7 @@ const DangerousCargoEndorsement = () => {
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
+                min={ExpireformattedDateFormNow}
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
                 value={formEvent.dateOfExpiry}

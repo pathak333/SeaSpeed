@@ -1,5 +1,5 @@
 
-import { addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, createNewUserApi, getAllCompanyApi, getAllManagerByCompanyIdApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getSubAdminApi } from "../constants/api.admin.constant";
+import { addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getSubAdminApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -30,6 +30,10 @@ export const getAllSubAdmin = () => {
 
 export const createNewUser = (data: any) => {
     return httpService.post(createNewUserApi, data);
+}
+
+export const getAllCrew = () => {
+    return httpService.get(getAllCrewApi);
 }
 
 export const getAllRank = () => {

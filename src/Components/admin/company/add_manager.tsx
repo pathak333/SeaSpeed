@@ -10,7 +10,7 @@ import { addManagerService } from "../../../services/admin.service";
 
 
 interface Props{
-    types: String;
+    types?: String;
     from: String
     callback?: (data: any) => void;
 }
@@ -33,7 +33,7 @@ const AddManager = (props:Props) => {
         email: "",
         phone: "",
         address: "",
-        type: props.types ?? "crew",
+        type: props.types ?? "CREW MANAGER",
         isFormChanged:false,
         error: { key: "", value: "" },
     })
@@ -104,7 +104,7 @@ const AddManager = (props:Props) => {
                 onChange={(e: any) => updateEvent({ type: e.target.value, isFormChanged: true })}
                 value={formEvent.type}
                 error={errorReturn("type")}
-                option={["crew", "ship", "company"]}
+                option={["CREW MANAGER", "SHIP MANAGER", "CREW AGENCY"]}
             />}
         </div>
         <div className="flex justify-center m-2">

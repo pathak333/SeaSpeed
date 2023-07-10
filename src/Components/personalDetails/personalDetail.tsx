@@ -180,7 +180,10 @@ const PersonalDetail = () => {
       state2: "",
       country2: "",
       pincode2: "",
-      nearest_airport2:"",
+      nearest_airport2: "",
+      aadhaar: "",  
+      pan: "",
+      CNC:"",
       error: { key: "", value: "" },
       isFormChanged:false
     });
