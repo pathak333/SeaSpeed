@@ -26,9 +26,8 @@ const ViewAllVessel = () => {
           <td className="px-6 py-4">{item.name}</td>
           <td className="px-6 py-4">{item.type}</td>
           <td className="px-6 py-4">{item.flag}</td>
-          <td className="px-6 py-4">{item.dateOfExpiry}</td>
-          <td className="px-6 py-4">{item.sidNumber}</td>
-          <td className="px-6 py-4">{item.Indos}</td>
+          <td className="px-6 py-4">{item.company.label}</td>
+          <td className="px-6 py-4">{item.imoNumber}</td>
           <td className="px-6 py-4">file</td>
           <td className="px-6 py-4">
             <Trash2
@@ -48,19 +47,19 @@ const ViewAllVessel = () => {
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Visa type
+                Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Place Of Issue
+                Type
               </th>
               <th scope="col" className="px-6 py-3">
-                Number
+                Flag
               </th>
               <th scope="col" className="px-6 py-3">
-                Date Of Issue
+                Company
               </th>
               <th scope="col" className="px-6 py-3">
-                Date Of Expiry
+                Imo Number
               </th>
               <th scope="col" className="px-6 py-3">
                 File

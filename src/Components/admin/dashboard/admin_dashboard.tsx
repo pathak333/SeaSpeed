@@ -94,7 +94,7 @@ const AdminDashboard = () => {
           label={"View all companies"}
           icon={<Business className="" />}
           onClick={() => {
-            //navigate("/dashboard/courseCertificate");
+            navigate("/adminDashboard/viewAllCompany");
           }}
         />
       </div>
