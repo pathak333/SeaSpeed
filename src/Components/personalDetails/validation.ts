@@ -53,32 +53,32 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       flatnumber2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
-        otherwise: joi.string(),
+        otherwise: joi.string().optional().allow(""),
       }),
       society2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
-        otherwise: joi.string(),
+        otherwise: joi.string().optional().allow(""),
       }),
       city2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
-        otherwise: joi.string(),
+        otherwise: joi.string().optional().allow(""),
       }),
       state2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
-        otherwise: joi.string(),
+        otherwise: joi.string().optional().allow(""),
       }),
       country2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
-        otherwise: joi.string(),
+        otherwise: joi.string().optional().allow(""),
       }),
       pincode2: joi.number().when("isSameAddress", {
         is: false,
         then: joi.number().required(),
-        otherwise: joi.number(),
+        otherwise: joi.number().optional().allow(""),
       }),
       //  nearest_airport2: joi.string().when("isSameAddress", {
       //   is: false,

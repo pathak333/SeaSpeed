@@ -48,15 +48,23 @@ const LoginForm: NoPropComponent = () => {
             },
           });
         } else {
-          dispatch({ type: LOGIN, payload: data.data.refreshToken,role: data.data.role });
+          dispatch({ type: LOGIN, payload: data.data.refreshToken,role: data.data.role,data:data.data });
           sessionStorage.setItem("token", data.data.refreshToken);
           sessionStorage.setItem("role", data.data.role);
-          navigate("/dashboard/home", {
-            state: {
-              data,
-              password: formData.password,
-            },
-          });
+          if (data.data.role === "admin") {
+            navigate("/adminDashboard/home",{ state: {
+              data:data.data,
+              
+            },})
+          } else {
+            
+            navigate("/dashboard/home", {
+              state: {
+                data,
+                password: formData.password,
+              },
+            });
+          }
         }
 
         updateEvent({

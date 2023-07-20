@@ -51,6 +51,7 @@ import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member"
 import ViewAllAdmin from "../Components/admin/sub_admin.tsx/view_all_admin";
 import ViewAllVessel from "../Components/admin/company/view_all_vessel";
 import ViewAllCompany from "../Components/admin/company/view_all_company";
+import CrewProfile from "../Components/admin/crew_member.tsx/crew_member_profile";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -374,6 +375,17 @@ const MainRoutes = () => {
             ),     
         },
         {
+          path: "crewProfile",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CrewProfile />}
+              // Error Showing 
+            />
+            ),     
+        },
+        {
           path: "createSubAdmin",
           element: (
             <AuthenticatedRoute
@@ -456,6 +468,168 @@ const MainRoutes = () => {
             ),
          
         },
+        // crew file editing section 
+        {
+          path: "personaldetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<PersonalDetailLayout />}
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element: <PersonalDetail />,
+            },
+            {
+              path: "contactDetail",
+              element: <ContactDetail />,
+            },
+            {
+              path: "educationDetail",
+              element: <Education />,
+            },
+            {
+              path: "bankDetail",
+              element: <BankDetail />,
+            },
+            {
+              path: "kinDetail",
+              element: <KinDetail />,
+            },
+          ],
+        },
+        {
+          path: "traveldetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<TravelDetailLayout />}
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element: <PassPortDetail />,
+            },
+            {
+              path: "visadetail",
+              element: <VisaDetail />,
+            },
+            {
+              path: "SeaMenBookdetail",
+              element: <SeaMenBookDetail />,
+            },
+          ],
+        },
+        {
+          path: "certificates",
+          element:(
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CertificateLayout />}
+            />
+
+          ),
+          children: [
+            {
+              path: "",
+              element:<CertificateOfCompetency />
+            },
+            {
+              path: "flagEndorsement",
+              element:<FlagEndorsement />
+            },
+            {
+              path: "dangerousCargo",
+              element:<DangerousCargoEndorsement />
+            },
+          ]
+        },
+        {
+          path: "workExperiance",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<WorkExperianceLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<WorkExperiance />
+            },
+            ]
+        },
+        {
+          path: "courseCertificate",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CourseCertificateLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<CourseCertificate />
+            },
+            ]
+        },
+        {
+          path: "medicalDetails",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<MedicalDetailsLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<MedicalDetails />
+            },
+            ]
+        },
+        {
+          path: "unionRegistrationDetail",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<UnionRegistrationLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<UnionRegistrationDetail />
+            },
+            ]
+        },
+        {
+          path: "references",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ReferencesLayout />}
+            />
+            ),
+          children: [
+            {
+              path: "",
+              element:<References />
+            },
+            ]
+        },
       
       ]
     },
@@ -464,7 +638,7 @@ const MainRoutes = () => {
 
   var role = sessionStorage.getItem("role") ?? "user";
 
-  return role.toLocaleLowerCase() === "user"   ?  routes : AdminRoutes;
+  return role.toLocaleLowerCase() === "admin"   ?  AdminRoutes :routes;
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();

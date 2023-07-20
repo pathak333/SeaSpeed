@@ -3,9 +3,12 @@ import { Home, Bell, ChevronDown, Menu } from "react-feather";
 import { useGlobalState } from "../../contexts/global.context";
 import SideBarMenuItem from "../smallerComponents/sidebarMenuItems";
 import DropDownMenu from "../smallerComponents/dropdownMenu";
+import { LOGOUT } from "../../constants/action.constant";
+import { useNavigate } from "react-router-dom";
 
 const NavbarComponent = (props: any) => {
-  const [globalState] = useGlobalState();
+  const [globalState, dispatch] = useGlobalState();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let data = globalState.data != null ? globalState.data.data : null;
   useEffect(() => {
@@ -28,7 +31,7 @@ const NavbarComponent = (props: any) => {
   return (
     <>
       <nav className=" bg-white">
-        <div className="flex items-center justify-between p-4 border-b-2">
+        <div className="flex items-center justify-between p-3 border-b-2">
           <div className="flex flex-row">
             <div className="w-24 max-sm:w-12  border-r-2">
               <img
@@ -66,7 +69,11 @@ const NavbarComponent = (props: any) => {
              onMouseLeave={handleMouseLeave}>
                 <div className="py-1" role="none" >
                   <p className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" id="pro" role="menuitem" tabIndex={-1}>Profile</p>
-                  <p className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" id="log" role="menuitem" tabIndex={-1}>LogOut</p>
+                  <p onClick={() => {
+                    sessionStorage.clear();
+                    // dispatch({ type: LOGOUT })
+                    window.location.reload();
+        }} className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" id="log" role="menuitem" tabIndex={-1}>LogOut</p>
                 </div>
               </div>}
             </div>  

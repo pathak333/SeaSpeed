@@ -1,5 +1,5 @@
 
-import { addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getSubAdminApi } from "../constants/api.admin.constant";
+import { addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -61,7 +61,11 @@ export const addCompanyService = (data: any) => {
 
 
 
+// crew form api
 
+export const getCrewPersonalDetail = (id:string) => {
+    return httpService.get(getCrewPersonalDetailApi+"/?id="+id)
+}
 
 
 

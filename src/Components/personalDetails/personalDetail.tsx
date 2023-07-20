@@ -13,6 +13,9 @@ import InputField from "../../uiComponents/inputField/inputField.component";
 import { PersonalDetailValidation, UpdatePersonalDetailValidation } from "./validation";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import { dobDateValidation } from "../../constants/values.constants";
+import { useLocation } from 'react-router-dom';
+import ApproveReject from "../../uiComponents/approve_reject";
+import { getCrewPersonalDetail } from "../../services/admin.service";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -21,41 +24,34 @@ const PersonalDetail = () => {
   const { setState } = useContext(PersonalDetailContext)!;
   const [updateData, setUpdateData] = useState<any>({})
   // const [isSaved, setIsSaved] = useState(false);
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+
+  const id = queryParams.get('id');
+  console.log(id);
+  
+
 
   async function fetchData() {
-    const { data } = await GetPersonalDetail();
+    console.log("fetch user data ");
+    
+    const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
     console.log("personal data = ", data);
     let formData = data.data.personaldata;
     console.log("personal formData = ", formData);
     if (formData) {
       console.log("update event ");
       updateEvent(formData)
-      // updateEvent({
-      //   user_id:formData.user_id,
-      //   firstname: "",
-      //   lastname: "",
-      //   dob: formData.dob,
-      //   gender: formData.gender,
-      //   marital_status: formData.marital_status,
-      //   birthPlace: formData.birthPlace,
-      //   nationality: formData.nationality,
-      //   flatnumber: formData.flatnumber,
-      //   society: formData.society,
-      //   city: formData.city,
-      //   state: formData.state,
-      //   country: formData.country,
-      //   pincode: formData.pincode,
-      //   nearest_airport: formData.nearest_airport,
-      //   isSameAddress: formData.isSameAddress,
-      //   isFormChanged:false
-      // });
+    
     }
   }
 
   useEffect(() => {
-    setState(Personalstate.personalDetails);
-    fetchData();
     console.log("PersonalDetail component 1");
+
+    setState(Personalstate.personalDetails);
+     fetchData(); 
   }, []);
 
   const handleFileChange = (event: any) => {
@@ -198,20 +194,20 @@ const PersonalDetail = () => {
           fieldName={"firstname"}
           label={"First Name"}
           type={"text"}
-          disabled={true}
+          disabled={id !== null ? false :true}
           error={errorReturn("firstname")}
           onChange={(e) => updateEvent({ firstname: e.target.value, isFormChanged:true })}
-          value={globalState.data.data.firstname}
+          value={id !== null ? formEvent.firstname : globalState.data.data.firstname}
         />
         <InputField
           className="m-4"
           fieldName={"lastname"}
           label={"Last Name"}
           type={"text"}
-          disabled={true}
+          disabled={id !== null ? false :true}
           error={errorReturn("lastname")}
           onChange={(e) => updateEvent({ lastname: e.target.value, isFormChanged:true })}
-          value={globalState.data.data.lastname}
+          value={id !== null ? formEvent.lastname : globalState.data.data.lastname}
         />
         <InputField
           className="m-4"
@@ -221,7 +217,7 @@ const PersonalDetail = () => {
           max={dobDateValidation}
           error={errorReturn("dob")}
           onChange={(e) => updateEvent({ dob: e.target.value, isFormChanged:true })}
-          value={formEvent.dob.split("T")[0]}
+          value={ formEvent.dob.split("T")[0]}
         />
         <SelectInput
           className="m-4"
@@ -229,7 +225,7 @@ const PersonalDetail = () => {
           label={"Gender"}
           type={""}
           onChange={(e) => updateEvent({ gender: e.target.value, isFormChanged:true })}
-          value={formEvent.gender}
+          value={ formEvent.gender}
           error={errorReturn("gender")}
           option={["male", "female"]}
         />
@@ -250,7 +246,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("birthPlace")}
           onChange={(e) => updateEvent({ birthPlace: e.target.value, isFormChanged:true })}
-          value={formEvent.birthPlace}
+          value={ formEvent.birthPlace}
         />
           <SelectInput
           className="m-4"
@@ -259,7 +255,7 @@ const PersonalDetail = () => {
           type={""}
           error={errorReturn("nationality")}
           onChange={(e) => updateEvent({ nationality: e.target.value, isFormChanged:true })}
-          value={formEvent.nationality}
+          value={ formEvent.nationality}
           option={["Indian", "Pakistani","Ukrainian","Russian"]}
         />
         {/* <InputField
@@ -271,7 +267,7 @@ const PersonalDetail = () => {
           onChange={(e) => updateEvent({ nationality: e.target.value, isFormChanged:true })}
           value={formEvent.nationality}
         /> */}
-        <InputField
+        {id=== null && <InputField
           className="m-4"
           fieldName={"fileNumber"}
           label={"File Number"}
@@ -280,7 +276,7 @@ const PersonalDetail = () => {
           error={errorReturn("fileNumber")}
           value={globalState.data.data.userId}
           onChange={() => {}}
-        />
+        />}
         {/* <InputField
           className="m-4"
           fieldName={"gender"}
@@ -298,7 +294,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("flatnumber")}
           onChange={(e) => updateEvent({ flatnumber: e.target.value, isFormChanged:true })}
-          value={formEvent.flatnumber}
+          value={ formEvent.flatnumber}
         />
         <InputField
           className="m-4"
@@ -307,7 +303,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("society")}
           onChange={(e) => updateEvent({ society: e.target.value, isFormChanged:true })}
-          value={formEvent.society}
+          value={ formEvent.society}
         />
         <InputField
           className="m-4"
@@ -316,7 +312,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("city")}
           onChange={(e) => updateEvent({ city: e.target.value, isFormChanged:true })}
-          value={formEvent.city}
+          value={ formEvent.city}
         />
         <InputField
           className="m-4"
@@ -325,7 +321,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("state")}
           onChange={(e) => updateEvent({ state: e.target.value, isFormChanged:true })}
-          value={formEvent.state}
+          value={ formEvent.state}
         />
         <InputField
           className="m-4"
@@ -343,7 +339,7 @@ const PersonalDetail = () => {
           type={"text"}
           error={errorReturn("pincode")}
           onChange={(e) => updateEvent({ pincode: e.target.value, isFormChanged:true })}
-          value={formEvent.pincode}
+          value={ formEvent.pincode}
         />
         <InputField
           className="m-4"
@@ -365,7 +361,7 @@ const PersonalDetail = () => {
         <input
           id="checked-checkbox"
           type="checkbox"
-          checked={formEvent.isSameAddress}
+          checked={ formEvent.isSameAddress}
           value={formEvent.isSameAddress}
           onChange={(e) => {
             console.log(e.target.checked);
@@ -391,7 +387,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("flatnumber2")}
               onChange={(e) => updateEvent({ flatnumber2: e.target.value, isFormChanged:true })}
-              value={formEvent.flatnumber2}
+              value={ formEvent.flatnumber2}
             />
             <InputField
               className="m-4"
@@ -400,7 +396,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("society2")}
               onChange={(e) => updateEvent({ society2: e.target.value, isFormChanged:true })}
-              value={formEvent.society2}
+              value={ formEvent.society2}
             />
             <InputField
               className="m-4"
@@ -409,7 +405,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("city2")}
               onChange={(e) => updateEvent({ city2: e.target.value, isFormChanged:true })}
-              value={formEvent.city2}
+              value={ formEvent.city2}
             />
             <InputField
               className="m-4"
@@ -427,7 +423,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("country2")}
               onChange={(e) => updateEvent({ country2: e.target.value, isFormChanged:true })}
-              value={formEvent.country2}
+              value={ formEvent.country2}
             />
             <InputField
               className="m-4"
@@ -436,7 +432,7 @@ const PersonalDetail = () => {
               type={"text"}
               error={errorReturn("pincode2")}
               onChange={(e) => updateEvent({ pincode2: e.target.value, isFormChanged:true })}
-              value={formEvent.pincode2}
+              value={ formEvent.pincode2}
             />
             {/* <InputField
               className="m-4"
@@ -462,7 +458,7 @@ const PersonalDetail = () => {
             className="mb-4"
             error={errorReturn("CNC")}
             onChange={(e) => updateEvent({ CNC: e.target.value, isFormChanged: true })}
-            value={formEvent.CNC}
+            value={ formEvent.CNC}
           />
           <label
             htmlFor="cnc"
@@ -507,7 +503,7 @@ const PersonalDetail = () => {
             className="mb-4"
             error={errorReturn("pan")}
             onChange={(e) => updateEvent({ pan: e.target.value, isFormChanged: true })}
-            value={formEvent.pan}
+            value={ formEvent.pan}
             
           />
           <label
@@ -524,7 +520,8 @@ const PersonalDetail = () => {
           />
         </div>
       </div>}
-
+     {id===null && <div>
+        
 {formEvent.isFormChanged ?  <button
     type="submit"
     className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -548,6 +545,11 @@ const PersonalDetail = () => {
       >
         Clear all
       </button>
+      </div>}
+
+     {id!== null &&  <div id="approver">
+        <ApproveReject />
+      </div>}
     </form>
     // </PersonalDetailLayout>
   );
