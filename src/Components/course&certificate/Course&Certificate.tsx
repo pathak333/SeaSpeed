@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import { Trash2, Upload } from "react-feather"
 import { CourseCertificateValidation } from "./validation"
@@ -9,12 +9,23 @@ import { addCourseCertificate, deletetCourseCertificate, getCourseCertificate } 
 import { LOADING } from "../../constants/action.constant"
 import FileUpload from "../../uiComponents/inputField/fileUpload.component"
 import InputField from "../../uiComponents/inputField/inputField.component"
+import ApproveReject from "../../uiComponents/approve_reject"
+import { getCrewCourseCertificate } from "../../services/admin.service"
 
 
 
 
 
 const CourseCertificate = () => {
+
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
     const navigate = useNavigate()
 
 
@@ -23,7 +34,7 @@ const CourseCertificate = () => {
 
 
     async function fetchData() {
-        const { data } = await getCourseCertificate();
+        const { data } =id === null ? await getCourseCertificate() : await getCrewCourseCertificate(id);
         updateEvent({ savedData: data.data })
     }
     
@@ -297,7 +308,8 @@ const CourseCertificate = () => {
         ) : (
             <div></div>
         )}
-        {formEvent.isFormChanged ? <button
+        {id === null && <div>
+            {formEvent.isFormChanged ? <button
             type="submit"
             disabled={formEvent.dataList.length === 0}
             // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
@@ -325,6 +337,12 @@ const CourseCertificate = () => {
         >
             Clear all
         </button>
+       </div> }
+        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} />
+       </div>}
     </form>
 
 

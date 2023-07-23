@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer, useRef } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 import { NormalVisaValidation, VisaDetailValidation } from "./validation";
 import { toast } from "react-toastify";
@@ -10,8 +10,22 @@ import { LOADING } from "../../constants/action.constant";
 import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } from "../../services/user.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
+import ApproveReject from "../../uiComponents/approve_reject";
+import { getCrewVisaDetail } from "../../services/admin.service";
 
 const VisaDetail = (props: any) => {
+
+
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
+
+
   const { setState } = useContext(TravelDetailContext)!;
   useEffect(() => {
     fetchData();
@@ -20,7 +34,7 @@ const VisaDetail = (props: any) => {
   }, [])
 
   async function fetchData() {
-    const { data } = await GetVisaDetailService()
+    const { data } =id === null ? await GetVisaDetailService(): await getCrewVisaDetail(id)
     console.log(data)
     if (data.success && data.data) {
       console.log("data inter")
@@ -362,7 +376,8 @@ const VisaDetail = (props: any) => {
           value={formEvent.us_dateOfExpiry.split("T")[0] ?? ""}
         />
       </div>
-      <button
+      { id === null &&  <div>
+            <button
         className="ml-8 text-xl text-gray-500"
         onClick={() => navigate("/dashboard/traveldetails")}
       >
@@ -394,7 +409,13 @@ const VisaDetail = (props: any) => {
       >
         Clear all
       </button>
-
+        </div>
+    }
+   {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} />
+       </div>}
     </form>
   );
 };

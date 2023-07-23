@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import { Trash2, Upload } from "react-feather";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FlagEndorsementValidation } from "./validation";
 import { useGlobalState } from "../../contexts/global.context";
@@ -12,8 +12,19 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
+import { getCrewFlagEndorsement } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 const FlagEndorsement = () => {
+
+    //get query parameters 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+
+
+
+
     const navigate = useNavigate()
 
 
@@ -22,7 +33,7 @@ const FlagEndorsement = () => {
 
 
     async function fetchData() {
-        const { data } = await getFlagEndorsement();
+        const { data } = id === null ? await getFlagEndorsement() : await getCrewFlagEndorsement(id);
         updateEvent({ savedData: data.data })
     }
 
@@ -46,7 +57,7 @@ const FlagEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
-        Oil_tanker_DCE:"Support",
+        Oil_tanker_DCE: "Support",
         //type:"",
         dataList: [],
         savedData: [],
@@ -73,7 +84,7 @@ const FlagEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
-                    Oil_tanker_DCE:"Support",
+                    Oil_tanker_DCE: "Support",
 
                 })
             }
@@ -127,7 +138,7 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">file</td>
             <td className="px-6 py-4">
                 <Trash2
-                    onClick={async() => {
+                    onClick={async () => {
                         try {
                             const { data } = await deleteFlagEndorsement(item._id)
                             if (data.success && data.length !== 0) {
@@ -135,13 +146,13 @@ const FlagEndorsement = () => {
                                 console.log(data);
                                 formEvent.savedData.splice(index, 1);
                                 updateEvent({ savedData: formEvent.savedData });
-                             
-                              } else {
+
+                            } else {
                                 throw Error(data.message)
-                              }
-                           } catch (error:any) {
+                            }
+                        } catch (error: any) {
                             toast.error(error.response.data.message);
-                           }
+                        }
                     }}
                 />
             </td>
@@ -251,7 +262,7 @@ const FlagEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-             <FileUpload folder={"flag"} name="endorsement" />
+            <FileUpload folder={"flag"} name="endorsement" />
 
 
         </div>
@@ -285,7 +296,7 @@ const FlagEndorsement = () => {
                                 Place Of Issue
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Label
+                                Label
                             </th>
 
                             <th scope="col" className="px-6 py-3">
@@ -303,39 +314,48 @@ const FlagEndorsement = () => {
         ) : (
             <div></div>
         )}
-        <button
-            className="ml-8 text-xl text-gray-500"
-            onClick={() => navigate("/dashboard/certificates")}
-        >
-            Previous
-        </button>
-        {formEvent.isFormChanged ? <button
-            type="submit"
-            disabled={formEvent.dataList.length === 0}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
-        >
-            Save & next
-        </button> :
+        {id === null && <div>
+            <button
+                className="ml-8 text-xl text-gray-500"
+                onClick={() => navigate("/dashboard/certificates")}
+            >
+                Previous
+            </button>
+            {formEvent.isFormChanged ? <button
+                type="submit"
+                disabled={formEvent.dataList.length === 0}
+                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+            >
+                Save & next
+            </button> :
+                <button
+                    type="button"
+                    className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+
+                        navigate("/dashboard/certificates/dangerousCargo");
+                    }}
+                >
+                    Skip and Next
+                </button>}
             <button
                 type="button"
-                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="ml-8 text-xl text-blue-700"
                 onClick={() => {
+                    //clearAllData();
 
-                    navigate("/dashboard/certificates/dangerousCargo");
                 }}
             >
-                Skip and Next
-            </button>}
-        <button
-            type="button"
-            className="ml-8 text-xl text-blue-700"
-            onClick={() => {
-                //clearAllData();
+                Clear all
+            </button>
+        </div>}
+        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
 
-            }}
-        >
-            Clear all
-        </button>
+        {id !== null && !formEvent.isFormChanged && <div id="approver">
+            <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/dangerousCargo/?id=${id}`} locationStateData={{}} />
+        </div>}
+
+
     </form>
 }
 export default FlagEndorsement

@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 interface Props{
     className?: string,
     comeFrom: string,
-    id?:string
+  id?: string,
+  data?:any
 }
 
-const DasboardCardLayout = ({className,comeFrom,id}:Props) => {
+const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
     const navigate = useNavigate();
 
 
@@ -24,7 +25,7 @@ const DasboardCardLayout = ({className,comeFrom,id}:Props) => {
           label={<span>Personal details</span>}
                 onClick={() => {
                     if (comeFrom === "admin") {
-                        navigate(`/adminDashboard/personaldetails/?id=${id}`);
+                        navigate(`/adminDashboard/personaldetails/?id=${id}`,{state:{crew:data}});
                     } else {
                         navigate("/dashboard/personaldetails");
                         

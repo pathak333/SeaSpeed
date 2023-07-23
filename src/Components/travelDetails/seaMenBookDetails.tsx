@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SeamenBookValidation } from "./validation";
 import { toast } from "react-toastify";
 import { addSeamenBookDetail, getSeamenBookDetail } from "../../services/user.service";
@@ -10,14 +10,26 @@ import { useGlobalState } from "../../contexts/global.context";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
+import { getCrewSeamenBook } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 
 const SeaMenBookDetail = () => {
+
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
+
   const navigate = useNavigate()
   const [, dispatch] = useGlobalState();
   const { setState } = useContext(TravelDetailContext)!;
   async function fetchData() {
-    const { data } = await getSeamenBookDetail();
+    const { data } = id === null ? await getSeamenBookDetail() : await getCrewSeamenBook(id);
     updateEvent({ savedData: data.data })
   }
 
@@ -247,13 +259,13 @@ const SeaMenBookDetail = () => {
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
-            <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Number
               </th>
               <th scope="col" className="px-6 py-3">
                 Place Of Issue
               </th>
-             
+
               <th scope="col" className="px-6 py-3">
                 Date Of Issue
               </th>
@@ -283,44 +295,51 @@ const SeaMenBookDetail = () => {
     )}
 
 
+    {id === null && <div>
 
 
-    <button
-      className="ml-8 text-xl text-gray-500"
-      onClick={() => navigate("/dashboard/traveldetails/visadetail")}
-    >
-      Previous
-    </button>
-    {formEvent.isFormChanged ? <button
-      type="submit"
-      disabled={formEvent.dataList.length === 0}
-      className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
-    >
-      Save & next
-    </button> :
+      <button
+        className="ml-8 text-xl text-gray-500"
+        onClick={() => navigate("/dashboard/traveldetails/visadetail")}
+      >
+        Previous
+      </button>
+      {formEvent.isFormChanged ? <button
+        type="submit"
+        disabled={formEvent.dataList.length === 0}
+        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+      >
+        Save & next
+      </button> :
+        <button
+          type="button"
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={() => {
+
+            navigate("/dashboard/certificates");
+          }}
+        >
+          Skip and Next
+        </button>}
       <button
         type="button"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        className="ml-8 text-xl text-blue-700"
         onClick={() => {
+          //clearAllData();
 
-          navigate("/dashboard/certificates");
         }}
       >
-        Skip and Next
-      </button>}
-    <button
-      type="button"
-      className="ml-8 text-xl text-blue-700"
-      onClick={() => {
-        //clearAllData();
+        Clear all
+      </button>
 
-      }}
-    >
-      Clear all
-    </button>
+    </div>
+    }
 
+    {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
 
-
+    {id !== null && !formEvent.isFormChanged && <div id="approver">
+      <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/?id=${id}`} locationStateData={{}} />
+    </div>}
   </form>
 }
 

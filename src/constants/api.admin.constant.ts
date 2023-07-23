@@ -16,4 +16,21 @@ export const getAllManagerByCompanyIdApi = "/admin/getAllManagerByCompanyId";
 export const addVesselApi = "/admin/addVessel";
 export const getAllVesselForAdminApi = "/admin/getAllVesselForAdmin"
 export const getCrewPersonalDetailApi = "/admin/getCrewPersonalDetail"
+export const GetCrewEducationDetailApi = "/admin/getEducationDetail"
+export const GetCrewBankDetailApi = "/admin/getBankDetail"
+export const GetCrewKinDetailApi = "/admin/getKinDetail"
 
+//travel
+export const GetCrewPassportDetailApi = "/admin/getPassportDetail"
+export const GetCrewVisaDetailApi = "/admin/getVisaDetail"
+export const GetCrewSeamenBookApi ="/admin/getSeamenBook"
+
+export const GetCrewCertificateApi = "/admin/getCertificateOfCompetency"
+export const GetCrewFlagEndorsementApi = "/admin/getFlagEndorsement"
+export const GetCrewDangerousCargoEndorsementApi = "/admin/getDangerousCargoEndorsement"
+
+export const GetCrewWorkExperienceApi = "/admin/getWorkExperience"
+export const GetCrewCourseCertificateApi = "/admin/getCourseCertificate"
+export const GetCrewReferencesApi = "/admin/getReferences"
+export const GetCrewUnionRegistrationApi = "/admin/getUnionRegistration"
+export const GetCrewMedicalDetailApi = "/admin/getMedicalDetail"

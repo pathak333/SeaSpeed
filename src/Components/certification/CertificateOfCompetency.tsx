@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CertificateOfCompetencyValidation } from "./validation";
 import { useGlobalState } from "../../contexts/global.context";
@@ -10,26 +10,39 @@ import { LOADING } from "../../constants/action.constant";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
+import ApproveReject from "../../uiComponents/approve_reject";
+import { getCrewCertificate } from "../../services/admin.service";
 
 
 const CertificateOfCompetency = () => {
+
+
+    //get query parameters 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+
+
+
+
+
     const navigate = useNavigate()
     const [, dispatch] = useGlobalState();
     const { setState } = useContext(CertificateContext)!;
 
 
     async function fetchData() {
-        const { data } = await getCertificateOfCompetency();
-        updateEvent({savedData: data.data} )
-        }
-        
-        
-      useEffect(() => {
+        const { data } =id === null ? await getCertificateOfCompetency() : await getCrewCertificate(id);
+        updateEvent({ savedData: data.data })
+    }
+
+
+    useEffect(() => {
         fetchData();
         setState(CertificateState.competency);
-        
-      }, [])
-        
+
+    }, [])
+
 
 
 
@@ -51,7 +64,7 @@ const CertificateOfCompetency = () => {
         placeOfIssue: "",
         issuingAuthorityCountry: "",
         dataList: [],
-        savedData:[],
+        savedData: [],
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
@@ -124,22 +137,22 @@ const CertificateOfCompetency = () => {
             <td className="px-6 py-4">file</td>
             <td className="px-6 py-4">
                 <Trash2
-                    onClick={async() => {
-                      
-                       try {
-                        const { data } = await deleteCertificateOfCompetency(item._id)
-                        if (data.success && data.length !== 0) {
-                            toast.info(data.message)
-                            console.log(data);
-                            formEvent.savedData.splice(index, 1);
-                            updateEvent({ savedData: formEvent.savedData });
-                         
-                          } else {
-                            throw Error(data.message)
-                          }
-                       } catch (error:any) {
-                        toast.error(error.response.data.message);
-                       }
+                    onClick={async () => {
+
+                        try {
+                            const { data } = await deleteCertificateOfCompetency(item._id)
+                            if (data.success && data.length !== 0) {
+                                toast.info(data.message)
+                                console.log(data);
+                                formEvent.savedData.splice(index, 1);
+                                updateEvent({ savedData: formEvent.savedData });
+
+                            } else {
+                                throw Error(data.message)
+                            }
+                        } catch (error: any) {
+                            toast.error(error.response.data.message);
+                        }
                     }}
                 />
             </td>
@@ -152,29 +165,29 @@ const CertificateOfCompetency = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-          const { data } = await addCertificateOfCompetency(formEvent.dataList);
-          if (data.success) {
-            toast.info(data.message)
-            navigate("/dashboard/certificates/flagEndorsement");
-          } else {
-            throw Error(data.message)
-          }
-        } catch (error:any) {
-          if (error.name === "ValidationError") {
-            for (let errorDetail of error.details) {
-              updateEvent({
-                error: {
-                  keys: errorDetail.context.key,
-                  values: errorDetail.message,
-                },
-              });
-              toast.error(errorDetail.message);
+            const { data } = await addCertificateOfCompetency(formEvent.dataList);
+            if (data.success) {
+                toast.info(data.message)
+                navigate("/dashboard/certificates/flagEndorsement");
+            } else {
+                throw Error(data.message)
             }
-          } else if (error.name === "AxiosError") {
-            toast.error(error.response.data.message);
-          }
+        } catch (error: any) {
+            if (error.name === "ValidationError") {
+                for (let errorDetail of error.details) {
+                    updateEvent({
+                        error: {
+                            keys: errorDetail.context.key,
+                            values: errorDetail.message,
+                        },
+                    });
+                    toast.error(errorDetail.message);
+                }
+            } else if (error.name === "AxiosError") {
+                toast.error(error.response.data.message);
+            }
         } finally {
-          dispatch({ type: LOADING, payload: false });
+            dispatch({ type: LOADING, payload: false });
         }
     }
 
@@ -188,7 +201,7 @@ const CertificateOfCompetency = () => {
 
 
 
-    return <form  onSubmit={handlerSubmit}>
+    return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Certificate of competency</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
@@ -251,7 +264,7 @@ const CertificateOfCompetency = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-             <FileUpload folder={"/competencyCertificate"} name="certificate" />
+            <FileUpload folder={"/competencyCertificate"} name="certificate" />
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
 
         </div>
@@ -303,42 +316,50 @@ const CertificateOfCompetency = () => {
             <div></div>
         )}
 
+        {id === null && <div>
+            <button
+                className="ml-8 text-xl text-gray-500"
+                onClick={() => navigate("/dashboard/traveldetails/SeaMenBookdetail")}
+            >
+                Previous
+            </button>
+            {formEvent.isFormChanged ? <button
+                type="submit"
+                disabled={formEvent.dataList.length === 0}
+                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+            >
+                Save & next
+            </button> :
+                <button
+                    type="button"
+                    className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
 
-
-
-        <button
-            className="ml-8 text-xl text-gray-500"
-            onClick={() => navigate("/dashboard/traveldetails/SeaMenBookdetail")}
-        >
-            Previous
-        </button>
-        {formEvent.isFormChanged ? <button
-            type="submit"
-            disabled= {formEvent.dataList.length === 0}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
-        >
-            Save & next
-        </button> :
+                        navigate("/dashboard/certificates/flagEndorsement");
+                    }}
+                >
+                    Skip and Next
+                </button>}
             <button
                 type="button"
-                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="ml-8 text-xl text-blue-700"
                 onClick={() => {
+                    //clearAllData();
 
-                    navigate("/dashboard/certificates/flagEndorsement");
                 }}
             >
-                Skip and Next
-            </button>}
-        <button
-            type="button"
-            className="ml-8 text-xl text-blue-700"
-            onClick={() => {
-                //clearAllData();
+                Clear all
+            </button>
+        </div>
+        }
 
-            }}
-        >
-            Clear all
-        </button>
+        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+        {id !== null && !formEvent.isFormChanged && <div id="approver">
+            <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/flagEndorsement/?id=${id}`} locationStateData={{}} />
+        </div>}
+
+
     </form>
 }
 

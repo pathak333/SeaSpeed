@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import { Trash2, Upload } from "react-feather";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FlagEndorsementValidation } from "./validation";
 import { toast } from "react-toastify";
 import { useGlobalState } from "../../contexts/global.context";
@@ -11,11 +11,21 @@ import SelectInput from "../../uiComponents/inputField/selectInputField.comonent
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
+import ApproveReject from "../../uiComponents/approve_reject";
+import { getCrewDangerousCargoEndorsement } from "../../services/admin.service";
 
 
 
 
 const DangerousCargoEndorsement = () => {
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
     const navigate = useNavigate()
     const { setState } = useContext(CertificateContext)!;
 
@@ -25,7 +35,7 @@ const DangerousCargoEndorsement = () => {
 
 
     async function fetchData() {
-        const { data } = await getDangerousCargoEndorsement();
+        const { data } = id === null ?  await getDangerousCargoEndorsement() : await getCrewDangerousCargoEndorsement(id);
         updateEvent({ savedData: data.data })
     }
 
@@ -308,7 +318,9 @@ const DangerousCargoEndorsement = () => {
         ) : (
             <div></div>
         )}
-        <button
+        
+        {id === null &&  <div>
+                <button
             className="ml-8 text-xl text-gray-500"
             onClick={() => navigate("/dashboard/certificates/flagEndorsement")}
         >
@@ -341,6 +353,16 @@ const DangerousCargoEndorsement = () => {
         >
             Clear all
         </button>
+            </div>
+        }
+
+        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/workExperiance/?id=${id}`} locationStateData={{}} />
+       </div>}
+
+
     </form>
 }
 export default DangerousCargoEndorsement

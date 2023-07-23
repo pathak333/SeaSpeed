@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RefrenceValidation } from "./validation";
 import { Trash2 } from "react-feather";
@@ -7,32 +7,43 @@ import InputField from "../../uiComponents/inputField/inputField.component";
 import { addReferences, deletetReferences, getReferences } from "../../services/user.service";
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
+import ApproveReject from "../../uiComponents/approve_reject";
+import { getCrewReferences } from "../../services/admin.service";
 
 
 
 const References = () => {
 
+
+
+    //get query parameters 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+
+
+
     const navigate = useNavigate()
 
 
-        
-const [, dispatch] = useGlobalState();
+
+    const [, dispatch] = useGlobalState();
 
 
 
-async function fetchData() {
-    const { data } = await getReferences();
-    updateEvent({ savedData: data.data })
-}
+    async function fetchData() {
+        const { data } =id === null ? await getReferences():await getCrewReferences(id);
+        updateEvent({ savedData: data.data })
+    }
 
 
-useEffect(() => {
-    fetchData();
-    // setState(TravelState.seamenBook);
+    useEffect(() => {
+        fetchData();
+        // setState(TravelState.seamenBook);
 
-}, [])
-    
-    
+    }, [])
+
+
 
 
 
@@ -54,7 +65,7 @@ useEffect(() => {
 
     const addMore = async () => {
         console.log("Refrence");
-        
+
         try {
             let data = { ...formEvent }
             delete data.error
@@ -74,7 +85,7 @@ useEffect(() => {
                     titledOfPersonInCharge: "",
                     phoneNumber: "",
                     email: "",
-        error: { key: "", value: "" },
+                    error: { key: "", value: "" },
 
                 })
             } else {
@@ -82,7 +93,7 @@ useEffect(() => {
             }
         } catch (error: any) {
             console.log(error);
-            
+
             if (error.name === "ValidationError") {
                 for (let errorDetail of error.details) {
                     updateEvent({
@@ -156,13 +167,13 @@ useEffect(() => {
                                 console.log(data);
                                 formEvent.savedData.splice(index, 1);
                                 updateEvent({ savedData: formEvent.savedData });
-                             
-                              } else {
+
+                            } else {
                                 throw Error(data.message)
-                              }
-                           } catch (error:any) {
+                            }
+                        } catch (error: any) {
                             toast.error(error.response.data.message);
-                           }
+                        }
                     }}
                 />
             </td>
@@ -279,19 +290,19 @@ useEffect(() => {
                     <thead className="text-xs text-grey-700 uppercase ">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                            Company Name
+                                Company Name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Address
+                                Address
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Person In Charge
+                                Person In Charge
                             </th>
                             <th scope="col" className="px-6 py-3">
-                             Rank
+                                Rank
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Phone Number
+                                Phone Number
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Email
@@ -309,33 +320,42 @@ useEffect(() => {
         ) : (
             <div></div>
         )}
-        {formEvent.isFormChanged ? <button
-            type="submit"
-            disabled={formEvent.dataList.length === 0}
-            // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800  disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
-        >
-            Save & next
-        </button> :
+        {id === null && <div>
+            {formEvent.isFormChanged ? <button
+                type="submit"
+                disabled={formEvent.dataList.length === 0}
+                // onClick={() => navigate("/dashboard/personaldetails/kinDetail")}
+                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800  disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+            >
+                Save & next
+            </button> :
+                <button
+                    type="button"
+                    className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+                        clearAllData();
+                        navigate("/");
+                    }}
+                >
+                    Skip and Next
+                </button>}
             <button
                 type="button"
-                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="ml-8 text-xl text-blue-700"
                 onClick={() => {
                     clearAllData();
-                    navigate("/");
                 }}
             >
-                Skip and Next
-            </button>}
-        <button
-            type="button"
-            className="ml-8 text-xl text-blue-700"
-            onClick={() => {
-                clearAllData();
-            }}
-        >
-            Clear all
-        </button>
+                Clear all
+            </button>
+        </div>}
+
+        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+        {id !== null && !formEvent.isFormChanged && <div id="approver">
+            <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} />
+        </div>}
+
     </form>
 }
 export default References

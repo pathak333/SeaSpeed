@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
@@ -14,9 +14,19 @@ import { BankDetailValidation, UpdateBankDetailValidation } from "./validation";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
+import { getCrewBankDetail } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 
 const BankDetail = () => {
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
   const navigate = useNavigate();
   const { setState } = useContext(PersonalDetailContext)!;
   const [, dispatch] = useGlobalState();
@@ -28,7 +38,7 @@ const BankDetail = () => {
   }, []);
 
   async function fetchData() {
-    const { data } = await GetBankDetail();
+    const { data } =  id === null ? await GetBankDetail() : await getCrewBankDetail(id);
     if (data.data.bankDetail) {
       updateEvent({...data.data.bankDetail,isFormChanged:false});
     }
@@ -205,7 +215,8 @@ const BankDetail = () => {
         <FileUpload folder={"/bankDetailDoc"} name="bank/cancel cheque" />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
       </div>
-      <button
+      { id === null && <div>
+        <button
         className="ml-8 text-xl text-gray-500"
         onClick={() => navigate("/dashboard/personaldetails/educationDetail")}
       >
@@ -237,6 +248,14 @@ const BankDetail = () => {
       >
         Clear all
       </button>
+      </div>}
+
+     {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+     {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+        <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/kinDetail/?id=${id}`} locationStateData={{}} />
+      </div>}
+
      
     </form>
   );

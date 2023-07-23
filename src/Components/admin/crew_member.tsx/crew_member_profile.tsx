@@ -7,17 +7,23 @@ import DasboardCardLayout from "../../dashboard/dashboard_card_layout";
 
 
 
-
 const CrewProfile = () => {
 
  //  const [globalState, dispatch] = useGlobalState();
 
+console.log("crew profile time")
    const location = useLocation();
    const { data } = location.state;
+   console.log(data);
+   
    const navigate = useNavigate();
    function goBack() {
        navigate("/dashboard/home", { replace: true });
    }
+
+
+
+
 
 
    return <div className="">
@@ -46,7 +52,9 @@ const CrewProfile = () => {
       </div>
 
       </div>
-    <DasboardCardLayout id={data._id} comeFrom="admin" className="" />
+     
+        <DasboardCardLayout id={data._id} data={data} comeFrom="admin" className="" />
+     
       </div>
 }
 

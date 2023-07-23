@@ -4,7 +4,7 @@ import InputField from "../../uiComponents/inputField/inputField.component";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 // import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 import { GetPassportDetailService, PassportDetailService, updatePassportDetailService } from "../../services/user.service";
 import { toast } from "react-toastify";
@@ -12,9 +12,23 @@ import { PassportValidation } from "./validation";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
+import { getCrewPassportDetail } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 
 const PassPortDetail = (props: any) => {
+
+
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
+
+
   const navigate = useNavigate();
   const [, dispatch] = useGlobalState();
   const { setState } = useContext(TravelDetailContext)!;
@@ -26,7 +40,7 @@ const PassPortDetail = (props: any) => {
 
   
   async function fetchData() {
-    const { data } = await GetPassportDetailService()
+    const { data } =  id === null ? await GetPassportDetailService() : await getCrewPassportDetail(id)
     console.log(data)
     if (data.success && data.data) {
       console.log("data inter")
@@ -186,7 +200,7 @@ const PassPortDetail = (props: any) => {
           </ul>
         </div>
       </div>
-      <div className="m-3">
+     {id === null && <div className="m-3">
       {formEvent.isFormChanged  ? <button
         type="submit"
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -210,7 +224,12 @@ const PassPortDetail = (props: any) => {
         >
           Clear all
         </button>
-      </div>
+      </div>}
+      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}} />
+       </div>}
     </form>
   );
 };

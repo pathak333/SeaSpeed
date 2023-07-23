@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { UnionRegistrationValidation } from "./validation";
 import { toast } from "react-toastify";
@@ -7,8 +7,19 @@ import { Trash2 } from "react-feather";
 import { useGlobalState } from "../../contexts/global.context";
 import { addUnionRegistration, deletetUnionRegistration, getUnionRegistration } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
+import { getCrewUnionRegistration } from "../../services/admin.service";
 
 const UnionRegistrationDetail = () => {
+
+
+
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
+
+
 
     const navigate = useNavigate()
 
@@ -19,7 +30,7 @@ const UnionRegistrationDetail = () => {
 
 
     async function fetchData() {
-        const { data } = await getUnionRegistration();
+        const { data } =id === null ? await getUnionRegistration(): await getCrewUnionRegistration(id);
         updateEvent({ savedData: data.data })
     }
     

@@ -22,6 +22,7 @@ const PersonalDetail = () => {
   const [globalState, dispatch] = useGlobalState();
   const [, setFile] = useState(null);
   const { setState } = useContext(PersonalDetailContext)!;
+
   const [updateData, setUpdateData] = useState<any>({})
   // const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
@@ -29,8 +30,11 @@ const PersonalDetail = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const id = queryParams.get('id');
-  console.log(id);
-  
+ // console.log(id);
+
+
+    const { crew } = location.state != null ? location.state : {crew:null};
+    // console.log(crew);
 
 
   async function fetchData() {
@@ -49,8 +53,8 @@ const PersonalDetail = () => {
 
   useEffect(() => {
     console.log("PersonalDetail component 1");
-
-    setState(Personalstate.personalDetails);
+  
+    setState(Personalstate.personalDetails);  
      fetchData(); 
   }, []);
 
@@ -73,8 +77,8 @@ const PersonalDetail = () => {
       return newEvent;
     },
     {
-      firstname: "",
-      lastname: "",
+      firstname:id != null ? crew.firstname ?? "" : "",
+      lastname:id != null ? crew.lastname ?? "": "",
       dob: "",
       gender: "male",
       marital_status: "unmarried",
@@ -547,8 +551,10 @@ const PersonalDetail = () => {
       </button>
       </div>}
 
-     {id!== null &&  <div id="approver">
-        <ApproveReject />
+      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+     {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+        <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} />
       </div>}
     </form>
     // </PersonalDetailLayout>

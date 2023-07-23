@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import SetProfilePic from "../Components/profile/setProfilePic";
 import Dashboard from "../Components/dashboard/dashboard";
 import AuthenticatedRoute from "../Components/auth/AuthenticatedRoute.component";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import DashboardLayout from "../views/dashboardLayout";
 import PersonalDetail from "../Components/personalDetails/personalDetail";
@@ -53,8 +53,10 @@ import ViewAllVessel from "../Components/admin/company/view_all_vessel";
 import ViewAllCompany from "../Components/admin/company/view_all_company";
 import CrewProfile from "../Components/admin/crew_member.tsx/crew_member_profile";
 
+
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
+
 
   let routes = useRoutes([
     {
@@ -184,7 +186,7 @@ const MainRoutes = () => {
         },
         {
           path: "certificates",
-          element:(
+          element: (
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
@@ -195,15 +197,15 @@ const MainRoutes = () => {
           children: [
             {
               path: "",
-              element:<CertificateOfCompetency />
+              element: <CertificateOfCompetency />
             },
             {
               path: "flagEndorsement",
-              element:<FlagEndorsement />
+              element: <FlagEndorsement />
             },
             {
               path: "dangerousCargo",
-              element:<DangerousCargoEndorsement />
+              element: <DangerousCargoEndorsement />
             },
           ]
         },
@@ -215,13 +217,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<WorkExperianceLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<WorkExperiance />
+              element: <WorkExperiance />
             },
-            ]
+          ]
         },
         {
           path: "courseCertificate",
@@ -231,13 +233,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<CourseCertificateLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<CourseCertificate />
+              element: <CourseCertificate />
             },
-            ]
+          ]
         },
         {
           path: "medicalDetails",
@@ -247,13 +249,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<MedicalDetailsLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<MedicalDetails />
+              element: <MedicalDetails />
             },
-            ]
+          ]
         },
         {
           path: "unionRegistrationDetail",
@@ -263,13 +265,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<UnionRegistrationLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<UnionRegistrationDetail />
+              element: <UnionRegistrationDetail />
             },
-            ]
+          ]
         },
         {
           path: "references",
@@ -279,13 +281,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<ReferencesLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<References />
+              element: <References />
             },
-            ]
+          ]
         },
       ],
     },
@@ -347,10 +349,10 @@ const MainRoutes = () => {
         {
           path: "home",
           element: (<AuthenticatedRoute
-          accessToken={globalState.accessToken}
-          // outlet={<PersonalDetail />}
-          outlet={ <AdminDashboard />}
-        />)
+            accessToken={globalState.accessToken}
+            // outlet={<PersonalDetail />}
+            outlet={<AdminDashboard />}
+          />)
         },
         {
           path: "createCrew",
@@ -360,8 +362,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<CreateCrewMember />}
             />
-            ),
-         
+          ),
+
         },
         {
           path: "allCrewMember",
@@ -370,9 +372,9 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<AllCrewMembers />}
-              // Error Showing 
+            // Error Showing 
             />
-            ),     
+          ),
         },
         {
           path: "crewProfile",
@@ -381,9 +383,9 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<CrewProfile />}
-              // Error Showing 
+            // Error Showing 
             />
-            ),     
+          ),
         },
         {
           path: "createSubAdmin",
@@ -393,8 +395,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<CreateSubAdmin />}
             />
-            ),
-         
+          ),
+
         },
         {
           path: "viewAllAdmin",
@@ -404,8 +406,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<ViewAllAdmin />}
             />
-            ),
-         
+          ),
+
         },
         {
           path: "addCompany",
@@ -413,16 +415,16 @@ const MainRoutes = () => {
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
-              outlet={<CompanyLayout /> }
+              outlet={<CompanyLayout />}
             />
           ),
           children: [
             {
               path: "",
-              element:<AddCompany />
+              element: <AddCompany />
             }
           ]
-         
+
         },
         {
           path: "viewAllCompany",
@@ -432,8 +434,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<ViewAllCompany />}
             />
-            ),
-         
+          ),
+
         },
         // {
         //   path: "addManager",
@@ -444,7 +446,7 @@ const MainRoutes = () => {
         //       outlet={<AddManager />}
         //     />
         //     ),
-         
+
         // },
         {
           path: "addVessel",
@@ -454,8 +456,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<AddVessel />}
             />
-            ),
-         
+          ),
+
         },
         {
           path: "viewVessel",
@@ -465,8 +467,8 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<ViewAllVessel />}
             />
-            ),
-         
+          ),
+
         },
         // crew file editing section 
         {
@@ -475,7 +477,7 @@ const MainRoutes = () => {
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
-              outlet={<PersonalDetailLayout />}
+              outlet={ <PersonalDetailLayout />}
             />
           ),
           children: [
@@ -527,7 +529,7 @@ const MainRoutes = () => {
         },
         {
           path: "certificates",
-          element:(
+          element: (
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
@@ -538,15 +540,15 @@ const MainRoutes = () => {
           children: [
             {
               path: "",
-              element:<CertificateOfCompetency />
+              element: <CertificateOfCompetency />
             },
             {
               path: "flagEndorsement",
-              element:<FlagEndorsement />
+              element: <FlagEndorsement />
             },
             {
               path: "dangerousCargo",
-              element:<DangerousCargoEndorsement />
+              element: <DangerousCargoEndorsement />
             },
           ]
         },
@@ -558,13 +560,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<WorkExperianceLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<WorkExperiance />
+              element: <WorkExperiance />
             },
-            ]
+          ]
         },
         {
           path: "courseCertificate",
@@ -574,13 +576,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<CourseCertificateLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<CourseCertificate />
+              element: <CourseCertificate />
             },
-            ]
+          ]
         },
         {
           path: "medicalDetails",
@@ -590,13 +592,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<MedicalDetailsLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<MedicalDetails />
+              element: <MedicalDetails />
             },
-            ]
+          ]
         },
         {
           path: "unionRegistrationDetail",
@@ -606,13 +608,13 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<UnionRegistrationLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<UnionRegistrationDetail />
+              element: <UnionRegistrationDetail />
             },
-            ]
+          ]
         },
         {
           path: "references",
@@ -622,31 +624,31 @@ const MainRoutes = () => {
               // outlet={<PersonalDetail />}
               outlet={<ReferencesLayout />}
             />
-            ),
+          ),
           children: [
             {
               path: "",
-              element:<References />
+              element: <References />
             },
-            ]
+          ]
         },
-      
+
       ]
     },
-   
+
   ]);
 
   var role = sessionStorage.getItem("role") ?? "user";
 
-  return role.toLocaleLowerCase() === "admin"   ?  AdminRoutes :routes;
+  return role.toLocaleLowerCase() === "admin" ? AdminRoutes : routes;
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
-  
-axios.defaults.headers.common["Authorization"] =
-sessionStorage.getItem("token") || "";
+
+  axios.defaults.headers.common["Authorization"] =
+    sessionStorage.getItem("token") || "";
   useEffect(() => {
-   const token =  sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       dispatch({ type: LOGIN, payload: token });
     }

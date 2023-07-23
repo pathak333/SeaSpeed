@@ -1,6 +1,6 @@
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Trash2 } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DATA, LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
@@ -18,32 +18,39 @@ import {
 
 import { EducationValidation } from "./validation";
 import InputField from "../../uiComponents/inputField/inputField.component";
+import { getCrewEducationDetail } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 const Education = () => {
+  //get query parameters 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
   const [, dispatch] = useGlobalState();
   const [oldData, setOldData] = useState([]);
   const { setState } = useContext(PersonalDetailContext)!;
-  let date =new Date();
+  let date = new Date();
   let todaydate = date.toISOString().substring(0, 10);
-  
+
   async function fetchData() {
-    const { data } = await GetEducationDetail();
+    const { data } = id === null ? await GetEducationDetail() : await getCrewEducationDetail(id);
     console.log("Education data = ", data);
     setOldData(data.data.educationList);
   }
   async function updateProfileData() {
     const { data } = await ProfileService();
     console.log("profile data", data);
-    sessionStorage.setItem("formState",data.data.formState)
+    sessionStorage.setItem("formState", data.data.formState)
     dispatch({ type: DATA, payload: data });
- }
+  }
 
   useEffect(() => {
     setState(Personalstate.educationBackground);
     fetchData();
-    updateProfileData();
+    if (id === null) updateProfileData();
     console.log("educationBackground component ");
   }, []);
 
@@ -60,7 +67,7 @@ const Education = () => {
       city: "",
       country: "",
       dataList: [],
-      isFormChanged:false,
+      isFormChanged: false,
       error: { keys: "", values: "" },
     }
   );
@@ -128,7 +135,7 @@ const Education = () => {
       city: "",
       country: "",
       dataList: [],
-      isFormChanged:false,
+      isFormChanged: false,
       error: { keys: "", values: "" },
     });
     if (formRef.current !== null) {
@@ -146,7 +153,7 @@ const Education = () => {
       if (formEvent.dataList.length > 0) {
         for (let index = 0; index < formEvent.dataList.length; index++) {
           delete formEvent.dataList[index].isFormChanged;
-          
+
         }
         formData = formEvent.dataList;
       } else {
@@ -197,7 +204,7 @@ const Education = () => {
             label={"Name of school/college/institute"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ institution: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ institution: e.target.value, isFormChanged: true })}
           />
           <InputField
             className="m-4"
@@ -205,7 +212,7 @@ const Education = () => {
             label={"Qualification achieved"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ qualification: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ qualification: e.target.value, isFormChanged: true })}
           />
           <InputField
             className="m-4"
@@ -214,7 +221,7 @@ const Education = () => {
             type={"date"}
             max={todaydate}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ startDate: e.target.value,isFormChanged:true, endDate:"" })}
+            onChange={(e) => updateEvent({ startDate: e.target.value, isFormChanged: true, endDate: "" })}
           />
           <InputField
             className="m-4"
@@ -223,7 +230,7 @@ const Education = () => {
             type={"date"}
             min={formEvent.startDate}
             // error={errorReturn("dob")}
-            onChange={(e) => updateEvent({ endDate: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ endDate: e.target.value, isFormChanged: true })}
           />
           <InputField
             className="m-4"
@@ -231,7 +238,7 @@ const Education = () => {
             label={"City"}
             type={"text"}
             error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ city: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ city: e.target.value, isFormChanged: true })}
           />
           <InputField
             className="m-4"
@@ -239,7 +246,7 @@ const Education = () => {
             label={"Country"}
             type={"text"}
             // error={errorReturn("lastname")}
-            onChange={(e) => updateEvent({ country: e.target.value,isFormChanged:true })}
+            onChange={(e) => updateEvent({ country: e.target.value, isFormChanged: true })}
           />
         </div>
         {formEvent.dataList.length > 0 ? (
@@ -363,42 +370,51 @@ const Education = () => {
         ) : (
           <div></div>
         )}
-        
-       {formEvent.isFormChanged ?<button
-          type="submit"
-          //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
-          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          Save & next
-        </button>:
-        <button
-          type="button"
-          className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          onClick={() => {
-            clearAllData();
-            updateEvent({ dataList: [] });
-            navigate("/dashboard/personaldetails/bankDetail");
-          }}
-        >
-          Skip and Next
-        </button>}
-        <button
-          type="button"
-          className="ml-8 text-xl text-blue-700"
-          onClick={() => {
-            clearAllData();
-            updateEvent({ dataList: [] });
-          }}
-        >
-          Clear all
-        </button>
-        <button
-          className="ml-8 text-xl text-gray-500"
-          onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
-        >
-          Previous
-        </button>
-      
+
+        {id === null && <div>
+          {formEvent.isFormChanged ? <button
+            type="submit"
+            //onClick={() => navigate("/dashboard/personaldetails/bankDetail")}
+            className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Save & next
+          </button> :
+            <button
+              type="button"
+              className="ml-4 mt-3 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              onClick={() => {
+                clearAllData();
+                updateEvent({ dataList: [] });
+                navigate("/dashboard/personaldetails/bankDetail");
+              }}
+            >
+              Skip and Next
+            </button>}
+          <button
+            type="button"
+            className="ml-8 text-xl text-blue-700"
+            onClick={() => {
+              clearAllData();
+              updateEvent({ dataList: [] });
+            }}
+          >
+            Clear all
+          </button>
+          <button
+            className="ml-8 text-xl text-gray-500"
+            onClick={() => navigate("/dashboard/personaldetails/contactDetail")}
+          >
+            Previous
+          </button>
+        </div>}
+
+        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+        {id !== null && !formEvent.isFormChanged && <div id="approver">
+          <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/bankDetail/?id=${id}`} locationStateData={{}} />
+        </div>}
+
+
       </form>
     </div>
   );
