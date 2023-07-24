@@ -34,3 +34,7 @@ export const GetCrewCourseCertificateApi = "/admin/getCourseCertificate"
 export const GetCrewReferencesApi = "/admin/getReferences"
 export const GetCrewUnionRegistrationApi = "/admin/getUnionRegistration"
 export const GetCrewMedicalDetailApi = "/admin/getMedicalDetail"
+
+
+
+export const approveOrRejectApi = "/admin/approveOrReject"
