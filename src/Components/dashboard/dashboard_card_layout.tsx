@@ -94,7 +94,7 @@ const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
         {/* card */}
       </div>
       <div className="h-1 bg-[#E4F0FF] my-8" />
-      <div className="flex flex-wrap  justify-center ">
+      <div className="flex flex-wrap  justify-start ">
         {/* card */}
         <DashboardCard2
           label={"Course and certificate"}

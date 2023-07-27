@@ -44,6 +44,18 @@ const Dashboard = () => {
         </div>
       </div>
     <DasboardCardLayout comeFrom="user" />
+    <div className="card flex flex-col p-3 ml-2 rounded-lg bg-white w-[260px] items-center">
+      <img src="" alt="seaSpeed Profile " className="p-3" />
+      <hr className=" w-full" />
+      <p id="name" className="p-3">Abhay pathak</p>
+      <hr className=" w-full" />
+      <p id="name" className="p-3">Vessel name</p>
+      <hr className=" w-full" />
+      <p id="name" className="p-3">SignIn Date</p>
+      <hr className=" w-full" />
+      <p id="name" className="p-3">SignOff Date</p>
+      <hr className=" w-full" />
+    </div>
     </div>
   );
 };
