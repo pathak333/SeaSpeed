@@ -87,7 +87,8 @@ const AdminDashboard = () => {
           label={"Pending verification"}
           icon={<Contacts className="" />}
           onClick={() => {
-            //navigate("/dashboard/courseCertificate");
+            //allPendinCrewMember
+            navigate("/adminDashboard/allPendinCrewMember");
           }}
         />
         <DashboardCard2

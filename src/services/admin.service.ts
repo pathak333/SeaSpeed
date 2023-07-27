@@ -1,5 +1,5 @@
 
-import { GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
+import { GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -34,6 +34,10 @@ export const createNewUser = (data: any) => {
 
 export const getAllCrew = () => {
     return httpService.get(getAllCrewApi);
+}
+
+export const getAllPendingCrew = () => {
+    return httpService.get(getAllPendingCrewApi);
 }
 
 export const getAllRank = () => {

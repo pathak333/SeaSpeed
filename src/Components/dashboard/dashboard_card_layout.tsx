@@ -45,7 +45,7 @@ const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
           }
                 onClick={() => {
                     if (comeFrom === "admin") { 
-                        navigate("/adminDashboard/traveldetails/");
+                        navigate(`/adminDashboard/traveldetails/?id=${id}`,{state:{crew:data}});
                     } else {
                         navigate("/dashboard/traveldetails");
               }
@@ -60,7 +60,13 @@ const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
           }
           icon={<Award className="text-[#A212E4]" />}
           label={<span>Certificates</span>}
-          onClick={() => {navigate("/dashboard/certificates");}}
+          onClick={() => {
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/certificates/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/certificates");
+            }
+          }}
         />
 
         {/* card */}
@@ -76,7 +82,12 @@ const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
           }
           onClick={() => {
             //workExperiance
-            navigate("/dashboard/workExperiance");
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/workExperiance/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/workExperiance");
+
+            }
           }}
         />
 
@@ -89,28 +100,44 @@ const DasboardCardLayout = ({className,comeFrom,id,data}:Props) => {
           label={"Course and certificate"}
           icon={<Layout className="" />}
           onClick={() => {
-            navigate("/dashboard/courseCertificate");
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/courseCertificate/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/courseCertificate");
+            }
           }}
         />
         <DashboardCard2
           label={"Medical details"}
           icon={<PlusCircle className="" />}
           onClick={() => {       
-            navigate("/dashboard/medicalDetails");
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/medicalDetails/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/medicalDetails");
+            }
           }}
         />
         <DashboardCard2
           label={"Union Registraion"}
           icon={<Users className="" />}
           onClick={() => {
-            navigate("/dashboard/unionRegistrationDetail");
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/unionRegistrationDetail/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/unionRegistrationDetail");
+            }
           }}
         />
         <DashboardCard2
           label={"References"}
           icon={<UserPlus className="" />}
           onClick={() => {
-            navigate("/dashboard/references");
+            if (comeFrom === "admin") {
+              navigate(`/adminDashboard/references/?id=${id}`,{state:{crew:data}});
+            } else {
+              navigate("/dashboard/references");
+            }
           }}
         />
         {/* card */}
