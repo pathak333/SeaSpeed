@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { getAllVesselById } from "../../../services/admin.service";
-import CommonLayout from "../../../views/AdminViews/commonLayout";
+import { getAllVesselById } from "../../../../services/admin.service";
+import CommonLayout from "../../../../views/AdminViews/commonLayout";
 import { Trash2 } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 
 const ViewAllVessel = () => {
 
     const [vesselList, updateVesselList] = useState([]);
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -22,7 +24,9 @@ const ViewAllVessel = () => {
 
 
     const listofData = vesselList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b" onClick={(e:any)=>{
+          console.log("click on vessel")
+          navigate("/adminDashboard/vesselProfile")}}>
           <td className="px-6 py-4">{item.name}</td>
           <td className="px-6 py-4">{item.type}</td>
           <td className="px-6 py-4">{item.flag}</td>
@@ -32,7 +36,7 @@ const ViewAllVessel = () => {
           <td className="px-6 py-4">
             <Trash2
               onClick={() => {
-               
+               console.log("delete vessel ")
               }}
             />
           </td>

@@ -240,6 +240,15 @@ const CreateSubAdmin = () => {
                             }} />
                             <label htmlFor="company">Application</label>
                         </div>
+
+                        <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
+                            <input className="m-2" type="checkbox" name="company" id="company" onChange={(e: any) => {
+
+
+                                addRemovePermission("vessel", e.target.checked);
+                            }} />
+                            <label htmlFor="company">Vessel Manager</label>
+                        </div>
                         {/* <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="rank" id="rank" onChange={(e: any) => {
 
@@ -253,7 +262,7 @@ const CreateSubAdmin = () => {
                 </div>
                 <div>
 
-                    <p className="ml-4 text-lg">Vessel Manager</p>
+                    <p className="ml-4 text-lg pb-3">All Vessel</p>
                     <div className="flex flex-row  ml-4">
                         <Select
                             id="vessel"
@@ -261,7 +270,7 @@ const CreateSubAdmin = () => {
                             isMulti
                             name="colors"
                             options={vesselOption}
-                            className="basic-multi-select  ml-2 w-full"
+                            className="basic-multi-select w-full"
                             classNamePrefix="select"
                             onChange={(e) => { onselectionchange(e) }}
                         />

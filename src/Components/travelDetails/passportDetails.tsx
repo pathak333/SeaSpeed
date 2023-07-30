@@ -30,7 +30,7 @@ const PassPortDetail = (props: any) => {
 
 
   const navigate = useNavigate();
-  const [, dispatch] = useGlobalState();
+  const [globalState, dispatch] = useGlobalState();
   const { setState } = useContext(TravelDetailContext)!;
   useEffect(() => {
     fetchData();
@@ -225,11 +225,27 @@ const PassPortDetail = (props: any) => {
           Clear all
         </button>
       </div>}
+      { globalState.data.data.permission.includes("application") && 
+        <div>
       {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
       
       {id!== null && !formEvent.isFormChanged &&  <div id="approver">
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}}  doc_id="PassPortDetail" user_id={id} />
        </div>}
+       </div>}
+       { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+        <div>
+           <button
+            type="button"
+            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+              // clearAllData();
+              navigate(`/adminDashboard/traveldetails/visadetail/?id=${id}`);
+            }}
+          >
+           Next
+          </button>
+      </div> }
     </form>
   );
 };
