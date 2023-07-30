@@ -1,5 +1,5 @@
 import { ArrowLeft } from "react-feather";
-import { useGlobalState } from "../../../contexts/global.context";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { AirplaneTicket, Description } from "@mui/icons-material";
 import DasboardCardLayout from "../../dashboard/dashboard_card_layout";
@@ -9,11 +9,11 @@ import DasboardCardLayout from "../../dashboard/dashboard_card_layout";
 
 const CrewProfile = () => {
 
- //  const [globalState, dispatch] = useGlobalState();
+
 
 console.log("crew profile time")
    const location = useLocation();
-   const { data } = location.state;
+   const { data,page } = location.state;
    console.log(data);
    
    const navigate = useNavigate();
@@ -53,7 +53,7 @@ console.log("crew profile time")
 
       </div>
      
-        <DasboardCardLayout id={data._id} data={data} comeFrom="admin" className="" />
+        <DasboardCardLayout id={data._id} data={data} comeFrom="admin" page={page} className="" />
      
       </div>
 }

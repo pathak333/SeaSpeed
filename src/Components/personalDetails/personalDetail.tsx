@@ -26,7 +26,8 @@ const PersonalDetail = () => {
   const [updateData, setUpdateData] = useState<any>({})
   // const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
-
+  const stateData = location.state;
+ 
   const queryParams = new URLSearchParams(location.search);
 
   const id = queryParams.get('id');
@@ -524,37 +525,51 @@ const PersonalDetail = () => {
           />
         </div>
       </div>}
-     {id===null && <div>
+     { globalState.data.data.permission.includes("application") ?  <div>
+      {id===null && <div>
         
-{formEvent.isFormChanged ?  <button
-    type="submit"
-    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-  >
-    Save & next
-  </button> :
-  <button
-    type="button"
-    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-    onClick={() => {
-      // clearAllData();
-      navigate("/dashboard/personaldetails/contactDetail");
-    }}
-  >
-    Skip and Next
-  </button>}
-      <button
-        type="button"
-        onClick={clearAllData}
-        className="ml-8 text-xl text-blue-700"
-      >
-        Clear all
-      </button>
-      </div>}
-
-      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
-      
-     {id!== null && !formEvent.isFormChanged &&  <div id="approver">
-        <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />
+        {formEvent.isFormChanged ?  <button
+            type="submit"
+            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Save & next
+          </button> :
+          <button
+            type="button"
+            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+              // clearAllData();
+              navigate("/dashboard/personaldetails/contactDetail");
+            }}
+          >
+            Skip and Next
+          </button>}
+              <button
+                type="button"
+                onClick={clearAllData}
+                className="ml-8 text-xl text-blue-700"
+              >
+                Clear all
+              </button>
+              </div>}
+        
+              {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+              
+             {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+                <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />
+              </div>}
+      </div> :
+        <div>
+           <button
+            type="button"
+            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+              // clearAllData();
+              navigate("/dashboard/personaldetails/contactDetail");
+            }}
+          >
+           Next
+          </button>
       </div>}
     </form>
     // </PersonalDetailLayout>

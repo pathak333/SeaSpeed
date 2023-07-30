@@ -656,6 +656,7 @@ const MainRoutes = () => {
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
+console.log("App Wrapper");
 
   axios.defaults.headers.common["Authorization"] =
     sessionStorage.getItem("token") || "";

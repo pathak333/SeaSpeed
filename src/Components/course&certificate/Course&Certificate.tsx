@@ -11,6 +11,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component"
 import InputField from "../../uiComponents/inputField/inputField.component"
 import ApproveReject from "../../uiComponents/approve_reject"
 import { getCrewCourseCertificate } from "../../services/admin.service"
+import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants"
 
 
 
@@ -119,9 +120,9 @@ const CourseCertificate = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
-            <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.placeOfIssue}</td>
 
 
             {/* <td className="px-6 py-4">file</td> */}
@@ -140,9 +141,9 @@ const CourseCertificate = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
-            <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.placeOfIssue}</td>
 
 
             {/* <td className="px-6 py-4">file</td> */}
@@ -235,6 +236,7 @@ const CourseCertificate = () => {
                 fieldName={"dateOfIssue"}
                 label={"Date of issue"}
                 type={"date"}
+                max={IssuesformattedDate}
                 error={errorReturn("dateOfIssue")}
                 onChange={(e:any) => updateEvent({ dateOfIssue: e.target.value , isFormChanged: true })}
                 value={formEvent.dateOfIssue}
@@ -244,6 +246,7 @@ const CourseCertificate = () => {
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
+                min={ExpireformattedDateFormNow}
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e:any) => updateEvent({ dateOfExpiry: e.target.value , isFormChanged: true })}
                 value={formEvent.dateOfExpiry}
@@ -341,7 +344,7 @@ const CourseCertificate = () => {
         {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
       
       {id!== null && !formEvent.isFormChanged &&  <div id="approver">
-         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}}  doc_id="CourseCertificate" user_id={id} />
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/medicalDetails/?id=${id}`} locationStateData={{}}  doc_id="CourseCertificate" user_id={id} />
        </div>}
     </form>
 

@@ -25,11 +25,11 @@ const [msg, updateMsg] = useState("")
         toast.info(data.message)
         navigate(navigation,{state:{crew:locationStateData}})
       } else {
-        toast.info(data.message)
+       // toast.info(data.message)
       }
      
     } catch (error:any) {
-      toast.info(error.message)
+    //  toast.error(error.message)
       
     }
   }

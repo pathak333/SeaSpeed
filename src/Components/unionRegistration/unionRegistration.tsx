@@ -8,6 +8,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { addUnionRegistration, deletetUnionRegistration, getUnionRegistration } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
 import { getCrewUnionRegistration } from "../../services/admin.service";
+import ApproveReject from "../../uiComponents/approve_reject";
 
 const UnionRegistrationDetail = () => {
 
@@ -119,7 +120,7 @@ const UnionRegistrationDetail = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.unionName}</td>
             <td className="px-6 py-4">{item.membershipNumber}</td>
-            <td className="px-6 py-4">{item.dateOfJoiningUnion}</td>
+            <td className="px-6 py-4">{item.dateOfJoiningUnion.split("T")[0]}</td>
             <td className="px-6 py-4">{item.rank}</td>
 
 
@@ -139,7 +140,7 @@ const UnionRegistrationDetail = () => {
         <tr key={index} className="bg-white border-b">
             <td className="px-6 py-4">{item.unionName}</td>
             <td className="px-6 py-4">{item.membershipNumber}</td>
-            <td className="px-6 py-4">{item.dateOfJoiningUnion}</td>
+            <td className="px-6 py-4">{item.dateOfJoiningUnion.split("T")[0]}</td>
             <td className="px-6 py-4">{item.rank}</td>
 
 
@@ -280,6 +281,7 @@ const UnionRegistrationDetail = () => {
         ) : (
             <div></div>
         )}
+      { id === null && <div>
         {formEvent.isFormChanged ? <button
             type="submit"
             disabled={formEvent.dataList.length === 0}
@@ -307,6 +309,14 @@ const UnionRegistrationDetail = () => {
         >
             Clear all
         </button>
+       </div>}
+
+        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      
+      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
+         <ApproveReject name="traveldetails" navigation={`/adminDashboard/references/?id=${id}`} locationStateData={{}}  doc_id="UnionRegistrationDetail" user_id={id} />
+       </div>}
+
     </form>
 }
 export default UnionRegistrationDetail

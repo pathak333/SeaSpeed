@@ -27,7 +27,7 @@ const AllCrewMembers = () => {
   const listofData = crewList.map((item: any, index: any) => {
     console.log(item)
   return  <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={() => {
-    navigate("/adminDashboard/crewProfile",{state:{data:item}});
+    navigate("/adminDashboard/crewProfile",{state:{data:item,page:"allCrew"}});
    }}>
       <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
           <td className="px-6 py-4">{item.vessel.label}</td>

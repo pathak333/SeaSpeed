@@ -1,5 +1,5 @@
 
-
+export const GetAdminProfileApi = "/admin/getProfile";
 
 export const getAllVessel = "/admin/getAllVessel";
 export const addSubAdminApi = "/admin/addSubAdminUser";

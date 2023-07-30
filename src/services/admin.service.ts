@@ -1,9 +1,16 @@
 
-import { GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
+import axios from "axios";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
 
+export const adminProfileService = () => {
+  
+    axios.defaults.headers.common["Authorization"] =
+      sessionStorage.getItem("token") || "";
+    return httpService.get(GetAdminProfileApi);
+  };
 
 export const AllVessel = () => {
     return httpService.get(getAllVessel)

@@ -14,7 +14,7 @@ export const managerJoi = (data:any)=>manager.validateAsync(data, { abortEarly: 
   
 export const companyJoi = (data:any) => joi.object({
     name: joi.string().required(),
-    address: joi.string().required(),
+    address: joi.string().optional().allow(""),
     email: joi.string().optional().allow(""),
     phone: joi.number().optional().allow(""),
     logo: joi.string().allow(""),

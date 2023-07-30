@@ -130,7 +130,7 @@ const AddManager = (props:Props) => {
                                 email: "",
                                 phone: "",
                                 address: "",
-                                type: props.types ?? "crew",
+                                type: props.types ?? "CREW MANAGER",
                                 isFormChanged:false,
                                 error: { key: "", value: "" },
                             })
