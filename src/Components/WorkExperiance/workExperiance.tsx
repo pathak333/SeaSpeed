@@ -8,7 +8,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { addWorkExperience, deletetWorkExperience, getWorkExperience } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
 import InputField from "../../uiComponents/inputField/inputField.component";
-
+import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewWorkExperience } from "../../services/admin.service";
 
@@ -30,7 +30,7 @@ const WorkExperiance = () => {
 const navigate = useNavigate()
 
     
-const [, dispatch] = useGlobalState();
+const [globalState, dispatch] = useGlobalState();
 
 
 
@@ -90,13 +90,13 @@ useEffect(() => {
                 updateEvent({
                     dataList: [...formEvent.dataList, data],
                     vessel: "",
-                    vesselType: "",
+                    vesselType: "AHT",
                     flag: "",
-                    rank: "",
+                    rank: "MASTER",
                     dwt: "",
                     grt: "",
                     bhp: "",
-                    engineType: "",
+                    engineType: "CAT",
                     startDate: "",
                     endDate: "",
                     manningAgentsOrOwners: "",
@@ -126,13 +126,13 @@ useEffect(() => {
     const clearAllData = () => {
         updateEvent({
             vessel: "",
-            vesselType: "",
+            vesselType: "AHT",
             flag: "",
-            rank: "",
+            rank: "MASTER",
             dwt: "",
             grt: "",
             bhp: "",
-            engineType: "",
+            engineType: "CAT",
             startDate: "",
             endDate: "",
             manningAgentsOrOwners: "",
@@ -156,8 +156,8 @@ useEffect(() => {
             <td className="px-6 py-4">{item.grt}</td>
             <td className="px-6 py-4">{item.bhp}</td>
             <td className="px-6 py-4">{item.engineType}</td>
-            <td className="px-6 py-4">{item.startDate}</td>
-            <td className="px-6 py-4">{item.endDate}</td>
+            <td className="px-6 py-4">{item.startDate.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.endDate.split("T")[0]}</td>
             <td className="px-6 py-4">{item.manningAgentsOrOwners}</td>
             <td className="px-6 py-4">{item.reason}</td>
             <td className="px-6 py-4">{item.dataList}</td>
@@ -185,8 +185,8 @@ useEffect(() => {
             <td className="px-6 py-4">{item.grt}</td>
             <td className="px-6 py-4">{item.bhp}</td>
             <td className="px-6 py-4">{item.engineType}</td>
-            <td className="px-6 py-4">{item.startDate}</td>
-            <td className="px-6 py-4">{item.endDate}</td>
+            <td className="px-6 py-4">{item.startDate.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.endDate.split("T")[0]}</td>
             <td className="px-6 py-4">{item.manningAgentsOrOwners}</td>
             <td className="px-6 py-4">{item.reason}</td>
             <td className="px-6 py-4">{item.dataList}</td>
@@ -265,14 +265,16 @@ useEffect(() => {
                 onChange={(e) => updateEvent({ vessel: e.target.value, isFormChanged: true })}
                 value={formEvent.vessel}
             />
-            <InputField
+            <SelectInput
                 className="m-4"
                 fieldName={"vesselType"}
                 label={"Vessel type"}
-                type={"text"}
+                type={""}
                 error={errorReturn("vesselType")}
                 onChange={(e) => updateEvent({ vesselType: e.target.value, isFormChanged: true })}
                 value={formEvent.vesselType}
+                option={["AHT","ASD","DSV","IBSV","LNG","OCV","OSV","PSV","ROV","SDW","Shoalbuster","SSDV","AHTS","Barge","Bitumen Tanker","Bulk carrier","Cable layer","CarCarrier","Cement Carrier","Chemical Tanker","Container","Crane vessel","Crew Boat","Cruise Ship","Dredger","Drilling Rig","Drillship","DSV","Dry Cargo","Emergency Rescue","Ferry","Fish Factory ship","Fishing","Fishing Protection","FPSO","FSIV DPI","Gas Tanker","General Cargo","Guard Vessel","Harbour Tug","Heavylift","Hydrographic","Ice-breaker","Jack-Up Barge","Landing Craft","Lash","Lifestock carrier","Lo-Ro","LPG","Minesweeper","Mooring Boat","Multipurpose","OBO","Oil Platform","Oil Tanker","Other","Passenger","Pilot Boat","Pipe Carier/Pipelay","Reefer","Research","Rock,Carrier","Ro-Lo","Ro-Pax","Ro-Ro","Sailing","Salvor","Seismic Support","Seismograph","Split.Hopper barge","Stand by vessel","Supply Vessel","Tanker","Trawler","Tug","Yacht","Vehicle Carrier","Well boat","WFSV"
+]}
             />
             <InputField
                 className="m-4"
@@ -283,20 +285,24 @@ useEffect(() => {
                 onChange={(e) => updateEvent({ flag: e.target.value, isFormChanged: true })}
                 value={formEvent.flag}
             />
-            <InputField
+            <SelectInput
                 className="m-4"
                 fieldName={"rank"}
                 label={"Rank"}
-                type={"text"}
+                type={""}
                 error={errorReturn("rank")}
                 onChange={(e) => updateEvent({ rank: e.target.value, isFormChanged: true })}
                 value={formEvent.rank}
+                option={["MASTER", "COFF","2OFF","3OFF","4OFF","JOFF","CENG","1ENG","2ENG","3ENG","4ENG","ENG","JENG","EENG","ELEC","MECH",
+                         "PMAN","BOSUN","FRMAN","AB","Fitter","OS","DECK FITTER","MMAN","OILER","WELDER","WIPER","CHCOOK","COOK","STW","MESSM",
+                         "MSI","DCAD","ECAD","ENGINE FITTER" 
+                    ]}
             />
             <InputField
                 className="m-4"
                 fieldName={"dwt"}
                 label={"DWT"}
-                type={"text"}
+                type={""}
                 error={errorReturn("dwt")}
                 onChange={(e) => updateEvent({ dwt: e.target.value, isFormChanged: true })}
                 value={formEvent.dwt}
@@ -319,14 +325,20 @@ useEffect(() => {
                 onChange={(e) => updateEvent({ bhp: e.target.value, isFormChanged: true })}
                 value={formEvent.bhp}
             />
-            <InputField
+            <SelectInput
                 className="m-4"
                 fieldName={"engineType"}
                 label={"Engine type"}
-                type={"text"}
+                type={""}
                 error={errorReturn("engineType")}
                 onChange={(e) => updateEvent({ engineType: e.target.value, isFormChanged: true })}
                 value={formEvent.engineType}
+                option={["CAT","CAT 3516","CAT 360","Daihatsu","EMD","KUMERA","MACH","Rolls-Royce","6NVD","ABC",
+"Akasaka","B&W","BERGEN","C 32","CAT-3306","CAT-3412E","CATERPILLER","Cummins","D12D-C MH",
+"DC Electro Motor","Deutz","Wichmann","Diesel","FIAT","Frichs","GMT","Hanshin","KTA 19-M4",
+"KTA 50 M2 (HX)","MAK","MAN","MAN-B&W","MDDCF-5935846","MIRRLEES BLACKSTONE","Mitsubishi","Niigata","NIIGATA-6MG28HX","Nohab - Polar",
+"Other","Pilstick","POTAR","RD","KOBE DIESEL","RUSTON","SKL","SKODA","Steam Turbine",
+"STORK","Sulzer","Ulstein Aquamaster","VOLVO","Wartsila","YANMAR","Hyundai","8NVD","Ulstein Bergen","Industrie","MWM","BW-ALPHA","Blackstone","Alpha","BOLNES","Callesen","Grenaa Diesel"]}
             />
             <InputField
                 className="m-4"
@@ -458,11 +470,27 @@ useEffect(() => {
         Clear all
       </button>
         </div>}
+        { globalState.data.data.permission.includes("application") && 
+        <div>
         {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
       
       {id!== null && !formEvent.isFormChanged &&  <div id="approver">
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/courseCertificate/?id=${id}`} locationStateData={{}}  doc_id="WorkExperiance" user_id={id} />
        </div>}
+       </div>}
+       { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+        <div>
+           <button
+            type="button"
+            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+              // clearAllData();
+              navigate(`/adminDashboard/courseCertificate/?id=${id}`);
+            }}
+          >
+           Next
+          </button>
+      </div> }
     </form>
 }
 export default WorkExperiance;

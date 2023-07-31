@@ -44,15 +44,16 @@ import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_me
 import { LOGIN } from "../constants/action.constant";
 import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
 import AddCompany from "../Components/admin/company/add_company";
-import AddVessel from "../Components/admin/company/add_vessel";
+import AddVessel from "../Components/admin/company/vessel/add_vessel";
 import CompanyLayout from "../views/AdminViews/companyLayout";
 import axios from "axios";
 import AllCrewMembers from "../Components/admin/crew_member.tsx/all_crew_member";
 import ViewAllAdmin from "../Components/admin/sub_admin.tsx/view_all_admin";
-import ViewAllVessel from "../Components/admin/company/view_all_vessel";
+import ViewAllVessel from "../Components/admin/company/vessel/view_all_vessel";
 import ViewAllCompany from "../Components/admin/company/view_all_company";
 import CrewProfile from "../Components/admin/crew_member.tsx/crew_member_profile";
 import AllPendingCrewMembers from "../Components/admin/crew_member.tsx/all_pending_crew_member";
+import VesselProfile from "../Components/admin/company/vessel/vessel_profile";
 
 
 const MainRoutes = () => {
@@ -467,6 +468,17 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<AddVessel />}
+            />
+          ),
+
+        },
+        {
+          path: "vesselProfile",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<VesselProfile />}
             />
           ),
 

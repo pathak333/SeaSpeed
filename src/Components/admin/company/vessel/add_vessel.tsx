@@ -2,16 +2,16 @@
 
 import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom"
-import InputField from "../../../uiComponents/inputField/inputField.component";
+import InputField from "../../../../uiComponents/inputField/inputField.component";
 import { ArrowLeft } from "react-feather";
-import { SearchSelect } from "../../../uiComponents/inputField/searchSelectInputField.component";
-import DialogBox from "../../../uiComponents/dialogBox";
-import AddCompany from "./add_company";
-import AddManager from "./add_manager";
-import { createVessel, getAllCompanyService, getAllManagerByCompanyId } from "../../../services/admin.service";
+import { SearchSelect } from "../../../../uiComponents/inputField/searchSelectInputField.component";
+import DialogBox from "../../../../uiComponents/dialogBox";
+import AddCompany from "../add_company";
+import AddManager from "../add_manager";
+import { createVessel, getAllCompanyService, getAllManagerByCompanyId } from "../../../../services/admin.service";
 
-import { Option } from "../../../types/propes.types";
-import { vesselJoi } from "./validation";
+import { Option } from "../../../../types/propes.types";
+import { vesselJoi } from "../validation";
 import { toast } from "react-toastify";
 
 
