@@ -18,7 +18,7 @@ console.log("crew profile time")
    
    const navigate = useNavigate();
    function goBack() {
-       navigate("/dashboard/home", { replace: true });
+      navigate(-1)
    }
 
 

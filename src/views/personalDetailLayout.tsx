@@ -6,6 +6,7 @@ import {
   PersonalDetailContextValue,
   Personalstate,
 } from "../contexts/personalDetail.context";
+import { useGlobalState } from "../contexts/global.context";
 
 // interface Props {
 //   children: JSX.Element;
@@ -15,13 +16,18 @@ const PersonalDetailLayout = (props: any) => {
   const navigate = useNavigate();
   const [state, setState] = useState(Personalstate.personalDetails);
   const contextValue: PersonalDetailContextValue = { state, setState };
+  const [globalState,] = useGlobalState()
+
   function goBack() {
-    navigate("/dashboard/home", { replace: true });
+    if (globalState.data.data.role === "admin") {
+      navigate(-1)
+    } else {
+      navigate("/dashboard/home", { replace: true });
+    }
+   
   }
 
-  useEffect(() => {
-    console.log("PersonalDetailLayout component");
-  }, []);
+
 
   return (
     <PersonalDetailContext.Provider value={contextValue}>

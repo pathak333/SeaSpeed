@@ -117,8 +117,17 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       pincode: joi.number().optional().allow(""),
       nearest_airport: joi.string().optional().allow(""),
       isSameAddress: joi.boolean().optional(),
-      aadhaar: joi.string().optional().allow(""),
-      pan: joi.string().optional().allow(""),
+      aadhaar: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      }),
+      pan: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      }),
+      
       CNC: joi.string().optional().allow(""),
        flatnumber2: joi.string().when("isSameAddress", {
         is: false,
