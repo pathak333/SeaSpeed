@@ -181,6 +181,15 @@ const SeaMenBookDetail = () => {
   return <form onSubmit={handlerSubmit} >
     <h3 className="pl-4 font-semibold">seamen book details (CDC)</h3>
     <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
+    <InputField
+        className="m-4"
+        fieldName={"number"}
+        label={"Number"}
+        type={"number"}
+        error={errorReturn("number")}
+        onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
+        value={formEvent.number}
+      />
       <InputField
         className="m-4"
         fieldName={"placeOfIssue"}
@@ -189,15 +198,6 @@ const SeaMenBookDetail = () => {
         error={errorReturn("placeOfIssue")}
         onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged: true })}
         value={formEvent.placeOfIssue}
-      />
-      <InputField
-        className="m-4"
-        fieldName={"number"}
-        label={"Number"}
-        type={"number"}
-        error={errorReturn("number")}
-        onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
-        value={formEvent.number}
       />
       <InputField
         className="m-4"

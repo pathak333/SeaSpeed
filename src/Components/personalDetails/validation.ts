@@ -95,7 +95,11 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
         then: joi.string().required(),
         otherwise:joi.string().optional().allow("")
       }),
-      CNC:joi.string().optional().allow("")
+      CNC:joi.string().when("nationality",{
+        is : "Pakistani",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      })
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -128,7 +132,11 @@ export const UpdatePersonalDetailValidation = (data: any) =>
         otherwise:joi.string().optional().allow("")
       }),
       
-      CNC: joi.string().optional().allow(""),
+      CNC: joi.string().when("nationality",{
+        is : "Pakistani",
+        then: joi.string().required(),
+        otherwise:joi.string().optional().allow("")
+      }),
        flatnumber2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
