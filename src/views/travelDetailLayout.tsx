@@ -6,15 +6,21 @@ import {
 } from "../contexts/travelDetail.context";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "react-feather";
+import { useGlobalState } from "../contexts/global.context";
 
 const TravelDetailLayout = (props: any) => {
   const [state, setState] = useState(TravelState.passport);
   const contextValue: TravelDetailContextValue = { state, setState };
   const navigate = useNavigate();
+  const [globalState,] = useGlobalState()
 
   function goBack() {
+    if (globalState.data.data.role === "admin") {
+      navigate(-1)
+    } else {
     navigate("/dashboard/home", { replace: true });
   }
+}
 
   return (
     <TravelDetailContext.Provider value={contextValue}>

@@ -1,12 +1,18 @@
 import { ArrowLeft } from "react-feather";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useGlobalState } from "../contexts/global.context";
 
 
 const ReferencesLayout = () => {
     const navigate = useNavigate()
+    const [globalState,] = useGlobalState()
 
     function goBack() {
+        if (globalState.data.data.role === "admin") {
+            navigate(-1)
+          } else {
         navigate("/dashboard/home", { replace: true });
+          }
     }
 
 

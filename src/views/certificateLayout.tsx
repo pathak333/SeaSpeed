@@ -3,7 +3,7 @@ import { ArrowLeft } from "react-feather";
 import { Outlet, useNavigate } from "react-router-dom";
 import { TravelState } from "../contexts/travelDetail.context";
 import { CertificateContext, CertificateContextValue, CertificateState } from "../contexts/certificate.context";
-
+import { useGlobalState } from "../contexts/global.context";
 
 
 
@@ -13,12 +13,16 @@ const CertificateLayout = () => {
     const navigate = useNavigate()
     const [state, setState] = useState(CertificateState.competency);
     const contextValue: CertificateContextValue = { state, setState };
-
+    const [globalState,] = useGlobalState()
 
 
       function goBack() {
+        if (globalState.data.data.role === "admin") {
+      navigate(-1)
+    } else {
     navigate("/dashboard/home", { replace: true });
     }
+  }
 
     return <CertificateContext.Provider value={contextValue}>
           <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px]">
