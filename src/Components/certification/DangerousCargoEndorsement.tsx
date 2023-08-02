@@ -363,7 +363,7 @@ const DangerousCargoEndorsement = () => {
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/workExperiance/?id=${id}`} locationStateData={{}}  doc_id="DangerousCargoEndorsement" user_id={id}/>
        </div>}
        </div>}
-{ (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+{ (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"

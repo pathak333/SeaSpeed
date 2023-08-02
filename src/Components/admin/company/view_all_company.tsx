@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { getAllCompanyService } from "../../../services/admin.service";
 import { Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
-
+import { useNavigate } from "react-router-dom";
 
 
 const ViewAllCompany = () => {
 
     const [companyList, updateCompanyList] = useState([]);
-
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchData();
@@ -21,7 +21,9 @@ const ViewAllCompany = () => {
     }
 
     const listofData = companyList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b" onClick={(e:any)=>{
+          console.log("click on vessel")
+          navigate("/adminDashboard/companyProfile")}}>
           <td className="px-6 py-4">{item.name}</td>
           <td className="px-6 py-4">{item.email}</td>
           <td className="px-6 py-4">{item.phone}</td>

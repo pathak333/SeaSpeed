@@ -256,7 +256,7 @@ const BankDetail = () => {
         <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/kinDetail/?id=${id}`} locationStateData={{}}  doc_id="BankDetail" user_id={id} />
       </div>}
 </div> }
-      { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+      { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"
