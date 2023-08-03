@@ -357,7 +357,7 @@ const References = () => {
             <ApproveReject name="traveldetails" navigation={`/`} locationStateData={{}}  doc_id="References" user_id={id} />
         </div>}
         </div>}
-        { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+        { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"

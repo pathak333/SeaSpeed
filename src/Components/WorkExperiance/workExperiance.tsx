@@ -478,7 +478,7 @@ useEffect(() => {
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/courseCertificate/?id=${id}`} locationStateData={{}}  doc_id="WorkExperiance" user_id={id} />
        </div>}
        </div>}
-       { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+       { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"

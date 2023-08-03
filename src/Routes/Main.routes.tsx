@@ -54,7 +54,7 @@ import ViewAllCompany from "../Components/admin/company/view_all_company";
 import CrewProfile from "../Components/admin/crew_member.tsx/crew_member_profile";
 import AllPendingCrewMembers from "../Components/admin/crew_member.tsx/all_pending_crew_member";
 import VesselProfile from "../Components/admin/company/vessel/vessel_profile";
-
+import CompanyProfile from "../Components/admin/company/company_profile";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -450,6 +450,19 @@ const MainRoutes = () => {
           ),
 
         },
+
+        {
+          path: "companyProfile",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<CompanyProfile />}
+            />
+          ),
+
+        },
+        
         // {
         //   path: "addManager",
         //   element: (

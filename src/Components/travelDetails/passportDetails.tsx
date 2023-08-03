@@ -233,7 +233,7 @@ const PassPortDetail = (props: any) => {
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}}  doc_id="PassPortDetail" user_id={id} />
        </div>}
        </div>}
-       { (globalState.data.data.permission.includes("admin") || globalState.data.data.permission.length === 0 ) && id !== null &&
+       { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"
