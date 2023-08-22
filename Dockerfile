@@ -7,4 +7,4 @@ RUN npm install --silent
 COPY . .
 #EXPOSE 3000
 CMD ["npm","run","build","&&","npm","start"]
-COPY ./build ./server/build
+#COPY ./build ./server/build
