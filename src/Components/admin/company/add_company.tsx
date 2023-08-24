@@ -165,7 +165,7 @@ const AddCompany = () => {
                                 name: "",
                                 email: "",
                                 phone: "",
-                                Address: "",
+                                address: "",
                                 manager:[],
                                 error: { key: "", value: "" },
                             })

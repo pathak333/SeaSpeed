@@ -2,6 +2,9 @@
 export const GetAdminProfileApi = "/admin/getProfile";
 
 export const getAllVessel = "/admin/getAllVessel";
+export const getVesselByIdApi = "/admin/getVesselById"
+export const getAllCrewByVesselIdApi = "/admin/getAllCrewByVesselId"
+
 export const addSubAdminApi = "/admin/addSubAdminUser";
 export const getSubAdminApi = "/admin/getAllSubAdmin"
 export const getAllCrewApi = "/admin/getAllCrew"

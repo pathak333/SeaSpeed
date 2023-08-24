@@ -6,6 +6,7 @@ import "./App.css";
 
 import { GlobalProvider } from "./contexts/global.context";
 import MainRoutes from "./Routes/Main.routes";
+import ErrorBoundary from "./uiComponents/error_boundary";
 
 function App() {
   // const [value, setValue] = useState("");
@@ -17,7 +18,9 @@ function App() {
   return (
     <>
       <GlobalProvider>
-        <MainRoutes />
+        <ErrorBoundary>
+          <MainRoutes />
+        </ErrorBoundary>
       </GlobalProvider>
     </>
   );

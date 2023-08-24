@@ -14,6 +14,8 @@ const ViewAllVessel = () => {
     useEffect(() => {
         fetchData();
     }, [])
+  
+  
     async function fetchData() {
         const { data } = await getAllVesselById();
         console.log(data);
@@ -26,7 +28,7 @@ const ViewAllVessel = () => {
     const listofData = vesselList.map((item: any, index: any) => (
         <tr key={index} className="bg-white border-b" onClick={(e:any)=>{
           console.log("click on vessel")
-          navigate("/adminDashboard/vesselProfile")}}>
+          navigate("/adminDashboard/vesselProfile",{state:{id:item._id}})}}>
           <td className="px-6 py-4">{item.name}</td>
           <td className="px-6 py-4">{item.type}</td>
           <td className="px-6 py-4">{item.flag}</td>

@@ -1,4 +1,4 @@
-import { Home } from "react-feather";
+
 import { SideBarMenuItemTypes } from "../../types/sideBarMenuItems.type";
 
 const SideBarMenuItem = ({
@@ -8,12 +8,12 @@ const SideBarMenuItem = ({
 }: SideBarMenuItemTypes): JSX.Element => {
   return (
     <div
-      className="w-auto p-4 flex flex-col items-center justify-center bg-white border-b-2"
+      className="w-auto px-4 py-3 flex flex-wrap items-center justify-center bg-slate-100 m-2 rounded-lg cursor-pointer"
       onClick={onClick}
     >
-      <>{icon}</>
+    {icon}
 
-      <p className="text-activeIconColor text-base not-italic font-medium">
+      <p className="pl-2 text-black text-sm not-italic font-medium">
         {label}
       </p>
     </div>
