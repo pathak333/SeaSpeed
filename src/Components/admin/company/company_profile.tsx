@@ -1,13 +1,27 @@
 import { ArrowLeft } from "react-feather";
 
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import AddCompany from "./add_company";
+import { getAllVesselByCompanyIdService } from "../../../services/admin.service";
 import { useNavigate } from "react-router-dom";
 
 
 
 
 const CompanyProfile = () => {
+
+const location = useLocation();
+
+const fetchData = async ()=>{
+let data = await getAllVesselByCompanyIdService(location.state.id)
+}
+
+
+useEffect(()=>{
+fetchData();
+},[])
+
+
    const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
       const newEvent = { ...prev, ...next };
       return newEvent;

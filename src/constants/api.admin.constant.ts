@@ -5,6 +5,8 @@ export const getAllVessel = "/admin/getAllVessel";
 export const getVesselByIdApi = "/admin/getVesselById"
 export const getAllCrewByVesselIdApi = "/admin/getAllCrewByVesselId"
 
+export const getAllVesselByCompanyIdApi = "/admin/getAllVesselByCompanyId"
+
 export const addSubAdminApi = "/admin/addSubAdminUser";
 export const getSubAdminApi = "/admin/getAllSubAdmin"
 export const getAllCrewApi = "/admin/getAllCrew"
@@ -16,6 +18,7 @@ export const createNewUserApi = "/admin/addNewUser";
 export const addCompanyApi = "/admin/addCompany";
 export const addManagerApi = "/admin/addManager";
 export const getAllCompanyApi = "/admin/getAllCompany";
+
 export const getAllManagerByCompanyIdApi = "/admin/getAllManagerByCompanyId";
 export const addVesselApi = "/admin/addVessel";
 export const getAllVesselForAdminApi = "/admin/getAllVesselForAdmin"
