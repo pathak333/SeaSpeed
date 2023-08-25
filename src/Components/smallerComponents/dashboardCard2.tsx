@@ -7,7 +7,7 @@ const DashboardCard2 = (props: DashboardCard2Props) => {
       className="block w-[260px] max-sm:w-[148px] max-md:w-[160px] p-5 m-2 bg-white border-2 rounded-lg shadow-sm hover:bg-grey-200 dark:bg-grey-800 border-gray-300 hover:bg-gray-100 cursor-pointer  "
       onClick={props.onClick}
     >
-      <div className=" bg-[#F8F9FD] w-14 h-14 flex items-center justify-center rounded-lg ">
+      <div className=" bg-[#eff0f5] w-14 h-14 flex items-center justify-center rounded-lg ">
         {props.icon}
       </div>
       <h5 className="font-semibold text-base my-2 ">

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Trash2 } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAllCrewByVesselIdService, getVesselByIdService } from "../../../../services/admin.service";
+import { addMonths } from "../../../../constants/values.constants";
+import { ChangeCircleRounded } from "@mui/icons-material";
 
 
 
@@ -38,13 +40,13 @@ const VesselProfile = () => {
       navigate("/adminDashboard/crewProfile",{state:{data:item,page:"allCrew"}});
      }}>
         <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
-            <td className="px-6 py-4">{item.vessel.label}</td>
-            <td className="px-6 py-4">{item.email}</td> 
+            <td className="px-6 py-4">{item.joiningDate}</td>
+            <td className="px-6 py-4">{(addMonths(item.joiningDate,item.rank.value.period).toString())}</td> 
          <td className="px-6 py-4">{item.phone_no}</td>
           
       <td className="px-6 py-4 ">
        
-          <Trash2
+          <ChangeCircleRounded
             onClick={() => {
                  
             }}
@@ -84,10 +86,10 @@ const VesselProfile = () => {
                   <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   >View Certificate</button>
                   <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  >View Certificate</button>
+                  >View all manager’s</button>
                   <button type="button"
                      className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                     >View Certificate</button>
+                     >Upload Certificate</button>
                   </div>
 
          </div>
@@ -99,17 +101,17 @@ const VesselProfile = () => {
                 Name
               </th>
               <th scope="col" className="px-6 py-3">
-                 Vessel assigned
+              Sign in Date
               </th>
               <th scope="col" className="px-6 py-3">
-                Email
+              Sign off Date
               </th>
               <th scope="col" className="px-6 py-3">
                 Phone
               </th>
              
               <th scope="col" className="px-6 py-3">
-                Action
+              Replace crew 
               </th>
             </tr>
           </thead>

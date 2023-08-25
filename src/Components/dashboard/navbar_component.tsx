@@ -4,7 +4,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import SideBarMenuItem from "../smallerComponents/sidebarMenuItems";
 
 import { useNavigate } from "react-router-dom";
-import { DirectionsBoatRounded } from "@mui/icons-material";
+import { BusinessCenterOutlined, DirectionsBoatRounded } from "@mui/icons-material";
 // import Lottie from "lottie-react";
 // import i from "../../assets/system-solid-161-trending-flat.json"
 
@@ -15,8 +15,8 @@ const NavbarComponent = (props: any) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let data = globalState.data != null ? globalState.data.data : null;
-  const lottieRef = useRef<any>();
-  var role = sessionStorage.getItem("role") ?? "user";
+
+
   //role.toLocaleLowerCase() === "admin"
   useEffect(() => {
     console.log("data here = ", data);
@@ -33,6 +33,14 @@ const NavbarComponent = (props: any) => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+
+  function getDPName(firstname:string, lastname:string) {
+    if (lastname.length === 0 ) {
+     return firstname[0].toUpperCase()
+    }
+    return (firstname[0] + lastname[0]).toUpperCase()
+ }
 
 
   return (
@@ -52,7 +60,7 @@ const NavbarComponent = (props: any) => {
             </p>
           </div>
           <div className=" flex flex-row items-end justify-evenly  w-1/3">
-            <div className="relative my-auto  w-6 h-6" onMouseEnter={() => lottieRef.current.play()}>
+            <div className="relative my-auto  w-6 h-6" >
               <Bell className="absolute  " />
               {/* <Lottie animationData={i} loop={false} lottieRef={lottieRef} /> */}
 
@@ -61,12 +69,14 @@ const NavbarComponent = (props: any) => {
             <div className=" relative  flex flex-row items-center ">
               <div className="flex flex-row items-center" id="menu-button" aria-expanded="true" aria-haspopup="true" onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
-                <div className="profileImage rounded-full w-12 h-12 max-sm:hidden bg-slate-400">
-                  <img
-                    src={`${data ? data["avatar"] : ""}`}
+                <div className="profileImage flex justify-center items-center rounded-full w-12 h-12 max-sm:hidden bg-slate-400">
+                {data && data["avatar"] !== "" ? <img
+                    src={`${data["avatar"]}`}
                     alt="seaSpeed"
                     className="w-12 h-12 mx-auto rounded-full"
-                  />
+                  /> : <p className="text-lg text-white font-semibold">
+                      {data && getDPName(data["firstname"],data["lastname"])}
+                  </p>}
                 </div>
                 <p className="ml-3 mr-1 text-xl text-activeIconColor font-medium max-sm:hidden ">
                   {data ? `${data["firstname"]} ${data["lastname"]}` : ""}
@@ -89,17 +99,17 @@ const NavbarComponent = (props: any) => {
         </div>
       </nav>
 
-      <div className="relative   items-start h-[90%]  overflow-hidden ">
-        <div className={`absolute w-fit h-full  ${!isSidebarOpen ? "max-sm:h-full" : "max-sm:h-auto"} border-r-2 bg-white  z-50 `}>
+      <div className="  flex   items-start h-[90%]  overflow-hidden ">
+        <div className={`  w-[14%] h-full   ${!isSidebarOpen ? "max-sm:h-auto max-sm:w-0  " : "max-sm:h-full max-sm:w-[43%] max-md:w-[43%] max-lg:w-[18%] max-sm:absolute"} border-r-2 bg-white  z-50 `}>
           <Menu
-            className={`${!isSidebarOpen && "max-sm:hidden"
+            className={`${isSidebarOpen && "max-sm:hidden"
               } sm:hidden my-2 mx-3`}
             onClick={() => {
               setIsSidebarOpen(!isSidebarOpen);
             }}
           />
           <div
-            className={`${isSidebarOpen && "max-sm:hidden"
+            className={`${!isSidebarOpen && "max-sm:hidden"
               }  h-full `}
           >
             <SideBarMenuItem
@@ -107,7 +117,7 @@ const NavbarComponent = (props: any) => {
                 <Home
                   color="#0075FF"
                   size={18}
-                  className="items-center justify-center"
+                  className="items-center justify-center "
                 />
               }
               label={"Home"}
@@ -116,23 +126,33 @@ const NavbarComponent = (props: any) => {
                 setIsSidebarOpen(!isSidebarOpen);
               }}
             />
-            <SideBarMenuItem
+          {data &&  data['permission'].includes("vessel") &&  <SideBarMenuItem
               icon={
-                <DirectionsBoatRounded className="text-[#3C00E8]" />
+                <DirectionsBoatRounded className="text-black " />
               }
               label={"Vessel"}
               onClick={() => {
                 navigate('/adminDashboard/viewVessel')
                 setIsSidebarOpen(!isSidebarOpen);
               }}
-            />
+            />}
+          {data &&  data['permission'].includes("admin") &&  <SideBarMenuItem
+              icon={
+                <BusinessCenterOutlined className="text-black " />
+              }
+              label={"Company"}
+              onClick={() => {
+                navigate('/adminDashboard/viewAllCompany')
+                setIsSidebarOpen(!isSidebarOpen);
+              }}
+            />}
           </div>
         </div>
-        <div className="h-[90%]">
-          <div className="absolute w-full h-full py-5 px-6 max-sm:px-4 sm:pl-32 overflow-auto">
+        {/* <div className="h-[90%] "> */}
+          <div className=" flex-grow w-full h-full py-5 m-3  max-sm:px-4 max-sm:pt-8  overflow-auto">
             {props.children}
           </div>
-        </div>
+        {/* </div> */}
 
       </div>
     </>
