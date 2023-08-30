@@ -65,7 +65,7 @@ const AdminDashboard = () => {
       <div className="h-1 bg-[#E4F0FF] my-8" />
       <div className="flex flex-wrap  justify-center ">
         {/* card */}
-      {data &&  data['permission'].includes("application") &&  <DashboardCard2
+      {data &&  (data['permission'].includes("application")||data['permission'].includes("vessel")) &&  <DashboardCard2
           label={"All crew members"}
           icon={<People className="" />}
           onClick={() => {
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
            navigate("/adminDashboard/viewVessel");
           }}
         />}
-      {data &&  data['permission'].includes("application")  &&  <DashboardCard2
+      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel"))  &&  <DashboardCard2
           label={"Pending verification"}
           icon={<Contacts className="" />}
           onClick={() => {

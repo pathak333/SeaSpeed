@@ -11,6 +11,9 @@ export const addSubAdminApi = "/admin/addSubAdminUser";
 export const getSubAdminApi = "/admin/getAllSubAdmin"
 export const getAllCrewApi = "/admin/getAllCrew"
 export const getAllPendingCrewApi = "/admin/getAllPendingCrew"
+export const getAllUnAssinedCrewApi = "/admin/getAllUnAssinedUser"
+
+export const assignNewCrewApi = "/admin/assignNewCrew"
 
 export const getAllRankApi = "/admin/getAllRank";
 export const createNewUserApi = "/admin/addNewUser";
