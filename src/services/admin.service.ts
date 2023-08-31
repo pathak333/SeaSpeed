@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllVessel, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -16,6 +16,10 @@ export const AllVessel = () => {
     return httpService.get(getAllVessel)
 }
 
+export const getAllVesselByCompanyIdService = (id:string)=>{
+    return httpService.get(getAllVesselByCompanyIdApi+"/?id="+id)
+}
+
 export const createVessel = (data: any) => {
     return httpService.post(addVesselApi,data)
 }
@@ -24,7 +28,13 @@ export const getAllVesselById = () => {
     return httpService.get(getAllVesselForAdminApi)
 }
 
+export const getVesselByIdService = (id:string) => {
+    return httpService.get(getVesselByIdApi+ `/?id=${id}`)
+}
 
+export const getAllCrewByVesselIdService = (id: string) => {
+    return httpService.get(getAllCrewByVesselIdApi+ `/?id=${id}`)
+}
 
 export const AddSubAdmin = (data:any) => {
     return httpService.post(addSubAdminApi,data)
@@ -45,6 +55,14 @@ export const getAllCrew = () => {
 
 export const getAllPendingCrew = () => {
     return httpService.get(getAllPendingCrewApi);
+}
+
+export const getAllUnAssinedCrew = (rank:string) => {
+    return httpService.get(getAllUnAssinedCrewApi+"/?rank="+rank);
+}
+
+export const assignNewCrewService = (data:any) => {
+    return httpService.get(assignNewCrewApi,data);
 }
 
 export const getAllRank = () => {

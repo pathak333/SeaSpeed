@@ -6,14 +6,17 @@ import { Business, Contacts, DirectionsBoatRounded, Domain, People, PersonAdd, S
 import DashboardCard2 from "../../smallerComponents/dashboardCard2";
 import { Sailing } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useGlobalState } from "../../../contexts/global.context";
 
 
 
 const AdminDashboard = () => {
   const navigate = useNavigate()
+  const [globalState, dispatch] = useGlobalState();
+  let data = globalState.data != null ? globalState.data.data : null;
 
     return <>
-     <div className="flex flex-wrap  justify-center ">
+   { data &&  data['permission'].includes("admin") && <div className="flex flex-wrap  justify-center ">
         {/* card */}
         <DashboardCard
           description={
@@ -25,7 +28,7 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/createCrew");
           }}
         />
-        <DashboardCard
+       {data['permission'].includes("superadmin") && <DashboardCard
           description={
             "Create new admin and generate login credentials"
           }
@@ -35,7 +38,7 @@ const AdminDashboard = () => {
           onClick={() => {
             navigate("/adminDashboard/createSubAdmin");
           }}
-        />
+        />}
         <DashboardCard
           description={
             "Add new company with the required details"
@@ -58,46 +61,46 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/addVessel");
           }}
         />
-      </div>
+      </div>}
       <div className="h-1 bg-[#E4F0FF] my-8" />
       <div className="flex flex-wrap  justify-center ">
         {/* card */}
-        <DashboardCard2
+      {data &&  (data['permission'].includes("application")||data['permission'].includes("vessel")) &&  <DashboardCard2
           label={"All crew members"}
           icon={<People className="" />}
           onClick={() => {
           navigate("/adminDashboard/allCrewMember");
           }}
-        />
-        <DashboardCard2
+        />}
+      {data &&  data['permission'].includes("superadmin") &&  <DashboardCard2
           label={"All admins"}
           icon={<SupervisedUserCircleRounded className="" />}
           onClick={() => {
             navigate("/adminDashboard/viewAllAdmin");
           }}
-        />
-        <DashboardCard2
+        />}
+       {data &&  data['permission'].includes("vessel") && <DashboardCard2
           label={"View all vessels"}
           icon={<Sailing className="" />}
           onClick={() => {
            navigate("/adminDashboard/viewVessel");
           }}
-        />
-        <DashboardCard2
+        />}
+      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel"))  &&  <DashboardCard2
           label={"Pending verification"}
           icon={<Contacts className="" />}
           onClick={() => {
             //allPendinCrewMember
             navigate("/adminDashboard/allPendinCrewMember");
           }}
-        />
-        <DashboardCard2
+        />}
+      { data &&  data['permission'].includes("admin") && <DashboardCard2
           label={"View all companies"}
           icon={<Business className="" />}
           onClick={() => {
             navigate("/adminDashboard/viewAllCompany");
           }}
-        />
+        />}
       </div>
     </>
 }

@@ -233,21 +233,21 @@ const CreateSubAdmin = () => {
                             <label htmlFor="user">Admin</label>
                         </div>
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
-                            <input className="m-2" type="checkbox" name="company" id="company" onChange={(e: any) => {
+                            <input className="m-2" type="checkbox" name="application" id="application" onChange={(e: any) => {
 
 
                                 addRemovePermission("application", e.target.checked);
                             }} />
-                            <label htmlFor="company">Application</label>
+                            <label htmlFor="application">Application</label>
                         </div>
 
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
-                            <input className="m-2" type="checkbox" name="company" id="company" onChange={(e: any) => {
+                            <input className="m-2" type="checkbox" name="vessel" id="vessel" onChange={(e: any) => {
 
 
                                 addRemovePermission("vessel", e.target.checked);
                             }} />
-                            <label htmlFor="company">Vessel Manager</label>
+                            <label htmlFor="vessel">Vessel Manager</label>
                         </div>
                         {/* <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="rank" id="rank" onChange={(e: any) => {
