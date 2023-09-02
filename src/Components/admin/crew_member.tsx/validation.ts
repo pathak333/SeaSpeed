@@ -4,7 +4,7 @@ export const ValidationCrew = async (data: any) => await joi.object({
   firstname: joi.string().required(),
   lastname: joi.string().required(),
   email: joi.string().email({ tlds: { allow: false } }).required(),
-  code: joi.string().required(),
+ // code: joi.string().required(),
   phone_no: joi
     .string()
     .required()

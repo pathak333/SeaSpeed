@@ -9,8 +9,10 @@ import joi from "joi";
     address: joi.string().allow(""),
     type: joi.string().valid("SHIP MANAGER", "CREW MANAGER", "CREW AGENCY").required()
 });
-
-export const managerJoi = (data:any)=>manager.validateAsync(data, { abortEarly: true });
+const managerWithCompany =  manager.keys({
+  company: joi.string().required(), // Define your new field and validation rules here
+});
+export const managerJoi = (data:any)=> managerWithCompany.validateAsync(data, { abortEarly: true });
   
 export const companyJoi = (data:any) => joi.object({
     name: joi.string().required(),
@@ -33,6 +35,7 @@ export const vesselJoi = (data:any) => joi.object({
   company: joi.object().required(),
   crewManagerId:joi.object().required(),
   shipManagerId: joi.object().required(),
+  crewAgencyManagerId: joi.object().optional().empty(),
 }).validateAsync(data, { abortEarly: true });
 
 

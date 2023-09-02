@@ -30,7 +30,7 @@ const AllCrewMembers = () => {
     navigate("/adminDashboard/crewProfile",{state:{data:item,page:"allCrew"}});
    }}>
       <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
-          <td className="px-6 py-4">{item.vessel.label}</td>
+          <td className="px-6 py-4">{item.vessel ? item.vessel.label : "UnAssined"}</td>
           <td className="px-6 py-4">{item.email}</td> 
        <td className="px-6 py-4">{item.phone_no}</td>
         

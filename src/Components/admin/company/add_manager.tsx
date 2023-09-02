@@ -11,7 +11,8 @@ import { addManagerService } from "../../../services/admin.service";
 
 interface Props{
     types?: String;
-    from: String
+    from: String;
+    company?: string;
     callback?: (data: any) => void;
 }
 
@@ -34,6 +35,7 @@ const AddManager = (props:Props) => {
         phone: "",
         address: "",
         type: props.types ?? "CREW MANAGER",
+        ...(props.from === "company" ? {} : { company: props.company }),
         isFormChanged:false,
         error: { key: "", value: "" },
     })
@@ -130,6 +132,7 @@ const AddManager = (props:Props) => {
                                 email: "",
                                 phone: "",
                                 address: "",
+                                ...(props.from === "company" ? {} : { company: props.company }),
                                 type: props.types ?? "CREW MANAGER",
                                 isFormChanged:false,
                                 error: { key: "", value: "" },

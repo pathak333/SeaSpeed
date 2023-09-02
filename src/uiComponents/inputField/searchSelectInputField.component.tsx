@@ -60,6 +60,7 @@ const SearchSelect = (props:Props) => {
       onCreateOption={props.onCreateOption}
       options={props.options}
       value={props.value}
+      
     />
   );
 };

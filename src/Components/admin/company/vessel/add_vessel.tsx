@@ -21,6 +21,7 @@ const AddVessel = () => {
     const [companyOption, updateCompanyOption] = useState<Option[]>([]);
     const [crewManagerOption, updateCrewManagerOption] = useState<Option[]>([]);
     const [shipManagerOption, updateShipManagerOption] = useState<Option[]>([]);
+    const [crewAgencyManagerOption, updateCrewAgencyManagerOption] = useState<Option[]>([]);
 
     const createOption = (label: string, value: string) => ({
         label,
@@ -47,12 +48,14 @@ const AddVessel = () => {
         imoNumber: "",
         flag: "",
         type: "",
-        company: { label: "Company", value: "" },
-        crewManagerId: { label: "crew", value: "" },
-        shipManagerId: { label: "ship", value: "" },
+        company: { label: "Add Company", value: "" },
+        crewManagerId: { label: "Add Crew Manager", value: "" },
+        shipManagerId: { label: "Add Ship Manager", value: "" },
+        crewAgencyManagerId: { label: "Add Crew Agency", value: "" },
         isCompanyOpen: false,
         isCrewOpen: false,
         isShipOpen: false,
+        isAgencyOpen:false,
         currentDialog: "",
         isFormChanged:false,
         error: { key: "", value: "" },
@@ -78,6 +81,7 @@ const AddVessel = () => {
             data.data.map((e: any) => e.type === "CREW MANAGER" ? allCrewData.push(createOption(e.name, e._id)) : e.type === "SHIP MANAGER" ? allShipData.push(createOption(e.name, e._id)): allagencyData.push(createOption(e.name, e._id)))
             updateCrewManagerOption(allCrewData)
             updateShipManagerOption(allShipData)
+            updateCrewAgencyManagerOption(allagencyData)
         }
     }
 
@@ -95,6 +99,8 @@ const AddVessel = () => {
             updateEvent({ isCrewOpen: true })
         } else if (formEvent.currentDialog === 'ship') {
             updateEvent({ isShipOpen: true })
+        } else if (formEvent.currentDialog === 'agency') {
+            updateEvent({ isAgencyOpen: true })
         }
     }
 
@@ -106,6 +112,7 @@ const AddVessel = () => {
             delete formData.isCompanyOpen;
             delete formData.isCrewOpen;
             delete formData.isShipOpen;
+            delete formData.isAgencyOpen;
             delete formData.currentDialog;
             delete formData.isFormChanged;
             delete formData.error;
@@ -124,12 +131,14 @@ const AddVessel = () => {
                     imoNumber: "",
                     flag: "",
                     type: "",
-                    company: { label: "Company", value: "" },
-                    crewManagerId: { label: "crew", value: "" },
-                    shipManagerId: { label: "ship", value: "" },
+                    company: { label: "", value: "" },
+                    crewManagerId: { label: "", value: "" },
+                    shipManagerId: { label: "", value: "" },
+                    crewAgencyManagerId: { label: "", value: "" },
                     isCompanyOpen: false,
                     isCrewOpen: false,
                     isShipOpen: false,
+                    isAgencyOpen:false,
                     currentDialog: "",
                     isFormChanged:false,
                     error: { key: "", value: "" },
@@ -279,10 +288,24 @@ const AddVessel = () => {
                     onChange={(e) => updateEvent({ shipManagerId: e.target.value, isFormChanged: true })}
                     value={formEvent.shipManagerId}
                 /> */}
+                 {formEvent.company.value !== "" && <SearchSelect
+                    className="m-4"
 
-                <DialogBox label="Add New Company" isOpen={formEvent.isCompanyOpen} onClose={() => { updateEvent({ isCompanyOpen: false }); }} component={<><AddCompany /></>} />
-                <DialogBox label="Add New crew manager" isOpen={formEvent.isCrewOpen} onClose={() => { updateEvent({ isCrewOpen: false }); }} component={<><AddManager types={"crew"} from="popup" /></>} />
-                <DialogBox label="Add New ship manager" isOpen={formEvent.isShipOpen} onClose={() => { updateEvent({ isShipOpen: false }); }} component={<><AddManager types={"ship"} from="popup" /></>} />
+                    label={"Crew Agency Manager"}
+                    //type={""}
+                    onChange={(e) => updateEvent({ crewAgencyManagerId: e, isFormChanged: true, currentDialog: "agency" })}
+                    onInputChange={(e: any) => updateEvent({ currentDialog: "agency" })}
+                    value={formEvent.crewAgencyManagerId}
+                    //error={errorReturn("Oil_tanker_DCE")}
+                    options={crewAgencyManagerOption}
+                    onCreateOption={onCreate}
+                    isDisabled={false}
+                    isLoading={false} />}
+
+                <DialogBox label="Add New Company" isOpen={formEvent.isCompanyOpen} onClose={() => { updateEvent({ isCompanyOpen: false }); if (formEvent.company.value) { fetchManagerData(formEvent.company.value) } }} component={<><AddCompany /></>} />
+                <DialogBox label="Add New crew manager" isOpen={formEvent.isCrewOpen} onClose={() => { updateEvent({ isCrewOpen: false }); if (formEvent.company.value) { fetchManagerData(formEvent.company.value) } }} component={<><AddManager types={"CREW MANAGER"} from="popup" company={formEvent.company.value} /></>} />
+                <DialogBox label="Add New ship manager" isOpen={formEvent.isShipOpen} onClose={() => { updateEvent({ isShipOpen: false }); if (formEvent.company.value) { fetchManagerData(formEvent.company.value) } }} component={<><AddManager types={"SHIP MANAGER"} from="popup" company={formEvent.company.value} /></>} />
+                <DialogBox label="Add New agency manager" isOpen={formEvent.isAgencyOpen} onClose={() => { updateEvent({ isAgencyOpen: false }); }} component={<><AddManager types={"CREW AGENCY"} from="popup" company={formEvent.company.value} /></>} />
             </div>
             <button
                 type="button"

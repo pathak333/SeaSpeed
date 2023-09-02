@@ -62,7 +62,7 @@ export const getAllUnAssinedCrew = (rank:string) => {
 }
 
 export const assignNewCrewService = (data:any) => {
-    return httpService.get(assignNewCrewApi,data);
+    return httpService.post(assignNewCrewApi,data);
 }
 
 export const getAllRank = () => {

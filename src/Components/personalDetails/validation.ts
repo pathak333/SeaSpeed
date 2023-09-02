@@ -27,7 +27,7 @@ export const ContactDetailValidation = (data: any) =>
   joi.object({
     alt_phone_no: joi.string().optional(),
     alt_email: joi.string().email({ tlds: { allow: false } }).optional(),
-    alt_country_code: joi.string().optional(),
+  //  alt_country_code: joi.string().optional(),
   }).validateAsync(data, { abortEarly: true });
 
 
@@ -223,7 +223,7 @@ export const KinDetailValidation = async (data: any) =>
     .object({
       fullName: joi.string().required(),
       relationship: joi.string().required(),
-      code: joi.string().required(),
+     // code: joi.string().required(),
       phoneNumber: joi.string().pattern(/^[0-9]{10}$/).required(),
       email: joi.string().email({ tlds: { allow: false } }).required(),
       flatnumber: joi.string().required(),

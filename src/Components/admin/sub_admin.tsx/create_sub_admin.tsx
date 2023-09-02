@@ -47,7 +47,7 @@ const CreateSubAdmin = () => {
         lastname: "",
         email: "",
         phone_no: "",
-        code: "",
+       // code: "",
         permission: [],
         otherPermission: {},
         error: { key: "", value: "" },
@@ -119,7 +119,7 @@ const CreateSubAdmin = () => {
                         lastname: "",
                         email: "",
                         phone_no: "",
-                        code: "",
+                      //  code: "",
                         permission: [],
                         otherPermission: {},
                         error: { key: "", value: "" },
@@ -206,7 +206,7 @@ const CreateSubAdmin = () => {
                     onChange={(e) => updateEvent({ phone_no: e.target.value, isFormChanged: true })}
                     value={formEvent.phone_no}
                 />
-                <InputField
+                {/* <InputField
                     className="m-4 "
                     fieldName={"code"}
                     label={"Country Code"}
@@ -217,7 +217,7 @@ const CreateSubAdmin = () => {
                         (e) =>  updateEvent({ code: e.target.value, isFormChanged: true  })
                     }
                     value={formEvent.code}
-                />
+                /> */}
             </div>
 
             <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 content-center">

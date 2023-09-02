@@ -66,7 +66,7 @@ const CreateCrewMember = () => {
         lastname: "",
         email: "",
         phone_no: "",
-        code: "",
+       // code: "",
         rank: "",
         vessel: {label:"vessel",value:""},
         joiningPort: "",
@@ -166,7 +166,7 @@ const CreateCrewMember = () => {
                 onChange={(e) => updateEvent({ email: e.target.value, isFormChanged: true })}
                 value={formEvent.email}
                 />
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"code"}
                 label={"Code"}
@@ -174,7 +174,7 @@ const CreateCrewMember = () => {
                 error={errorReturn("code")}
                 onChange={(e) => updateEvent({ code: e.target.value, isFormChanged: true })}
                 value={formEvent.code}
-                />
+                /> */}
             <InputField
                 className="m-4"
                 fieldName={"phone_no"}

@@ -13,11 +13,14 @@ import Tooltip from "@mui/material/Tooltip";
 
 
 
+
+
 const VesselProfile = () => {
 
+  
    const [vesselData, setVesselData] = useState<any>({})
    const [crewData, setcrewData] = useState<any>([])
-   const [newCrew, setNewCrew] = useState<Option>({ label: "", value: "" })
+   //const [newCrew, setNewCrew] = useState<Option>({ label: "", value: "" })
    const [shipUserOption, setUserOption] = useState<Option[]>([])
    // change crew
    const [isModalOpen, setIsModalOpen] = useState({state:false,id:""});
@@ -68,6 +71,7 @@ const VesselProfile = () => {
 
 
    const closeModal = () => {
+      setSelectedCrew({ label: "", value: "" })
       setIsModalOpen({state:false,id:""});
    };
 
@@ -81,7 +85,11 @@ const VesselProfile = () => {
 
    const listofData = crewData.length > 0 ? crewData.map((item: any, index: any) => {
       //  console.log(item)
-      return <Tooltip  arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr key={index} className={` bg-white border-b hover:bg-slate-100 cursor-pointer ${'replacement' in item.context ? "bg-green-200" : ""}`}>
+      return <Tooltip classes={{popper:`{
+         backgroundColor: "black",
+         color: 'white',
+         fontSize: '15px'
+      }`}}  arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr key={index} className={` bg-white border-b hover:bg-slate-100 cursor-pointer ${'replacement' in item.context ? "bg-green-300" : ""}`}>
         
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
@@ -242,7 +250,10 @@ const VesselProfile = () => {
       </ModalBox>
       <ModalBox isOpen={isModalOpen.state} onClose={closeModal} label="Change Crew Member" className="">
          <div className="flex flex-wrap ">
-            <ArrowBack className="float-left mx-2" onClick={() => setIsModalOpen({state:false,id:""})} />
+            <ArrowBack className="float-left mx-2" onClick={() => {
+               setSelectedCrew({ label: "", value: "" })
+               setIsModalOpen({ state: false, id: "" })
+            }} />
             <h2 className="text-lg font-semibold mb-4">Select Crew</h2>
            
 
@@ -250,11 +261,11 @@ const VesselProfile = () => {
          <SearchSelect
                className="m-4"
 
-               label={"Ship Manager"}
+               label={"Select Crew"}
                //type={""}
-               onChange={(e) => setNewCrew(e)}
+               onChange={(e) => setSelectedCrew(e)}
                //onInputChange={(e: any) => updateEvent({ currentDialog: "ship" })}
-               value={newCrew}
+               value={selectedCrew}
                //error={errorReturn("Oil_tanker_DCE")}
                options={shipUserOption}
                // onCreateOption={onCreate}

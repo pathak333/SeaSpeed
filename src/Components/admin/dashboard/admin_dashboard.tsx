@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   let data = globalState.data != null ? globalState.data.data : null;
 
     return <>
-   { data &&  data['permission'].includes("admin") && <div className="flex flex-wrap  justify-center ">
+   { data && ( data['permission'].includes("admin") || data.role === "superadmin" ) && <div className="flex flex-wrap  justify-center ">
         {/* card */}
         <DashboardCard
           description={
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/createCrew");
           }}
         />
-       {data['permission'].includes("superadmin") && <DashboardCard
+        <DashboardCard
           description={
             "Create new admin and generate login credentials"
           }
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
           onClick={() => {
             navigate("/adminDashboard/createSubAdmin");
           }}
-        />}
+        />
         <DashboardCard
           description={
             "Add new company with the required details"
@@ -65,28 +65,28 @@ const AdminDashboard = () => {
       <div className="h-1 bg-[#E4F0FF] my-8" />
       <div className="flex flex-wrap  justify-center ">
         {/* card */}
-      {data &&  (data['permission'].includes("application")||data['permission'].includes("vessel")) &&  <DashboardCard2
+      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel") || data.role === "superadmin" ) &&  <DashboardCard2
           label={"All crew members"}
           icon={<People className="" />}
           onClick={() => {
           navigate("/adminDashboard/allCrewMember");
           }}
         />}
-      {data &&  data['permission'].includes("superadmin") &&  <DashboardCard2
+      {data &&  data.role === "superadmin"  &&  <DashboardCard2
           label={"All admins"}
           icon={<SupervisedUserCircleRounded className="" />}
           onClick={() => {
             navigate("/adminDashboard/viewAllAdmin");
           }}
         />}
-       {data &&  data['permission'].includes("vessel") && <DashboardCard2
+       {data &&  (data['permission'].includes("vessel") || data.role === "superadmin" ) && <DashboardCard2
           label={"View all vessels"}
           icon={<Sailing className="" />}
           onClick={() => {
            navigate("/adminDashboard/viewVessel");
           }}
         />}
-      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel"))  &&  <DashboardCard2
+      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel") || data.role === "superadmin" )  &&  <DashboardCard2
           label={"Pending verification"}
           icon={<Contacts className="" />}
           onClick={() => {
@@ -94,7 +94,7 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/allPendinCrewMember");
           }}
         />}
-      { data &&  data['permission'].includes("admin") && <DashboardCard2
+      { data &&  (data['permission'].includes("admin") || data.role === "superadmin" ) && <DashboardCard2
           label={"View all companies"}
           icon={<Business className="" />}
           onClick={() => {

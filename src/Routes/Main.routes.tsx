@@ -677,7 +677,7 @@ const MainRoutes = () => {
 
   var role = sessionStorage.getItem("role") ?? "user";
 
-  return role.toLocaleLowerCase() === "admin" ? AdminRoutes : routes;
+  return role.toLocaleLowerCase() === "admin" || role.toLocaleLowerCase() === "superadmin" ? AdminRoutes : routes ;
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();

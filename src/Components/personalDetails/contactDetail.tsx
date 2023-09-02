@@ -50,7 +50,7 @@ const ContactDetail = () => {
       // code: "",
       // phone: "",
       alt_email:id!= null ? crew.alt_email ?? "" : globalState.data.data.alt_email || "",
-      alt_country_code: id!= null ? crew.alt_country_code ?? "" : globalState.data.data.alt_country_code || "",
+     // alt_country_code: id!= null ? crew.alt_country_code ?? "" : globalState.data.data.alt_country_code || "",
       alt_phone_no: id!= null ? crew.alt_phone_no ?? "" : globalState.data.data.alt_phone_no || "",
       isFormChanged:false
     }
@@ -60,7 +60,7 @@ const ContactDetail = () => {
    updateEvent( {
    
     alt_email: "",
-    alt_country_code:"",
+   // alt_country_code:"",
     alt_phone_no: "",
     isFormChanged:false
   })
@@ -168,7 +168,7 @@ const ContactDetail = () => {
           value={formEvent.alt_email}
         />
         <div className="flex flex-row max-sm:flex-col">
-          <InputField
+          {/* <InputField
             className="m-4 w-24 max-sm:w-100"
             fieldName={"altcode"}
             label={"Code"}
@@ -176,7 +176,7 @@ const ContactDetail = () => {
             //   error={errorReturn("firstname")}
             onChange={(e) => updateEvent({ alt_country_code: e.target.value,isFormChanged:true })}
             value={formEvent.alt_country_code }
-          />
+          /> */}
           <InputField
             className="m-4 "
             fieldName={"alt_phone_no"}

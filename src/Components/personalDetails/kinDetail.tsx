@@ -55,7 +55,7 @@ const KinDetail = () => {
     {
       fullName: "",
       relationship: "",
-      code: "",
+     // code: "",
       phoneNumber: "",
       email: "",
       flatnumber: "",
@@ -91,7 +91,7 @@ const KinDetail = () => {
     updateEvent({
       fullName: "",
       relationship: "",
-      code: "",
+     // code: "",
       phoneNumber: "",
       email: "",
       flatnumber: "",
@@ -193,7 +193,7 @@ const KinDetail = () => {
           value={formEvent.relationship}
         />
         <div className="flex flex-row">
-          <InputField
+          {/* <InputField
             className="m-4 w-28"
             inputClass="pr-1"
             fieldName={"code"}
@@ -202,7 +202,7 @@ const KinDetail = () => {
             error={errorReturn("code")}
             onChange={(e) => updateEvent({ code: e.target.value,isFormChanged:true })}
           value={formEvent.code}
-          />
+          /> */}
           <InputField
             className="m-4 w-full"
             fieldName={"phoneNumber"}
