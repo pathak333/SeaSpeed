@@ -88,6 +88,9 @@ const CreateCrewMember = () => {
             delete formData.error;
             delete formData.isFormChanged;
             console.log(formData);
+            if (formData.vessel.value === "") {
+                 formData.vessel = {}
+            }
             const isValid = await ValidationCrew(formData)
             
             console.log("eeeee");

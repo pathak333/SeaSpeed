@@ -117,6 +117,9 @@ const AddVessel = () => {
             delete formData.isFormChanged;
             delete formData.error;
             console.log(formData)
+            if (formData.crewAgencyManagerId.value === "") {
+                formData.crewAgencyManagerId = {}
+            }
             let isValid = await vesselJoi(formData);
             console.log(formData);
             
