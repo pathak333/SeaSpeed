@@ -4,7 +4,7 @@ import { useReducer } from "react";
 import { useNavigate } from "react-router-dom"
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../../uiComponents/inputField/selectInputField.comonent";
-import { managerJoi } from "./validation";
+import { managerJoi, managerWithCompanyJoi } from "./validation";
 import { toast } from "react-toastify";
 import { addManagerService } from "../../../services/admin.service";
 
@@ -117,7 +117,7 @@ const AddManager = (props:Props) => {
                         var formData = { ...formEvent }
                         delete formData.error;
                         delete formData.isFormChanged
-                        var isValid = await managerJoi(formData);
+                        var isValid =props.from === "company" ? await managerJoi(formData): await managerWithCompanyJoi(formData);
                         if (isValid) {
                             if (props.callback != null) {
                                 props.callback(formData);

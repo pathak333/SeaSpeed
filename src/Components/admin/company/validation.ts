@@ -12,7 +12,8 @@ import joi from "joi";
 const managerWithCompany =  manager.keys({
   company: joi.string().required(), // Define your new field and validation rules here
 });
-export const managerJoi = (data:any)=> managerWithCompany.validateAsync(data, { abortEarly: true });
+export const managerWithCompanyJoi = (data:any)=> managerWithCompany.validateAsync(data, { abortEarly: true });
+export const managerJoi = (data:any)=> manager.validateAsync(data, { abortEarly: true });
   
 export const companyJoi = (data:any) => joi.object({
     name: joi.string().required(),
