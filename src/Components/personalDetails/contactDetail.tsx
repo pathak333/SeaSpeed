@@ -129,7 +129,7 @@ const ContactDetail = () => {
           value={id!= null ? crew.email :globalState.data.data.email}
         />
         <div className="flex flex-row  max-sm:flex-col">
-          <InputField
+          {/* <InputField
             className="m-4 w-24"
             fieldName={"code"}
             label={"Code"}
@@ -141,7 +141,7 @@ const ContactDetail = () => {
               //updateEvent({ firstname: e.target.value })
             }
             value={id!= null ? crew.country_code :globalState.data.data.country_code}
-          />
+          /> */}
           <InputField
             className="m-4 "
             fieldName={"phone"}

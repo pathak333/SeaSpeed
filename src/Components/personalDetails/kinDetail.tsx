@@ -355,8 +355,8 @@ const KinDetail = () => {
           value={formEvent.accountType}
         />
       </div>
+     {globalState.data.data.personalDetails[0].marital_status === "married" && <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
       <p className="text-xl font-medium ml-4">Wife detail</p>
-      <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
         <InputField
           className="m-4"
           fieldName={"name"}
@@ -451,7 +451,7 @@ const KinDetail = () => {
           },isFormChanged:true })}
           value={formEvent.wifeDetail.nameOfChild}
         />
-      </div>
+      </div>}
       {
       id === null &&  <div>
             <button

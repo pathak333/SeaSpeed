@@ -54,7 +54,7 @@ const Dashboard = () => {
       <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
      
      <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
-      <p id="name" className="text-slate-400 font-medium pb-2 text-sm">{data !== null ? data.vessel.label : ""}</p>
+      <p id="name" className="text-slate-400 font-medium pb-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? data.vessel.label : ""}</p>
       <hr className=" w-full" />
       <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p>
       <hr className=" w-full " />

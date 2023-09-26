@@ -15,6 +15,8 @@ const NavbarComponent = (props: any) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let data = globalState.data != null ? globalState.data.data : null;
+  console.log("final=",data);
+  
 
 
   //role.toLocaleLowerCase() === "admin"
