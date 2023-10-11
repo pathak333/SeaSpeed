@@ -72,7 +72,7 @@ const AdminDashboard = () => {
           navigate("/adminDashboard/allCrewMember");
           }}
         />}
-      {data &&  data.role === "superadmin"  &&  <DashboardCard2
+      {data &&  data.role === "admin"  &&  <DashboardCard2
           label={"All admins"}
           icon={<SupervisedUserCircleRounded className="" />}
           onClick={() => {

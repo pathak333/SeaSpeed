@@ -1,9 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
 import { ArrowLeft } from "react-feather"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import Select from 'react-select'
-import { AddSubAdmin, AllVessel } from "../../../services/admin.service";
+import { AddSubAdmin, AllVessel, updateSubAdmin } from "../../../services/admin.service";
 
 import { Option } from "../../../types/propes.types";
 import { toast } from "react-toastify";
@@ -15,26 +15,11 @@ import { SubAdminValidation } from "./validation";
 const CreateSubAdmin = () => {
     const [, dispatch] = useGlobalState();
     const navigate = useNavigate();
+    const location = useLocation();
     const [vesselOption, updateVesselOption] = useState<Option[]>([])
 
     function goBack() {
         navigate("/dashboard/home", { replace: true });
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-
-    async function fetchData() {
-        const { data } = await AllVessel();
-        //updateEvent({vesselData:data})
-        console.log("vessel data", data);
-        if (data) {
-            let allData: Option[] = [];
-            data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
-            updateVesselOption(allData);
-        }
     }
 
 
@@ -51,7 +36,45 @@ const CreateSubAdmin = () => {
         permission: [],
         otherPermission: {},
         error: { key: "", value: "" },
+        isFormChanged:false
     })
+
+    useEffect(() => {
+        let data = location.state.admin;
+        if (data) {
+            updateEvent({
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email,
+                phone_no: data.phone_no,
+               // code: "",
+                permission: data.permission,
+                otherPermission: data.otherPermission,
+                error: { key: "", value: "" },
+                isFormChanged:false
+            })
+            
+        }
+       
+        fetchData();
+    }, [])
+
+
+    async function fetchData() {
+        const { data } = await AllVessel();
+        //updateEvent({vesselData:data})
+        console.log("vessel data", data);
+        if (data) {
+            let allData: Option[] = [];
+            data.data.map((e: any) => allData.push(createOption(e.name, e._id)))
+            updateVesselOption(allData);
+        }
+    }
+
+  
+
+
+ 
 
 
     function addRemovePermission(value: string, state: boolean) {
@@ -110,7 +133,8 @@ const CreateSubAdmin = () => {
             
             if (isValid) {
                 console.log(formData);
-                const { data } = await AddSubAdmin(formData);
+                
+                const { data } = location.state.admin ? await updateSubAdmin(location.state.admin._id,formData) : await AddSubAdmin(formData);
                 if (data.success) {
                     toast.info(data.message);
                     navigate("/adminDashboard/home")
@@ -123,6 +147,7 @@ const CreateSubAdmin = () => {
                         permission: [],
                         otherPermission: {},
                         error: { key: "", value: "" },
+                        isFormChanged:false
                     })
                 }
             }else {
@@ -226,27 +251,27 @@ const CreateSubAdmin = () => {
                     <div className="flex ml-2">
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" id="user" onChange={(e: any) => {
-
+                                updateEvent({isFormChanged:true})
 
                                 addRemovePermission("admin", e.target.checked);
-                            }} />
+                            }} checked={formEvent.permission.includes("admin")} />
                             <label htmlFor="user">Admin</label>
                         </div>
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="application" id="application" onChange={(e: any) => {
 
-
+                                updateEvent({isFormChanged:true})
                                 addRemovePermission("application", e.target.checked);
-                            }} />
+                            }} checked={formEvent.permission.includes("application")} />
                             <label htmlFor="application">Application</label>
                         </div>
 
                         <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
                             <input className="m-2" type="checkbox" name="vessel" id="vessel" onChange={(e: any) => {
 
-
+                                updateEvent({isFormChanged:true})
                                 addRemovePermission("vessel", e.target.checked);
-                            }} />
+                            }} checked={formEvent.permission.includes("vessel")} />
                             <label htmlFor="vessel">Vessel Manager</label>
                         </div>
                         {/* <div className="permission border-r-2 border-gray-500 w-fit  my-3 px-2">
@@ -272,7 +297,8 @@ const CreateSubAdmin = () => {
                             options={vesselOption}
                             className="basic-multi-select w-full"
                             classNamePrefix="select"
-                            onChange={(e) => { onselectionchange(e) }}
+                            onChange={(e) => { onselectionchange(e);   updateEvent({isFormChanged:true}) }}
+                            value={formEvent.otherPermission.vessel ?? ""}
                         />
                     </div>
                 </div>
@@ -287,7 +313,7 @@ const CreateSubAdmin = () => {
                     //   navigate("/dashboard/courseCertificate");
                 }}
             >
-                Create account
+                {location.state.admin ? 'Update Admin' : 'Create account'}
             </button>
             <button
                 type="button"

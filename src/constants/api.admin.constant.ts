@@ -8,6 +8,7 @@ export const getAllCrewByVesselIdApi = "/admin/getAllCrewByVesselId"
 export const getAllVesselByCompanyIdApi = "/admin/getAllVesselByCompanyId"
 
 export const addSubAdminApi = "/admin/addSubAdminUser";
+export const updateSubAdminApi = "/admin/updateSubAdmin";
 export const getSubAdminApi = "/admin/getAllSubAdmin"
 export const getAllCrewApi = "/admin/getAllCrew"
 export const getAllPendingCrewApi = "/admin/getAllPendingCrew"

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { getAllSubAdmin } from "../../../services/admin.service";
 import { Trash2 } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -10,7 +11,7 @@ import { Trash2 } from "react-feather";
 const ViewAllAdmin = () => {
 
     const [adminList, updateAdminList] = useState([]);
-
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchData();
@@ -23,7 +24,9 @@ const ViewAllAdmin = () => {
     }
 
     const listofData = adminList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={(e:any)=>{
+          console.log("click on vessel")
+          navigate("/adminDashboard/CreateSubAdmin",{state:{admin:item}})}}>
             <td className="px-6 py-4">{item.firstname} {item.lastname}</td>
           <td className="px-6 py-4">{item.role}</td>
           <td className="px-6 py-4">{item.email}</td>
