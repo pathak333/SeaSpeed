@@ -7,6 +7,7 @@ import DasboardCardLayout from "./dashboard_card_layout";
 import { useGlobalState } from "../../contexts/global.context";
 import { Description } from "@mui/icons-material";
 import { FileText } from "react-feather";
+import { TodayDate } from "../../constants/values.constants";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [globalState, dispatch] = useGlobalState();
@@ -55,8 +56,11 @@ const Dashboard = () => {
      
      <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
       <p id="name" className="text-slate-400 font-medium pb-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? data.vessel.label : ""}</p>
-      <hr className=" w-full" />
-      <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p>
+          <hr className=" w-full" />
+          {data !== null && data.joiningDate
+            ? <p id="name" className="p-2 text-sm">{data !== null ? data.joiningDate : ""}</p>
+            : <input className="focus-visible:border-none focus-visible:outline-none" type="date" min={TodayDate} name="date" id="" />}
+      {/* <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p> */}
       <hr className=" w-full " />
       <p id="name" className="p-2 text-sm">{data !== null ?data.joiningPort : ""}</p>
      

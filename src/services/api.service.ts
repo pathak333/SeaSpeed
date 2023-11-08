@@ -22,6 +22,7 @@ axios.interceptors.response.use(
       axios.defaults.headers.common["Authorization"] =
       sessionStorage.getItem("token") || "";
       toast.error(error.response.data.message);
+     
       // refresh = false;
       // const response = await axios.get("auth/refresh", {
       //   withCredentials: true,

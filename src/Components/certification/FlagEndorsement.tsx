@@ -46,7 +46,9 @@ const FlagEndorsement = () => {
     }, [])
 
 
-
+    const getDocId = (id: any) => {
+        updateEvent({documentId:id})
+      }
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next };
@@ -61,6 +63,7 @@ const FlagEndorsement = () => {
         //type:"",
         dataList: [],
         savedData: [],
+        documentId:"",
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
@@ -84,6 +87,7 @@ const FlagEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
+                    documentId:"",
                     Oil_tanker_DCE: "Support",
 
                 })
@@ -262,7 +266,7 @@ const FlagEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"flag"} name="endorsement" />
+            <FileUpload folder={"flag"} name="endorsement"  from="user" dataFun={getDocId} />
 
 
         </div>

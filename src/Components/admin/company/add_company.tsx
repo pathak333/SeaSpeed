@@ -1,12 +1,13 @@
 import { useReducer } from "react";
-import { useNavigate } from "react-router-dom"
+
 import InputField from "../../../uiComponents/inputField/inputField.component";
-import { ArrowLeft, Trash2 } from "react-feather";
+
 import FileUpload from "../../../uiComponents/inputField/fileUpload.component";
 import AddManager from "./add_manager";
 import { toast } from "react-toastify";
 import { companyJoi } from "./validation";
 import { addCompanyService } from "../../../services/admin.service";
+import { Trash2 } from "react-feather";
 
 
 
@@ -22,11 +23,18 @@ const AddCompany = () => {
         email: "",
         phone: "",
         address: "",
+        logo: "",
+        documentId:[],
         manager:[],
         error: { key: "", value: "" },
     })
 
-
+//     const getImgUrl = (imgUrl: string) => {
+       
+//    }
+//     const getcompanyImgUrl = (imgUrl: string) => {
+       
+//    }
 
     const errorReturn = (field: string) =>
         formEvent.error.key === field ? formEvent.error.value : "";
@@ -37,6 +45,13 @@ const AddCompany = () => {
         updateEvent({manager:formEvent.manager})
     }
 
+    const getLogoDocId = (id: any) => {
+        updateEvent({logo:id})
+      }
+
+    const getDocId = (id: any) => {
+        updateEvent({documentId:[...formEvent.documentId, id]})
+      }
 
     const listofData = formEvent.manager.map((item: any, index: any) => (
         <tr key={index} className="bg-white border-b">
@@ -104,8 +119,8 @@ const AddCompany = () => {
             value={formEvent.address}
             id="addressCompany"
         />
-        <FileUpload folder={"/company"} name="logo" />
-        <FileUpload folder={"/company"} name="copmany doc" />
+        <FileUpload folder={"/company"} name="logo" from="admin" dataFun={getLogoDocId} />
+        <FileUpload folder={"/company"} name="copmany doc" from="admin" dataFun={getDocId}  />
 
     </div>
         <hr />

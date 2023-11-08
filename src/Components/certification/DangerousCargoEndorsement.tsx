@@ -192,7 +192,9 @@ const DangerousCargoEndorsement = () => {
     }
 
 
-
+    const getDocId = (id: any) => {
+        updateEvent({documentId:id})
+      }
 
 
 
@@ -266,7 +268,7 @@ const DangerousCargoEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"dangerousCargo"} name="endorsement" />
+            <FileUpload folder={"dangerousCargo"} name="endorsement"  from="user" dataFun={getDocId} />
 
         </div>
         <div className="flex justify-center m-2">

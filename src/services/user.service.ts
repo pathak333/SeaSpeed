@@ -47,7 +47,8 @@ import {
   DeletetMedicalDetailApi,
   GetMedicalDetailApi,
   DeleteTypeMedicalDetailApi,
-  UpdateKinDetailApi
+  UpdateKinDetailApi,
+  singleFileUploadApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -252,3 +253,7 @@ export const deleteTypeMedicalDetail = (id:String,mdocId:String) => {
   return httpService.delete(DeleteTypeMedicalDetailApi+`?docId=${id}&mdocId=${mdocId}`)
 }
 
+export const singleFileUpload = (payload: any) => {
+  axios.AxiosHeaders.concat({'Content-Type': 'multipart/form-data'})
+  return httpService.post(singleFileUploadApi,payload)
+}

@@ -60,6 +60,7 @@ const CourseCertificate = () => {
         placeOfIssue: "",
         dateOfIssue: "",
         dateOfExpiry: "",
+        documentId:"",
         dataList: [],
         savedData: [],
         error: { key: "", value: "" },
@@ -83,6 +84,8 @@ const CourseCertificate = () => {
                     placeOfIssue: "",
                     dateOfIssue: "",
                     dateOfExpiry: "",
+                     documentId:"",
+
                 })
             }
         } catch (error: any) {
@@ -110,6 +113,7 @@ const CourseCertificate = () => {
             placeOfIssue: "",
             dateOfIssue: "",
             dateOfExpiry: "",
+            documentId:"",
             dataList: [],
             error: { key: "", value: "" },
 
@@ -170,7 +174,9 @@ const CourseCertificate = () => {
         </tr>
     ));
 
-
+    const getDocId = (id: any) => {
+        updateEvent({documentId:id})
+      }
 
     const handlerSubmit = async (event: any) => {
         toast.dismiss();
@@ -265,7 +271,7 @@ const CourseCertificate = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"/courseCertificate"} name="certificate" />
+            <FileUpload folder={"/courseCertificate"} name="certificate"  from="user" dataFun={getDocId} />
 
         </div>
         <div className="flex justify-center m-2">

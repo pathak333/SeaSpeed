@@ -264,7 +264,7 @@ const VisaDetail = (props: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-             <FileUpload folder={"/visaDetailDoc"} name="visa" />
+             {/* <FileUpload folder={"/visaDetailDoc"} name="visa"  from="user" /> */}
 
       </div>
       <div className="flex justify-center m-2 ">

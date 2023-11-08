@@ -201,6 +201,7 @@ export const BankDetailValidation = async (data: any) =>
       IBAN_number: joi.string().optional().allow(""),
       IFSC_code: joi.string().optional().allow(""),
       account_type: joi.string().valid("USD", "INR", "PKR", "AED").required(),
+      documentId: joi.string().optional(),
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -215,6 +216,8 @@ export const UpdateBankDetailValidation = async (data: any) =>
       IBAN_number: joi.string().optional(),
       IFSC_code: joi.string().optional(),
       account_type: joi.string().valid("USD", "INR", "PKR", "AED").optional(),
+      documentId: joi.string().optional(),
+
     })
     .validateAsync(data, { abortEarly: true });
 

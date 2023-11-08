@@ -60,10 +60,15 @@ const BankDetail = () => {
       IFSC_code: "",
       IBAN_number: "",
       account_type: "USD",
+      documentId:"",
       isFormChanged:false,
       error: { keys: "", values: "" },
     }
   );
+
+  const getDocId = (id: any) => {
+    updateEvent({documentId:id})
+  }
 
   const handleSubmit = async (event: any) => {
     // BankDetail
@@ -119,6 +124,7 @@ const BankDetail = () => {
       IFSC_code: "",
       IBAN_number: "",
       account_type: "USD",
+      documentId:"",
       
     });
   };
@@ -211,7 +217,7 @@ const BankDetail = () => {
                 error={errorReturn("account_type")}
                 option={["USD", "INR", "PKR", "AED"]}
         />
-        <FileUpload folder={"/bankDetailDoc"} name="bank/cancel cheque" />
+        <FileUpload folder={"/bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
       </div>
       { id === null && <div>

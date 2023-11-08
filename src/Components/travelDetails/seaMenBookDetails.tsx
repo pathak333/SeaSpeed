@@ -241,7 +241,7 @@ const SeaMenBookDetail = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Seamen book PDF</p>
             </div> */}
-      <FileUpload folder={"/seamenBook"} name="seamen book " />
+      {/* <FileUpload folder={"/seamenBook"} name="seamen book "  from="user" /> */}
 
     </div>
 

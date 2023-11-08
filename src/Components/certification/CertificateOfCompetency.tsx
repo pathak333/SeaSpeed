@@ -44,7 +44,9 @@ const CertificateOfCompetency = () => {
     }, [])
 
 
-
+    const getDocId = (id: any) => {
+        updateEvent({documentId:id})
+      }
 
 
 
@@ -63,6 +65,7 @@ const CertificateOfCompetency = () => {
         dateOfExpiry: "",
         placeOfIssue: "",
         issuingAuthorityCountry: "",
+        documentId:"",
         dataList: [],
         savedData: [],
         isFormChanged: false,
@@ -86,6 +89,8 @@ const CertificateOfCompetency = () => {
                     dateOfExpiry: "",
                     placeOfIssue: "",
                     issuingAuthorityCountry: "",
+                    documentId:"",
+
                 })
             }
         } catch (error: any) {
@@ -193,8 +198,7 @@ const CertificateOfCompetency = () => {
 
 
 
-
-
+ 
 
     const errorReturn = (field: string) =>
         formEvent.error.keys === field ? formEvent.error.values : "";
@@ -264,7 +268,7 @@ const CertificateOfCompetency = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"/competencyCertificate"} name="certificate" />
+            <FileUpload folder={"/competencyCertificate"} name="certificate"  from="user"  dataFun={getDocId}/>
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
 
         </div>
