@@ -66,6 +66,7 @@ const VisaDetail = (props: any) => {
       us_number: "",
       us_dateOfIssue: "",
       us_dateOfExpiry: "",
+      documentId:"",
       error: { key: "", value: "" },
       isFormChanged: false
     }
@@ -84,6 +85,8 @@ const VisaDetail = (props: any) => {
           number: "",
           dateOfIssue: "",
           dateOfExpiry: "",
+          documentId:"",
+
         })
       }
     } catch (error: any) {
@@ -182,7 +185,9 @@ const VisaDetail = (props: any) => {
 }
 
   
-
+const getDocId = (id: any) => {
+  updateEvent({documentId:id})
+}
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
@@ -264,7 +269,7 @@ const VisaDetail = (props: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-             {/* <FileUpload folder={"/visaDetailDoc"} name="visa"  from="user" /> */}
+             <FileUpload folder={"visaDetailDoc"} name="visa"  from="user" dataFun={getDocId} />
 
       </div>
       <div className="flex justify-center m-2 ">

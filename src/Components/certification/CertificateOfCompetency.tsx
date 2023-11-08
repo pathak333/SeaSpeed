@@ -139,7 +139,7 @@ const CertificateOfCompetency = () => {
             <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.issuingAuthorityCountry}</td>
-            <td className="px-6 py-4">file</td>
+            <td className="px-6 py-4"><a href={item.documentId.link}>{item.documentId.name}</a></td>
             <td className="px-6 py-4">
                 <Trash2
                     onClick={async () => {
@@ -268,7 +268,7 @@ const CertificateOfCompetency = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"/competencyCertificate"} name="certificate"  from="user"  dataFun={getDocId}/>
+            <FileUpload folder={"competencyCertificate"} name="certificate"  from="user"  dataFun={getDocId}/>
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
 
         </div>

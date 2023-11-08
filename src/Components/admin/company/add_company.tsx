@@ -119,8 +119,8 @@ const AddCompany = () => {
             value={formEvent.address}
             id="addressCompany"
         />
-        <FileUpload folder={"/company"} name="logo" from="admin" dataFun={getLogoDocId} />
-        <FileUpload folder={"/company"} name="copmany doc" from="admin" dataFun={getDocId}  />
+        <FileUpload folder={"company"} name="logo" from="admin" dataFun={getLogoDocId} />
+        <FileUpload folder={"company"} name="copmany doc" from="admin" dataFun={getDocId}  />
 
     </div>
         <hr />

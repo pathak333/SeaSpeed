@@ -6,6 +6,7 @@ export const PassportValidation = (data: any) => joi.object({
     placeOfIssue: joi.string(),
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
+    documentId: joi.string().allow(""),
    // ECNR: joi.string(),
 }).validateAsync(data, { abortEarly: true })
 
@@ -54,6 +55,7 @@ export const VisaDetailValidation = (data: any) => joi.object({
         otherwise: joi.date().required(),
 
     }),
+    documentId: joi.string().allow(""),
     haveNoVisa: joi.bool(),
     haveNoUsVisa: joi.bool(),
 }).validateAsync(data, { abortEarly: true })
@@ -75,6 +77,7 @@ export const SeamenBookValidation = (data: any) => joi.object({
     dateOfExpiry: joi.date(),
     sidNumber: joi.string(),
     Indos: joi.string(),
+    documentId:joi.string().allow(""),
 }).validateAsync(data, { abortEarly: true })
 
 

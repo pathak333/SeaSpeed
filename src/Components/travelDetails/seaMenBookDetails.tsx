@@ -51,6 +51,7 @@ const SeaMenBookDetail = () => {
     dateOfExpiry: "",
     sidNumber: "",
     Indos: "",
+    documentId:"",
     dataList: [],
     savedData: [],
     error: { key: "", value: "" },
@@ -77,6 +78,8 @@ const SeaMenBookDetail = () => {
           dateOfExpiry: "",
           sidNumber: "",
           Indos: "",
+      documentId:"",
+
         })
       }
       return 'done'
@@ -172,7 +175,9 @@ const SeaMenBookDetail = () => {
     }
   }
 
-
+  const getDocId = (id: any) => {
+    updateEvent({documentId:id})
+  }
 
 
   const errorReturn = (field: string) =>
@@ -241,7 +246,7 @@ const SeaMenBookDetail = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Seamen book PDF</p>
             </div> */}
-      {/* <FileUpload folder={"/seamenBook"} name="seamen book "  from="user" /> */}
+      <FileUpload folder={"seamenBook"} name="seamen book "  from="user" dataFun={getDocId} />
 
     </div>
 

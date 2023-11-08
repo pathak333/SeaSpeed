@@ -46,6 +46,10 @@ const PassPortDetail = (props: any) => {
       console.log("data inter")
       updateEvent(data.data)
     }
+  }
+  
+  const getDocId = (id: any) => {
+    updateEvent({documentId:id})
 }
 
   const handlerSubmit = async (event: any) => {
@@ -60,7 +64,8 @@ const PassPortDetail = (props: any) => {
       let {passportNumber,
       placeOfIssue,
       dateOfIssue,
-      dateOfExpiry,
+        dateOfExpiry,
+        documentId,
        // ECNR
       } = formEvent;
 
@@ -68,7 +73,8 @@ const PassPortDetail = (props: any) => {
         passportNumber,
       placeOfIssue,
       dateOfIssue,
-      dateOfExpiry,
+        dateOfExpiry,
+        documentId,
       //ECNR
       }
       console.log(postData);
@@ -114,6 +120,7 @@ const PassPortDetail = (props: any) => {
       placeOfIssue: "",
       dateOfIssue: "",
       dateOfExpiry: "",
+      documentId:"",
       //ECNR: "Yes",
       isFormChanged:false,
       error: { key: "", value: "" },
@@ -187,7 +194,7 @@ const PassPortDetail = (props: any) => {
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload Passport PDF</p>
           </div> */}
-             {/* <FileUpload folder={"/passport"} name="passport"  from="user" /> */}
+             <FileUpload folder={"passport"} name="passport"  from="user" dataFun={getDocId} />
 
           <ul className="list-disc ml-4">
             <li className="text-textGrey text-sm ml-3">

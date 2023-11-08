@@ -5,6 +5,8 @@ import { Close } from "@mui/icons-material";
 import InputField from "./inputField.component";
 import { singleFileUpload } from "../../services/user.service";
 import { singleFileUploadAdmin } from "../../services/admin.service";
+import { useGlobalState } from "../../contexts/global.context";
+import { LOADING } from "../../constants/action.constant";
 //import useLocalStorage from "../../hooks/saveToLocal";
 
 interface Props {
@@ -20,7 +22,7 @@ interface Props {
 
 const FileUpload = (props: Props) => {
     const uploadRef = useRef<HTMLInputElement>(null);
-    
+    const [, dispatch] = useGlobalState();
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
@@ -39,6 +41,7 @@ const FileUpload = (props: Props) => {
 
     const handleSaveButton = async () => {
         console.log(uploadRef.current!.files)
+        dispatch({ type: LOADING, payload: true });
         if (uploadRef.current!.files!.length > 0) {
            
             const formData = new FormData();
@@ -52,11 +55,13 @@ const FileUpload = (props: Props) => {
                 const { data } = await singleFileUpload(formData)
                 console.log(data)
                 props.dataFun(data.data._id)
+                dispatch({ type: LOADING, payload: false });
                 updateFormEvent({isUploadOpen:false})
             } else {
                 const { data } = await singleFileUploadAdmin(formData)
                 console.log(data)
                 props.dataFun(data.data._id)
+                dispatch({ type: LOADING, payload: false });
                 updateFormEvent({isUploadOpen:false})
             }
         }
@@ -70,7 +75,7 @@ const FileUpload = (props: Props) => {
     }
     const clearImageData = () => {
         uploadRef.current!.value =""
-        updateFormEvent({});
+        updateFormEvent({isUploadOpen:false});
         console.log("Clear")
    }
 

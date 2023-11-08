@@ -217,7 +217,7 @@ const BankDetail = () => {
                 error={errorReturn("account_type")}
                 option={["USD", "INR", "PKR", "AED"]}
         />
-        <FileUpload folder={"/bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
+        <FileUpload folder={"bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
       </div>
       { id === null && <div>

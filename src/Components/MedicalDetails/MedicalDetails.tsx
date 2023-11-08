@@ -278,7 +278,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/regularMedicalCertificate"} name="regular certificate"  from="user" dataFun={getregularMedicalDocId} />
+             <FileUpload folder={"regularMedicalCertificate"} name="regular certificate"  from="user" dataFun={getregularMedicalDocId} />
             
 
         </div>
@@ -352,7 +352,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/YellowFeverMedicalCertificate"} name="yellow certificate"  from="user" dataFun={getYellowFeverDocId}/>
+             <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow certificate"  from="user" dataFun={getYellowFeverDocId}/>
 
         </div>
         <p className="font-medium text-[22px] leading-none flex flex-row ml-5 items-center">Covid vaccination</p>
@@ -371,7 +371,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"/covidMedicalCertificate"} name="covid certificate"  from="user" dataFun={getCovidDocId} />
+             <FileUpload folder={"covidMedicalCertificate"} name="covid certificate"  from="user" dataFun={getCovidDocId} />
 
         </div>
         {id === null && <div>
