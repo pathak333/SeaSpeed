@@ -34,13 +34,13 @@ const VisaDetail = (props: any) => {
   }, [])
 
   async function fetchData() {
-    const { data } =id === null ? await GetVisaDetailService(): await getCrewVisaDetail(id)
+    const { data } = id === null ? await GetVisaDetailService() : await getCrewVisaDetail(id)
     console.log(data)
     if (data.success && data.data) {
       console.log("data inter")
       updateEvent(data.data)
     }
-}
+  }
 
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -66,7 +66,7 @@ const VisaDetail = (props: any) => {
       us_number: "",
       us_dateOfIssue: "",
       us_dateOfExpiry: "",
-      documentId:"",
+      documentId: "",
       error: { key: "", value: "" },
       isFormChanged: false
     }
@@ -85,10 +85,13 @@ const VisaDetail = (props: any) => {
           number: "",
           dateOfIssue: "",
           dateOfExpiry: "",
-          documentId:"",
+          documentId: "",
 
         })
+      } else {
+        throw Error(isValid);
       }
+      console.log(formEvent.visaList)
     } catch (error: any) {
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
@@ -104,7 +107,7 @@ const VisaDetail = (props: any) => {
       } else if (error.name === "AxiosError")
         toast.error(error.response.data.message);
     }
-    
+
   }
 
   const listofData = formEvent.visaList.map((item: any, index: any) => (
@@ -126,46 +129,52 @@ const VisaDetail = (props: any) => {
     </tr>
   ));
 
-  const handleSubmit = async(event:any) => {
+  const handleSubmit = async (event: any) => {
     toast.dismiss();
     event.preventDefault();
-    let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
-    let formdata ={};
-    if (haveNoVisa ) {
-     formdata = {...formdata,haveNoVisa}
-    } 
    
+
+    dispatch({ type: LOADING, payload: true });
+    let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
+    let formdata = {};
+
+
+
+  
     if (haveNoUsVisa) {
-      formdata = {...formdata,haveNoUsVisa}
-    }
-    if(!haveNoVisa) {
-      if (visaList.length === 0) {
-        addMore();
-}
+      formdata = { ...formdata, haveNoUsVisa }
+    } else {
       formdata = {
-       ...formdata,haveNoVisa,visaList
-     }
-    }
-    if (!haveNoUsVisa) {
-      formdata = {
-        ...formdata,haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry
+        ...formdata, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry
       }
     }
-  
+    
+
+    if (haveNoVisa) {
+      formdata = { ...formdata, haveNoVisa }
+    } else {
+      formdata = {
+        ...formdata,visaList, haveNoVisa,
+    }
+    
+      
+    }
+
     try {
-     console.log(formdata)
-     
+      console.log(formdata)
+
       const isValid = await VisaDetailValidation(formdata)
       if (isValid) {
-        const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata) 
+        const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata)
         if (data.success) {
           toast.info(data.message)
+
           navigate("/dashboard/traveldetails/SeaMenBookdetail");
         }
-      }else {
+      } else {
         throw Error(isValid);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
           updateEvent({
@@ -179,15 +188,15 @@ const VisaDetail = (props: any) => {
       } else if (error.name === "AxiosError") {
         toast.error(error.response.data.message);
       }
-    }finally {
+    } finally {
       dispatch({ type: LOADING, payload: false });
     }
-}
+  }
 
-  
-const getDocId = (id: any) => {
-  updateEvent({documentId:id})
-}
+
+  const getDocId = (id: any) => {
+    updateEvent({ documentId: id })
+  }
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
@@ -269,7 +278,7 @@ const getDocId = (id: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-             <FileUpload folder={"visaDetailDoc"} name="visa"  from="user" dataFun={getDocId} />
+        <FileUpload folder={"visaDetailDoc"} name="visa" from="user" dataFun={getDocId} />
 
       </div>
       <div className="flex justify-center m-2 ">
@@ -381,52 +390,53 @@ const getDocId = (id: any) => {
           value={formEvent.us_dateOfExpiry.split("T")[0] ?? ""}
         />
       </div>
-      { id === null &&  <div>
-            <button
-        className="ml-8 text-xl text-gray-500"
-        onClick={() => navigate("/dashboard/traveldetails")}
-      >
-        Previous
-      </button>
-      {formEvent.isFormChanged ? <button
-        type="submit"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      >
-        Save & next
-      </button> :
+      {id === null && <div>
+        <button
+          className="ml-8 text-xl text-gray-500"
+          onClick={() => navigate("/dashboard/traveldetails")}
+        >
+          Previous
+        </button>
+        {formEvent.isFormChanged ? <button
+          type="submit"
+          disabled={(!formEvent.haveNoVisa  && !(formEvent.visaList.length === 0))}
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          Save & next
+        </button> :
+          <button
+            type="button"
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+
+              navigate("/dashboard/traveldetails/SeaMenBookdetail");
+            }}
+          >
+            Skip and Next
+          </button>}
         <button
           type="button"
-          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="ml-8 text-xl text-blue-700"
           onClick={() => {
-
-            navigate("/dashboard/traveldetails/SeaMenBookdetail");
+            //clearAllData();
+            updateEvent({ dataList: [] });
           }}
         >
-          Skip and Next
-        </button>}
-      <button
-        type="button"
-        className="ml-8 text-xl text-blue-700"
-        onClick={() => {
-          //clearAllData();
-          updateEvent({ dataList: [] });
-        }}
-      >
-        Clear all
-      </button>
-        </div>
-    }
-    { globalState.data.data.permission.includes("application") && 
+          Clear all
+        </button>
+      </div>
+      }
+      {globalState.data.data.permission.includes("application") &&
         <div>
-   {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
-      
-      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
-         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}}  doc_id="VisaDetail" user_id={id} />
-       </div>}
-       </div>}
-        { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
+          {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+          {id !== null && !formEvent.isFormChanged && <div id="approver">
+            <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} doc_id="VisaDetail" user_id={id} />
+          </div>}
+        </div>}
+      {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
         <div>
-           <button
+          <button
             type="button"
             className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             onClick={() => {
@@ -434,9 +444,9 @@ const getDocId = (id: any) => {
               navigate(`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`);
             }}
           >
-           Next
+            Next
           </button>
-      </div> }
+        </div>}
     </form>
   );
 };
