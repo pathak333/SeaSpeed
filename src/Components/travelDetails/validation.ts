@@ -16,21 +16,19 @@ const NormalVisaJoiObject = joi.object({
     number: joi.number(),
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
+    documentId: joi.string().allow(""),
 })
 
 export const NormalVisaValidation = (data:any)=> NormalVisaJoiObject.validateAsync(data, { abortEarly: true })
 
 export const VisaDetailValidation = (data: any) => joi.object({
-    visaList:joi.array(),
-    //     joi.when("haveNoVisa", {
-    //     is: true,
-    //     then:joi.array().items(
-    //         NormalVisaJoiObject
-    //     ).forbidden(),
-    //     otherwise:joi.array().items(
-    //         NormalVisaJoiObject
-    //     ).required()
-    // }),
+    visaList:joi.array().when("haveNoVisa", {
+        is: true,
+        then:joi.array().optional(),
+        otherwise:joi.array().items(
+            NormalVisaJoiObject
+        ).min(1).required(),
+    }),
     us_placeOfIssue: joi.when("haveNoUsVisa", {
         is: true,
         then: joi.string().forbidden(),
@@ -55,7 +53,7 @@ export const VisaDetailValidation = (data: any) => joi.object({
         otherwise: joi.date().required(),
 
     }),
-    documentId: joi.string().allow(""),
+   
     haveNoVisa: joi.bool(),
     haveNoUsVisa: joi.bool(),
 }).validateAsync(data, { abortEarly: true })

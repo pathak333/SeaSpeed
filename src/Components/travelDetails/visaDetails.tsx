@@ -38,7 +38,11 @@ const VisaDetail = (props: any) => {
     console.log(data)
     if (data.success && data.data) {
       console.log("data inter")
+      data.data.visaList.map((e: any) => delete e._id)
+      console.log(data.data);
+      
       updateEvent(data.data)
+
     }
   }
 
@@ -74,8 +78,8 @@ const VisaDetail = (props: any) => {
 
   const addMore = async () => {
     try {
-      let { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry } = formEvent;
-      let data = { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry };
+      let { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry, documentId } = formEvent;
+      let data = { visatype, placeOfIssue, number, dateOfIssue, dateOfExpiry,documentId };
       let isValid = await NormalVisaValidation(data)
       if (isValid) {
         updateEvent({
@@ -85,7 +89,7 @@ const VisaDetail = (props: any) => {
           number: "",
           dateOfIssue: "",
           dateOfExpiry: "",
-          documentId: "",
+          documentId:""
 
         })
       } else {
@@ -101,6 +105,7 @@ const VisaDetail = (props: any) => {
               values: errorDetail.message,
             },
           });
+          
           console.log(errorDetail.context.key + "======");
           toast.error(errorDetail.message);
         }
@@ -130,12 +135,21 @@ const VisaDetail = (props: any) => {
   ));
 
   const handleSubmit = async (event: any) => {
-    toast.dismiss();
-    event.preventDefault();
+    console.log(formEvent)
+     toast.dismiss();
+     event.preventDefault();
    
 
+    
+    
     dispatch({ type: LOADING, payload: true });
+    
+
     let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
+    // if (!haveNoVisa && visaList.length === 0) {
+    //   addMore()
+    // }
+    
     let formdata = {};
 
 
@@ -162,7 +176,7 @@ const VisaDetail = (props: any) => {
 
     try {
       console.log(formdata)
-
+      
       const isValid = await VisaDetailValidation(formdata)
       if (isValid) {
         const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata)
@@ -183,7 +197,11 @@ const VisaDetail = (props: any) => {
               values: errorDetail.message,
             },
           });
-          toast.error(errorDetail.message);
+          if (errorDetail.context.key === "visaList") {
+            toast.error("Please add atleast one visa detail");
+          } else {
+            toast.error(errorDetail.message);
+          }
         }
       } else if (error.name === "AxiosError") {
         toast.error(error.response.data.message);
@@ -399,8 +417,8 @@ const VisaDetail = (props: any) => {
         </button>
         {formEvent.isFormChanged ? <button
           type="submit"
-          disabled={(!formEvent.haveNoVisa  && !(formEvent.visaList.length === 0))}
-          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          // disabled={(!formEvent.haveNoVisa  && (formEvent.visaList.length === 0))}
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-textGrey focus:bg-textGrey visited:bg-textGrey"
         >
           Save & next
         </button> :
