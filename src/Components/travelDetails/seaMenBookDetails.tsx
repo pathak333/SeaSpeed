@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ const SeaMenBookDetail = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
 
+  const [fileData,updateFileData] = useState<any>()
 
 
 
@@ -175,8 +176,9 @@ const SeaMenBookDetail = () => {
     }
   }
 
-  const getDocId = (id: any) => {
-    updateEvent({documentId:id})
+  const getDocId = (data: any) => {
+    updateEvent({ documentId: data._id })
+    updateFileData(data)
   }
 
 
@@ -247,6 +249,7 @@ const SeaMenBookDetail = () => {
                 <p className="text-IbColor">Upload Seamen book PDF</p>
             </div> */}
       <FileUpload folder={"seamenBook"} name="seamen book "  from="user" dataFun={getDocId} />
+      <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
     </div>
 

@@ -40,21 +40,21 @@ const CreateSubAdmin = () => {
     })
 
     useEffect(() => {
-        let data = location.state.admin;
-        if (data) {
-            updateEvent({
-                firstname: data.firstname,
-                lastname: data.lastname,
-                email: data.email,
-                phone_no: data.phone_no,
-               // code: "",
-                permission: data.permission,
-                otherPermission: data.otherPermission,
-                error: { key: "", value: "" },
-                isFormChanged:false
-            })
+        // let data = location.state.admin;
+        // if (data) {
+        //     updateEvent({
+        //         firstname: data.firstname,
+        //         lastname: data.lastname,
+        //         email: data.email,
+        //         phone_no: data.phone_no,
+        //        // code: "",
+        //         permission: data.permission,
+        //         otherPermission: data.otherPermission,
+        //         error: { key: "", value: "" },
+        //         isFormChanged:false
+        //     })
             
-        }
+        // }
        
         fetchData();
     }, [])
@@ -312,8 +312,9 @@ const CreateSubAdmin = () => {
                     // clearAllData();
                     //   navigate("/dashboard/courseCertificate");
                 }}
-            >
-                {location.state.admin ? 'Update Admin' : 'Create account'}
+            >Create account
+                {/* {location.state}
+                {location.state.admin ? 'Update Admin' : 'Create account'} */}
             </button>
             <button
                 type="button"

@@ -26,6 +26,9 @@ const MedicalDetails = () => {
   const id = queryParams.get('id');
 
 
+  const [fileRegularData,updateRegularFileData] = useState<any>()
+  const [fileYellowData,updateYellowFileData] = useState<any>()
+  const [fileCovidData,updateCovidFileData] = useState<any>()
 
 
     const navigate = useNavigate()
@@ -146,14 +149,17 @@ const MedicalDetails = () => {
         </tr>
     ));
 
-    const getregularMedicalDocId = (id: any) => {
-        updateEvent({certificateLink:id})
+    const getregularMedicalDocId = (data: any) => {
+        updateEvent({ certificateLink: data._id })
+        updateRegularFileData(data)
     }
-    const getYellowFeverDocId = (id: any) => {
-        updateEvent({Yellow_fever_vaccination:{link:id}})
+    const getYellowFeverDocId = (data: any) => {
+        updateEvent({ Yellow_fever_vaccination: { link: data._id } })
+        updateYellowFileData(data)
     }
-    const getCovidDocId = (id: any) => {
-        updateEvent({ Covid_vaccination: { link: id } })
+    const getCovidDocId = (data: any) => {
+        updateEvent({ Covid_vaccination: { link: data._id } })
+        updateCovidFileData(data)
       }
 
     const handleSubmit = async (event: any) => {
@@ -279,6 +285,7 @@ const MedicalDetails = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
              <FileUpload folder={"regularMedicalCertificate"} name="regular certificate"  from="user" dataFun={getregularMedicalDocId} />
+             <h1 className="ml-3 text-IbColor"> {fileRegularData !== undefined ? <a href={fileRegularData?.link}>You have uploaded one file { fileRegularData?.name }</a> :""}</h1>
             
 
         </div>
@@ -353,6 +360,7 @@ const MedicalDetails = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
              <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow certificate"  from="user" dataFun={getYellowFeverDocId}/>
+             <h1 className="ml-3 text-IbColor"> {fileYellowData !== undefined ? <a href={fileYellowData?.link}>You have uploaded one file { fileYellowData?.name }</a> :""}</h1>
 
         </div>
         <p className="font-medium text-[22px] leading-none flex flex-row ml-5 items-center">Covid vaccination</p>
@@ -372,6 +380,7 @@ const MedicalDetails = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
              <FileUpload folder={"covidMedicalCertificate"} name="covid certificate"  from="user" dataFun={getCovidDocId} />
+             <h1 className="ml-3 text-IbColor"> {fileCovidData !== undefined ? <a href={fileCovidData?.link}>You have uploaded one file { fileCovidData?.name }</a> :""}</h1>
 
         </div>
         {id === null && <div>

@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 
 import InputField from "../../../uiComponents/inputField/inputField.component";
 
@@ -14,6 +14,8 @@ import { Trash2 } from "react-feather";
 
 const AddCompany = () => {
 
+    const [logofileData,updatelogoFileData] = useState<any>()
+    const [fileData,updateFileData] = useState<any>()
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
@@ -45,12 +47,15 @@ const AddCompany = () => {
         updateEvent({manager:formEvent.manager})
     }
 
-    const getLogoDocId = (id: any) => {
-        updateEvent({logo:id})
+    const getLogoDocId = (data: any) => {
+        updateEvent({ logo: data._id })
+        updatelogoFileData(data)
+        
       }
 
-    const getDocId = (id: any) => {
-        updateEvent({documentId:[...formEvent.documentId, id]})
+    const getDocId = (data: any) => {
+        updateEvent({ documentId: [...formEvent.documentId, data._id] })
+        updateFileData(data)
       }
 
     const listofData = formEvent.manager.map((item: any, index: any) => (
@@ -120,7 +125,10 @@ const AddCompany = () => {
             id="addressCompany"
         />
         <FileUpload folder={"company"} name="logo" from="admin" dataFun={getLogoDocId} />
-        <FileUpload folder={"company"} name="copmany doc" from="admin" dataFun={getDocId}  />
+        <h1 className="ml-3 text-IbColor"> {logofileData !== undefined ? <a href={logofileData?.link}>You have uploaded one file { logofileData?.name }</a> :""}</h1>
+        <FileUpload folder={"company"} name="copmany doc" from="admin" dataFun={getDocId} />
+        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+        
 
     </div>
         <hr />

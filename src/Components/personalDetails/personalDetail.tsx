@@ -16,6 +16,7 @@ import { dobDateValidation } from "../../constants/values.constants";
 import { useLocation } from 'react-router-dom';
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewPersonalDetail } from "../../services/admin.service";
+import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -24,6 +25,12 @@ const PersonalDetail = () => {
   const { setState } = useContext(PersonalDetailContext)!;
 
   const [updateData, setUpdateData] = useState<any>({})
+
+  // const [aadhaarIdData,updateAadhaarIdData] = useState<any>()
+  // const [PanIdData,updatePanIdData] = useState<any>()
+  // const [cncIdData,updateCncIdData] = useState<any>()
+
+
   // const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
   const stateData = location.state;
@@ -38,8 +45,9 @@ const PersonalDetail = () => {
   // console.log(crew);
 
 
+
+
   async function fetchData() {
-    console.log("fetch user data ");
 
     const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
     console.log("personal data = ", data);
@@ -103,10 +111,29 @@ const PersonalDetail = () => {
       aadhaar: "",
       pan: "",
       CNC: "",
+      aadhaarId: "",
+      panId: "",
+      cncId: "",
+      aadhaarName: "",
+      panName: "",
+      cncName: "",
+
       isFormChanged: false,
       error: { key: "", value: "" },
     }
   );
+
+
+  const cncDocId = (data: any) => {
+    updateEvent({ cncId: data._id, cncName: data })
+  }
+  const aadhaarDocId = (data: any) => {
+    updateEvent({ aadhaarId: data._id, aadhaarName: data })
+  }
+  const panDocId = (data: any) => {
+    updateEvent({ panId: data._id, panName: data })
+  }
+
 
   const handlerSubmit = async (event: any) => {
     toast.dismiss();
@@ -121,6 +148,9 @@ const PersonalDetail = () => {
       delete formData.firstname
       delete formData.lastname
       delete formData.user_id
+      delete formData.aadhaarName
+      delete formData.panName
+      delete formData.cncName
       console.log(JSON.stringify(formData) + "????????????????");
       let isValid = formEvent.hasOwnProperty("user_id") ? await UpdatePersonalDetailValidation(formData) : await PersonalDetailValidation(formData);
 
@@ -185,6 +215,12 @@ const PersonalDetail = () => {
       aadhaar: "",
       pan: "",
       CNC: "",
+      aadhaarId: "",
+      panId: "",
+      cncId: "",
+      aadhaarName: "",
+      panName: "",
+      cncName: "",
       error: { key: "", value: "" },
       isFormChanged: false
     });
@@ -465,12 +501,11 @@ const PersonalDetail = () => {
             onChange={(e) => updateEvent({ CNC: e.target.value, isFormChanged: true })}
             value={formEvent.CNC}
           />
-          <label
-            htmlFor="cnc"
-            className="btn font-semibold text-xl text-[#3B77BE]"
-          >
-            <u>upload CNC</u>
-          </label></div>
+
+          <FileUpload folder={"CNCDoc"} name="CNC" from="user" dataFun={cncDocId} />
+          <h1 className="ml-3 text-IbColor"> {formEvent.cncName !== "" ? <a href={formEvent.cncName?.link}>You have uploaded one file {formEvent.cncName?.name}</a> : ""}</h1>
+
+        </div>
       </div>}
 
       {formEvent.nationality === "Indian" && <p className="ml-4 text-xl font-medium">National ID card detials</p>}
@@ -486,19 +521,11 @@ const PersonalDetail = () => {
             onChange={(e) => updateEvent({ aadhaar: e.target.value, isFormChanged: true })}
             value={formEvent.aadhaar}
           />
-          <label
-            htmlFor="aadharFile"
-            className="btn font-semibold text-lg text-[#3B77BE]"
-          >
-            <u>upload Aadhar</u>
-          </label>
-          <input
-            className="hidden"
-            id="aadharFile"
-            type="file"
-            onChange={handleFileChange}
-            name="upload Aadhar"
-          />
+
+          <FileUpload folder={"aadhaarDoc"} name="aadhaar" from="user" dataFun={aadhaarDocId} />
+          <h1 className="ml-3 text-IbColor"> {formEvent.aadhaarName !== "" ? <a href={formEvent.aadhaarName?.link}>You have uploaded one file {formEvent.aadhaarName?.name}</a> : ""}</h1>
+
+
         </div>
         <div className="m-3">
           <InputField
@@ -511,18 +538,10 @@ const PersonalDetail = () => {
             value={formEvent.pan}
 
           />
-          <label
-            htmlFor="panFile"
-            className="btn font-semibold text-lg text-[#3B77BE]"
-          >
-            <u>upload Pan card</u>
-          </label>
-          <input
-            className="hidden"
-            id="panFile"
-            type="file"
-            onChange={handleFileChange}
-          />
+          <FileUpload folder={"panDoc"} name="pan" from="user" dataFun={panDocId} />
+          <h1 className="ml-3 text-IbColor"> {formEvent.panName !== "" ? <a href={formEvent.panName?.link}>You have uploaded one file {formEvent.panName?.name}</a> : ""}</h1>
+
+
         </div>
       </div>}
 
@@ -559,7 +578,7 @@ const PersonalDetail = () => {
           <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />
         </div>}
       </div>}
-      {(globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
+      {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
         <div>
           <button
             type="button"

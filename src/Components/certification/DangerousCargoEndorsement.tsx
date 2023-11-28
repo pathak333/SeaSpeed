@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { Trash2, Upload } from "react-feather";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ const DangerousCargoEndorsement = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
+  const [fileData,updateFileData] = useState<any>()
 
 
 
@@ -192,8 +193,9 @@ const DangerousCargoEndorsement = () => {
     }
 
 
-    const getDocId = (id: any) => {
-        updateEvent({documentId:id})
+    const getDocId = (data: any) => {
+        updateEvent({ documentId: data._id })
+        updateFileData(data)
       }
 
 
@@ -269,6 +271,7 @@ const DangerousCargoEndorsement = () => {
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
             <FileUpload folder={"dangerousCargo"} name="endorsement"  from="user" dataFun={getDocId} />
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
         </div>
         <div className="flex justify-center m-2">

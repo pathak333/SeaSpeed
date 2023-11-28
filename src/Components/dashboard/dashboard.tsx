@@ -8,6 +8,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { Description } from "@mui/icons-material";
 import { FileText } from "react-feather";
 import { TodayDate } from "../../constants/values.constants";
+import InputField from "../../uiComponents/inputField/inputField.component";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [globalState, dispatch] = useGlobalState();
@@ -59,7 +60,18 @@ const Dashboard = () => {
           <hr className=" w-full" />
           {data !== null && data.joiningDate
             ? <p id="name" className="p-2 text-sm">{data !== null ? data.joiningDate : ""}</p>
-            : <input className="focus-visible:border-none focus-visible:outline-none" type="date" min={TodayDate} name="date" id="" />}
+            : <InputField
+              className="m-4"
+              fieldName={"availability"}
+              label={"Availability"}
+              type={"date"}
+              min={TodayDate}
+              // error={errorReturn("dob")}
+              onChange={(e) => console.log(e.target.value)}
+            //  value={formEvent.dob.split("T")[0]}
+            />
+            //  : <div ><span className="text-IbColor" >Availability</span><input className="focus-visible:border-none focus-visible:outline-none" type="date" min={TodayDate} name="date" id="" /></div> 
+             }
       {/* <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p> */}
       <hr className=" w-full " />
       <p id="name" className="p-2 text-sm">{data !== null ?data.joiningPort : ""}</p>

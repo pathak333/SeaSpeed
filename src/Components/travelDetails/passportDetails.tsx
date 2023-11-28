@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 // import InputField from "../../uiComponents/inputField/inputField.component";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
@@ -26,6 +26,7 @@ const PassPortDetail = (props: any) => {
   const id = queryParams.get('id');
 
 
+  const [fileData,updateFileData] = useState<any>()
 
 
 
@@ -48,8 +49,9 @@ const PassPortDetail = (props: any) => {
     }
   }
   
-  const getDocId = (id: any) => {
-    updateEvent({documentId:id})
+  const getDocId = (data: any) => {
+    updateEvent({ documentId: data._id })
+    updateFileData(data)
 }
 
   const handlerSubmit = async (event: any) => {
@@ -195,6 +197,7 @@ const PassPortDetail = (props: any) => {
             <p className="text-IbColor">Upload Passport PDF</p>
           </div> */}
              <FileUpload folder={"passport"} name="passport"  from="user" dataFun={getDocId} />
+             <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
           <ul className="list-disc ml-4">
             <li className="text-textGrey text-sm ml-3">

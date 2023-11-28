@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import { Trash2, Upload } from "react-feather"
@@ -25,6 +25,7 @@ const CourseCertificate = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
 
+  const [fileData,updateFileData] = useState<any>()
 
 
     const navigate = useNavigate()
@@ -174,8 +175,10 @@ const CourseCertificate = () => {
         </tr>
     ));
 
-    const getDocId = (id: any) => {
-        updateEvent({documentId:id})
+    const getDocId = (data: any) => {
+        updateEvent({ documentId: data.id })
+        updateFileData(data)
+        
       }
 
     const handlerSubmit = async (event: any) => {
@@ -272,6 +275,7 @@ const CourseCertificate = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
             <FileUpload folder={"courseCertificate"} name="certificate"  from="user" dataFun={getDocId} />
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
         </div>
         <div className="flex justify-center m-2">

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import NavbarComponent from "../Components/dashboard/navbar_component";
-import { DATA } from "../constants/action.constant";
+import { DATA, LOADING } from "../constants/action.constant";
 import { useGlobalState } from "../contexts/global.context";
 import { ProfileService } from "../services/user.service";
 import { NoPropComponent } from "../types/noProps.type";
@@ -11,10 +11,12 @@ const DashboardLayout: NoPropComponent = () => {
 
   useEffect(() => {
     async function fetchdata() {
+      dispatch({ type: LOADING, payload: true });
       const { data } = await ProfileService();
       console.log("profile data", data);
-      sessionStorage.setItem("formState",data.data.formState)
+      sessionStorage.setItem("formState", data.data.formState)
       dispatch({ type: DATA, payload: data });
+      dispatch({ type: LOADING, payload: false });
     }
     setTimeout(() => {
       fetchdata();

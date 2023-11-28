@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useRef } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ const VisaDetail = (props: any) => {
 
 
 
+  const [fileData,updateFileData] = useState<any>()
 
 
   const { setState } = useContext(TravelDetailContext)!;
@@ -212,8 +213,10 @@ const VisaDetail = (props: any) => {
   }
 
 
-  const getDocId = (id: any) => {
-    updateEvent({ documentId: id })
+  const getDocId = (data: any) => {
+    updateEvent({ documentId: data._id })
+    updateFileData(data)
+
   }
 
   const errorReturn = (field: string) =>
@@ -297,6 +300,7 @@ const VisaDetail = (props: any) => {
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
         <FileUpload folder={"visaDetailDoc"} name="visa" from="user" dataFun={getDocId} />
+        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
       </div>
       <div className="flex justify-center m-2 ">

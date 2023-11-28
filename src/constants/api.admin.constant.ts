@@ -50,3 +50,4 @@ export const GetCrewMedicalDetailApi = "/admin/getMedicalDetail"
 
 export const approveOrRejectApi = "/admin/approveOrReject"
 export const singleFileUploadAdminApi = "/file/admin/singleFileUpload"
+export const assignVesselApi="/admin/assignVessel"

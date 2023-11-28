@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import { Trash2, Upload } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -29,13 +29,14 @@ const CertificateOfCompetency = () => {
     const navigate = useNavigate()
     const [globalState, dispatch] = useGlobalState();
     const { setState } = useContext(CertificateContext)!;
-
+    const [fileData,updateFileData] = useState<any>()
 
     async function fetchData() {
         const { data } =id === null ? await getCertificateOfCompetency() : await getCrewCertificate(id);
         updateEvent({ savedData: data.data })
     }
 
+ 
 
     useEffect(() => {
         fetchData();
@@ -44,10 +45,10 @@ const CertificateOfCompetency = () => {
     }, [])
 
 
-    const getDocId = (id: any) => {
-        updateEvent({documentId:id})
+    const getDocId = (data: any) => {
+        updateEvent({ documentId: data._id })
+        updateFileData(data)
       }
-
 
 
 
@@ -65,7 +66,7 @@ const CertificateOfCompetency = () => {
         dateOfExpiry: "",
         placeOfIssue: "",
         issuingAuthorityCountry: "",
-        documentId:"",
+        documentId: "",
         dataList: [],
         savedData: [],
         isFormChanged: false,
@@ -203,7 +204,7 @@ const CertificateOfCompetency = () => {
     const errorReturn = (field: string) =>
         formEvent.error.keys === field ? formEvent.error.values : "";
 
-
+        console.log('fileData',fileData)
 
     return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Certificate of competency</h3>
@@ -270,6 +271,9 @@ const CertificateOfCompetency = () => {
             </div> */}
             <FileUpload folder={"competencyCertificate"} name="certificate"  from="user"  dataFun={getDocId}/>
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
+            
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+
 
         </div>
         <div className="flex justify-center m-2">

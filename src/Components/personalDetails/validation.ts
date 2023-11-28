@@ -20,6 +20,9 @@ interface ValidatePersonalDetailData {
   aadhaar: String;
   pan: String;
   CNC: String;
+  aadhaarId: String,
+  panId: String,
+  cncId: String,
 }
 
 
@@ -27,7 +30,7 @@ export const ContactDetailValidation = (data: any) =>
   joi.object({
     alt_phone_no: joi.string().optional(),
     alt_email: joi.string().email({ tlds: { allow: false } }).optional(),
-  //  alt_country_code: joi.string().optional(),
+    //  alt_country_code: joi.string().optional(),
   }).validateAsync(data, { abortEarly: true });
 
 
@@ -41,7 +44,7 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       gender: joi.string().valid("male", "female"),
       marital_status: joi.string().valid("married", "unmarried"),
       birthPlace: joi.string().optional(),
-      nationality: joi.string().valid("Indian", "Pakistani","Ukrainian","Russian").required(),
+      nationality: joi.string().valid("Indian", "Pakistani", "Ukrainian", "Russian").required(),
       flatnumber: joi.string().required(),
       society: joi.string().required(),
       city: joi.string().required(),
@@ -88,18 +91,21 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       aadhaar: joi.string().when("nationality", {
         is: "Indian",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
+        otherwise: joi.string().optional().allow("")
       }),
       pan: joi.string().when("nationality", {
         is: "Indian",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
+        otherwise: joi.string().optional().allow("")
       }),
-      CNC:joi.string().when("nationality",{
-        is : "Pakistani",
+      CNC: joi.string().when("nationality", {
+        is: "Pakistani",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
-      })
+        otherwise: joi.string().optional().allow("")
+      }),
+      aadhaarId: joi.string().allow("").optional(),
+      panId: joi.string().allow("").optional(),
+      cncId: joi.string().allow("").optional(),
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -124,20 +130,20 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       aadhaar: joi.string().when("nationality", {
         is: "Indian",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
+        otherwise: joi.string().optional().allow("")
       }),
       pan: joi.string().when("nationality", {
         is: "Indian",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
+        otherwise: joi.string().optional().allow("")
       }),
-      
-      CNC: joi.string().when("nationality",{
-        is : "Pakistani",
+
+      CNC: joi.string().when("nationality", {
+        is: "Pakistani",
         then: joi.string().required(),
-        otherwise:joi.string().optional().allow("")
+        otherwise: joi.string().optional().allow("")
       }),
-       flatnumber2: joi.string().when("isSameAddress", {
+      flatnumber2: joi.string().when("isSameAddress", {
         is: false,
         then: joi.string().required(),
         otherwise: joi.string().optional().allow(""),
@@ -167,6 +173,9 @@ export const UpdatePersonalDetailValidation = (data: any) =>
         then: joi.number().required(),
         otherwise: joi.number().optional().allow(""),
       }),
+      aadhaarId: joi.string().allow("").optional(),
+      panId: joi.string().allow("").optional(),
+      cncId: joi.string().allow("").optional(),
       //  nearest_airport2: joi.string().when("isSameAddress", {
       //   is: false,
       //   then: joi.string().required(),
@@ -226,7 +235,7 @@ export const KinDetailValidation = async (data: any) =>
     .object({
       fullName: joi.string().required(),
       relationship: joi.string().required(),
-     // code: joi.string().required(),
+      // code: joi.string().required(),
       phoneNumber: joi.string().pattern(/^[0-9]{10}$/).required(),
       email: joi.string().email({ tlds: { allow: false } }).required(),
       flatnumber: joi.string().required(),
@@ -250,17 +259,17 @@ export const KinDetailValidation = async (data: any) =>
         passportNumber: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise:joi.string().required()
+          otherwise: joi.string().required()
         }),
         dateOfIssues: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise:joi.string().required()
+          otherwise: joi.string().required()
         }),
         dateOfExpiry: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise:joi.string().required()
+          otherwise: joi.string().required()
         }),
         nameOfChild: joi.string().optional().allow(""),
       }),

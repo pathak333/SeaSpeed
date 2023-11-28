@@ -25,6 +25,7 @@ const BankDetail = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
 
+  const [fileData,updateFileData] = useState<any>()
 
 
   const navigate = useNavigate();
@@ -66,8 +67,9 @@ const BankDetail = () => {
     }
   );
 
-  const getDocId = (id: any) => {
-    updateEvent({documentId:id})
+  const getDocId = (data: any) => {
+    updateEvent({ documentId: data._id })
+    updateFileData(data)
   }
 
   const handleSubmit = async (event: any) => {
@@ -219,6 +221,8 @@ const BankDetail = () => {
         />
         <FileUpload folder={"bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
+        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+
       </div>
       { id === null && <div>
         <button
