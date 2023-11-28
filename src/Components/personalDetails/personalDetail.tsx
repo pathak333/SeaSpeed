@@ -125,13 +125,13 @@ const PersonalDetail = () => {
 
 
   const cncDocId = (data: any) => {
-    updateEvent({ cncId: data._id, cncName: data })
+    updateEvent({ cncId: data._id, cncName: data,isFormChanged: true })
   }
   const aadhaarDocId = (data: any) => {
-    updateEvent({ aadhaarId: data._id, aadhaarName: data })
+    updateEvent({ aadhaarId: data._id, aadhaarName: data,isFormChanged: true })
   }
   const panDocId = (data: any) => {
-    updateEvent({ panId: data._id, panName: data })
+    updateEvent({ panId: data._id, panName: data,isFormChanged: true })
   }
 
 
