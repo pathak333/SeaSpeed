@@ -12,6 +12,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewVisaDetail } from "../../services/admin.service";
+import { isObjectEmpty } from "../../constants/commonFunction";
 
 const VisaDetail = (props: any) => {
 
@@ -37,13 +38,15 @@ const VisaDetail = (props: any) => {
   async function fetchData() {
     const { data } = id === null ? await GetVisaDetailService() : await getCrewVisaDetail(id)
     console.log(data)
-    if (data.success && data.data) {
+    if (data.success && data.data ) {
       console.log("data inter")
-      data.data.visaList.map((e: any) => delete e._id)
+      if (!isObjectEmpty(data.data) && data.data.visaList.length > 0) {
+        data.data.visaList.map((e: any) => delete e._id)
+       // updateFileData(data.data.visaList.documentId)
+      }
       console.log(data.data);
       
       updateEvent(data.data)
-
     }
   }
 
@@ -93,6 +96,7 @@ const VisaDetail = (props: any) => {
           documentId:""
 
         })
+        updateFileData("")
       } else {
         throw Error(isValid);
       }
@@ -123,7 +127,7 @@ const VisaDetail = (props: any) => {
       <td className="px-6 py-4">{item.number}</td>
       <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
-      <td className="px-6 py-4">file</td>
+      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -299,8 +303,8 @@ const VisaDetail = (props: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-        <FileUpload folder={"visaDetailDoc"} name="visa" from="user" dataFun={getDocId} />
-        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+        <FileUpload folder={"visaDetailDoc"} name="visa" expireDate={formEvent.dateOfExpiry} from="user"  dataFun={getDocId} />
+        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
 
       </div>
       <div className="flex justify-center m-2 ">

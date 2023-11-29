@@ -13,6 +13,7 @@ interface Props {
     folder: string,
     name: string,
     from: string,
+    expireDate?:any,
     dataFun(id: string): void
 }
 
@@ -102,7 +103,7 @@ const FileUpload = (props: Props) => {
                 <p className="text-blue-300 text-xs font-bold text-center mt-2 mb-4">Click on above section to select Document</p>
                 <div className="columns-2 gap-1">
                     <InputField fieldName={"name"} label={"name"} type={"text"} value={formEvent.name} onChange={(e) => updateFormEvent({ name: e.target.value })} />
-                    <InputField fieldName={"expireDate"} label={"expireDate"} type={"date"} onChange={(e) => updateFormEvent({ expireDate: e.target.value })} />
+                    <InputField fieldName={"expireDate"} label={"expireDate"} type={"date"} onChange={(e) => updateFormEvent({ expireDate: e.target.value })} value={ props.expireDate } />
                 </div>
                 <button type="button" className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSaveButton}>Save</button>
 

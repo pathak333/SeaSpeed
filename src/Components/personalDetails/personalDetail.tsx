@@ -44,36 +44,6 @@ const PersonalDetail = () => {
   const { crew } = location.state != null ? location.state : { crew: null };
   // console.log(crew);
 
-
-
-
-  async function fetchData() {
-
-    const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
-    console.log("personal data = ", data);
-    let formData = data.data.personaldata;
-    console.log("personal formData = ", formData);
-    if (formData) {
-      console.log("update event ");
-      updateEvent(formData)
-
-    }
-  }
-
-  useEffect(() => {
-    console.log("PersonalDetail component 1");
-
-    setState(Personalstate.personalDetails);
-    fetchData();
-  }, []);
-
-  const handleFileChange = (event: any) => {
-    setFile(event.target.files[0]);
-  };
-
-
-
-
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
       if (next.isFormChanged) {
@@ -124,6 +94,40 @@ const PersonalDetail = () => {
   );
 
 
+
+
+  async function fetchData() {
+
+    const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
+    console.log("personal data = ", data);
+    let formData = data.data.personaldata;
+    console.log("personal formData = ", formData);
+    if (formData) {
+      console.log("update event ");
+      updateEvent(formData)
+      updateEvent({
+        aadhaarName: data.data.personaldata.aadhaarId,
+        panName: data.data.personaldata.panId,
+        cncName: data.data.personaldata.cncId,
+      })
+    }
+  }
+
+  useEffect(() => {
+    console.log("PersonalDetail component 1");
+
+    setState(Personalstate.personalDetails);
+    fetchData();
+  }, []);
+
+  const handleFileChange = (event: any) => {
+    setFile(event.target.files[0]);
+  };
+
+
+
+
+ 
   const cncDocId = (data: any) => {
     updateEvent({ cncId: data._id, cncName: data,isFormChanged: true })
   }
@@ -157,6 +161,9 @@ const PersonalDetail = () => {
       if (isValid) {
         console.log(JSON.stringify(formData));
         delete updateData["isFormChanged"];
+        delete updateData["aadhaarName"];
+        delete updateData["panName"];
+        delete updateData["cncName"];
         const { data } = formEvent.hasOwnProperty("user_id") ? await UpdatePersonalDetail(updateData) : await AddPersonalDetail(formData)
         if (data.success) {
           toast.info(data.message)
@@ -523,7 +530,7 @@ const PersonalDetail = () => {
           />
 
           <FileUpload folder={"aadhaarDoc"} name="aadhaar" from="user" dataFun={aadhaarDocId} />
-          <h1 className="ml-3 text-IbColor"> {formEvent.aadhaarName !== "" ? <a href={formEvent.aadhaarName?.link}>You have uploaded one file {formEvent.aadhaarName?.name}</a> : ""}</h1>
+          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.aadhaarName !== "" ? <a href={formEvent.aadhaarName?.link}>You have uploaded one file {formEvent.aadhaarName?.name}, Click to download</a> : ""}</h1>
 
 
         </div>
@@ -539,7 +546,7 @@ const PersonalDetail = () => {
 
           />
           <FileUpload folder={"panDoc"} name="pan" from="user" dataFun={panDocId} />
-          <h1 className="ml-3 text-IbColor"> {formEvent.panName !== "" ? <a href={formEvent.panName?.link}>You have uploaded one file {formEvent.panName?.name}</a> : ""}</h1>
+          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.panName !== "" ? <a href={formEvent.panName?.link}>You have uploaded one file {formEvent.panName?.name}, Click to download</a> : ""}</h1>
 
 
         </div>

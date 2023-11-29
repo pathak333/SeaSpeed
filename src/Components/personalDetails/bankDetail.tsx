@@ -40,7 +40,8 @@ const BankDetail = () => {
   async function fetchData() {
     const { data } =  id === null ? await GetBankDetail() : await getCrewBankDetail(id);
     if (data.data.bankDetail) {
-      updateEvent({...data.data.bankDetail,isFormChanged:false});
+      updateEvent({ ...data.data.bankDetail, isFormChanged: false });
+      updateFileData(data.data.bankDetail.documentId)
     }
   }
 
@@ -221,7 +222,7 @@ const BankDetail = () => {
         />
         <FileUpload folder={"bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
-        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+        <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
 
       </div>
       { id === null && <div>

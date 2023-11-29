@@ -93,7 +93,7 @@ const AssignVessel = (props: Props) => {
                 <SearchSelect
                     className="my-4"
 
-                    label={"Company"}
+                    label={"Vessel"}
                     //type={""}
                     onChange={(e) => {
                         console.log(e);

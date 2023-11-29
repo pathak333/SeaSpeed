@@ -82,6 +82,7 @@ const SeaMenBookDetail = () => {
       documentId:"",
 
         })
+        updateFileData("")
       }
       return 'done'
     } catch (error: any) {
@@ -111,7 +112,7 @@ const SeaMenBookDetail = () => {
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
-      <td className="px-6 py-4">file</td>
+      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -130,7 +131,7 @@ const SeaMenBookDetail = () => {
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
-      <td className="px-6 py-4">file</td>
+      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -248,7 +249,7 @@ const SeaMenBookDetail = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Seamen book PDF</p>
             </div> */}
-      <FileUpload folder={"seamenBook"} name="seamen book "  from="user" dataFun={getDocId} />
+      <FileUpload folder={"seamenBook"} name="seamen book "  expireDate={formEvent.dateOfExpiry} from="user" dataFun={getDocId} />
       <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
     </div>
