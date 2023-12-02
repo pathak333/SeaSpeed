@@ -176,8 +176,8 @@ const CourseCertificate = () => {
     ));
 
     const getDocId = (data: any) => {
-        updateEvent({ documentId: data.id })
         updateFileData(data)
+      return  updateEvent({ documentId: data.id,isFormChanged: true  })
         
       }
 

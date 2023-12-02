@@ -51,8 +51,8 @@ const PassPortDetail = (props: any) => {
   }
   
   const getDocId = (data: any) => {
-    updateEvent({ documentId: data._id })
     updateFileData(data)
+  return updateEvent({ documentId: data._id,isFormChanged: true  })
 }
 
   const handlerSubmit = async (event: any) => {

@@ -129,48 +129,48 @@ export const UpdatePersonalDetailValidation = (data: any) =>
       isSameAddress: joi.boolean().optional(),
       aadhaar: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       pan: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
 
       CNC: joi.string().when("nationality", {
         is: "Pakistani",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       flatnumber2: joi.string().when("isSameAddress", {
         is: false,
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow(""),
       }),
       society2: joi.string().when("isSameAddress", {
         is: false,
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow(""),
       }),
       city2: joi.string().when("isSameAddress", {
         is: false,
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow(""),
       }),
       state2: joi.string().when("isSameAddress", {
         is: false,
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow(""),
       }),
       country2: joi.string().when("isSameAddress", {
         is: false,
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow(""),
       }),
       pincode2: joi.number().when("isSameAddress", {
         is: false,
-        then: joi.number().required(),
+        then: joi.number().optional().allow(""),
         otherwise: joi.number().optional().allow(""),
       }),
       aadhaarId: joi.string().allow("").optional(),

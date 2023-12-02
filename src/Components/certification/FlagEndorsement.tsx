@@ -48,8 +48,8 @@ const FlagEndorsement = () => {
 
 
     const getDocId = (data: any) => {
-        updateEvent({ documentId: data._id })
         updateFileData(data)
+        return  updateEvent({ documentId: data._id ,isFormChanged: true })
       }
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {

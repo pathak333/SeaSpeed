@@ -48,14 +48,14 @@ const AddCompany = () => {
     }
 
     const getLogoDocId = (data: any) => {
-        updateEvent({ logo: data._id })
         updatelogoFileData(data)
+       return updateEvent({ logo: data._id ,isFormChanged: true })
         
       }
 
     const getDocId = (data: any) => {
-        updateEvent({ documentId: [...formEvent.documentId, data._id] })
         updateFileData(data)
+        return updateEvent({ documentId: [...formEvent.documentId, data._id],isFormChanged: true  })
       }
 
     const listofData = formEvent.manager.map((item: any, index: any) => (

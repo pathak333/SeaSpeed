@@ -218,8 +218,8 @@ const VisaDetail = (props: any) => {
 
 
   const getDocId = (data: any) => {
-    updateEvent({ documentId: data._id })
     updateFileData(data)
+   return updateEvent({ documentId: data._id,isFormChanged: true  })
 
   }
 

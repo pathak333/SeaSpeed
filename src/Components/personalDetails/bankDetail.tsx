@@ -47,8 +47,11 @@ const BankDetail = () => {
 
   const [formEvent, updateEvent] = useReducer(
     (prev: any, next: any) => {
+     // console.log(next,">>>>>>> ???? ", prev)
       if (next.isFormChanged) {
-        setUpdateData({ ...updateData, ...next})
+        setUpdateData({  ...next ,...updateData})
+       // console.log(updateData,">>",{  ...next ,...updateData});
+        
       }
       const newEvent = { ...prev, ...next };
       return newEvent;
@@ -69,8 +72,10 @@ const BankDetail = () => {
   );
 
   const getDocId = (data: any) => {
-    updateEvent({ documentId: data._id })
+    
+   // console.log(data,">>>>>>>>>>>>>>>",formEvent,updateData);
     updateFileData(data)
+   return updateEvent({ documentId: data._id,isFormChanged: true })
   }
 
   const handleSubmit = async (event: any) => {
@@ -80,6 +85,7 @@ const BankDetail = () => {
     try {
       event.preventDefault();
       console.log(formEvent);
+      console.log(updateData,"updateData");
       let formData =formEvent.hasOwnProperty("user_id")? {...updateData} : { ...formEvent };
       delete formData.error;
       delete formData.isFormChanged
@@ -220,7 +226,9 @@ const BankDetail = () => {
                 error={errorReturn("account_type")}
                 option={["USD", "INR", "PKR", "AED"]}
         />
-        <FileUpload folder={"bankDetailDoc"} name="bank/cancel cheque"  from="user" dataFun={getDocId} />
+        
+        <FileUpload folder={"bankDetailDoc"} name="bank_cancel_cheque" from="user" dataFun={getDocId} />
+    
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
         <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
 

@@ -150,16 +150,16 @@ const MedicalDetails = () => {
     ));
 
     const getregularMedicalDocId = (data: any) => {
-        updateEvent({ certificateLink: data._id })
         updateRegularFileData(data)
+       return updateEvent({ certificateLink: data._id,isFormChanged: true  })
     }
     const getYellowFeverDocId = (data: any) => {
-        updateEvent({ Yellow_fever_vaccination: { link: data._id } })
         updateYellowFileData(data)
+        return updateEvent({ Yellow_fever_vaccination: { link: data._id,isFormChanged: true  } })
     }
     const getCovidDocId = (data: any) => {
-        updateEvent({ Covid_vaccination: { link: data._id } })
         updateCovidFileData(data)
+        return updateEvent({ Covid_vaccination: { link: data._id,isFormChanged: true  } })
       }
 
     const handleSubmit = async (event: any) => {
