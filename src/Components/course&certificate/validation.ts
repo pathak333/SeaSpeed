@@ -7,5 +7,6 @@ export const CourseCertificateValidation = (data: any) => joi.object({
     placeOfIssue: joi.string(),
     dateOfIssue: joi.string(),
     dateOfExpiry: joi.string(),
+    documentId: joi.string().required(),
 }).validateAsync(data, { abortEarly: true })
   

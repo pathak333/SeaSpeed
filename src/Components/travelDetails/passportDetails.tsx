@@ -44,7 +44,7 @@ const PassPortDetail = (props: any) => {
     const { data } =  id === null ? await GetPassportDetailService() : await getCrewPassportDetail(id)
     console.log(data)
     if (data.success && data.data) {
-      console.log("data inter")
+      console.log(data.data,"data inter")
       updateEvent(data.data)
       updateFileData(data.data.documentId)
     }

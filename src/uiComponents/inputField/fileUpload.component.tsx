@@ -43,8 +43,8 @@ const FileUpload = (props: Props) => {
 
     const handleSaveButton = async () => {
         console.log(uploadRef.current!.files)
-        dispatch({ type: LOADING, payload: true });
         if (uploadRef.current!.files!.length > 0) {
+            dispatch({ type: LOADING, payload: true });
 
             const formData = new FormData();
             formData.append('file', uploadRef.current!.files![0]);

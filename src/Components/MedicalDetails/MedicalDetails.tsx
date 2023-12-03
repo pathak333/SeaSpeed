@@ -65,7 +65,7 @@ const MedicalDetails = () => {
         placeOfIssue: "",
         dateOfIssue: "",
         dateOfExpiry: "",
-        certificateLink: "a",
+        certificateLink: "",
         Yellow_fever_vaccination: {
             placeOfIssue: "",
             dateOfIssue: "",
@@ -179,22 +179,24 @@ const MedicalDetails = () => {
                     }
                 })
             }
-          delete formData.error;
+            delete formData.error;
             delete formData.isFormChanged
             delete formData.certificateLink
             delete formData.dateOfExpiry
             delete formData.dateOfIssue
             delete formData.placeOfIssue
             delete formData.type
+            delete formData.Yellow_fever_vaccination.isFormChanged
+            delete formData.Covid_vaccination.isFormChanged
             formData.typeMedicalDetails = newtypeMedicalDetails
-          const isValid = formEvent.hasOwnProperty("user_id")?  UpdateMedicalDetailsValidation(formData) :  MedicalDetailsValidation(formData);
+          const isValid = formEvent.hasOwnProperty("user_id")? await  UpdateMedicalDetailsValidation(formData) : await MedicalDetailsValidation(formData);
           if (isValid) {
               console.log(formData);
              
             const { data } =formEvent.hasOwnProperty("user_id") ? await updateMedicalDetail(formData,formEvent._id) : await addMedicalDetail(formData);
             console.log(data);
             if (data.success) {
-              navigate("/dashboard/personaldetails/kinDetail");
+              navigate("/dashboard/unionRegistrationDetail");
             }
             // dispatch({ type: LOADING, payload: false });
           } else {
@@ -284,7 +286,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"regularMedicalCertificate"} name="regular certificate"  from="user" dataFun={getregularMedicalDocId} />
+             <FileUpload folder={"regularMedicalCertificate"} name="regular certificate" expireDate={formEvent.dateOfExpiry}  from="user" dataFun={getregularMedicalDocId} />
              <h1 className="ml-3 text-IbColor"> {fileRegularData !== undefined ? <a href={fileRegularData?.link}>You have uploaded one file { fileRegularData?.name }</a> :""}</h1>
             
 
@@ -359,7 +361,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-             <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow certificate"  from="user" dataFun={getYellowFeverDocId}/>
+             <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow certificate" expireDate={formEvent.Yellow_fever_vaccination.dateOfExpiry}  from="user" dataFun={getYellowFeverDocId}/>
              <h1 className="ml-3 text-IbColor"> {fileYellowData !== undefined ? <a href={fileYellowData?.link}>You have uploaded one file { fileYellowData?.name }</a> :""}</h1>
 
         </div>

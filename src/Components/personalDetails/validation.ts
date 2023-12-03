@@ -19,10 +19,10 @@ interface ValidatePersonalDetailData {
   isSameAddress: Boolean;
   aadhaar: String;
   pan: String;
-  CNC: String;
+  CNC?: String;
   aadhaarId: String,
   panId: String,
-  cncId: String,
+  cncId?: String,
 }
 
 
@@ -102,10 +102,23 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
         is: "Pakistani",
         then: joi.string().required(),
         otherwise: joi.string().optional().allow("")
+      }), 
+      aadhaarId: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise: joi.string().optional().allow("")
       }),
-      aadhaarId: joi.string().allow("").optional(),
-      panId: joi.string().allow("").optional(),
-      cncId: joi.string().allow("").optional(),
+      panId: joi.string().when("nationality", {
+        is: "Indian",
+        then: joi.string().required(),
+        otherwise: joi.string().optional().allow("")
+      }),
+      cncId: joi.string().when("nationality", {
+        is: "Pakistani",
+        then: joi.string().required(),
+        otherwise: joi.string().optional().allow("")
+      }),
+     
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -236,7 +249,7 @@ export const KinDetailValidation = async (data: any) =>
       fullName: joi.string().required(),
       relationship: joi.string().required(),
       // code: joi.string().required(),
-      phoneNumber: joi.string().pattern(/^[0-9]{10}$/).required(),
+      phoneNumber: joi.string().required(),
       email: joi.string().email({ tlds: { allow: false } }).required(),
       flatnumber: joi.string().required(),
       society: joi.string().required(),
@@ -253,23 +266,23 @@ export const KinDetailValidation = async (data: any) =>
       iban: joi.string().optional().allow(""),
       accountType: joi.string().required(),
       wifeDetail: joi.object({
-        name: joi.string().required(),
-        dob: joi.string().required(),
-        passport: joi.string().required(),
+        name: joi.string().optional().allow(""),
+        dob: joi.string().optional().allow(""),
+        passport: joi.string().optional().allow(""),
         passportNumber: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise: joi.string().required()
+          otherwise: joi.string().optional().allow("")
         }),
         dateOfIssues: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise: joi.string().required()
+          otherwise: joi.string().optional().allow("")
         }),
         dateOfExpiry: joi.string().when("passport", {
           is: "No",
           then: joi.string().optional().allow(""),
-          otherwise: joi.string().required()
+          otherwise: joi.string().optional().allow("")
         }),
         nameOfChild: joi.string().optional().allow(""),
       }),

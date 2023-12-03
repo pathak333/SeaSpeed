@@ -268,7 +268,7 @@ const FlagEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"flag"} name="endorsement"  from="user" dataFun={getDocId} />
+            <FileUpload folder={"flag"} name="endorsement" expireDate={formEvent.dateOfExpiry}  from="user" dataFun={getDocId} />
             <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
 

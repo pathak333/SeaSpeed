@@ -14,7 +14,7 @@ export const typeMedicalDetails = joi.object({
     placeOfIssue: joi.string(),
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
-    certificateLink: joi.string().allow(""),
+    certificateLink: joi.string().required(),
 })
 
 export const typeMedicalDetailsValidation = (data: TypeMedicalDetailsInterface) => 
@@ -28,13 +28,14 @@ export const MedicalDetailsValidation = (data: any) => joi.object({
         placeOfIssue: joi.string(),
         dateOfIssue: joi.string(),
         dateOfExpiry: joi.string(),
-        link: joi.string(),
+        link: joi.string().required(),
     },
     Covid_vaccination: {
         lastDoseDate: joi.string(),
-        link: joi.string()
+        link: joi.string().required()
     },
-})
+}).validateAsync(data, { abortEarly: true })
+
 
 export const UpdateMedicalDetailsValidation = (data: any) => joi.object({
     typeMedicalDetails:joi.array().items(typeMedicalDetails).optional(),
@@ -48,4 +49,4 @@ export const UpdateMedicalDetailsValidation = (data: any) => joi.object({
         lastDoseDate: joi.string().optional(),
         link: joi.string().optional()
     },
-})
+}).validateAsync(data, { abortEarly: true })

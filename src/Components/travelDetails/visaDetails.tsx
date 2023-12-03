@@ -148,6 +148,12 @@ const VisaDetail = (props: any) => {
     
     
     dispatch({ type: LOADING, payload: true });
+    if ( formEvent.visaList.length > 0) { 
+      formEvent.visaList.map((e: any) => {
+       return typeof e.documentId === 'string' ? null : e.documentId = e.documentId._id
+      })
+    }
+    console.log(formEvent.visaList,"formEvent.visaList");
     
 
     let { visaList, haveNoVisa, haveNoUsVisa, us_placeOfIssue, us_number, us_dateOfIssue, us_dateOfExpiry } = formEvent;
@@ -304,7 +310,7 @@ const VisaDetail = (props: any) => {
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
         <FileUpload folder={"visaDetailDoc"} name="visa" expireDate={formEvent.dateOfExpiry} from="user"  dataFun={getDocId} />
-        <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
+        <h1 className="ml-3 text-IbColor"> {fileData !== undefined && fileData !== "" ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
 
       </div>
       <div className="flex justify-center m-2 ">

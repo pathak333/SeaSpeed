@@ -530,7 +530,7 @@ const PersonalDetail = () => {
           />
 
           <FileUpload folder={"aadhaarDoc"} name="aadhaar" from="user" dataFun={aadhaarDocId} />
-          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.aadhaarName !== "" ? <a href={formEvent.aadhaarName?.link}>You have uploaded one file {formEvent.aadhaarName?.name}, Click to download</a> : ""}</h1>
+          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.aadhaarName !== "" && formEvent.aadhaarName !== undefined ? <a href={formEvent.aadhaarName?.link}>You have uploaded one file {formEvent.aadhaarName?.name}, Click to download</a> : ""}</h1>
 
 
         </div>
@@ -546,7 +546,7 @@ const PersonalDetail = () => {
 
           />
           <FileUpload folder={"panDoc"} name="pan" from="user" dataFun={panDocId} />
-          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.panName !== "" ? <a href={formEvent.panName?.link}>You have uploaded one file {formEvent.panName?.name}, Click to download</a> : ""}</h1>
+          <h1 className="m-3 font-semibold text-IbColor"> {formEvent.panName !== "" && formEvent.panName !== undefined ? <a href={formEvent.panName?.link}>You have uploaded one file {formEvent.panName?.name}, Click to download</a> : ""}</h1>
 
 
         </div>
