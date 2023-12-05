@@ -130,7 +130,7 @@ const MedicalDetails = () => {
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
-            <td className="px-6 py-4">{item.certificateLink}</td>
+            <td className="px-6 py-4">{item.certificateLink.name}</td>
 
 
             {/* <td className="px-6 py-4">file</td> */}
@@ -170,6 +170,14 @@ const MedicalDetails = () => {
           event.preventDefault();
           console.log(formEvent);
             console.log(updateData);
+
+            if (typeof updateData.Covid_vaccination.link !== 'string') {
+                delete updateData.Covid_vaccination.link;
+            }
+            if (typeof updateData.Yellow_fever_vaccination.link !== 'string') {
+                delete updateData.Yellow_fever_vaccination.link;
+            }
+
             let newtypeMedicalDetails: any[] = [];
             let formData = formEvent.hasOwnProperty("user_id") ? { ...updateData } : { ...formEvent };
             if (formData.hasOwnProperty("dateOfExpiry")) {
