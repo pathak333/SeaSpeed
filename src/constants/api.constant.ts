@@ -77,3 +77,5 @@ export const DeleteTypeMedicalDetailApi = "/user/deleteTypeMedicalDetail"
 
 
 export const singleFileUploadApi = "/file/user/singleFileUpload"
+export const getAllFileApi = "/file/user/getAllFile"
+export const uploadProfileApi = "/file/user/uploadProfile"

@@ -29,7 +29,7 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/createCrew");
           }}
         />
-        <DashboardCard
+        {data &&  data.role === "superadmin" && <DashboardCard
           description={
             "Create new admin and generate login credentials"
           }
@@ -39,7 +39,7 @@ const AdminDashboard = () => {
           onClick={() => {
             navigate("/adminDashboard/createSubAdmin");
           }}
-        />
+        />}
         <DashboardCard
           description={
             "Add new company with the required details"
@@ -80,14 +80,14 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/viewAllAdmin");
           }}
         />}
-       {data &&  (data['permission'].includes("vessel") || data.role === "superadmin" ) && <DashboardCard2
+       {data &&  (data['permission'].includes("vessel") || data['permission'].includes("admin") || data.role === "superadmin" ) && <DashboardCard2
           label={"View all vessels"}
           icon={<Sailing className="" />}
           onClick={() => {
            navigate("/adminDashboard/viewVessel");
           }}
         />}
-      {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel") || data.role === "superadmin" )  &&  <DashboardCard2
+      {data &&  (data['permission'].includes("application")  || data['permission'].includes("vessel") || data.role === "superadmin" )  &&  <DashboardCard2
           label={"Pending verification"}
           icon={<Contacts className="" />}
           onClick={() => {

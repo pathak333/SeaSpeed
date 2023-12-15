@@ -55,7 +55,7 @@ const KinDetail = () => {
     {
       fullName: "",
       relationship: "",
-     // code: "",
+     
       phoneNumber: "",
       email: "",
       flatnumber: "",
@@ -91,7 +91,7 @@ const KinDetail = () => {
     updateEvent({
       fullName: "",
       relationship: "",
-     // code: "",
+     
       phoneNumber: "",
       email: "",
       flatnumber: "",
@@ -135,6 +135,7 @@ const KinDetail = () => {
         delete formData.user_id;
         delete formData.createdAt;
         delete formData.updatedAt;
+        delete formData.code;
      }
       console.log(formData);
 

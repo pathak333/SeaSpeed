@@ -151,7 +151,7 @@ const CourseCertificate = () => {
             <td className="px-6 py-4">{item.placeOfIssue}</td>
 
 
-            {/* <td className="px-6 py-4">file</td> */}
+            <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
             <td className="px-6 py-4">
                 <Trash2
                     onClick={async() => {

@@ -116,25 +116,25 @@ const CreateSubAdmin = () => {
 
 
     const handleSubmit = async (event: any) => {
+        event.preventDefault();
         toast.dismiss();
         dispatch({ type: LOADING, payload: true });
         try {
            console.log("eeeee");
            
-           event.preventDefault();
             let formData = { ...formEvent };
             delete formData.error;
             delete formData.isFormChanged;
             console.log(formData);
            
            const isValid = await SubAdminValidation(formData)
-           console.log("eeeee");
+           console.log("qqqeeeee");
             console.log(isValid);
             
             if (isValid) {
                 console.log(formData);
                 
-                const { data } = location.state.admin ? await updateSubAdmin(location.state.admin._id,formData) : await AddSubAdmin(formData);
+                const { data } = location.state && location.state.admin ? await updateSubAdmin(location.state.admin._id,formData) : await AddSubAdmin(formData);
                 if (data.success) {
                     toast.info(data.message);
                     navigate("/adminDashboard/home")
@@ -160,7 +160,8 @@ const CreateSubAdmin = () => {
          
 
 
-        } catch (error:any) {
+        } catch (error: any) {
+            console.log(error)
             if (error.name === "ValidationError") {
                 for (let errorDetail of error.details) {
                   updateEvent({

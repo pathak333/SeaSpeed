@@ -1,4 +1,4 @@
-import { useReducer, useRef } from "react"
+import { useEffect, useReducer, useRef } from "react"
 import { Upload } from "react-feather"
 import DialogBox from "../dialogBox";
 import { Close } from "@mui/icons-material";
@@ -24,15 +24,25 @@ interface Props {
 const FileUpload = (props: Props) => {
     const uploadRef = useRef<HTMLInputElement>(null);
     const [, dispatch] = useGlobalState();
+console.log(props.expireDate)
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
     }, {
-        name: props.name,
-        expireDate: "",
+        name: "",//props.name,
+        expireDate:  "",
         isUploadOpen: false,
         data: null
     })
+    //?.split("T")[0]
+
+    useEffect(() => {
+        updateFormEvent({name:props.name,expireDate: props.expireDate ?? ""})
+    },[props.expireDate,props.name])
+
+console.log(formEvent)
+  
+    
 
     // const [isUploadOpen, setIsUploadOpen] = useState(false);
 
@@ -103,7 +113,7 @@ const FileUpload = (props: Props) => {
                 <p className="text-blue-300 text-xs font-bold text-center mt-2 mb-4">Click on above section to select Document</p>
                 <div className="columns-2 gap-1">
                     <InputField fieldName={"name"} label={"name"} type={"text"} value={formEvent.name} onChange={(e) => updateFormEvent({ name: e.target.value })} />
-                    <InputField fieldName={"expireDate"} label={"expireDate"} type={"date"} onChange={(e) => updateFormEvent({ expireDate: e.target.value })} value={ props.expireDate } />
+                    <InputField fieldName={"expireDate"} label={"expireDate"} type={"date"} onChange={(e) => updateFormEvent({ expireDate: e.target.value })} value={ formEvent.expireDate } />
                 </div>
                 <button type="button" className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSaveButton}>Save</button>
 

@@ -5,6 +5,6 @@ export const RefrenceValidation = (data: any) => joi.object({
     address: joi.string(),
     personInCharge: joi.string(),
     titledOfPersonInCharge: joi.string(),
-    phoneNumber: joi.string().pattern(/^[0-9]{10}$/),
+    phoneNumber: joi.string(),
     email:joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
 }).validateAsync(data, { abortEarly: true })

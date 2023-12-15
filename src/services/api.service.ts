@@ -1,5 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useGlobalState } from "../contexts/global.context";
+import { LOADING } from "../constants/action.constant";
 
 let refresh = false;
 
@@ -13,15 +15,19 @@ axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;//API_URL;
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
+    
     console.log("error = ", error);
     console.log(error.code, error.message);
     if (error.code === "ERR_NETWORK") {
       toast.error(error.message);
+      
     }
     if ([404, 403].includes(error.response.status) && !refresh) {
-      axios.defaults.headers.common["Authorization"] =
-      sessionStorage.getItem("token") || "";
+      // axios.defaults.headers.common["Authorization"] =
+      // sessionStorage.getItem("token") || "";
+      sessionStorage.removeItem("token")
       toast.error(error.response.data.message);
+      window.location.reload();
      
       // refresh = false;
       // const response = await axios.get("auth/refresh", {
@@ -35,6 +41,10 @@ axios.interceptors.response.use(
       //   return axios(error.config);
       // }
     }
+    // if ([422].includes(error.response.status)) { 
+    //  // toast.error(error.response.data.message);
+     
+    // }
     throw error;
   }
 );

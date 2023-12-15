@@ -79,6 +79,7 @@ const LoginForm: NoPropComponent = () => {
       console.log("70", error.details);
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
+          toast.error(errorDetail.message);
           updateEvent({
             error: {
               keys: errorDetail.context.key,
@@ -87,7 +88,7 @@ const LoginForm: NoPropComponent = () => {
           });
 
           console.log(errorDetail.context.key + "======");
-          toast.error(errorDetail.message);
+         
 
           //return setErrorState(validationErrors);
         }
@@ -96,6 +97,7 @@ const LoginForm: NoPropComponent = () => {
         toast.error(error.response.data.message);
       console.log(error);
     } finally {
+      
       dispatch({ type: LOADING, payload: false });
     }
   };

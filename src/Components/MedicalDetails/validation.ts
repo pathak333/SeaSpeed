@@ -38,6 +38,8 @@ export const MedicalDetailsValidation = (data: any) => joi.object({
 
 
 export const UpdateMedicalDetailsValidation = (data: any) => joi.object({
+    _id: joi.string(),
+    user_id:joi.string(),
     typeMedicalDetails:joi.array().items(typeMedicalDetails).optional(),
     Yellow_fever_vaccination: {
         placeOfIssue: joi.string().optional(),

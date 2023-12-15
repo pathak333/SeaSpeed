@@ -44,6 +44,7 @@ const ResetPassword: NoPropComponent = () => {
         delete formData.confirmPassword;
         formData["oldPassword"] = location.state.password;
         const { data } = await ResetPasswordService(formData);
+        
         navigate("/profile/profilePic", {
           state: {
             data,
