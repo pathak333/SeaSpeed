@@ -14,6 +14,7 @@ import InputField from "../../uiComponents/inputField/inputField.component"
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent"
 import { getCrewMedicalDetail } from "../../services/admin.service"
 import ApproveReject from "../../uiComponents/approve_reject"
+import { isObjectEmpty } from "../../constants/commonFunction"
 
 
 
@@ -46,8 +47,12 @@ const MedicalDetails = () => {
         const { data } = id === null ? await getMedicalDetail() : await getCrewMedicalDetail(id);
         if (data.data) {
             updateEvent({ ...data.data, isFormChanged: false });
-             updateYellowFileData(data.data.Yellow_fever_vaccination.link)
-             updateCovidFileData(data.data.Covid_vaccination.link)
+            console.log(data.data,isObjectEmpty(data.data))
+            if (!isObjectEmpty(data.data)) {
+                updateYellowFileData(data.data.Yellow_fever_vaccination.link ?? "")
+             updateCovidFileData(data.data.Covid_vaccination.link ?? "")
+            }
+             
         }
     }
 

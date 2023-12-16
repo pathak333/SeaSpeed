@@ -19,7 +19,7 @@ const PersonalDetailLayout = (props: any) => {
   const [globalState,] = useGlobalState()
 
   function goBack() {
-    if (globalState.data.data.role === "admin") {
+    if (globalState.data.data.role === "admin" || globalState.data.data.role === "superadmin") {
       navigate(-1)
     } else {
       navigate("/dashboard/home", { replace: true });

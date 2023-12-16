@@ -5,6 +5,7 @@ import CommonLayout from "../../../views/AdminViews/commonLayout";
 
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
+import { toast } from "react-toastify";
 
 
 const AllPendingCrewMembers = () => {
@@ -32,6 +33,8 @@ const AllPendingCrewMembers = () => {
       onClick={() => {
         if (adminData.permission.includes("application")) {
           navigate("/adminDashboard/crewProfile", { state: { data: item, page: "pending" } });
+        } else {
+          toast.error("You are not authorized to perform this task");
         }
       }}>
       <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{item.rank.label}</span></td>

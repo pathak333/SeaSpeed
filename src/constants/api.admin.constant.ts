@@ -20,6 +20,7 @@ export const getAllRankApi = "/admin/getAllRank";
 export const createNewUserApi = "/admin/addNewUser";
 
 export const addCompanyApi = "/admin/addCompany";
+export const updateCompanyApi = "/admin/updateCompany";
 export const addManagerApi = "/admin/addManager";
 export const getAllCompanyApi = "/admin/getAllCompany";
 

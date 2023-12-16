@@ -16,6 +16,7 @@ import InputField from "../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import { getCrewBankDetail } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 
 const BankDetail = () => {
@@ -231,8 +232,8 @@ const BankDetail = () => {
     
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
         <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
-
       </div>
+      {fileData?.link && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
       { id === null && <div>
         <button
         className="ml-8 text-xl text-gray-500"
@@ -267,6 +268,7 @@ const BankDetail = () => {
         Clear all
       </button>
       </div>}
+     
 { globalState.data.data.permission.includes("application") && 
         <div>
      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }

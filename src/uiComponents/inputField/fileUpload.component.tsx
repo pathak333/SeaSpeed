@@ -63,20 +63,28 @@ console.log(formEvent)
             formData.append('foldername', props.folder)
 
             console.log(uploadRef.current!.files![0])
-            if (props.from === "user") {
-                const { data } = await singleFileUpload(formData)
-                console.log(data)
-                updateFormEvent({ data })
-                props.dataFun(data.data)
+            try {
+                if (props.from === "user") {
+                    const { data } = await singleFileUpload(formData)
+                    console.log(data)
+                    updateFormEvent({ data })
+                    props.dataFun(data.data)
+                    dispatch({ type: LOADING, payload: false });
+                    updateFormEvent({ isUploadOpen: false })
+                } else {
+                    const { data } = await singleFileUploadAdmin(formData)
+                    console.log(data)
+                    props.dataFun(data.data)
+                    dispatch({ type: LOADING, payload: false });
+                    updateFormEvent({ isUploadOpen: false })
+                }
+            } catch (error) {
+                console.log(error);
+                //dispatch({ type: LOADING, payload: false });
+            } finally {
                 dispatch({ type: LOADING, payload: false });
-                updateFormEvent({ isUploadOpen: false })
-            } else {
-                const { data } = await singleFileUploadAdmin(formData)
-                console.log(data)
-                props.dataFun(data.data)
-                dispatch({ type: LOADING, payload: false });
-                updateFormEvent({ isUploadOpen: false })
             }
+           
         }
 
     }

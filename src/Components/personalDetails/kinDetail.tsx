@@ -1,9 +1,9 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
-import { GetKinDetail, KinDetailService, UpdateKinDetailService } from "../../services/user.service";
+import { GetKinDetail, GetPersonalDetail, KinDetailService, UpdateKinDetailService } from "../../services/user.service";
 
 import { KinDetailValidation } from "./validation";
 import {
@@ -15,11 +15,12 @@ import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants
 import InputField from "../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewKinDetail } from "../../services/admin.service";
+import { getCrewKinDetail, getCrewPersonalDetail } from "../../services/admin.service";
 
 const KinDetail = () => {
 
- const [globalState, dispatch] = useGlobalState();
+  const [globalState, dispatch] = useGlobalState();
+  const [personalData, updatePersonalData] = useState<any>()
   //get query parameters 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -38,12 +39,21 @@ const KinDetail = () => {
       console.log("data inter")
       updateEvent(data.data)
     }
-}
+  }
+  
+  async function fetchPersonalData(){
+    const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
+    console.log("personal data = ", data);
+    if (data) {
+      updatePersonalData(data.data.personaldata)
+    }
+  }
 
 
 
   useEffect(() => {
     fetchData();
+    fetchPersonalData();
     setState(Personalstate.kinDetails);
   }, []);
 
@@ -167,9 +177,10 @@ const KinDetail = () => {
       dispatch({ type: LOADING, payload: false });
     }
   };
-
+  console.log(globalState.data.data,'globalState.data.data');
   const errorReturn = (field: string) =>
     formEvent.error.keys === field ? formEvent.error.values : "";
+
 
   return (
     <form onSubmit={handlerSubmit}>
@@ -356,7 +367,8 @@ const KinDetail = () => {
           value={formEvent.accountType}
         />
       </div>
-     {globalState.data.data.personalDetails.length >0 && globalState.data.data.personalDetails[0].marital_status === "married" && <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
+      {personalData && personalData.marital_status === "married" &&
+        <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
       <p className="text-xl font-medium ml-4">Wife detail</p>
         <InputField
           className="m-4"
@@ -452,7 +464,8 @@ const KinDetail = () => {
           },isFormChanged:true })}
           value={formEvent.wifeDetail.nameOfChild}
         />
-      </div>}
+        </div>
+       } 
       {
       id === null &&  <div>
             <button

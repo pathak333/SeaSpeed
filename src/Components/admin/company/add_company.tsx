@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import InputField from "../../../uiComponents/inputField/inputField.component";
 
@@ -6,8 +6,9 @@ import FileUpload from "../../../uiComponents/inputField/fileUpload.component";
 import AddManager from "./add_manager";
 import { toast } from "react-toastify";
 import { companyJoi } from "./validation";
-import { addCompanyService } from "../../../services/admin.service";
+import { addCompanyService, updateCompanyService } from "../../../services/admin.service";
 import { Trash2 } from "react-feather";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -16,7 +17,12 @@ const AddCompany = () => {
 
     const [logofileData,updatelogoFileData] = useState<any>()
     const [fileData,updateFileData] = useState<any>()
-
+    const [companyData,updateCompanyData] = useState<any>()
+    const location = useLocation();
+    const navigate = useNavigate();
+    function goBack(n:number) {
+        navigate(n ?? -1)
+      }
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
@@ -36,7 +42,30 @@ const AddCompany = () => {
 //    }
 //     const getcompanyImgUrl = (imgUrl: string) => {
        
-//    }
+    //    }
+    
+    useEffect(() => {
+        console.log(location.state)
+        let data = location.state ? location.state.company: null;
+        console.log(data);
+        
+        if (data) {
+            updateCompanyData(data)
+            updateEvent({
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                logo: data.logo,
+                documentId: data.documentId,
+                manager: data.hasOwnProperty('manager') ? data.manager : [],
+            })
+        }
+      return () => {
+        
+      }
+    }, [])
+    
 
     const errorReturn = (field: string) =>
         formEvent.error.key === field ? formEvent.error.value : "";
@@ -71,7 +100,7 @@ const AddCompany = () => {
             <td className="px-6 py-4">
                 <Trash2
                     onClick={() => {
-                        formEvent.dataList.splice(index, 1);
+                        formEvent.manager.splice(index, 1);
                         updateEvent({ dataList: formEvent.dataList });
                     }}
                 />
@@ -176,23 +205,37 @@ const AddCompany = () => {
                         console.log(formData)
                         delete formData.error;
                         delete formData.isFormChanged
+                        console.log(formData);
+                        if (companyData) {
+                            formData._id= companyData._id
+                            console.log(formData);
+
+                            const { data } = await updateCompanyService(formData);
+                            if (data) {
+                                toast.success(data.message);
+                                goBack(-2)
+                            }
+                        } else {
+                            
+                        
                         var isValid = await companyJoi(formData);
                         if (isValid) {
                            
-                                const { data } = await addCompanyService(formData);
-                                if (data) {
-                                    toast.success(data.message);
-                                }
+                            const { data } = await addCompanyService(formData);
+                            if (data) {
+                                toast.success(data.message);
+                            }
                           
                             updateEvent({
                                 name: "",
                                 email: "",
                                 phone: "",
                                 address: "",
-                                manager:[],
+                                manager: [],
                                 error: { key: "", value: "" },
                             })
                         }
+                    }
                     } catch (error:any) {
                         if (error.name === "ValidationError") {
                             for (let errorDetail of error.details) {
@@ -209,7 +252,7 @@ const AddCompany = () => {
                           }
                     }
                 }} >
-                Add Company
+               {companyData ? "Edit Company" : "Add Company"}
             </button>
     </>
 

@@ -40,21 +40,23 @@ const CreateSubAdmin = () => {
     })
 
     useEffect(() => {
-        // let data = location.state.admin;
-        // if (data) {
-        //     updateEvent({
-        //         firstname: data.firstname,
-        //         lastname: data.lastname,
-        //         email: data.email,
-        //         phone_no: data.phone_no,
-        //        // code: "",
-        //         permission: data.permission,
-        //         otherPermission: data.otherPermission,
-        //         error: { key: "", value: "" },
-        //         isFormChanged:false
-        //     })
+        let data = location.state.admin;
+        console.log(data);
+        
+        if (data) {
+            updateEvent({
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email,
+                phone_no: data.phone_no,
+               // code: "",
+                permission: data.permission,
+                otherPermission: data.hasOwnProperty('otherPermission') ? data.otherPermission : {} ,
+                error: { key: "", value: "" },
+                isFormChanged:false
+            })
             
-        // }
+        }
        
         fetchData();
     }, [])
@@ -299,7 +301,7 @@ const CreateSubAdmin = () => {
                             className="basic-multi-select w-full"
                             classNamePrefix="select"
                             onChange={(e) => { onselectionchange(e);   updateEvent({isFormChanged:true}) }}
-                            value={formEvent.otherPermission.vessel ?? ""}
+                            value={formEvent.otherPermission.hasOwnProperty('vessel') ? formEvent.otherPermission.vessel : ""}
                         />
                     </div>
                 </div>

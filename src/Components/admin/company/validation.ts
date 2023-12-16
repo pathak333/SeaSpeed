@@ -21,7 +21,7 @@ export const companyJoi = (data:any) => joi.object({
     email: joi.string().optional().allow(""),
     phone: joi.number().optional().allow(""),
     logo: joi.string().allow(""),
-    doc: joi.array(),
+    documentId: joi.array(),
     manager:joi.array().items(manager)
 }).validateAsync(data, { abortEarly: true });
   

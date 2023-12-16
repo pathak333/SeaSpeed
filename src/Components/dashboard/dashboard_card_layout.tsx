@@ -2,7 +2,7 @@ import { User, Globe, Award, Briefcase, Layout, PlusCircle, Users, UserPlus } fr
 import DashboardCard from "../smallerComponents/dashboardCard";
 import DashboardCard2 from "../smallerComponents/dashboardCard2";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "../../contexts/global.context";
+
 
 interface Props {
   className?: string,

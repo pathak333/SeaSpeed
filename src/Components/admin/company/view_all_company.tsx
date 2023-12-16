@@ -66,7 +66,7 @@ return <CommonLayout heading={"View All Company"} subHeading={"Company and their
      </th>
    </tr>
  </thead>
- {companyList.length > 0 ? (<tbody >{listofData}</tbody>) : (<tr className="text-center"><td colSpan={7} className="text-lg">You have no vessel assigned yet</td></tr>)}
+ {companyList.length > 0 ? (<tbody >{listofData}</tbody>) : (<tbody ><tr className="text-center"><td colSpan={7} className="text-lg">You have no vessel assigned yet</td></tr></tbody>)}
 
 </table>
 </div>
