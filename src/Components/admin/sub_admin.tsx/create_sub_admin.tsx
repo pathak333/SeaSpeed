@@ -40,7 +40,7 @@ const CreateSubAdmin = () => {
     })
 
     useEffect(() => {
-        let data = location.state.admin;
+        let data =location.state ? location.state.admin : null;
         console.log(data);
         
         if (data) {
