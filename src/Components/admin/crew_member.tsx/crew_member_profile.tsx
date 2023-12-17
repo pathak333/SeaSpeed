@@ -37,7 +37,9 @@ const CrewProfile = () => {
             </p>
 
             <div className="flex flex-row items-center justify-center content-center">
-               <div id="pic" className="w-20 h-20 bg-slate-300 rounded-full "></div>
+               <div id="pic" className="w-20 h-20 bg-slate-300 rounded-full overflow-hidden">
+               <img src={data.avatar ? data.avatar : "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="seaSpeed Profile " className="overflow-hidden rounded-full" />
+               </div>
                <div className="h-10">
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2">Send instructions</button>
                   <button className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg"><Description /> Send contract</button>

@@ -66,13 +66,16 @@ const Dashboard = () => {
       <DasboardCardLayout comeFrom="user" />
       <div id="bottomMenu" className="flex flex-wrap">
         <div className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
-          <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
+          <img src={data.avatar ? data.avatar : "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
 
           <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
-          <p id="name" className="text-slate-400 font-medium pb-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? data.vessel.label : ""}</p>
+          <p id="name" className="h-5 text-gray-500">{data !== null ? data.rank.label : ""}</p>
+          <div className="flex flex-col justify-start mt-3">
+            
+          <p id="name" className="p-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? `Vessel: ${data.vessel.label}` : ""}</p>
           <hr className=" w-full" />
           {data !== null && data.joiningDate
-            ? <p id="name" className="p-2 text-sm">{data !== null ? data.joiningDate : ""}</p>
+            ? <p id="name" className="p-2 text-sm">{data !== null ? `TENTATIVE SIGN ON DATE: ${data.joiningDate}` : ""}</p>
             : <InputField
               className="m-4"
               fieldName={"availability"}
@@ -87,8 +90,9 @@ const Dashboard = () => {
           }
           {/* <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p> */}
           <hr className=" w-full " />
-          <p id="name" className="p-2 text-sm">{data !== null ? data.joiningPort : ""}</p>
+          <p id="name" className="p-2 text-sm">{data !== null ? `SIGN-ON-PORT:  ${data.joiningPort}` : ""}</p>
 
+        </div>
         </div>
         <div id="agrement" className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
           <FileText width={"100px"} height={"100px"} className="text-activeIconColor mb-2" />
