@@ -25,7 +25,7 @@ axios.interceptors.response.use(
     if ([404, 403].includes(error.response.status) && !refresh) {
       // axios.defaults.headers.common["Authorization"] =
       // sessionStorage.getItem("token") || "";
-      sessionStorage.removeItem("token")
+     // sessionStorage.removeItem("token")
       toast.error(error.response.data.message);
       window.location.reload();
      
@@ -41,10 +41,10 @@ axios.interceptors.response.use(
       //   return axios(error.config);
       // }
     }
-    // if ([422].includes(error.response.status)) { 
-    //  // toast.error(error.response.data.message);
+    if ([422].includes(error.response.status)) { 
+      toast.error(error.response.data.message);
      
-    // }
+    }
     throw error;
   }
 );

@@ -233,11 +233,11 @@ const VesselProfile = () => {
                      >Delete Manager</button>
                   </td>
                </tr>}
-               {'value' in vesselData.crewManagerId && vesselData.crewManagerId.value !== "" && <tr className="">
-                  <td className="px-6 py-3">{vesselData.crewManagerId.label}</td>
-                  <td className="px-6 py-3">{vesselData.crewManagerId.value.phone}</td>
-                  <td className="px-6 py-3">{vesselData.crewManagerId.value.email}</td>
-                  <td className="px-6 py-3">{vesselData.crewManagerId.value.type}</td>
+               {'value' in vesselData.crewAgencyManagerId && vesselData.crewAgencyManagerId.value !== "" && <tr className="">
+                  <td className="px-6 py-3">{vesselData.crewAgencyManagerId.label}</td>
+                  <td className="px-6 py-3">{vesselData.crewAgencyManagerId.value.phone}</td>
+                  <td className="px-6 py-3">{vesselData.crewAgencyManagerId.value.email}</td>
+                  <td className="px-6 py-3">{vesselData.crewAgencyManagerId.value.type}</td>
                   <td className="px-6 py-3">
                      <button type="button" className="text-xs text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                      >Delete Manager</button>

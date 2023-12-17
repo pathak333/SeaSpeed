@@ -62,7 +62,7 @@ const ViewAllVessel = () => {
                 Flag
               </th>
               <th scope="col" className="px-6 py-3">
-                Company
+              vessel owner
               </th>
               <th scope="col" className="px-6 py-3">
                 Imo Number

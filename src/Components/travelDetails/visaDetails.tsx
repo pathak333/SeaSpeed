@@ -13,6 +13,8 @@ import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewVisaDetail } from "../../services/admin.service";
 import { isObjectEmpty } from "../../constants/commonFunction";
+import ReactDOM from 'react-dom';
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 const VisaDetail = (props: any) => {
 
@@ -26,6 +28,7 @@ const VisaDetail = (props: any) => {
 
 
   const [fileData,updateFileData] = useState<any>()
+  const [selectedPdf,updateSelectedPdf] = useState<any>()
 
 
   const { setState } = useContext(TravelDetailContext)!;
@@ -120,6 +123,22 @@ const VisaDetail = (props: any) => {
 
   }
 
+  const handleDoubleClick = (url:any) => {
+    // Download the PDF on a double click
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'document.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  function openPdfViewerWindow(url:any){
+    updateSelectedPdf(url)
+  }
+  const remove =()=> updateSelectedPdf("")
+
+
   const listofData = formEvent.visaList.map((item: any, index: any) => (
     <tr key={index} className="bg-white border-b">
       <td className="px-6 py-4">{item.visatype}</td>
@@ -127,7 +146,8 @@ const VisaDetail = (props: any) => {
       <td className="px-6 py-4">{item.number}</td>
       <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
-      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
+      {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
+      <td className="px-6 py-4" onClick={() => openPdfViewerWindow(item.documentId.link)} onDoubleClick={()=>handleDoubleClick(item.documentId.link)} >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -356,6 +376,9 @@ const VisaDetail = (props: any) => {
       ) : (
         <div></div>
       )}
+
+
+{selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove}/>}
 
 
 

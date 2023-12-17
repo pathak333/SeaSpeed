@@ -42,10 +42,11 @@ const CrewProfile = () => {
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2">Send instructions</button>
                   <button className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg"><Description /> Send contract</button>
                   <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2"><AirplaneTicket /> Send tickets & visa</button>
-                  {globalState.data.data && !globalState.data.data.permission.includes("application") && <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} />}
+                {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} />}
                </div>
             </div>
          </div>
+
       </div>
       <DasboardCardLayout id={data._id} data={data} comeFrom="admin" page={page} className="" />
    </div>

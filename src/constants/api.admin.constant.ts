@@ -28,6 +28,7 @@ export const getAllManagerByCompanyIdApi = "/admin/getAllManagerByCompanyId";
 export const addVesselApi = "/admin/addVessel";
 export const getAllVesselForAdminApi = "/admin/getAllVesselForAdmin"
 export const getCrewPersonalDetailApi = "/admin/getCrewPersonalDetail"
+export const UpdatePersonalDetailAdminApi = "/admin/updatePersonalDetailData"
 export const GetCrewEducationDetailApi = "/admin/getEducationDetail"
 export const GetCrewBankDetailApi = "/admin/getBankDetail"
 export const GetCrewKinDetailApi = "/admin/getKinDetail"

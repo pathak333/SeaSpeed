@@ -15,7 +15,7 @@ import SelectInput from "../../uiComponents/inputField/selectInputField.comonent
 import { dobDateValidation } from "../../constants/values.constants";
 import { useLocation } from 'react-router-dom';
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewPersonalDetail } from "../../services/admin.service";
+import { UpdatePersonalDetailAdmin, getCrewPersonalDetail } from "../../services/admin.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 
 const PersonalDetail = () => {
@@ -155,15 +155,16 @@ const PersonalDetail = () => {
       delete formData.aadhaarName
       delete formData.panName
       delete formData.cncName
-      console.log(JSON.stringify(formData) + "????????????????");
+      console.log(JSON.stringify(formData,formEvent) + "????????????????");
       let isValid = formEvent.hasOwnProperty("user_id") ? await UpdatePersonalDetailValidation(formData) : await PersonalDetailValidation(formData);
 
       if (isValid) {
-        console.log(JSON.stringify(formData));
+        console.log(JSON.stringify(formEvent));
         delete updateData["isFormChanged"];
         delete updateData["aadhaarName"];
         delete updateData["panName"];
         delete updateData["cncName"];
+        //setUpdateData({'_id':formEvent._id})
         const { data } = formEvent.hasOwnProperty("user_id") ? await UpdatePersonalDetail(updateData) : await AddPersonalDetail(formData)
         if (data.success) {
           toast.info(data.message)
@@ -191,6 +192,18 @@ const PersonalDetail = () => {
       dispatch({ type: LOADING, payload: false });
     }
   };
+
+  const adminUpdate = async () => {
+    delete updateData["isFormChanged"];
+    delete updateData["aadhaarName"];
+    delete updateData["panName"];
+    delete updateData["cncName"];
+    updateData._id = id;
+   console.log(updateData)
+   await UpdatePersonalDetailAdmin(updateData)
+  }
+
+
 
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
@@ -579,7 +592,7 @@ const PersonalDetail = () => {
         </button>
       </div>}
       {globalState.data.data.permission.includes("application") && <div>
-        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+        {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={adminUpdate}>Save</button>}
 
         {id !== null && !formEvent.isFormChanged && <div id="approver">
           <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />

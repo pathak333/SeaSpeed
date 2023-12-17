@@ -14,6 +14,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import { getCrewPassportDetail } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 
 const PassPortDetail = (props: any) => {
@@ -211,6 +212,7 @@ const PassPortDetail = (props: any) => {
           </ul>
         </div>
       </div>
+      {fileData?.link && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
      {id === null && <div className="m-3">
       {formEvent.isFormChanged  ? <button
         type="submit"

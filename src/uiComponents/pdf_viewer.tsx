@@ -1,13 +1,16 @@
 import { Document, Page, pdfjs } from 'react-pdf';
 import { useState } from 'react';
-import { MinusCircle, PlusCircle } from 'react-feather';
+import { DownloadCloud, MinusCircle, PlusCircle } from 'react-feather';
+import { Close } from '@mui/icons-material';
+
 
 interface Props{
-    url: any;
+  url: any;
+  close?: () => void;
 }
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-export default function PdfViewer({url}:Props) {
+export default function PdfViewer({url,close}:Props) {
     const [numPages, setNumPages] = useState<number>(1);
     const [pageNumber, setPageNumber] = useState<number>(1);
   
@@ -16,10 +19,8 @@ export default function PdfViewer({url}:Props) {
       setNumPages(numPages);
     }
     function changePageNumber(e: any, sign: any) {
-        console.log(pageNumber,"of ",numPages, "before");
-        
+        console.log(pageNumber,"of ",numPages, "before");   
         if (sign === "+") {
-            
            if(pageNumber < numPages){ setPageNumber(pageNumber+1)}
         } else {
             if(pageNumber >1) {setPageNumber(pageNumber-1)}
@@ -30,14 +31,20 @@ export default function PdfViewer({url}:Props) {
 console.log(url);
 
     return (
-      <div>
+      <>
+     {url && <div>
+        <div className="flex flex-row">
+        <a href={url}><DownloadCloud className='mr-3'  size={44}/></a>
+          {close && <Close style={{ fontSize: 44, color:'red' }} onClick={close}  />}
+       </div>
         <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} />
         </Document>
-        <div className='flex flex-row'>
+        <div className='flex flex-row m-6'>
        <MinusCircle  onClick={($event)=> changePageNumber($event,"-")}/> &nbsp;&nbsp;  Page {pageNumber} of {numPages} &nbsp;&nbsp; <PlusCircle onClick={($event)=> changePageNumber($event,"+")} />
         </div>
-      </div>
+      </div>}
+      </>
     );
 }
   
