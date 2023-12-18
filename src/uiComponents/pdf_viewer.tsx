@@ -2,6 +2,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { useState } from 'react';
 import { DownloadCloud, MinusCircle, PlusCircle } from 'react-feather';
 import { Close } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 
 interface Props{
@@ -33,8 +34,15 @@ console.log(url);
     return (
       <>
      {url && <div>
-        <div className="flex flex-row">
-        <a href={url}><DownloadCloud className='mr-3'  size={44}/></a>
+          <div className="flex flex-row">
+          <IconButton component="a"
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              download>
+              <DownloadCloud className='mr-3' size={44} />
+            </IconButton>
+        {/* <a href={url}><DownloadCloud className='mr-3'  size={44}/></a> */}
           {close && <Close style={{ fontSize: 44, color:'red' }} onClick={close}  />}
        </div>
         <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>

@@ -66,7 +66,7 @@ const Dashboard = () => {
       <DasboardCardLayout comeFrom="user" />
       <div id="bottomMenu" className="flex flex-wrap">
         <div className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
-          <img src={data.avatar ? data.avatar : "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
+          <img src={data && data.avatar ? data.avatar : "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
 
           <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
           <p id="name" className="h-5 text-gray-500">{data !== null ? data.rank.label : ""}</p>
