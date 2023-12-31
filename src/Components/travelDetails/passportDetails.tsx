@@ -27,7 +27,7 @@ const PassPortDetail = (props: any) => {
   const id = queryParams.get('id');
 
 
-  const [fileData,updateFileData] = useState<any>()
+  const [fileData, updateFileData] = useState<any>()
 
 
 
@@ -37,55 +37,55 @@ const PassPortDetail = (props: any) => {
   useEffect(() => {
     fetchData();
     setState(TravelState.passport);
-    
+
   }, [])
 
-  
+
   async function fetchData() {
-    const { data } =  id === null ? await GetPassportDetailService() : await getCrewPassportDetail(id)
+    const { data } = id === null ? await GetPassportDetailService() : await getCrewPassportDetail(id)
     console.log(data)
     if (data.success && data.data) {
-      console.log(data.data,"data inter")
+      console.log(data.data, "data inter")
       updateEvent(data.data)
       updateFileData(data.data.documentId)
     }
   }
-  
+
   const getDocId = (data: any) => {
     updateFileData(data)
-  return updateEvent({ documentId: data._id,isFormChanged: true  })
-}
+    return updateEvent({ documentId: data._id, isFormChanged: true })
+  }
 
   const handlerSubmit = async (event: any) => {
     toast.dismiss();
     event.preventDefault();
     try {
-     // let formData = { ...formEvent };
+      // let formData = { ...formEvent };
       // delete formData.error;
       // delete formData.isFormChanged;
       // delete formData._id
       // delete form
-      let {passportNumber,
-      placeOfIssue,
-      dateOfIssue,
+      let { passportNumber,
+        placeOfIssue,
+        dateOfIssue,
         dateOfExpiry,
         documentId,
-       // ECNR
+        // ECNR
       } = formEvent;
 
       let postData = {
         passportNumber,
-      placeOfIssue,
-      dateOfIssue,
+        placeOfIssue,
+        dateOfIssue,
         dateOfExpiry,
         documentId,
-      //ECNR
+        //ECNR
       }
       console.log(postData);
 
       const isValid = await PassportValidation(postData);
       if (isValid) {
-        const { data } =  formEvent.hasOwnProperty("user_id")  ? await updatePassportDetailService(postData) : await PassportDetailService(postData)
+        const { data } = formEvent.hasOwnProperty("user_id") ? await updatePassportDetailService(postData) : await PassportDetailService(postData)
         // const { data } = await updatePassportDetailApi(postData);
         // const { data } = await PassportDetailService(postData);
         if (data.success) {
@@ -124,9 +124,9 @@ const PassPortDetail = (props: any) => {
       placeOfIssue: "",
       dateOfIssue: "",
       dateOfExpiry: "",
-      documentId:"",
+      documentId: "",
       //ECNR: "Yes",
-      isFormChanged:false,
+      isFormChanged: false,
       error: { key: "", value: "" },
     }
   );
@@ -147,9 +147,9 @@ const PassPortDetail = (props: any) => {
           fieldName={"passportNumber"}
           label={"Passport Number"}
           type={"text"}
-         
+
           error={errorReturn("passportNumber")}
-          onChange={(e) => updateEvent({ passportNumber: e.target.value,isFormChanged:true })}
+          onChange={(e) => updateEvent({ passportNumber: e.target.value, isFormChanged: true })}
           value={formEvent.passportNumber}
         />
         <InputField
@@ -157,9 +157,9 @@ const PassPortDetail = (props: any) => {
           fieldName={"placeOfIssue"}
           label={"Place of issue"}
           type={"text"}
-         // disabled={true}
+          // disabled={true}
           error={errorReturn("placeOfIssue")}
-          onChange={(e) => updateEvent({ placeOfIssue: e.target.value,isFormChanged:true })}
+          onChange={(e) => updateEvent({ placeOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.placeOfIssue}
         />
         <InputField
@@ -169,7 +169,7 @@ const PassPortDetail = (props: any) => {
           type={"date"}
           max={IssuesformattedDate}
           error={errorReturn("dateOfIssue")}
-          onChange={(e) => updateEvent({ dateOfIssue: e.target.value,isFormChanged:true })}
+          onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfIssue.split("T")[0]}
         />
         <InputField
@@ -179,7 +179,7 @@ const PassPortDetail = (props: any) => {
           type={"date"}
           min={ExpireformattedDateFormNow}
           error={errorReturn("dateOfExpiry")}
-          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value ,isFormChanged:true})}
+          onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfExpiry.split("T")[0]}
         />
         {/* <SelectInput
@@ -198,8 +198,8 @@ const PassPortDetail = (props: any) => {
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload Passport PDF</p>
           </div> */}
-             <FileUpload folder={"passport"} name="passport" expireDate={formEvent.dateOfExpiry.split("T")[0]} from="user" dataFun={getDocId} />
-             <h1 className="m-3 font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
+          <FileUpload folder={"passport"} name="passport" expireDate={formEvent.dateOfExpiry.split("T")[0]} from="user" dataFun={getDocId} />
+          <h1 className="m-3 font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}, Click to download</a> : ""}</h1>
 
           <ul className="list-disc ml-4">
             <li className="text-textGrey text-sm ml-3">
@@ -213,23 +213,23 @@ const PassPortDetail = (props: any) => {
         </div>
       </div>
       {fileData?.link && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
-     {id === null && <div className="m-3">
-      {formEvent.isFormChanged  ? <button
-        type="submit"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      >
-        Save & next
-      </button>:
-      <button
-        type="button"
-        className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onClick={() => {
-          
-          navigate("/dashboard/traveldetails/visadetail");
-        }}
-      >
-        Skip and Next
-      </button>}
+      {id === null && <div className="m-3">
+        {formEvent.isFormChanged ? <button
+          type="submit"
+          className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          Save & next
+        </button> :
+          <button
+            type="button"
+            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+
+              navigate("/dashboard/traveldetails/visadetail");
+            }}
+          >
+            Skip and Next
+          </button>}
         <button
           type="button"
           onClick={clearAllData}
@@ -238,18 +238,18 @@ const PassPortDetail = (props: any) => {
           Clear all
         </button>
       </div>}
-      { globalState.data.data.permission.includes("application") && 
+      {globalState.data.data.permission.includes("application") &&
         <div>
-      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
-      
-      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
-         <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}}  doc_id="PassPortDetail" user_id={id} />
-       </div>}
+          {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+          {id !== null && !formEvent.isFormChanged && <div id="approver">
+            <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}} doc_id="PassPortDetail" user_id={id} />
+          </div>}
         </div>}
-      
-       {id !== null && (globalState?.data?.data?.permission.includes("admin") || globalState?.data?.data?.permission.includes("vessel") ) && 
+
+      {id !== null && (globalState?.data?.data?.permission.includes("admin") || globalState?.data?.data?.permission.includes("vessel")) &&
         <div>
-           <button
+          <button
             type="button"
             className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             onClick={() => {
@@ -257,9 +257,9 @@ const PassPortDetail = (props: any) => {
               navigate(`/adminDashboard/traveldetails/visadetail/?id=${id}`);
             }}
           >
-           Next
+            Next
           </button>
-      </div> }
+        </div>}
     </form>
   );
 };

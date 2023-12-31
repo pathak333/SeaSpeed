@@ -22,11 +22,14 @@ axios.interceptors.response.use(
       toast.error(error.message);
       
     }
+    if (!error.response) {
+      toast.error('No Network',{toastId: "Neterror"});
+    }
     if ([404, 403].includes(error.response.status) && !refresh) {
       // axios.defaults.headers.common["Authorization"] =
       // sessionStorage.getItem("token") || "";
      // sessionStorage.removeItem("token")
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message,{toastId: "error"});
       window.location.reload();
      
       // refresh = false;

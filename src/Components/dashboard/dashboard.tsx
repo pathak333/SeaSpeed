@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,10 @@ import { useGlobalState } from "../../contexts/global.context";
 import { FileText } from "react-feather";
 import { TodayDate } from "../../constants/values.constants";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { getAllFile } from "../../services/user.service";
+import { ProfileUpdate, getAllFile } from "../../services/user.service";
+import { toast } from "react-toastify";
+import { LOADING } from "../../constants/action.constant";
+import { ContactDetailValidation } from "../personalDetails/validation";
 
 
 
@@ -18,6 +21,18 @@ const Dashboard = () => {
   const [globalState, dispatch] = useGlobalState();
   let data = globalState.data != null ? globalState.data.data : null;
   const [allFile, updateAllFile] = useState([])
+
+  const [formEvent, updateEvent] = useReducer(
+    (prev: any, next: any) => {
+      const newEvent = { ...prev, ...next };
+      return newEvent;
+    },
+    {
+     
+      joiningDate:""
+    }
+  );
+
 
   useEffect(() => {
     window.history.pushState(null, "", window.location.pathname);
@@ -32,6 +47,52 @@ const Dashboard = () => {
     console.log(data)
     updateAllFile(data.data)
   }
+
+
+  const handlerSubmit = async (event: any) => {
+    toast.dismiss();
+    console.log("constact ")
+    try {
+      dispatch({ type: LOADING, payload: true });
+      event.preventDefault();
+      let formData = { ...formEvent }
+      delete formData.isFormChanged
+      delete formData.error
+     // let isValid = await ContactDetailValidation(formData);
+     
+       
+        const { data } = await ProfileUpdate(formData);
+        if (data.success) { 
+          toast.info(data.message)
+          window.location.reload();
+         // navigate("/dashboard/personaldetails/educationDetail");
+          
+        }
+       // dispatch({ type: LOADING, payload: false });
+
+      
+    } catch (error: any) {
+      console.log(error)
+      if (error.name === "ValidationError") {
+        for (let errorDetail of error.details) {
+          updateEvent({
+            error: {
+              key: errorDetail.context.key,
+              values: errorDetail.message,
+            },
+          });
+          console.log(errorDetail.context.key + "======");
+          toast.error(errorDetail.message);
+        }
+      } else if (error.name === "AxiosError")
+        toast.error(error.response.data.message);
+    } finally {
+      dispatch({ type: LOADING, payload: false });
+    }
+    
+  };
+
+
 
   var state = sessionStorage.getItem("formState");
 
@@ -71,28 +132,37 @@ const Dashboard = () => {
           <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
           <p id="name" className="h-5 text-gray-500">{data !== null ? data.rank.label : ""}</p>
           <div className="flex flex-col justify-start mt-3">
-            
-          <p id="name" className="p-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? `Vessel: ${data.vessel.label}` : ""}</p>
-          <hr className=" w-full" />
-          {data !== null && data.joiningDate
-            ? <p id="name" className="p-2 text-sm">{data !== null ? `TENTATIVE SIGN ON DATE: ${data.joiningDate}` : ""}</p>
-            : <InputField
-              className="m-4"
-              fieldName={"availability"}
-              label={"Availability"}
-              type={"date"}
-              min={TodayDate}
-              // error={errorReturn("dob")}
-              onChange={(e) => console.log(e.target.value)}
-            //  value={formEvent.dob.split("T")[0]}
-            />
-            //  : <div ><span className="text-IbColor" >Availability</span><input className="focus-visible:border-none focus-visible:outline-none" type="date" min={TodayDate} name="date" id="" /></div> 
-          }
-          {/* <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p> */}
-          <hr className=" w-full " />
-          <p id="name" className="p-2 text-sm">{data !== null ? `SIGN-ON-PORT:  ${data.joiningPort}` : ""}</p>
 
-        </div>
+            <p id="name" className="p-2 text-sm">{data !== null && data.hasOwnProperty('vessel') && data.vessel.hasOwnProperty("value") ? `Vessel: ${data.vessel.label}` : ""}</p>
+            <hr className=" w-full" />
+            {data !== null && data.joiningDate
+              ? <p id="name" className="p-2 text-sm">{data !== null ? `TENTATIVE SIGN ON DATE: ${data.joiningDate}` : ""}</p>
+              : <>
+                <InputField
+                  className="m-4"
+                  fieldName={"availability"}
+                  label={"Availability"}
+                  type={"date"}
+                  min={TodayDate}
+                  // error={errorReturn("dob")}
+                  onChange={(e) => updateEvent({joiningDate:e.target.value})}
+                //  value={formEvent.dob.split("T")[0]}
+                />
+                <button
+                  type="submit"
+                  className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-textGrey focus:bg-textGrey visited:bg-textGrey"
+                onClick={handlerSubmit}
+                >
+                  Save
+                </button>
+              </>
+              //  : <div ><span className="text-IbColor" >Availability</span><input className="focus-visible:border-none focus-visible:outline-none" type="date" min={TodayDate} name="date" id="" /></div> 
+            }
+            {/* <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p> */}
+            <hr className=" w-full " />
+           { data !== null && data.joiningPort && <p id="name" className="p-2 text-sm">{`SIGN-ON-PORT:  ${data.joiningPort}`}</p>}
+
+          </div>
         </div>
         <div id="agrement" className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
           <FileText width={"100px"} height={"100px"} className="text-activeIconColor mb-2" />
@@ -114,11 +184,11 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {allFile.map((item: any, index: any) => (
-                
-                <tr key={index} className="bg-[#E4F0FF] border-b-8 border-white text-IbColor" onClick={()=>window.location.href=item.link}>
+
+                <tr key={index} className="bg-[#E4F0FF] border-b-8 border-white text-IbColor" onClick={() => window.location.href = item.link}>
                   <td className="px-6 py-4">{item.name}</td>
-                    <td className="px-6 py-4">{item.expire && item.expire.split('T')[0]}</td></tr>
-               
+                  <td className="px-6 py-4">{item.expire && item.expire.split('T')[0]}</td></tr>
+
               ))}</tbody>
           </table>
         </div>

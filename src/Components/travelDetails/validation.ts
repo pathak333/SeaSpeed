@@ -13,7 +13,7 @@ export const PassportValidation = (data: any) => joi.object({
 const NormalVisaJoiObject = joi.object({
     visatype: joi.string(),
     placeOfIssue: joi.string(),
-    number: joi.number(),
+    number: joi.string(),
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
     documentId: joi.string().required(),
@@ -37,8 +37,8 @@ export const VisaDetailValidation = (data: any) => joi.object({
     }),
     us_number:joi.when("haveNoUsVisa", {
         is: true,
-        then: joi.number().forbidden(),
-        otherwise: joi.number().required(),
+        then: joi.string().forbidden(),
+        otherwise: joi.string().required(),
 
     }),
     us_dateOfIssue:joi.when("haveNoUsVisa", {
@@ -70,7 +70,7 @@ export const VisaDetailValidation = (data: any) => joi.object({
 
 export const SeamenBookValidation = (data: any) => joi.object({
     placeOfIssue: joi.string(),
-    number: joi.number(),
+    number: joi.string(),
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
     sidNumber: joi.string(),

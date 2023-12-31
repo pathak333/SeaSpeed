@@ -222,7 +222,7 @@ const CertificateOfCompetency = () => {
                 className="m-4"
                 fieldName={"licenseNumber"}
                 label={"License number"}
-                type={"number"}
+                type={"text"}
                 error={errorReturn("licenseNumber")}
                 onChange={(e) => updateEvent({ licenseNumber: e.target.value, isFormChanged: true })}
                 value={formEvent.licenseNumber}

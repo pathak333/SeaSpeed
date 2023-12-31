@@ -221,7 +221,7 @@ const DangerousCargoEndorsement = () => {
                 className="m-4"
                 fieldName={"number"}
                 label={"Number"}
-                type={"number"}
+                type={"text"}
                 error={errorReturn("number")}
                 onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
                 value={formEvent.number}

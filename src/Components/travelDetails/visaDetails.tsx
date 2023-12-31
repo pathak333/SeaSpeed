@@ -297,7 +297,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"number"}
           label={"Number"}
-          type={"number"}
+          type={"text"}
           disabled={formEvent.haveNoVisa}
           error={errorReturn("number")}
           onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
@@ -416,7 +416,7 @@ const VisaDetail = (props: any) => {
           className="m-4"
           fieldName={"us_number"}
           label={"Number"}
-          type={"number"}
+          type={"text"}
           disabled={formEvent.haveNoUsVisa}
           error={errorReturn("us_number")}
           onChange={(e) => updateEvent({ us_number: e.target.value, isFormChanged: true })}

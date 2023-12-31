@@ -6,7 +6,7 @@ import UnAuthenticatedRoute from "../Components/auth/unAuthenticatedRoute.compon
 import Loader from "../Components/loader";
 import { useGlobalState } from "../contexts/global.context";
 import AuthLayout from "../views/AuthLayout";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SetProfilePic from "../Components/profile/setProfilePic";
 import Dashboard from "../Components/dashboard/dashboard";
@@ -41,7 +41,7 @@ import ReferencesLayout from "../views/referencesLayout";
 import AdminDashboardLayout from "../views/AdminViews/adminDashboardLayout";
 import AdminDashboard from "../Components/admin/dashboard/admin_dashboard";
 import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_member";
-import { LOGIN } from "../constants/action.constant";
+import { DATA, LOADING, LOGIN } from "../constants/action.constant";
 import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
 import AddCompany from "../Components/admin/company/add_company";
 import AddVessel from "../Components/admin/company/vessel/add_vessel";
@@ -55,6 +55,7 @@ import CrewProfile from "../Components/admin/crew_member.tsx/crew_member_profile
 import AllPendingCrewMembers from "../Components/admin/crew_member.tsx/all_pending_crew_member";
 import VesselProfile from "../Components/admin/company/vessel/vessel_profile";
 import CompanyProfile from "../Components/admin/company/company_profile";
+import { ProfileService, getUserInstruction, updateInstructionUser } from "../services/user.service";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -110,7 +111,7 @@ const MainRoutes = () => {
     },
     {
       path: "/dashboard",
-      element: <DashboardLayout />,
+      element: <DashboardLayout key={'DashboardLayout'} />,
       children: [
         // {
         //   path: "",
@@ -462,7 +463,7 @@ const MainRoutes = () => {
           ),
 
         },
-        
+
         // {
         //   path: "addManager",
         //   element: (
@@ -514,7 +515,7 @@ const MainRoutes = () => {
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
-              outlet={ <PersonalDetailLayout />}
+              outlet={<PersonalDetailLayout />}
             />
           ),
           children: [
@@ -677,20 +678,85 @@ const MainRoutes = () => {
 
   var role = sessionStorage.getItem("role") ?? "user";
 
-  return role.toLocaleLowerCase() === "admin" || role.toLocaleLowerCase() === "superadmin" ? AdminRoutes : routes ;
+  return role.toLocaleLowerCase() === "admin" || role.toLocaleLowerCase() === "superadmin" ? AdminRoutes : routes;
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
-console.log("App Wrapper");
+  const [allNotification, updateNotif] = useState([])
+
+  console.log("App Wrapper");
 
   axios.defaults.headers.common["Authorization"] =
     sessionStorage.getItem("token") || "";
+  
+  
+  
+  
+    async function fetchdata() {
+      dispatch({ type: LOADING, payload: true });
+  
+      const { data } = await ProfileService();
+      console.log("profile data", data);
+      sessionStorage.setItem("formState", data.data.formState)
+      dispatch({ type: DATA, payload: data });
+    }
+    async function FetchInstruction() {
+      const { data } = await getUserInstruction();
+      console.log(data);
+      updateNotif(data.data)
+     
+    }
+    
+    async function fetchAll() {
+      try {
+        await fetchdata();
+      await FetchInstruction();
+    console.log(allNotification,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    
+       
+        // Access the updated value of allNotification after the FetchInstruction call
+       
+    
+        dispatch({ type: LOADING, payload: false });
+      } catch (error) {
+        console.error('Error in fetchAll:', error);
+        // Handle error as needed
+        dispatch({ type: LOADING, payload: false });
+      }
+    }
+  
+  
+  
+    allNotification.forEach((e) => {
+     // console.log('Toast Created!?????????????????????????????', allNotification);
+  
+        if (e['isSeen'] === false) {
+          toast.info(e['message'], {
+            toastId: e["_id"],
+            autoClose: false,
+            onClose: async () => {
+              const { data } = await updateInstructionUser({ isSeen: true }, e["_id"]);
+              console.log('Toast closed!', data);
+              // Your custom function to run on close
+              // Add your additional logic here
+            },
+          });
+        }
+   })
+  
+  
+  
   useEffect(() => {
+    console.log("??????????????????????????????Main routes component??????????????????????????????????????????????");
+
     const token = sessionStorage.getItem("token");
     if (token) {
       dispatch({ type: LOGIN, payload: token });
+      fetchAll()
     }
   }, [dispatch, globalState.accessToken]);
+  //dispatch, globalState.accessToken
+  console.log("MainRoutes")
   return (
     <BrowserRouter>
       <ToastContainer

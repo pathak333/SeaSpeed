@@ -84,7 +84,8 @@ const AddCompany = () => {
 
     const getDocId = (data: any) => {
         updateFileData(data)
-        return updateEvent({ documentId: [...formEvent.documentId, data._id],isFormChanged: true  })
+       const arrId = data.map((e:any)=> e._id)
+        return updateEvent({ documentId: [...formEvent.documentId, ...arrId],isFormChanged: true  })
       }
 
     const listofData = formEvent.manager.map((item: any, index: any) => (
@@ -155,7 +156,7 @@ const AddCompany = () => {
         />
         <FileUpload folder={"company"} name="logo" from="admin" dataFun={getLogoDocId} />
         <h1 className="ml-3 text-IbColor"> {logofileData !== undefined ? <a href={logofileData?.link}>You have uploaded one file { logofileData?.name }</a> :""}</h1>
-        <FileUpload folder={"company"} name="copmany doc" from="admin" dataFun={getDocId} />
+        <FileUpload folder={"company"} name="copmany_doc" from="admin" dataFun={getDocId} isMultiple={true} />
         <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
         
 

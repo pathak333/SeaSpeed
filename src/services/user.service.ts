@@ -50,7 +50,9 @@ import {
   UpdateKinDetailApi,
   singleFileUploadApi,
   getAllFileApi,
-  uploadProfileApi
+  uploadProfileApi,
+  getInstructionUserApi,
+  updateInstructionUserApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -271,4 +273,10 @@ export const uploadProfile = (payload:any,token:any) => {
       'Authorization': token,
     }
   })
+}
+export const getUserInstruction = () => {
+  return httpService.get(getInstructionUserApi);
+}
+export const updateInstructionUser = (payload:any,id:string) => {
+  return httpService.put(updateInstructionUserApi+`?id=${id}`,payload);
 }

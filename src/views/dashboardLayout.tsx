@@ -1,31 +1,27 @@
-import { useEffect } from "react";
+// import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import NavbarComponent from "../Components/dashboard/navbar_component";
-import { DATA, LOADING } from "../constants/action.constant";
-import { useGlobalState } from "../contexts/global.context";
-import { ProfileService } from "../services/user.service";
+// import { DATA, LOADING } from "../constants/action.constant";
+// import { useGlobalState } from "../contexts/global.context";
+// import { ProfileService, getUserInstruction, updateInstructionUser } from "../services/user.service";
 import { NoPropComponent } from "../types/noProps.type";
+// import { toast } from "react-toastify";
+
 
 const DashboardLayout: NoPropComponent = () => {
-  const [globalState, dispatch] = useGlobalState();
+ // const [globalState, dispatch] = useGlobalState();
+  // useEffect(() => {
+  //   console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+    
+  //  //fetchAll()
+ 
 
-  useEffect(() => {
-    async function fetchdata() {
-      dispatch({ type: LOADING, payload: true });
-      const { data } = await ProfileService();
-      console.log("profile data", data);
-      sessionStorage.setItem("formState", data.data.formState)
-      dispatch({ type: DATA, payload: data });
-      dispatch({ type: LOADING, payload: false });
-    }
-    setTimeout(() => {
-      fetchdata();
-    }, 800);
+  //   // return () => {
+  //   //   second
+  //   // }
+  // }, []);
 
-    // return () => {
-    //   second
-    // }
-  }, []);
+ 
 
   return (
     <NavbarComponent>

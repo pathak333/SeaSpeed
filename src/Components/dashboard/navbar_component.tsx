@@ -5,6 +5,7 @@ import SideBarMenuItem from "../smallerComponents/sidebarMenuItems";
 
 import { useNavigate } from "react-router-dom";
 import { BusinessCenterOutlined, DirectionsBoatRounded } from "@mui/icons-material";
+import Notification from "./notification_list";
 // import Lottie from "lottie-react";
 // import i from "../../assets/system-solid-161-trending-flat.json"
 
@@ -27,6 +28,7 @@ const NavbarComponent = (props: any) => {
 
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isNotifyHovered, setIsNotifyHovered] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -34,6 +36,14 @@ const NavbarComponent = (props: any) => {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+  };
+
+  const handleNotifyMouseEnter = () => {
+    setIsNotifyHovered(true);
+  };
+
+  const handleNotifyMouseLeave = () => {
+    setIsNotifyHovered(false);
   };
 
 
@@ -61,10 +71,15 @@ const NavbarComponent = (props: any) => {
               {props.name ?? "Dashboard"}
             </p>
           </div>
-          <div className=" flex flex-row items-end justify-evenly  w-1/3">
-            <div className="relative my-auto  w-6 h-6" >
-              <Bell className="absolute  " />
+          <div className=" flex flex-row  justify-evenly items-center  w-1/3">
+            <div className="relative  flex flex-row items-start  w-6 h-6"  >
+              <Bell className="absolute" onMouseEnter={handleNotifyMouseEnter}  onMouseLeave={handleNotifyMouseLeave} />
               {/* <Lottie animationData={i} loop={false} lottieRef={lottieRef} /> */}
+              {isNotifyHovered && <div className="absolute right-0 z-10 mt-3 w-80 h-96 overflow-auto origin-bottom-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1} onMouseEnter={handleNotifyMouseEnter}
+                onMouseLeave={handleNotifyMouseLeave}>
+                <h2 className="text-xl font-semibold p-4">All Instructions</h2>
+               <Notification />
+              </div>}
 
               <div className="bg-blue-600 w-2 h-2 rounded-xl   ml-auto"></div>
             </div>
