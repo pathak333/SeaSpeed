@@ -21,7 +21,7 @@ const ViewAllCompany = () => {
     }
 
     const listofData = companyList.map((item: any, index: any) => (
-        <tr key={index} className="bg-gray-200 border-b-2 border-b-gray-50" onClick={(e:any)=>{
+        <tr key={index} className="bg-gray-200 border-b-2 border-b-gray-50 hover:bg-slate-100 cursor-pointer" onClick={(e:any)=>{
           console.log("click on vessel")
           navigate("/adminDashboard/companyProfile",{state:{company:item}})}}>
           <td className="px-6 py-4">{item.name}</td>

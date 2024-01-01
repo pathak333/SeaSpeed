@@ -125,7 +125,7 @@ const References = () => {
     };
 
     const listofData = formEvent.dataList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.companyName}</td>
             <td className="px-6 py-4">{item.address}</td>
             <td className="px-6 py-4">{item.personInCharge}</td>
@@ -147,7 +147,7 @@ const References = () => {
     ));
 
     const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.companyName}</td>
             <td className="px-6 py-4">{item.address}</td>
             <td className="px-6 py-4">{item.personInCharge}</td>

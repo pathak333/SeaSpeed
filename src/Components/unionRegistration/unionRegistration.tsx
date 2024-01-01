@@ -117,7 +117,7 @@ const UnionRegistrationDetail = () => {
     };
 
     const listofData = formEvent.dataList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.unionName}</td>
             <td className="px-6 py-4">{item.membershipNumber}</td>
             <td className="px-6 py-4">{item.dateOfJoiningUnion.split("T")[0]}</td>
@@ -137,7 +137,7 @@ const UnionRegistrationDetail = () => {
     ));
 
     const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.unionName}</td>
             <td className="px-6 py-4">{item.membershipNumber}</td>
             <td className="px-6 py-4">{item.dateOfJoiningUnion.split("T")[0]}</td>

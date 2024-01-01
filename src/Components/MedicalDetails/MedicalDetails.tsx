@@ -137,7 +137,7 @@ const MedicalDetails = () => {
     }
 
     const listofData = formEvent.typeMedicalDetails.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b mb-3">
+        <tr key={index} className="bg-white border-b mb-3 hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.type}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>

@@ -7,6 +7,7 @@ import "./App.css";
 import { GlobalProvider } from "./contexts/global.context";
 import MainRoutes from "./Routes/Main.routes";
 import ErrorBoundary from "./uiComponents/error_boundary";
+import AppWrapper from "./Routes/Main.routes";
 
 function App() {
   // const [value, setValue] = useState("");
@@ -19,7 +20,8 @@ function App() {
     <>
       <GlobalProvider>
         <ErrorBoundary>
-          <MainRoutes />
+          {/* <MainRoutes /> */}
+          <AppWrapper key={"AppWrapper"} />
         </ErrorBoundary>
       </GlobalProvider>
     </>

@@ -140,7 +140,7 @@ const VisaDetail = (props: any) => {
 
 
   const listofData = formEvent.visaList.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b">
+    <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
       <td className="px-6 py-4">{item.visatype}</td>
       <td className="px-6 py-4">{item.placeOfIssue}</td>
       <td className="px-6 py-4">{item.number}</td>

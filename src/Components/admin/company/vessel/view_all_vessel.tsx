@@ -26,7 +26,7 @@ const ViewAllVessel = () => {
 
 
     const listofData = vesselList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b" onClick={(e:any)=>{
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={(e:any)=>{
           console.log("click on vessel")
           navigate("/adminDashboard/vesselProfile",{state:{id:item._id}})}}>
           <td className="px-6 py-4">{item.name}</td>

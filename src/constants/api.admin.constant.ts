@@ -58,3 +58,6 @@ export const uploadProfileadminApi = "/file/admin/uploadProfile"
 export const sendInstructionApi = "/admin/sendInstruction"
 export const getInstructionApi = "/admin/getInstruction"
 export const deleteInstructionApi = "/admin/deleteInstruction"
+
+export const getExpireDocVesselApi = "/file/admin/getExpireDocVessel"
+export const getExpireDocCompanyApi = "/file/admin/getExpireDocCompany"

@@ -79,7 +79,7 @@ const Education = () => {
     formEvent.error.keys === field ? formEvent.error.values : "";
 
   const listofData = formEvent.dataList.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b">
+    <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
       <td className="px-6 py-4">{item.institution}</td>
       <td className="px-6 py-4">{item.qualification}</td>
       <td className="px-6 py-4">{item.startDate}</td>
@@ -98,7 +98,7 @@ const Education = () => {
   ));
 
   const listOfOldData = oldData.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b">
+    <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
       <td className="px-6 py-4">{item.institution}</td>
       <td className="px-6 py-4">{item.qualification}</td>
       <td className="px-6 py-4">{item.startDate}</td>

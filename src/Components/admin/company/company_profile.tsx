@@ -67,7 +67,7 @@ const CompanyProfile = () => {
   const remove = () => updateSelectedPdf("")
 
   const listofData = vessel.map((item: any, index: any) => (
-    <tr key={index} className="bg-slate-100 border-b" onClick={(e: any) => {
+    <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
       navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
     }}>
@@ -89,7 +89,7 @@ const CompanyProfile = () => {
 
 
   const listofManagerData = manager.map((item: any, index: any) => (
-    <tr key={index} className="bg-slate-100 border-b" onClick={(e: any) => {
+    <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
       //navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
     }}>
@@ -111,7 +111,7 @@ const CompanyProfile = () => {
 
 
   const listofDocData = company.documentId.map((item: any, index: any) => (
-    <tr key={index} className="bg-slate-100 border-b" onClick={(e: any) => {
+    <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel",item)
       //navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
     }}>

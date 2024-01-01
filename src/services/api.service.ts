@@ -1,18 +1,24 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useGlobalState } from "../contexts/global.context";
-import { LOADING } from "../constants/action.constant";
+// import { useGlobalState } from "../contexts/global.context";
+// import { LOADING } from "../constants/action.constant";
+
+
 
 let refresh = false;
 
-axios.defaults.headers.common["Authorization"] =
+
+
+
+
+ axios.defaults.headers.common["Authorization"] =
   sessionStorage.getItem("token") || "";
-axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;//API_URL;
+   axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;//API_URL;
 
 
+  
 
-
-axios.interceptors.response.use(
+ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     
@@ -25,12 +31,12 @@ axios.interceptors.response.use(
     if (!error.response) {
       toast.error('No Network',{toastId: "Neterror"});
     }
-    if ([404, 403].includes(error.response.status) && !refresh) {
+    if (error.response && [404, 403].includes(error.response.status) && !refresh) {
       // axios.defaults.headers.common["Authorization"] =
       // sessionStorage.getItem("token") || "";
      // sessionStorage.removeItem("token")
       toast.error(error.response.data.message,{toastId: "error"});
-      window.location.reload();
+      //window.location.reload();
      
       // refresh = false;
       // const response = await axios.get("auth/refresh", {
@@ -44,7 +50,7 @@ axios.interceptors.response.use(
       //   return axios(error.config);
       // }
     }
-    if ([422].includes(error.response.status)) { 
+    if (error.response && [422].includes(error.response.status)) { 
       toast.error(error.response.data.message);
      
     }
@@ -58,10 +64,10 @@ axios.interceptors.response.use(
 // });
 
 const httpService = {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  patch: axios.patch,
-  delete: axios.delete,
+  get:  axios.get,
+  post:  axios.post,
+  put:  axios.put,
+  patch:  axios.patch,
+  delete:  axios.delete,
 };
 export default httpService;

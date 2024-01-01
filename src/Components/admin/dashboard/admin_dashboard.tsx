@@ -2,12 +2,12 @@
 import DashboardCard from "../../smallerComponents/dashboardCard";
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { Business, Contacts, DirectionsBoatRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@mui/icons-material";
+import { Business, Contacts, DirectionsBoatRounded, DockRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@mui/icons-material";
 import DashboardCard2 from "../../smallerComponents/dashboardCard2";
 import { Sailing } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
-import GenratePdf from "../contract_pdf/genratePdf";
+// import GenratePdf from "../contract_pdf/genratePdf";
 
 
 
@@ -102,6 +102,13 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/viewAllCompany");
           }}
         />}
+        <DashboardCard2
+          label={"All Expire Doc"}
+          icon={<DockRounded className="" />}
+          onClick={() => {
+            navigate("/adminDashboard/viewAllExpireDoc");
+          }}
+        />
         {/* <GenratePdf /> */}
 
       </div>

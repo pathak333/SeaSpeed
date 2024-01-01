@@ -56,6 +56,10 @@ import AllPendingCrewMembers from "../Components/admin/crew_member.tsx/all_pendi
 import VesselProfile from "../Components/admin/company/vessel/vessel_profile";
 import CompanyProfile from "../Components/admin/company/company_profile";
 import { ProfileService, getUserInstruction, updateInstructionUser } from "../services/user.service";
+import ExpireDocLayout from "../views/AdminViews/expireDocumentsLayout";
+import VesselExpireDocs from "../Components/admin/Expire_documents/vessel_expire_docs";
+import CompanyExpireDocs from "../Components/admin/Expire_documents/company_expire_docs";
+import { adminProfileService } from "../services/admin.service";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -508,6 +512,26 @@ const MainRoutes = () => {
           ),
 
         },
+        {
+          path: "viewAllExpireDoc",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<ExpireDocLayout />}
+            />
+          ),
+          children: [
+            {
+              path: "",
+              element: <VesselExpireDocs />
+            },
+            {
+              path: "companyDocs",
+              element: <CompanyExpireDocs />
+            },
+          ]
+        },
         // crew file editing section 
         {
           path: "personaldetails",
@@ -674,6 +698,7 @@ const MainRoutes = () => {
       ]
     },
 
+
   ]);
 
   var role = sessionStorage.getItem("role") ?? "user";
@@ -688,73 +713,90 @@ const AppWrapper = () => {
 
   axios.defaults.headers.common["Authorization"] =
     sessionStorage.getItem("token") || "";
-  
-  
-  
-  
-    async function fetchdata() {
-      dispatch({ type: LOADING, payload: true });
-  
-      const { data } = await ProfileService();
-      console.log("profile data", data);
-      sessionStorage.setItem("formState", data.data.formState)
-      dispatch({ type: DATA, payload: data });
-    }
-    async function FetchInstruction() {
-      const { data } = await getUserInstruction();
-      console.log(data);
-      updateNotif(data.data)
-     
-    }
-    
-    async function fetchAll() {
-      try {
-        await fetchdata();
+
+  var role = sessionStorage.getItem("role") ?? "user";
+
+
+
+  async function fetchdataAdmin() {
+    dispatch({ type: LOADING, payload: true });
+    const { data } = await adminProfileService();
+    console.log("profile data", data);
+    sessionStorage.setItem("formState", data.data.formState)
+    dispatch({ type: DATA, payload: data });
+    dispatch({ type: LOADING, payload: false });
+  }
+
+  async function fetchdata() {
+    dispatch({ type: LOADING, payload: true });
+
+    const { data } = await ProfileService();
+    console.log("profile data", data);
+    sessionStorage.setItem("formState", data.data.formState)
+    dispatch({ type: DATA, payload: data });
+  }
+  async function FetchInstruction() {
+    const { data } = await getUserInstruction();
+    console.log(data);
+    updateNotif(data.data)
+
+  }
+
+  async function fetchAll() {
+    try {
+      role.toLocaleLowerCase() === "admin" || role.toLocaleLowerCase() === "superadmin" ? await fetchdataAdmin() : await fetchdata()
       await FetchInstruction();
-    console.log(allNotification,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    
-       
-        // Access the updated value of allNotification after the FetchInstruction call
-       
-    
-        dispatch({ type: LOADING, payload: false });
-      } catch (error) {
-        console.error('Error in fetchAll:', error);
-        // Handle error as needed
-        dispatch({ type: LOADING, payload: false });
-      }
+      console.log(allNotification, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+
+      // Access the updated value of allNotification after the FetchInstruction call
+
+
+      dispatch({ type: LOADING, payload: false });
+    } catch (error) {
+      console.error('Error in fetchAll:', error);
+      // Handle error as needed
+      dispatch({ type: LOADING, payload: false });
     }
-  
-  
-  
-    allNotification.forEach((e) => {
-     // console.log('Toast Created!?????????????????????????????', allNotification);
-  
-        if (e['isSeen'] === false) {
-          toast.info(e['message'], {
-            toastId: e["_id"],
-            autoClose: false,
-            onClose: async () => {
-              const { data } = await updateInstructionUser({ isSeen: true }, e["_id"]);
-              console.log('Toast closed!', data);
-              // Your custom function to run on close
-              // Add your additional logic here
-            },
-          });
-        }
-   })
-  
-  
-  
+  }
+
+
+
+  allNotification.forEach((e) => {
+    // console.log('Toast Created!?????????????????????????????', allNotification);
+
+    if (e['isSeen'] === false) {
+      toast.info(e['message'], {
+        toastId: e["_id"],
+        autoClose: false,
+        onClose: async () => {
+          const { data } = await updateInstructionUser({ isSeen: true }, e["_id"]);
+          console.log('Toast closed!', data);
+          // Your custom function to run on close
+          // Add your additional logic here
+        },
+      });
+    }
+  })
+
+
+
   useEffect(() => {
     console.log("??????????????????????????????Main routes component??????????????????????????????????????????????");
 
     const token = sessionStorage.getItem("token");
     if (token) {
       dispatch({ type: LOGIN, payload: token });
-      fetchAll()
+
     }
-  }, [dispatch, globalState.accessToken]);
+  },[]);
+
+  useEffect(() => {
+    console.log("??????????????????????????????Main routes component asscess token ??????????????????????????????????????????????");
+    fetchAll()
+  }, [globalState.accessToken])
+
+
   //dispatch, globalState.accessToken
   console.log("MainRoutes")
   return (

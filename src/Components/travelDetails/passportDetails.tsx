@@ -82,7 +82,9 @@ const PassPortDetail = (props: any) => {
         //ECNR
       }
       console.log(postData);
-
+      if (formEvent.hasOwnProperty("user_id")) {
+        postData.documentId = postData.documentId._id
+}
       const isValid = await PassportValidation(postData);
       if (isValid) {
         const { data } = formEvent.hasOwnProperty("user_id") ? await updatePassportDetailService(postData) : await PassportDetailService(postData)

@@ -89,7 +89,7 @@ const AddCompany = () => {
       }
 
     const listofData = formEvent.manager.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.email}</td>
             <td className="px-6 py-4">{item.phone}</td>

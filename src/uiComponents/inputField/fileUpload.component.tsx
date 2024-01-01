@@ -189,7 +189,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
         const expire = formData.get('expire');
         const filename = formData.get("file").name
         return (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
             <td className="px-6 py-4">{name}</td>
             <td className="px-6 py-4">{expire}</td>
             <td className="px-6 py-4">{filename}</td>
