@@ -60,6 +60,7 @@ import ExpireDocLayout from "../views/AdminViews/expireDocumentsLayout";
 import VesselExpireDocs from "../Components/admin/Expire_documents/vessel_expire_docs";
 import CompanyExpireDocs from "../Components/admin/Expire_documents/company_expire_docs";
 import { adminProfileService } from "../services/admin.service";
+import UserExpireDocs from "../Components/admin/Expire_documents/user_expire_docs";
 
 const MainRoutes = () => {
   const [globalState] = useGlobalState();
@@ -529,6 +530,10 @@ const MainRoutes = () => {
             {
               path: "companyDocs",
               element: <CompanyExpireDocs />
+            },
+            {
+              path: "userExpireDocs",
+              element: <UserExpireDocs />
             },
           ]
         },

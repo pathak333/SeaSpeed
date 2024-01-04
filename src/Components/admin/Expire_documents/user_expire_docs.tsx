@@ -1,19 +1,21 @@
+// getExpireDocUser
+
 import { useEffect, useState } from "react"
 import { Search, Trash2 } from "react-feather";
-import { getExpireDocVessel } from "../../../services/admin.service";
+import { getExpireDocUser } from "../../../services/admin.service";
 import { AccountCircle } from "@mui/icons-material";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 
-const VesselExpireDocs = (props: any) => {
+const UserExpireDocs = (props: any) => {
     
-  const [VesselData, updateVesselData] = useState([]);
+  const [UserData, updateUserData] = useState([]);
   const [expireDate, updateExpireDate] = useState("");
   const fetchData = async () => {
       console.log(expireDate);
       
-      const { data } = await getExpireDocVessel(expireDate);
+      const { data } = await getExpireDocUser(expireDate);
       console.log(data)
-      updateVesselData(data.data)
+      updateUserData(data.data)
   }
 
 
@@ -27,10 +29,10 @@ const VesselExpireDocs = (props: any) => {
     }, [])
 
 
-    const listofData = VesselData.map((item: any, index: any) => {
+    const listofData = UserData.map((item: any, index: any) => {
       console.log(item)
       return <tr key={index} className={`  border-b hover:bg-slate-100 cursor-pointer`} >
-        <td className="px-6 py-4">{item.vesselName}<br /> </td>
+        <td className="px-6 py-4">{`${item.firstname} ${item.lastname}`}<br /> </td>
         <td className="px-6 py-4">{item.document.name}</td>
         <td className="px-6 py-4">{item.document.expire && item.document.expire.split('T')[0]}</td>
        
@@ -66,7 +68,7 @@ const VesselExpireDocs = (props: any) => {
         <thead className="text-xs text-grey-700 uppercase ">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Vessel Name
+              User Name
             </th>
             <th scope="col" className="px-6 py-3">
               Doc Name
@@ -87,4 +89,4 @@ const VesselExpireDocs = (props: any) => {
   </>
 }
 
-export default VesselExpireDocs;
+export default UserExpireDocs;

@@ -62,3 +62,4 @@ export const deleteInstructionApi = "/admin/deleteInstruction"
 
 export const getExpireDocVesselApi = "/file/admin/getExpireDocVessel"
 export const getExpireDocCompanyApi = "/file/admin/getExpireDocCompany"
+export const getExpireDocUserApi = "/file/admin/getExpireDocUser"

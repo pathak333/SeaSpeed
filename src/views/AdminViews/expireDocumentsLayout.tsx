@@ -30,7 +30,7 @@ const ExpireDocLayout = () => {
             <div className="w-full mb-4 flex flex-row justify-between items-center">
                 <p className={`text-lg ml-2 cursor-pointer ${currentList === "vessel" ? "border-b-4 border-blue-400" : "text-gray-500"}`} onClick={() => (navigate("/adminDashboard/viewAllExpireDoc"), setCurrentList("vessel"))}>Vessel Expire Docs</p>
                 <p className={`text-lg ml-2 cursor-pointer ${currentList === "company" ? "border-b-4 border-blue-400" : " text-gray-500"}`} onClick={() => (navigate("/adminDashboard/viewAllExpireDoc/companyDocs"), setCurrentList("company"))}>Company Expire Docs</p>
-                <p className={`text-lg ml-2 cursor-pointer ${currentList === "user" ? "border-b-4 border-blue-400" : " text-gray-500"}`} onClick={() => (navigate("/adminDashboard/viewAllExpireDoc/companyDocs"), setCurrentList("user"))}>User Expire Docs</p>
+                <p className={`text-lg ml-2 cursor-pointer ${currentList === "user" ? "border-b-4 border-blue-400" : " text-gray-500"}`} onClick={() => (navigate("/adminDashboard/viewAllExpireDoc/userExpireDocs"), setCurrentList("user"))}>User Expire Docs</p>
             </div>
 
 
