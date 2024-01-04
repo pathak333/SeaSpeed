@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getExpireDocCompany } from "../../../services/admin.service";
-import { Trash2 } from "react-feather";
+import { Search, Trash2 } from "react-feather";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { AccountCircle } from "@mui/icons-material";
 
@@ -55,8 +55,9 @@ const CompanyExpireDocs = (props: any) => {
          label=' Expire Date'
          className='my-4 w-2/3 '
         // error={errorReturn(' fieldName')}
-         icon={<AccountCircle className='text-gray-300' />}
-         onChange={(e)=>(updateExpireDate(e.target.value) , fetchData())}
+        icon={<Search className=' text-blue-700' />}
+        onIconClick={()=>fetchData() }
+         onChange={(e)=>(updateExpireDate(e.target.value) )}
         />
         {/* <input type="date" name="expire" id="expire" onChange={(e)=>(updateExpireDate(e.target.value) , fetchData())} /> */}
      <div className="relative overflow-x-auto mb-3">

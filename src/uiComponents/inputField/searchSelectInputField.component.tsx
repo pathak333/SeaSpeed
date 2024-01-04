@@ -15,6 +15,7 @@ interface Props{
   isDisabled: boolean;
   isLoading: boolean;
   label: string;
+  autoFocus?: boolean;
 }
 
 
@@ -60,6 +61,7 @@ const SearchSelect = (props:Props) => {
       onCreateOption={props.onCreateOption}
       options={props.options}
       value={props.value}
+      autoFocus = {props.autoFocus ?? false}
       
     />
   );

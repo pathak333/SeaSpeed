@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Trash2 } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
-import { assignNewCrewService, getAllCrewByVesselIdService, getAllUnAssinedCrew, getVesselByIdService } from "../../../../services/admin.service";
+import { UpdateVessel, assignNewCrewService, getAllCrewByVesselIdService, getAllUnAssinedCrew, getVesselByIdService } from "../../../../services/admin.service";
 import { addMonths, createOption } from "../../../../constants/values.constants";
-import { ChangeCircleRounded, ArrowBack } from "@mui/icons-material";
+import { ChangeCircleRounded, ArrowBack, OpenInFull, Delete, DeleteOutline, OpenInBrowserOutlined, OpenInFullOutlined, OpenInNewOffOutlined, OpenInNewOutlined } from "@mui/icons-material";
 import ModalBox from "../../../../uiComponents/custom_modal";
 import { SearchSelect } from "../../../../uiComponents/inputField/searchSelectInputField.component";
 import { Option } from "../../../../types/propes.types";
 import Tooltip from "@mui/material/Tooltip";
+import { useGlobalState } from "../../../../contexts/global.context";
+import { LOADING } from "../../../../constants/action.constant";
+import FileUpload from "../../../../uiComponents/inputField/fileUpload.component";
+import PdfViewer from "../../../../uiComponents/pdf_viewer";
 
 
 
@@ -16,8 +20,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 
 const VesselProfile = () => {
-
-  
+   const [, dispatch] = useGlobalState();
    const [vesselData, setVesselData] = useState<any>({})
    const [crewData, setcrewData] = useState<any>([])
    //const [newCrew, setNewCrew] = useState<Option>({ label: "", value: "" })
@@ -25,20 +28,34 @@ const VesselProfile = () => {
    // change crew
    const [isModalOpen, setIsModalOpen] = useState({state:false,id:""});
    const [isManagerOpen, setIsManagerOpen] = useState(false);
+   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
+   const [isCertificateSelected, setIsCertificateSelected] = useState(false);
    const [isLoading, setIsLoading] = useState(true)
    const [selectedCrew,setSelectedCrew] = useState<Option>({ label: "", value: "" })
+   const [selectedPdf,updateSelectedPdf] = useState<any>()
 
    const navigate = useNavigate();
    const location = useLocation();
+   const [fileData,updateFileData] = useState<any>()
+   const [vesselDoc,updateVesselData] = useState<any>([])
 
    useEffect(() => {
       fetchData();
    }, [])
 
   
-
+   const getDocId = async (docdata: any) => {
+      updateFileData(docdata)
+     const arrId = docdata.map((e:any)=> e._id)
+      updateVesselData([...vesselDoc, ...arrId])
+      console.log(arrId);
+      
+      let {data} = await UpdateVessel(location.state.id, { certificate: arrId })
+      setVesselData(data.data);
+    }
 
    async function fetchData() {
+      dispatch({ type: LOADING, payload: true }); 
       console.log(location.state.id)
       var data = await getVesselByIdService(location.state.id)
       var cData = await getAllCrewByVesselIdService(location.state.id)
@@ -47,6 +64,7 @@ const VesselProfile = () => {
 
       setVesselData(data.data.data);
       setcrewData(cData.data.data)
+      dispatch({ type: LOADING, payload: false });
    }
 
    async function getUnassinedUser(rank:string) {
@@ -62,13 +80,17 @@ const VesselProfile = () => {
 
    async function AssignNewUser(id: string) {
       console.log(selectedCrew);
-      if (selectedCrew.label !== "" && selectedCrew.value !== "") {
+      if (selectedCrew && selectedCrew.label !== "" && selectedCrew.value !== "") {
          await assignNewCrewService({ oldCrew: id, newCrew: selectedCrew })  
          closeModal()
       }
    }
 
-
+   function openPdfViewerWindow(url:any){
+      updateSelectedPdf(url)
+    }
+    const remove =()=> updateSelectedPdf("")
+  
 
    const closeModal = () => {
       setSelectedCrew({ label: "", value: "" })
@@ -89,7 +111,7 @@ const VesselProfile = () => {
          backgroundColor: "black",
          color: 'white',
          fontSize: '15px'
-      }`}}  arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr key={index} className={` bg-white border-b hover:bg-slate-100 cursor-pointer ${'replacement' in item.context ? "bg-green-300" : ""}`}>
+      }`}}  arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr  className={` bg-white border-b hover:bg-slate-100 cursor-pointer ${'replacement' in item.context ? "bg-green-300" : ""}`}>
         
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
@@ -145,12 +167,15 @@ const VesselProfile = () => {
             </div>
             <div className="pt-5">
                <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-               >View Certificate</button>
+               onClick={()=>{setIsCertificateOpen(true)}} >View Certificate</button>
                <button onClick={() => setIsManagerOpen(true)} type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                >View all manager’s</button>
-               <button type="button"
+               {/* <button type="button"
                   className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-               >Upload Certificate</button>
+               >Upload Certificate</button> */}
+               <FileUpload folder={"vessel"} name="vessel_doc" from="admin" dataFun={getDocId} isMultiple={true} className="align-sub inline-flex" />
+               <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+
             </div>
 
          </div>
@@ -183,6 +208,55 @@ const VesselProfile = () => {
          </div>
 
       </div>
+
+      <ModalBox isOpen={isCertificateSelected} onClose={() => setIsCertificateSelected(false)} label="All Certificate" className="">
+         <PdfViewer url={selectedPdf} close={() => {
+            remove()
+            setIsCertificateSelected(false)
+      }} />
+      </ModalBox>
+
+      <ModalBox isOpen={isCertificateOpen} onClose={() => setIsCertificateOpen(false)} label="All Certificate" className="">
+         <>
+         <div className="flex flex-wrap ">
+            <ArrowBack className="float-left mx-2" onClick={() => setIsCertificateOpen(false)} />
+            <h2 className="text-lg font-semibold mb-4">All Certificate</h2>
+         </div>
+            {/* vesselData */}
+            <table className="table-auto table-row w-full text-sm text-left text-grey-500">
+            <thead className="text-xs text-grey-700 uppercase ">
+               <tr className="border-b-2">
+                  <th scope="col" className="px-6 py-3">
+                     Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                     Expire date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                     Action
+                  </th>
+                 
+
+                  <th scope="col" className="px-6 py-3">
+                     Delete Manager
+                  </th>
+               </tr>
+               </thead>
+               <tbody>
+                  {vesselData.certificate && vesselData.certificate.map((e:any) => <tr>
+                     <td className="text-center">{ e.name }</td>
+                     <td className="text-center">{ e.expire && e.expire.split('T')[0] }</td>
+                     <td className="text-center" onClick={() => {
+                        setIsCertificateOpen(false)
+                        setIsCertificateSelected(true)
+                        updateSelectedPdf(e.link)
+                     }}><OpenInNewOutlined /> </td>
+                     <td className="text-center webkit-center"><Trash2 /> </td>
+                  </tr>)}
+               </tbody>
+            </table>
+         </>
+      </ModalBox>
 
       <ModalBox isOpen={isManagerOpen} onClose={() => setIsManagerOpen(false)} label="All Manager’s" className="">
          <div className="flex flex-wrap ">
@@ -260,7 +334,7 @@ const VesselProfile = () => {
          </div>
          <SearchSelect
                className="m-4"
-
+               autoFocus = {true}
                label={"Select Crew"}
                //type={""}
                onChange={(e) => setSelectedCrew(e)}
@@ -273,7 +347,7 @@ const VesselProfile = () => {
             isLoading={isLoading} />
          <button
             onClick={() => AssignNewUser(isModalOpen.id)}
-            disabled={selectedCrew.value === ""}
+            disabled={selectedCrew && selectedCrew.value === ""}
             type="button" 
                   className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-slate-500 disabled:focus:bg-slate-400 disabled:hover:bg-slate-400"
                >Assign New Crew</button>

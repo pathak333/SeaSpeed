@@ -16,17 +16,18 @@ interface Props {
     from: string,
     expireDate?: any,
     dataFun(id: any): void,
-    isMultiple?:boolean
+    isMultiple?: boolean,
+    className?: string
 }
 
 
 
 
 
-const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Props) => {
+const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = false, className }: Props) => {
     const uploadRef = useRef<HTMLInputElement>(null);
     const [, dispatch] = useGlobalState();
-   
+
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
@@ -41,10 +42,10 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
 
     useEffect(() => {
         updateFormEvent({ name: name, expireDate: expireDate ?? "" })
-       
+
     }, [expireDate, name])
 
-    
+
 
     useEffect(() => {
         if (formEvent.isUploadOpen === false) {
@@ -55,9 +56,9 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                 data: null,
                 multipleData: []
             })
-}
-        
-},[formEvent.isUploadOpen])
+        }
+
+    }, [formEvent.isUploadOpen])
 
     // const [isUploadOpen, setIsUploadOpen] = useState(false);
 
@@ -80,7 +81,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
             updateFormEvent({ multipleData: [...formEvent.multipleData, formData] })
             dispatch({ type: LOADING, payload: false });
             uploadRef.current!.value = "";
-            updateFormEvent({expireDate:""})
+            updateFormEvent({ expireDate: "" })
         } else {
             toast.info("Name and File cannot be empty");
         }
@@ -90,7 +91,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
     const handleSaveButton = async () => {
         console.log(uploadRef.current!.files)
         dispatch({ type: LOADING, payload: true });
-        if (!isMultiple ) {
+        if (!isMultiple) {
             dispatch({ type: LOADING, payload: true });
             const formData = new FormData();
             formData.append('file', uploadRef.current!.files![0]);
@@ -132,7 +133,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                     //     formData.append('foldername', folder);
                     //     return formData;
                     // });
-    
+
                     const uploadPromises = formEvent.multipleData.map(async (formData: any) => {
                         try {
                             if (from === "user") {
@@ -147,16 +148,16 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                             return null;
                         }
                     });
-    
+
                     const results = await Promise.all(uploadPromises);
                     console.log(results)
                     dataFun(results)
-    
+
                     // Handle results as needed (results is an array of responses)
-    
+
                     updateFormEvent({ files: [], isUploadOpen: false });
                     dispatch({ type: LOADING, payload: false });
-    
+
                 } catch (error) {
                     console.log(error);
                     dispatch({ type: LOADING, payload: false });
@@ -165,7 +166,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                 toast.info("Add Document to Upload.")
                 dispatch({ type: LOADING, payload: false });
             }
-           
+
         }
 
 
@@ -189,28 +190,29 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
         const expire = formData.get('expire');
         const filename = formData.get("file").name
         return (
-        <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
-            <td className="px-6 py-4">{name}</td>
-            <td className="px-6 py-4">{expire}</td>
-            <td className="px-6 py-4">{filename}</td>
-            {/* <td className="px-6 py-4">file</td> */}
-            <td className="px-6 py-4">
-                <Trash
-                    onClick={() => {
-                        formEvent.multipleData.splice(index, 1);
-                        updateFormEvent({ dataList: formEvent.multipleData });
-                    }}
-                />
-            </td>
-        </tr>
-    )});
+            <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer">
+                <td className="px-6 py-4">{name}</td>
+                <td className="px-6 py-4">{expire}</td>
+                <td className="px-6 py-4">{filename}</td>
+                {/* <td className="px-6 py-4">file</td> */}
+                <td className="px-6 py-4">
+                    <Trash
+                        onClick={() => {
+                            formEvent.multipleData.splice(index, 1);
+                            updateFormEvent({ dataList: formEvent.multipleData });
+                        }}
+                    />
+                </td>
+            </tr>
+        )
+    });
 
 
 
 
 
-    return <div>
-        <div onClick={openUpload} className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A] cursor-pointer">
+    return <>
+        <div onClick={openUpload} className={`flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A] cursor-pointer ${className}`}>
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload {name} PDF</p>
         </div>
@@ -232,30 +234,30 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                     <InputField fieldName={"name"} label={"name"} type={"text"} value={formEvent.name} onChange={(e) => updateFormEvent({ name: e.target.value })} />
                     <InputField fieldName={"expireDate"} label={"expireDate"} type={"date"} onChange={(e) => updateFormEvent({ expireDate: e.target.value })} value={formEvent.expireDate} />
                 </div>
-                {isMultiple && formEvent.multipleData.length > 0  && (
-            <div className="relative overflow-x-auto mb-3">
-                <table className="table-auto w-full text-sm text-left text-grey-500">
-                    <thead className="text-xs text-grey-700 uppercase ">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Expire
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                File
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>{listofData}</tbody>
-                   
-                </table>
-            </div>
-        ) }
+                {isMultiple && formEvent.multipleData.length > 0 && (
+                    <div className="relative overflow-x-auto mb-3">
+                        <table className="table-auto w-full text-sm text-left text-grey-500">
+                            <thead className="text-xs text-grey-700 uppercase ">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">
+                                        Name
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Expire
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        File
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>{listofData}</tbody>
+
+                        </table>
+                    </div>
+                )}
                 {isMultiple && <div className="w-full text-center">
                     <button type="button" className="mt-4 mr-3 border border-blue-300 hover:bg-blue-700 hover:text-white text-blue-400 font-bold py-2 px-4 rounded " onClick={addMoreButton}>Add More</button>
                 </div>}
@@ -265,7 +267,7 @@ const FileUpload = ({folder,name,from,expireDate,dataFun,isMultiple=false}: Prop
                 {/* <p className="text-IbColor">Upload {props.name} PDF</p> */}
             </>
         } />
-    </div>
+    </>
 
 
 

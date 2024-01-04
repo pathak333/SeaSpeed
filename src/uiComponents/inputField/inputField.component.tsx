@@ -49,6 +49,7 @@ function InputField(props: Props) {
           max={props.max}
           autoComplete="off"
           autoCorrect="off"
+          
         />
        {props.icon && <button
           type="button"

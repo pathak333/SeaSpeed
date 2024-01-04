@@ -1,6 +1,6 @@
 
 import axios, { Axios } from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi,updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi,updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -15,6 +15,16 @@ export const adminProfileService = () => {
 export const AllVessel = () => {
     return httpService.get(getAllVessel)
 }
+
+
+export const UpdateVessel = (id:string, data:any) => {
+    return httpService.put(updateVesselApi+`?id=${id}`,data)
+}
+
+
+
+
+
 
 export const getAllVesselByCompanyIdService = (id: string) => {
     return httpService.get(getAllVesselByCompanyIdApi + "/?id=" + id)
