@@ -35,6 +35,12 @@ const SeaMenBookDetail = () => {
   }
 
 
+  function openPdfViewerWindow(url:any){
+    updateSelectedPdf(url)
+  }
+  const remove =()=> updateSelectedPdf("")
+  
+
   useEffect(() => {
     fetchData();
     setState(TravelState.seamenBook);
@@ -131,7 +137,8 @@ const SeaMenBookDetail = () => {
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
-      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
+      {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
+       <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)} onDoubleClick={()=>handleDoubleClick(item.documentId.link)} >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
