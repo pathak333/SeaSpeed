@@ -15,6 +15,7 @@ import SelectInput from "../../uiComponents/inputField/selectInputField.comonent
 import { getCrewMedicalDetail } from "../../services/admin.service"
 import ApproveReject from "../../uiComponents/approve_reject"
 import { isObjectEmpty } from "../../constants/commonFunction"
+import PdfViewer from "../../uiComponents/pdf_viewer"
 
 
 
@@ -30,6 +31,8 @@ const MedicalDetails = () => {
     const [fileRegularData, updateRegularFileData] = useState<any>()
     const [fileYellowData, updateYellowFileData] = useState<any>()
     const [fileCovidData, updateCovidFileData] = useState<any>()
+
+  const [selectedPdf,updateSelectedPdf] = useState<any>()
 
 
     const navigate = useNavigate()
@@ -57,6 +60,10 @@ const MedicalDetails = () => {
     }
 
 
+    function openPdfViewerWindow(url:any){
+        updateSelectedPdf(url)
+      }
+      const remove =()=> updateSelectedPdf("")
 
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
@@ -142,7 +149,8 @@ const MedicalDetails = () => {
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfExpiry}</td>
-            <td className="px-6 py-4"><a href={item.certificateLink.link ?? "file"}>{item.certificateLink.name ?? "file"}</a></td>
+            {/* <td className="px-6 py-4"><a href={item.certificateLink.link ?? "file"}>{item.certificateLink.name ?? "file"}</a></td> */}
+            <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.certificateLink.link)}  >{ item.certificateLink.name ?? "File" }</td>
 
 
             {/* <td className="px-6 py-4">file</td> */}
@@ -354,7 +362,10 @@ const MedicalDetails = () => {
         ) : (
             <div></div>
         )}
-        <p className="font-medium text-[22px] leading-none flex flex-row ml-5 mt-3 items-center">Yellow fever vaccination</p>
+{selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove}/>}
+
+
+        <p className="font-medium text-[22px] leading-none flex flex-row ml-5 mt-6 items-center">Yellow fever vaccination</p>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
 
             <InputField
@@ -392,10 +403,11 @@ const MedicalDetails = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
             <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow_certificate" expireDate={formEvent.Yellow_fever_vaccination.dateOfExpiry} from="user" dataFun={getYellowFeverDocId} />
-            <h1 className="ml-3 text-IbColor"> {fileYellowData !== undefined ? <a href={fileYellowData?.link}>You have uploaded one file {fileYellowData?.name}</a> : ""}</h1>
+            <h1 className="ml-3 text-IbColor"> {fileYellowData !== undefined ? <a href={fileYellowData?.link} target="_blank" rel="noopener noreferrer" download>You have uploaded one file {fileYellowData?.name}</a> : ""}</h1>
 
         </div>
-        <p className="font-medium text-[22px] leading-none flex flex-row ml-5 items-center">Covid vaccination</p>
+        <hr className="mt-4" />
+        <p className="font-medium text-[22px] leading-none flex flex-row ml-5 mt-8 items-center">Covid vaccination</p>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
             <InputField
                 className="m-4"
@@ -412,7 +424,7 @@ const MedicalDetails = () => {
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
             <FileUpload folder={"covidMedicalCertificate"} name="covid_certificate" from="user" dataFun={getCovidDocId} />
-            <h1 className="ml-3 text-IbColor"> {fileCovidData !== undefined ? <a href={fileCovidData?.link}>You have uploaded one file {fileCovidData?.name}</a> : ""}</h1>
+            <h1 className="ml-3 text-IbColor"> {fileCovidData !== undefined ? <a href={fileCovidData?.link} target="_blank" rel="noopener noreferrer" download >You have uploaded one file {fileCovidData?.name}</a> : ""}</h1>
 
         </div>
         {id === null && <div>

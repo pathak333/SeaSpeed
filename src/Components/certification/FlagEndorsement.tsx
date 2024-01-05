@@ -14,6 +14,7 @@ import { CertificateContext, CertificateState } from "../../contexts/certificate
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
 import { getCrewFlagEndorsement } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 const FlagEndorsement = () => {
 
@@ -21,7 +22,8 @@ const FlagEndorsement = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
-    const [fileData,updateFileData] = useState<any>()
+    const [fileData, updateFileData] = useState<any>()
+    const [selectedPdf, updateSelectedPdf] = useState<any>()
 
 
 
@@ -39,6 +41,12 @@ const FlagEndorsement = () => {
     }
 
 
+
+    function openPdfViewerWindow(url: any) {
+        updateSelectedPdf(url)
+    }
+    const remove = () => updateSelectedPdf("")
+
     useEffect(() => {
         setState(CertificateState.flag);
         fetchData();
@@ -49,8 +57,8 @@ const FlagEndorsement = () => {
 
     const getDocId = (data: any) => {
         updateFileData(data)
-        return  updateEvent({ documentId: data._id ,isFormChanged: true })
-      }
+        return updateEvent({ documentId: data._id, isFormChanged: true })
+    }
 
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next };
@@ -65,7 +73,7 @@ const FlagEndorsement = () => {
         //type:"",
         dataList: [],
         savedData: [],
-        documentId:"",
+        documentId: "",
         isFormChanged: false,
         error: { keys: "", values: "" },
     })
@@ -89,7 +97,7 @@ const FlagEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
-                    documentId:"",
+                    documentId: "",
                     Oil_tanker_DCE: "Support",
 
                 })
@@ -140,8 +148,9 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
+            <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{item.documentId.name ?? "File"}</td>
 
-            <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
+            {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
             <td className="px-6 py-4">
                 <Trash2
                     onClick={async () => {
@@ -268,8 +277,8 @@ const FlagEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"flag"} name="endorsement" expireDate={formEvent.dateOfExpiry}  from="user" dataFun={getDocId} />
-            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+            <FileUpload folder={"flag"} name="endorsement" expireDate={formEvent.dateOfExpiry} from="user" dataFun={getDocId} />
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}</a> : ""}</h1>
 
 
         </div>
@@ -321,6 +330,11 @@ const FlagEndorsement = () => {
         ) : (
             <div></div>
         )}
+
+        {selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove} />}
+
+
+
         {id === null && <div>
             <button
                 className="ml-8 text-xl text-gray-500"
@@ -356,27 +370,27 @@ const FlagEndorsement = () => {
                 Clear all
             </button>
         </div>}
-        { globalState.data.data.permission.includes("application") && 
-        <div>
-        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+        {globalState.data.data.permission.includes("application") &&
+            <div>
+                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
 
-        {id !== null && !formEvent.isFormChanged && <div id="approver">
-            <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/dangerousCargo/?id=${id}`} locationStateData={{}}  doc_id="FlagEndorsement" user_id={id} />
-        </div>}
-        </div>}
-{ (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
-        <div>
-           <button
-            type="button"
-            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={() => {
-              // clearAllData();
-              navigate(`/adminDashboard/certificates/dangerousCargo/?id=${id}`);
-            }}
-          >
-           Next
-          </button>
-      </div> }
+                {id !== null && !formEvent.isFormChanged && <div id="approver">
+                    <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/dangerousCargo/?id=${id}`} locationStateData={{}} doc_id="FlagEndorsement" user_id={id} />
+                </div>}
+            </div>}
+        {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+            <div>
+                <button
+                    type="button"
+                    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+                        // clearAllData();
+                        navigate(`/adminDashboard/certificates/dangerousCargo/?id=${id}`);
+                    }}
+                >
+                    Next
+                </button>
+            </div>}
 
     </form>
 }

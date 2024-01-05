@@ -12,6 +12,7 @@ import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewCertificate } from "../../services/admin.service";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 
 const CertificateOfCompetency = () => {
@@ -29,14 +30,20 @@ const CertificateOfCompetency = () => {
     const navigate = useNavigate()
     const [globalState, dispatch] = useGlobalState();
     const { setState } = useContext(CertificateContext)!;
-    const [fileData,updateFileData] = useState<any>()
+    const [fileData, updateFileData] = useState<any>()
+    const [selectedPdf, updateSelectedPdf] = useState<any>()
+
 
     async function fetchData() {
-        const { data } =id === null ? await getCertificateOfCompetency() : await getCrewCertificate(id);
+        const { data } = id === null ? await getCertificateOfCompetency() : await getCrewCertificate(id);
         updateEvent({ savedData: data.data })
     }
 
- 
+
+    function openPdfViewerWindow(url: any) {
+        updateSelectedPdf(url)
+    }
+    const remove = () => updateSelectedPdf("")
 
     useEffect(() => {
         fetchData();
@@ -47,8 +54,8 @@ const CertificateOfCompetency = () => {
 
     const getDocId = (data: any) => {
         updateFileData(data)
-      return  updateEvent({ documentId: data._id,isFormChanged: true  })
-      }
+        return updateEvent({ documentId: data._id, isFormChanged: true })
+    }
 
 
 
@@ -90,7 +97,7 @@ const CertificateOfCompetency = () => {
                     dateOfExpiry: "",
                     placeOfIssue: "",
                     issuingAuthorityCountry: "",
-                    documentId:"",
+                    documentId: "",
 
                 })
             }
@@ -140,7 +147,10 @@ const CertificateOfCompetency = () => {
             <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.issuingAuthorityCountry}</td>
-            <td className="px-6 py-4"><a href={item.documentId.link}>{item.documentId.name}</a></td>
+            {/* <td className="px-6 py-4"><a href={item.documentId.link}>{item.documentId.name}</a></td> */}
+            <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{item.documentId.name ?? "File"}</td>
+
+
             <td className="px-6 py-4">
                 <Trash2
                     onClick={async () => {
@@ -199,12 +209,12 @@ const CertificateOfCompetency = () => {
 
 
 
- 
+
 
     const errorReturn = (field: string) =>
         formEvent.error.keys === field ? formEvent.error.values : "";
 
-        console.log('fileData',fileData)
+    console.log('fileData', fileData)
 
     return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Certificate of competency</h3>
@@ -269,10 +279,10 @@ const CertificateOfCompetency = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"competencyCertificate"} name="certificate"  from="user" expireDate={formEvent.dateOfExpiry} dataFun={getDocId}/>
+            <FileUpload folder={"competencyCertificate"} name="certificate" from="user" expireDate={formEvent.dateOfExpiry} dataFun={getDocId} />
             <p className="m-3 text-textGrey">(Nationality candidate can complete course from india for another country)</p>
-            
-            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}</a> : ""}</h1>
 
 
         </div>
@@ -323,6 +333,7 @@ const CertificateOfCompetency = () => {
         ) : (
             <div></div>
         )}
+        {selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove} />}
 
         {id === null && <div>
             <button
@@ -360,27 +371,27 @@ const CertificateOfCompetency = () => {
             </button>
         </div>
         }
-{ globalState.data.data.permission.includes("application") && 
-        <div>
-        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+        {globalState.data.data.permission.includes("application") &&
+            <div>
+                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
 
-        {id !== null && !formEvent.isFormChanged && <div id="approver">
-            <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/flagEndorsement/?id=${id}`} locationStateData={{}}  doc_id="CertificateOfCompetency" user_id={id} />
-        </div>}
-</div>}
-{ (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
-        <div>
-           <button
-            type="button"
-            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={() => {
-              // clearAllData();
-              navigate(`/adminDashboard/certificates/flagEndorsement/?id=${id}`);
-            }}
-          >
-           Next
-          </button>
-      </div> }
+                {id !== null && !formEvent.isFormChanged && <div id="approver">
+                    <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/flagEndorsement/?id=${id}`} locationStateData={{}} doc_id="CertificateOfCompetency" user_id={id} />
+                </div>}
+            </div>}
+        {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+            <div>
+                <button
+                    type="button"
+                    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+                        // clearAllData();
+                        navigate(`/adminDashboard/certificates/flagEndorsement/?id=${id}`);
+                    }}
+                >
+                    Next
+                </button>
+            </div>}
     </form>
 }
 
