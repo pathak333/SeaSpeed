@@ -13,17 +13,19 @@ import { CertificateContext, CertificateState } from "../../contexts/certificate
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewDangerousCargoEndorsement } from "../../services/admin.service";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 
 
 
 const DangerousCargoEndorsement = () => {
 
-  //get query parameters 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get('id');
-  const [fileData,updateFileData] = useState<any>()
+    //get query parameters 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+    const [fileData, updateFileData] = useState<any>()
+    const [selectedPdf, updateSelectedPdf] = useState<any>()
 
 
 
@@ -36,10 +38,16 @@ const DangerousCargoEndorsement = () => {
 
 
     async function fetchData() {
-        const { data } = id === null ?  await getDangerousCargoEndorsement() : await getCrewDangerousCargoEndorsement(id);
+        const { data } = id === null ? await getDangerousCargoEndorsement() : await getCrewDangerousCargoEndorsement(id);
         updateEvent({ savedData: data.data })
     }
 
+
+
+    function openPdfViewerWindow(url: any) {
+        updateSelectedPdf(url)
+    }
+    const remove = () => updateSelectedPdf("")
 
     useEffect(() => {
         fetchData();
@@ -61,7 +69,7 @@ const DangerousCargoEndorsement = () => {
         dateOfIssue: "",
         dateOfExpiry: "",
         placeOfIssue: "",
-        Oil_tanker_DCE:"Support",
+        Oil_tanker_DCE: "Support",
         isFormChanged: false,
         dataList: [],
         savedData: [],
@@ -85,7 +93,7 @@ const DangerousCargoEndorsement = () => {
                     dateOfIssue: "",
                     dateOfExpiry: "",
                     placeOfIssue: "",
-                    Oil_tanker_DCE:"Support",
+                    Oil_tanker_DCE: "Support",
                 })
             }
         } catch (error: any) {
@@ -135,8 +143,9 @@ const DangerousCargoEndorsement = () => {
             <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
+            <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{item.documentId.name ?? "File"}</td>
 
-            <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
+            {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
             <td className="px-6 py-4">
                 <Trash2
                     onClick={async () => {
@@ -147,13 +156,13 @@ const DangerousCargoEndorsement = () => {
                                 console.log(data);
                                 formEvent.savedData.splice(index, 1);
                                 updateEvent({ savedData: formEvent.savedData });
-                             
-                              } else {
+
+                            } else {
                                 throw Error(data.message)
-                              }
-                           } catch (error:any) {
+                            }
+                        } catch (error: any) {
                             toast.error(error.response.data.message);
-                           }
+                        }
                     }}
                 />
             </td>
@@ -195,8 +204,8 @@ const DangerousCargoEndorsement = () => {
 
     const getDocId = (data: any) => {
         updateFileData(data)
-       return updateEvent({ documentId: data._id,isFormChanged: true  })
-      }
+        return updateEvent({ documentId: data._id, isFormChanged: true })
+    }
 
 
 
@@ -270,8 +279,8 @@ const DangerousCargoEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"dangerousCargo"} name="endorsement" expireDate={formEvent.dateOfExpiry}  from="user" dataFun={getDocId} />
-            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
+            <FileUpload folder={"dangerousCargo"} name="endorsement" expireDate={formEvent.dateOfExpiry} from="user" dataFun={getDocId} />
+            <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}</a> : ""}</h1>
 
         </div>
         <div className="flex justify-center m-2">
@@ -304,7 +313,7 @@ const DangerousCargoEndorsement = () => {
                                 Place Of Issue
                             </th>
                             <th scope="col" className="px-6 py-3">
-                            Oil tanker DCE
+                                Oil tanker DCE
                             </th>
 
                             <th scope="col" className="px-6 py-3">
@@ -323,64 +332,69 @@ const DangerousCargoEndorsement = () => {
         ) : (
             <div></div>
         )}
-        
-        {id === null &&  <div>
+
+
+        {selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove} />}
+
+
+
+        {id === null && <div>
+            <button
+                className="ml-8 text-xl text-gray-500"
+                onClick={() => navigate("/dashboard/certificates/flagEndorsement")}
+            >
+                Previous
+            </button>
+            {formEvent.isFormChanged ? <button
+                type="submit"
+                disabled={formEvent.dataList.length === 0}
+                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+            >
+                Save & next
+            </button> :
                 <button
-            className="ml-8 text-xl text-gray-500"
-            onClick={() => navigate("/dashboard/certificates/flagEndorsement")}
-        >
-            Previous
-        </button>
-        {formEvent.isFormChanged ? <button
-            type="submit"
-            disabled={formEvent.dataList.length === 0}
-            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
-        >
-            Save & next
-        </button> :
+                    type="button"
+                    className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+
+                        navigate("/dashboard/workExperiance");
+                    }}
+                >
+                    Skip and Next
+                </button>}
             <button
                 type="button"
-                className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="ml-8 text-xl text-blue-700"
                 onClick={() => {
+                    //clearAllData();
 
-                    navigate("/dashboard/workExperiance");
                 }}
             >
-                Skip and Next
-            </button>}
-        <button
-            type="button"
-            className="ml-8 text-xl text-blue-700"
-            onClick={() => {
-                //clearAllData();
-
-            }}
-        >
-            Clear all
-        </button>
-            </div>
+                Clear all
+            </button>
+        </div>
         }
-{ globalState.data.data.permission.includes("application") && 
-        <div>
-        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
-      
-      {id!== null && !formEvent.isFormChanged &&  <div id="approver">
-         <ApproveReject name="traveldetails" navigation={`/adminDashboard/workExperiance/?id=${id}`} locationStateData={{}}  doc_id="DangerousCargoEndorsement" user_id={id}/>
-       </div>}
-       </div>}
-{ (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
-        <div>
-           <button
-            type="button"
-            className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={() => {
-              // clearAllData();
-              navigate(`/adminDashboard/workExperiance/?id=${id}`);
-            }}
-          >
-           Next
-          </button>
-      </div> }
+        {globalState.data.data.permission.includes("application") &&
+            <div>
+                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+
+                {id !== null && !formEvent.isFormChanged && <div id="approver">
+                    <ApproveReject name="traveldetails" navigation={`/adminDashboard/workExperiance/?id=${id}`} locationStateData={{}} doc_id="DangerousCargoEndorsement" user_id={id} />
+                </div>}
+            </div>}
+        {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+            <div>
+                <button
+                    type="button"
+                    className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl max-sm:text-base px-16 py-2.5 mr-2 ml-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    onClick={() => {
+                        // clearAllData();
+                        navigate(`/adminDashboard/workExperiance/?id=${id}`);
+                    }}
+                >
+                    Next
+                </button>
+            </div>}
 
 
     </form>

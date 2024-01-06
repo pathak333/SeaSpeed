@@ -12,6 +12,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
 import { getCrewSeamenBook } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
+import PdfViewer from "../../uiComponents/pdf_viewer";
 
 
 const SeaMenBookDetail = () => {
@@ -23,6 +24,7 @@ const SeaMenBookDetail = () => {
   const id = queryParams.get('id');
 
   const [fileData,updateFileData] = useState<any>()
+  const [selectedPdf,updateSelectedPdf] = useState<any>()
 
 
 
@@ -34,6 +36,12 @@ const SeaMenBookDetail = () => {
     updateEvent({ savedData: data.data })
   }
 
+
+  function openPdfViewerWindow(url:any){
+    updateSelectedPdf(url)
+  }
+  const remove =()=> updateSelectedPdf("")
+  
 
   useEffect(() => {
     fetchData();
@@ -131,7 +139,8 @@ const SeaMenBookDetail = () => {
       <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
       <td className="px-6 py-4">{item.sidNumber}</td>
       <td className="px-6 py-4">{item.Indos}</td>
-      <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td>
+      {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
+       <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -303,6 +312,7 @@ const SeaMenBookDetail = () => {
       <div></div>
     )}
 
+{selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove}/>}
 
     {id === null && <div>
 
