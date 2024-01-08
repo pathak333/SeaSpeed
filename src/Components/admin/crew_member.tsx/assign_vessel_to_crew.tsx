@@ -79,7 +79,7 @@ const AssignVessel = (props: Props) => {
             toast.success(data.message);
         }
         dispatch({ type: LOADING, payload: false });
-        goBack(-2)
+        //goBack(-1)
     }
 
 
