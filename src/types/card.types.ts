@@ -7,4 +7,6 @@ export interface DashboardCardProps
   iconbg?: string;
 }
 
-export interface DashboardCard2Props extends SideBarMenuItemTypes {}
+export interface DashboardCard2Props extends SideBarMenuItemTypes {
+  iconbg?: string;
+}

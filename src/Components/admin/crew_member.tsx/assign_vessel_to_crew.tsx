@@ -26,6 +26,7 @@ const AssignVessel = (props: Props) => {
         navigate(number)
      }
 
+   const [isVessel,updateisVessel] = useState(false)
 
     const [, dispatch] = useGlobalState();
 
@@ -40,6 +41,7 @@ const AssignVessel = (props: Props) => {
 
     useEffect(() => {
         updateFormEvent({ userId: props.userId })
+        updateisVessel(props.isVesselAvailable)
         fetchData();
     }, [])
 
@@ -66,7 +68,7 @@ const AssignVessel = (props: Props) => {
 
   
 
-    async function handleSaveButton() {
+    async function handleSaveButton(isfrom:boolean) {
         dispatch({ type: LOADING, payload: true });
        
         delete formEvent.isUploadOpen;
@@ -76,6 +78,7 @@ const AssignVessel = (props: Props) => {
         console.log(data)
         if (data) {
             updateFormEvent({ isUploadOpen: false })
+            updateisVessel(isfrom)
             toast.success(data.message);
         }
         dispatch({ type: LOADING, payload: false });
@@ -85,7 +88,7 @@ const AssignVessel = (props: Props) => {
 
 
     return <>
-        {!props.isVesselAvailable ? <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUploadOpen: true, vessel: {} })}><AirplaneTicket /> Assign Vessel</button>
+        {!isVessel ? <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUploadOpen: true, vessel: {} })}><AirplaneTicket /> Assign Vessel</button>
             : <button className="border border-red-600 bg-red-600 font-bold text-white p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUnAssign: true, vessel: {} })}><AirplaneTicket /> UnAssign Vessel</button>}
 
         <DialogBox label="Assign Vessel" isOpen={formEvent.isUploadOpen} onClose={() => { updateFormEvent({ isUploadOpen: false, }) }} component={
@@ -113,7 +116,7 @@ const AssignVessel = (props: Props) => {
                     <InputField fieldName={"joiningPort"} label={"joiningPort"} type={"text"} onChange={(e) => updateFormEvent({ joiningPort: e.target.value })} />
                     <InputField fieldName={"joiningDate"} label={"joiningDate"} type={"date"} min={TodayDate} onChange={(e) => updateFormEvent({ joiningDate: e.target.value })} />
                 </div>
-                <button type="button" disabled={isObjectEmpty(formEvent.vessel)} className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 disabled:bg-slate-500 text-white font-bold py-2 px-4 rounded" onClick={handleSaveButton}>Save</button>
+                <button type="button" disabled={isObjectEmpty(formEvent.vessel)} className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 disabled:bg-slate-500 text-white font-bold py-2 px-4 rounded" onClick={()=>handleSaveButton(true)}>Save</button>
 
                 {/* <p className="text-IbColor">Upload {props.name} PDF</p> */}
             </>
@@ -121,7 +124,7 @@ const AssignVessel = (props: Props) => {
         <DialogBox label="Assign Vessel" isOpen={formEvent.isUnAssign} onClose={() => { updateFormEvent({ isUnAssign: false, }) }} component={
             <>
                 <p>Do you realy want to unAssign this user?</p>
-                <button type="button" className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 disabled:bg-slate-500 text-white font-bold py-2 px-4 rounded" onClick={handleSaveButton}>UnAssign</button>
+                <button type="button" className="mt-4 mr-3 bg-blue-500 hover:bg-blue-700 disabled:bg-slate-500 text-white font-bold py-2 px-4 rounded" onClick={()=>handleSaveButton(false)}>UnAssign</button>
             </>
         } />
     </>

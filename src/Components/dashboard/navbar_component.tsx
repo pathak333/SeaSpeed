@@ -166,7 +166,7 @@ const NavbarComponent = (props: any) => {
           </div>
         </div>
         {/* <div className="h-[90%] "> */}
-          <div className=" flex-grow w-full h-full py-5 m-3  max-sm:px-4 max-sm:pt-8  overflow-auto">
+          <div className=" flex-grow w-full h-full py-3 m-3  max-sm:px-4 max-sm:pt-8  overflow-auto">
             {props.children}
           </div>
         {/* </div> */}

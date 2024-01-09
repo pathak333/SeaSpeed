@@ -23,8 +23,9 @@ const AdminDashboard = () => {
           description={
             "Create new user and generate login credentials"
           }
-          icon={<PersonAdd className="text-IbColor" />}
-          label={<span>Create new crew member</span>}
+          icon={<PersonAdd className="text-IbColor " />}
+         
+          label={<span>Create crew member</span>}
           onClick={() => {
             navigate("/adminDashboard/createCrew");
           }}
@@ -68,21 +69,32 @@ const AdminDashboard = () => {
         {/* card */}
       {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel") || data.role === "superadmin" ) &&  <DashboardCard2
           label={"All crew members"}
-          icon={<People className="" />}
+          icon={<People className="text-IbColor " />}
+          iconbg=""
           onClick={() => {
           navigate("/adminDashboard/allCrewMember");
           }}
         />}
       {data &&  data.role === "superadmin"  &&  <DashboardCard2
           label={"All admins"}
-          icon={<SupervisedUserCircleRounded className="" />}
+          icon={<SupervisedUserCircleRounded className="text-[#FFAF19]" />}
+          iconbg="bg-[#FFEECE]"
           onClick={() => {
             navigate("/adminDashboard/viewAllAdmin");
           }}
         />}
+         { data &&  (data['permission'].includes("admin") || data.role === "superadmin" ) && <DashboardCard2
+          label={"View all companies"}
+          icon={<Business className="text-[#A212E4]" />}
+          iconbg="bg-[#ECC5FF]"
+          onClick={() => {
+            navigate("/adminDashboard/viewAllCompany");
+          }}
+        />}
        {data &&  (data['permission'].includes("vessel") || data['permission'].includes("admin") || data.role === "superadmin" ) && <DashboardCard2
           label={"View all vessels"}
-          icon={<Sailing className="" />}
+          icon={<Sailing className="text-[#3C00E8]" />}
+          iconbg="bg-[#D8D5FA]"
           onClick={() => {
            navigate("/adminDashboard/viewVessel");
           }}
@@ -95,13 +107,7 @@ const AdminDashboard = () => {
             navigate("/adminDashboard/allPendinCrewMember");
           }}
         />}
-      { data &&  (data['permission'].includes("admin") || data.role === "superadmin" ) && <DashboardCard2
-          label={"View all companies"}
-          icon={<Business className="" />}
-          onClick={() => {
-            navigate("/adminDashboard/viewAllCompany");
-          }}
-        />}
+     
         <DashboardCard2
           label={"All Expire Doc"}
           icon={<DockRounded className="" />}
