@@ -51,13 +51,16 @@ const CrewProfile = () => {
 
    return <div className="">
       <div id="crewProfile" className="main  w-full">
-         <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px] flex flex-col justify-center items-start ">
+         <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[40px] max-sm:p-[20px] flex flex-col justify-center items-start ">
+            <div className="flex w-full justify-between">
             <p className="font-medium text-[22px] leading-none flex flex-row  items-start justify-start">
                <span className="mr-2">
                   <ArrowLeft onClick={() => { goBack() }} />
                </span>{" "}
                {data.firstname} {data.lastname} Profile
-            </p>
+               </p>
+               <p className=" text-[32px] font-bold text-gray-200 leading-none items-start justify-start">Crew Profile</p>
+           </div>
             <p className="pl-8 text-[#A5A5A5]">
                {data.rank.label}
             </p>

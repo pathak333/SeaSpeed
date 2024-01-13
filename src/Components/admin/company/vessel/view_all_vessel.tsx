@@ -29,7 +29,7 @@ const ViewAllVessel = () => {
 
 
   const listofData = vesselList.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
+    <tr title={`Crew Manager: ${item.crewManagerId.label} \nShip Manager: ${item.shipManagerId.label} \nCrew Agency: ${item.crewAgencyManagerId.label}`} key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
       navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
     }}>
@@ -38,7 +38,7 @@ const ViewAllVessel = () => {
       <td className="px-6 py-4">{item.flag}</td>
       <td className="px-6 py-4">{item.company.label}</td>
       <td className="px-6 py-4">{item.imoNumber}</td>
-      <td className="px-6 py-4">file</td>
+      {/* <td className="px-6 py-4">file</td> */}
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -71,9 +71,9 @@ const ViewAllVessel = () => {
             <th scope="col" className="px-6 py-3">
               Imo Number
             </th>
-            <th scope="col" className="px-6 py-3">
+            {/* <th scope="col" className="px-6 py-3">
               File
-            </th>
+            </th> */}
             <th scope="col" className="px-6 py-3">
               Action
             </th>

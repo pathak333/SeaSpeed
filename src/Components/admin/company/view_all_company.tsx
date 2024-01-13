@@ -28,8 +28,8 @@ const ViewAllCompany = () => {
           <td className="px-6 py-4">{item.email}</td>
           <td className="px-6 py-4">{item.phone}</td>
           <td className="px-6 py-4">{item.address}</td>
-          <td className="px-6 py-4">file</td>
-          <td className="px-6 py-4">
+          {/* <td className="px-6 py-4">file</td> */}
+          <td className="px-6 py-4 float-right">
             <Trash2
               onClick={() => {
                
@@ -58,9 +58,9 @@ return <CommonLayout heading={"View All Company"} subHeading={"Company and their
        Address
      </th>
     
-     <th scope="col" className="px-6 py-3">
+     {/* <th scope="col" className="px-6 py-3">
        File
-     </th>
+     </th> */}
      <th scope="col" className="px-6 py-3">
        Action
      </th>

@@ -78,7 +78,6 @@ const ContactDetail = () => {
       delete formData.error
       let isValid = await ContactDetailValidation(formData);
       if (isValid) {
-       
         const { data } = await ProfileUpdate(formData);
         if (data.success) { 
           toast.info(data.message)

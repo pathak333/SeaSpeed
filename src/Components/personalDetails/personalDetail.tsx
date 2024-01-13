@@ -127,15 +127,15 @@ const PersonalDetail = () => {
 
 
 
- 
+
   const cncDocId = (data: any) => {
-    updateEvent({ cncId: data._id, cncName: data,isFormChanged: true })
+    updateEvent({ cncId: data._id, cncName: data, isFormChanged: true })
   }
   const aadhaarDocId = (data: any) => {
-    updateEvent({ aadhaarId: data._id, aadhaarName: data,isFormChanged: true })
+    updateEvent({ aadhaarId: data._id, aadhaarName: data, isFormChanged: true })
   }
   const panDocId = (data: any) => {
-    updateEvent({ panId: data._id, panName: data,isFormChanged: true })
+    updateEvent({ panId: data._id, panName: data, isFormChanged: true })
   }
 
 
@@ -155,7 +155,7 @@ const PersonalDetail = () => {
       delete formData.aadhaarName
       delete formData.panName
       delete formData.cncName
-      console.log(JSON.stringify(formData,formEvent) + "????????????????");
+      console.log(JSON.stringify(formData, formEvent) + "????????????????");
       let isValid = formEvent.hasOwnProperty("user_id") ? await UpdatePersonalDetailValidation(formData) : await PersonalDetailValidation(formData);
 
       if (isValid) {
@@ -199,8 +199,12 @@ const PersonalDetail = () => {
     delete updateData["panName"];
     delete updateData["cncName"];
     updateData._id = id;
-   console.log(updateData)
-   await UpdatePersonalDetailAdmin(updateData)
+    console.log(updateData)
+    const { data } = await UpdatePersonalDetailAdmin(updateData)
+    if (data) {
+      toast.info(data.message)
+      updateEvent({ 'isFormChanged': false })
+    }
   }
 
 
@@ -255,7 +259,8 @@ const PersonalDetail = () => {
           fieldName={"firstname"}
           label={"First Name"}
           type={"text"}
-          disabled={id !== null ? false : true}
+          // disabled={id !== null ? false : true}
+          disabled={true}
           error={errorReturn("firstname")}
           onChange={(e) => updateEvent({ firstname: e.target.value, isFormChanged: true })}
           value={id !== null ? formEvent.firstname : globalState.data.data.firstname}
@@ -265,7 +270,8 @@ const PersonalDetail = () => {
           fieldName={"lastname"}
           label={"Last Name"}
           type={"text"}
-          disabled={id !== null ? false : true}
+          // disabled={id !== null ? false : true}
+          disabled={true}
           error={errorReturn("lastname")}
           onChange={(e) => updateEvent({ lastname: e.target.value, isFormChanged: true })}
           value={id !== null ? formEvent.lastname : globalState.data.data.lastname}
