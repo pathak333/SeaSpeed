@@ -18,6 +18,7 @@ import { getCrewBankDetail, updateBankDetail } from "../../services/admin.servic
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { updateBankDetailApi } from "../../constants/api.admin.constant";
+import FileUpdate from "../../uiComponents/file_update";
 
 
 const BankDetail = () => {
@@ -245,7 +246,8 @@ const BankDetail = () => {
         <FileUpload folder={"bankDetailDoc"} name="bank_cancel_cheque" from="user" dataFun={getDocId} />
 
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
-        <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}, Click to download</a> : ""}</h1>
+        {/* <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}, Click to download</a> : ""}</h1> */}
+        {fileData !== undefined ? <FileUpdate id={fileData._id} name={fileData.name} expireDate={fileData.expire} link={fileData.link} /> : <></>}
       </div>
       {fileData?.link && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
       {id === null && <div>

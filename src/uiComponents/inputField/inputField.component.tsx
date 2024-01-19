@@ -60,7 +60,7 @@ function InputField(props: Props) {
         </button>}
         <label
           htmlFor={props.id ?? props.fieldName}
-          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0   text-gray-400 bg-white mt-2  duration-300 origin-0 "
+          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm    text-gray-400 bg-white rounded-lg px-1 mt-2  duration-300 origin-0 "
         >
           {props.label}
         </label>

@@ -78,24 +78,24 @@ export default function UserInfoCard(p: Props) {
                                 <p id="name" className="h-5 m-0">{p.data !== null ? p.data.firstname : ""} {p.data != null ? p.data.lastname : ""}</p>
                                 <p id="name" className=" font-semibold text-gray-500">{p.data !== null ? p.data.rank.label : ""}</p>
                                 </div>
-                                <p id="name" className="py-2 text-sm">{p.data !== null && p.data.hasOwnProperty('vessel') && p.data.vessel.hasOwnProperty("value") ? `Vessel: ${p.data.vessel.label}` : ""}</p>
-                                <hr className=" w-full" />
+                                <p id="name" className="py-2 text-sm">{p.data !== null && p.data.hasOwnProperty('vessel') && p.data.vessel.hasOwnProperty("value") ? `Vessel: ${p.data.vessel.label}` : "No Vessel Assigned Yet"}</p>
+                                {p.data && p.data.joiningDate !== "" && <hr className=" w-full " />}
                                 {p.data !== null && p.data.joiningDate
-                                    ? <p id="name" className="py-2 text-sm">{p.data !== null ? `TENTATIVE SIGN ON DATE: ${p.data.joiningDate}` : ""}</p>
+                                    ? <p id="name" className="py-2 text-sm">{p.data !== null ? `Available after : ${p.data.joiningDate}` : ""}</p>
                                     : <>
                                         <InputField
-                                            className="m-4"
+                                            className=""
                                             fieldName={"availability"}
                                             label={"Availability"}
                                             type={"date"}
                                             min={TodayDate}
                                             // error={errorReturn("dob")}
-                                            onChange={(e) => p.onInputChange({ joiningDate: e.target.value })}
+                                            onChange={(e: any) =>  p.onInputChange(e)}
                                         //  value={formEvent.dob.split("T")[0]}
                                         />
                                         <button
                                             type="submit"
-                                            className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-textGrey focus:bg-textGrey visited:bg-textGrey"
+                                            className="read_more_btn my-2"
                                             onClick={p.submit}
                                         >
                                             Save
@@ -108,7 +108,7 @@ export default function UserInfoCard(p: Props) {
                                 {/* <p>
                                     It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
                                 </p> */}
-                                <button className="read_more_btn" type="button">Read More</button>
+                                {/* <button className="read_more_btn" type="button">Read More</button> */}
                             </div>
                         </div>
                     </div>
