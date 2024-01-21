@@ -34,10 +34,7 @@ let refresh = false;
     if (error.response && [404, 403].includes(error.response.status) && !refresh) {
      
       toast.error(error.response.data.message, { toastId: "error" });
-      if (error.response.data.message === "Unauthorized access") {
-        sessionStorage.clear()
-         window.location.reload();
-      }
+     
      
      
       // refresh = false;
@@ -51,6 +48,13 @@ let refresh = false;
       //   refresh = false;
       //   return axios(error.config);
       // }
+    }
+    if (error.response && [401].includes(error.response.status)) { 
+     
+        sessionStorage.clear()
+         window.location.reload();
+    
+     
     }
     if (error.response && [422].includes(error.response.status)) { 
       toast.error(error.response.data.message);
