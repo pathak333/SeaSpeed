@@ -115,10 +115,10 @@ const VesselProfile = () => {
         
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
-         }} className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{item.rank.label}</span></td>
+         }} className="px-3  py-4 max-w-[110px] truncate">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{item.rank.label}</span></td>
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
-         }} className="px-6 py-4">{item.joiningDate}</td>
+         }} className="px-3 py-4">{item.joiningDate}</td>
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
          }} className="px-6 py-4">{(addMonths(item.joiningDate, item.rank.value.period).toString())}</td>
@@ -183,10 +183,10 @@ const VesselProfile = () => {
             <table className="table-auto w-full text-sm text-left text-grey-500">
                <thead className="text-xs text-grey-700 uppercase ">
                   <tr>
-                     <th scope="col" className="px-6 py-3">
+                     <th scope="col" className="px-3 py-3 max-w-[50px] truncate">
                         Name
                      </th>
-                     <th scope="col" className="px-6 py-3">
+                     <th scope="col" className="px-3 py-3">
                         Sign in Date
                      </th>
                      <th scope="col" className="px-6 py-3">

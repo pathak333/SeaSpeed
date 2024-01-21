@@ -6,22 +6,26 @@ import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
 import { toast } from "react-toastify";
+import { LOADING } from "../../../constants/action.constant";
 
 
 const AllPendingCrewMembers = () => {
+ 
 
   //getAllCrew
   const [crewList, updateCrewList] = useState([]);
   const navigate = useNavigate();
-  const [globalState,] = useGlobalState();
+  const [globalState,dispatch] = useGlobalState();
   const adminData = globalState.data.data;
   useEffect(() => {
     fetchData();
   }, [])
   async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
     const { data } = await getAllPendingCrew();
     console.log(data);
     updateCrewList(data.data)
+    dispatch({ type: LOADING, payload: false });
 
   }
 

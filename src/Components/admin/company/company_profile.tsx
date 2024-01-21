@@ -76,7 +76,7 @@ const CompanyProfile = () => {
       <td className="px-6 py-4">{item.flag}</td>
       <td className="px-6 py-4">{item.crewManagerId.label}</td>
       <td className="px-6 py-4">{item.shipManagerId.label}</td>
-      <td className="px-6 py-4">file</td>
+    
       <td className="px-6 py-4">
         <Trash2
           onClick={() => {
@@ -194,9 +194,7 @@ const CompanyProfile = () => {
             <th scope="col" className="px-6 py-3">
               Vessel Manager
             </th>
-            <th scope="col" className="px-6 py-3">
-              File
-            </th>
+           
             <th scope="col" className="px-6 py-3">
               Action
             </th>

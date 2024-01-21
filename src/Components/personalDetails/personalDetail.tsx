@@ -33,7 +33,7 @@ const PersonalDetail = () => {
 
   // const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
-  const stateData = location.state;
+  // const stateData = location.state;
 
   const queryParams = new URLSearchParams(location.search);
 

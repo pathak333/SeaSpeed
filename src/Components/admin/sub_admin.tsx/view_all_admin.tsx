@@ -4,11 +4,14 @@ import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { getAllSubAdmin } from "../../../services/admin.service";
 import { Trash2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import { LOADING } from "../../../constants/action.constant";
+import { useGlobalState } from "../../../contexts/global.context";
 
 
 
 
 const ViewAllAdmin = () => {
+  const [, dispatch] = useGlobalState();
 
     const [adminList, updateAdminList] = useState([]);
     const navigate = useNavigate()
@@ -16,10 +19,13 @@ const ViewAllAdmin = () => {
     useEffect(() => {
         fetchData();
     }, [])
-    async function fetchData() {
+  async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
+      
         const { data } = await getAllSubAdmin();
         console.log(data);
         updateAdminList(data.data)
+        dispatch({ type: LOADING, payload: false });
 
     }
 

@@ -4,6 +4,8 @@ import { Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { Edit } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { LOADING } from "../../../constants/action.constant";
+import { useGlobalState } from "../../../contexts/global.context";
 
 
 const AllCrewMembers = () => {
@@ -11,15 +13,17 @@ const AllCrewMembers = () => {
     //getAllCrew
     const [crewList, updateCrewList] = useState([]);
     const navigate = useNavigate();
+    const [, dispatch] = useGlobalState();
 
     useEffect(() => {
         fetchData();
     }, [])
-    async function fetchData() {
+  async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
         const { data } = await getAllCrew();
         console.log(data);
         updateCrewList(data.data)
-
+        dispatch({ type: LOADING, payload: false });
     }
 
 
@@ -29,8 +33,8 @@ const AllCrewMembers = () => {
   return  <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={() => {
     navigate("/adminDashboard/crewProfile",{state:{data:item,page:"allCrew"}});
    }}>
-      <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
-          <td className="px-6 py-4">{item.vessel ? item.vessel.label : "UnAssined"}</td>
+      <td className="px-3 py-4 max-w-[130px] truncate">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
+          <td className="px-3 py-4">{item.vessel ? item.vessel.label : "UnAssined"}</td>
           <td className="px-6 py-4">{item.email}</td> 
        <td className="px-6 py-4">{item.phone_no}</td>
         
@@ -53,10 +57,10 @@ const AllCrewMembers = () => {
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-3 py-3">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-3 py-3">
                  Vessel assigned
               </th>
               <th scope="col" className="px-6 py-3">
