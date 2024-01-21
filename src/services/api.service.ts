@@ -32,11 +32,13 @@ let refresh = false;
       toast.error('No Network',{toastId: "Neterror"});
     }
     if (error.response && [404, 403].includes(error.response.status) && !refresh) {
-      // axios.defaults.headers.common["Authorization"] =
-      // sessionStorage.getItem("token") || "";
-     // sessionStorage.removeItem("token")
-      toast.error(error.response.data.message,{toastId: "error"});
-      //window.location.reload();
+     
+      toast.error(error.response.data.message, { toastId: "error" });
+      if (error.response.data.message === "Unauthorized access") {
+        sessionStorage.clear()
+         window.location.reload();
+      }
+     
      
       // refresh = false;
       // const response = await axios.get("auth/refresh", {

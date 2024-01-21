@@ -59,10 +59,10 @@ import httpService from "./api.service";
 
 
 export const ProfileService = () => {
-  
+  const token = sessionStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] =
-    sessionStorage.getItem("token") || "";
-  return httpService.get(GetProfileApi);
+  token+"4" || "";
+  return token ? httpService.get(GetProfileApi) : "";
 };
 
 export const ProfileUpdate = (data: any) => {
