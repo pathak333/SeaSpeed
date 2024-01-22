@@ -97,6 +97,7 @@ const PersonalDetail = () => {
 
 
   async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
 
     const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
     console.log("personal data = ", data);
@@ -111,6 +112,8 @@ const PersonalDetail = () => {
         cncName: data.data.personaldata.cncId,
       })
     }
+    dispatch({ type: LOADING, payload: false });
+
   }
 
   useEffect(() => {
@@ -120,9 +123,9 @@ const PersonalDetail = () => {
     fetchData();
   }, []);
 
-  const handleFileChange = (event: any) => {
-    setFile(event.target.files[0]);
-  };
+  // const handleFileChange = (event: any) => {
+  //   setFile(event.target.files[0]);
+  // };
 
 
 
@@ -194,6 +197,7 @@ const PersonalDetail = () => {
   };
 
   const adminUpdate = async () => {
+    dispatch({ type: LOADING, payload: true });
     delete updateData["isFormChanged"];
     delete updateData["aadhaarName"];
     delete updateData["panName"];
@@ -205,6 +209,8 @@ const PersonalDetail = () => {
       toast.info(data.message)
       updateEvent({ 'isFormChanged': false })
     }
+    dispatch({ type: LOADING, payload: false });
+
   }
 
 

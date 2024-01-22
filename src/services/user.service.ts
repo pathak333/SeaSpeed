@@ -52,7 +52,8 @@ import {
   getAllFileApi,
   uploadProfileApi,
   getInstructionUserApi,
-  updateInstructionUserApi
+  updateInstructionUserApi,
+  updateUserFileApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -281,4 +282,11 @@ export const getUserInstruction = () => {
 }
 export const updateInstructionUser = (payload:any,id:string) => {
   return httpService.put(updateInstructionUserApi+`?id=${id}`,payload);
+}
+
+export const updateUserFile = (data: any) => {
+  // axios.AxiosHeaders.concat({'Content-Type': 'multipart/form-data'})
+  console.log(data);
+  
+  return  httpService.put(updateUserFileApi, data,{ headers: { 'Content-Type': 'multipart/form-data', } });
 }

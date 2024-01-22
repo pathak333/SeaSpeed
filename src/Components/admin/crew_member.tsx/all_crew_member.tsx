@@ -9,11 +9,12 @@ import { useGlobalState } from "../../../contexts/global.context";
 
 
 const AllCrewMembers = () => {
+  const [globalState, dispatch] = useGlobalState();
 
     //getAllCrew
     const [crewList, updateCrewList] = useState([]);
     const navigate = useNavigate();
-    const [, dispatch] = useGlobalState();
+  
 
     useEffect(() => {
         fetchData();
@@ -24,6 +25,7 @@ const AllCrewMembers = () => {
         console.log(data);
         updateCrewList(data.data)
         dispatch({ type: LOADING, payload: false });
+
     }
 
 

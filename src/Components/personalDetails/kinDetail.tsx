@@ -35,20 +35,28 @@ const KinDetail = () => {
 
 
   async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
+
     const { data } = id === null ? await GetKinDetail() : await getCrewKinDetail(id)
     console.log(data)
     if (data.success && data.data) {
       console.log("data inter")
       updateEvent(data.data)
     }
+    dispatch({ type: LOADING, payload: false });
+
   }
   
-  async function fetchPersonalData(){
+  async function fetchPersonalData() {
+    dispatch({ type: LOADING, payload: true });
+    
     const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
     console.log("personal data = ", data);
     if (data) {
       updatePersonalData(data.data.personaldata)
     }
+    dispatch({ type: LOADING, payload: false });
+
   }
 
 

@@ -1,6 +1,6 @@
 
 import axios, { Axios } from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi,updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -17,8 +17,8 @@ export const AllVessel = () => {
 }
 
 
-export const UpdateVessel = (id:string, data:any) => {
-    return httpService.put(updateVesselApi+`?id=${id}`,data)
+export const UpdateVessel = (id: string, data: any) => {
+    return httpService.put(updateVesselApi + `?id=${id}`, data)
 }
 
 
@@ -113,9 +113,9 @@ export const getCrewPersonalDetail = (id: string) => {
     return httpService.get(getCrewPersonalDetailApi + "/?id=" + id)
 }
 
-export const UpdatePersonalDetailAdmin = (data:any) => {
-    return httpService.put(UpdatePersonalDetailAdminApi,data);
-  };
+export const UpdatePersonalDetailAdmin = (data: any) => {
+    return httpService.put(UpdatePersonalDetailAdminApi, data);
+};
 
 export const getCrewEducationDetail = (id: string) => {
     return httpService.get(GetCrewEducationDetailApi + "/?id=" + id)
@@ -181,47 +181,53 @@ export const singleFileUploadAdmin = (payload: any) => {
 
 
 export const assignVessel = (data: any) => {
-    return httpService.put(assignVesselApi,data)
+    return httpService.put(assignVesselApi, data)
 }
-export const uploadProfileadmin = (payload:any,token:any) => {
-    return httpService.post(uploadProfileadminApi,payload,{
+export const uploadProfileadmin = (payload: any, token: any) => {
+    return httpService.post(uploadProfileadminApi, payload, {
         headers: {
-          // 'Content-Type': 'application/json', // Assuming you are sending JSON data
-          'Authorization': token,
+            // 'Content-Type': 'application/json', // Assuming you are sending JSON data
+            'Authorization': token,
         }
-      })
+    })
 }
-  
+
 
 export const sendInstruction = (data: any) => {
     return httpService.post(sendInstructionApi, data);
 }
 export const getInstructionAdmin = (id: string) => {
-    return httpService.get(getInstructionApi+`?id=${id}`);
+    return httpService.get(getInstructionApi + `?id=${id}`);
 }
 export const deleteInstruction = (id: string) => {
-    return httpService.delete(deleteInstructionApi+`?id=${id}`);
+    return httpService.delete(deleteInstructionApi + `?id=${id}`);
 }
 
-export const sendMessageToWhatsapp = ( number: string, message: string) => {
-     window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,'_blank')
+export const sendMessageToWhatsapp = (number: string, message: string) => {
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank')
 }
 
-export const getExpireDocVessel = (date:string) => {
-    return httpService.get(getExpireDocVesselApi+`?expireDate=${date}`);
+export const getExpireDocVessel = (date: string) => {
+    return httpService.get(getExpireDocVesselApi + `?expireDate=${date}`);
 }
-export const getExpireDocCompany = (date:string) => {
-    return httpService.get(getExpireDocCompanyApi+`?expireDate=${date}`);
+export const getExpireDocCompany = (date: string) => {
+    return httpService.get(getExpireDocCompanyApi + `?expireDate=${date}`);
 }
-export const getExpireDocUser = (date:string) => {
-    return httpService.get(getExpireDocUserApi+`?expireDate=${date}`);
-}
-
-export const updateBankDetail = (data:any) => {
-    return httpService.put(updateBankDetailApi,data);
+export const getExpireDocUser = (date: string) => {
+    return httpService.get(getExpireDocUserApi + `?expireDate=${date}`);
 }
 
-export const updateKinDetail = (data:any) => {
-    return httpService.put(updateKinDetailApi,data);
+export const updateBankDetail = (data: any) => {
+    return httpService.put(updateBankDetailApi, data);
 }
 
+export const updateKinDetail = (data: any) => {
+    return httpService.put(updateKinDetailApi, data);
+}
+
+
+
+export const updateFile = (data: any) => {
+    axios.AxiosHeaders.concat({ 'Content-Type': 'multipart/form-data' })
+    return  httpService.put(updateFileApi, data);
+}
