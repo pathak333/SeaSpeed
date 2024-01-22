@@ -37,9 +37,13 @@ const Education = () => {
   let todaydate = date.toISOString().substring(0, 10);
 
   async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
+
     const { data } = id === null ? await GetEducationDetail() : await getCrewEducationDetail(id);
     console.log("Education data = ", data);
     setOldData(data.data.educationList);
+    dispatch({ type: LOADING, payload: false });
+
   }
   async function updateProfileData() {
     dispatch({ type: LOADING, payload: true });

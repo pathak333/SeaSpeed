@@ -8,6 +8,7 @@ import { updateFile } from "../services/admin.service";
 import { useGlobalState } from "../contexts/global.context";
 import { LOADING } from "../constants/action.constant";
 import { toast } from "react-toastify";
+import { updateUserFile } from "../services/user.service";
 
 interface Props {
   name: string,//props.name,
@@ -36,19 +37,20 @@ export default function FileUpdate(props: Props) {
     dispatch({ type: LOADING, payload: true });
     const formData = new FormData();
     formData.append('_id',props.id)
-    if (uploadRef.current!.files![0]) {
+   // if (uploadRef.current!.files![0]) {
       formData.append('file', uploadRef.current!.files![0]);
       formData.append('name', formEvent.name)
+      formData.append('link', formEvent.link)
       formData.append('expire', formEvent.expireDate)
       formData.append('foldername', "")
-    } else {
+    // } else {
       
      
-      formData.append('name', formEvent.name)
-      formData.append('expire', formEvent.expireDate)
-      formData.append('foldername', "")
-    }
-    const { data } = await updateFile(formData)
+    //   formData.append('name', formEvent.name)
+    //   formData.append('expire', formEvent.expireDate)
+    //   formData.append('foldername', "")
+    // }
+    const { data } = await updateUserFile(formData)
     if (data) {
       toast.success(data.message);
     } 

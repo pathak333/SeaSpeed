@@ -4,9 +4,12 @@ import { Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { Edit } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { LOADING } from "../../../constants/action.constant";
+import { useGlobalState } from "../../../contexts/global.context";
 
 
 const AllCrewMembers = () => {
+  const [globalState, dispatch] = useGlobalState();
 
     //getAllCrew
     const [crewList, updateCrewList] = useState([]);
@@ -15,10 +18,12 @@ const AllCrewMembers = () => {
     useEffect(() => {
         fetchData();
     }, [])
-    async function fetchData() {
+  async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
         const { data } = await getAllCrew();
         console.log(data);
         updateCrewList(data.data)
+        dispatch({ type: LOADING, payload: false });
 
     }
 

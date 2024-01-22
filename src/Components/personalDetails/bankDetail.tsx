@@ -41,11 +41,15 @@ const BankDetail = () => {
   }, []);
 
   async function fetchData() {
+    dispatch({ type: LOADING, payload: true });
+
     const { data } = id === null ? await GetBankDetail() : await getCrewBankDetail(id);
     if (data.data.bankDetail) {
       updateEvent({ ...data.data.bankDetail, isFormChanged: false });
       updateFileData(data.data.bankDetail.documentId)
     }
+    dispatch({ type: LOADING, payload: false });
+
   }
 
   const [formEvent, updateEvent] = useReducer(

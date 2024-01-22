@@ -82,3 +82,7 @@ export const uploadProfileApi = "/file/user/uploadProfile"
 
 export const getInstructionUserApi = "/user/getInstruction"
 export const updateInstructionUserApi = "/user/updateInstruction"
+
+
+
+export const updateUserFileApi = "/file/user/updateFile"
