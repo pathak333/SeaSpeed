@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { getUserInstruction } from "../../services/user.service";
 import { Trash2 } from "react-feather";
+import { useGlobalState } from "../../contexts/global.context";
 
 
 
 const Notification = (props: any) => {
     
     const [notif, updateNotify] = useState([]);
+  const [globalState, dispatch] = useGlobalState();
 
-   async function fetchData() {
-    const { data } = await getUserInstruction();
-    console.log(data);
-    updateNotify(data.data)
+
+    async function fetchData() {
+        if (globalState.role === "user") {
+            const { data } = await getUserInstruction();
+            console.log(data);
+            updateNotify(data.data)
+       }
+    
     }
 
 useEffect(() => {

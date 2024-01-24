@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom';
 import ApproveReject from "../../uiComponents/approve_reject";
 import { UpdatePersonalDetailAdmin, getCrewPersonalDetail } from "../../services/admin.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
+import FileUpdate from "../../uiComponents/file_update";
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -556,6 +557,7 @@ const PersonalDetail = () => {
 
           <FileUpload folder={"aadhaarDoc"} name="aadhaar" from="user" dataFun={aadhaarDocId} />
           <h1 className="m-3 font-semibold text-IbColor"> {formEvent.aadhaarName !== "" && formEvent.aadhaarName !== undefined ? <a href={formEvent.aadhaarName?.link} target="_blank" rel="noopener noreferrer" download >You have uploaded one file {formEvent.aadhaarName?.name}, Click to download</a> : ""}</h1>
+          {/* {fileData !== undefined ? <FileUpdate id={fileData._id} name={fileData.name} expireDate={fileData.expire} link={fileData.link} /> : <></>} */}
 
 
         </div>

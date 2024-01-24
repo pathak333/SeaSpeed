@@ -49,8 +49,11 @@ const Education = () => {
     dispatch({ type: LOADING, payload: true });
     const { data } = await ProfileService();
     console.log("profile data", data);
-    sessionStorage.setItem("formState", data.data.formState)
-    dispatch({ type: DATA, payload: data });
+    if (data) {
+      sessionStorage.setItem("formState", data.data.formState)
+      dispatch({ type: DATA, payload: data });
+    }
+ 
     dispatch({ type: LOADING, payload: false });
   }
 

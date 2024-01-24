@@ -753,7 +753,7 @@ const AppWrapper = () => {
   async function fetchAll() {
     try {
       role.toLocaleLowerCase() === "admin" || role.toLocaleLowerCase() === "superadmin" ? await fetchdataAdmin() : await fetchdata()
-      await FetchInstruction();
+      role.toLocaleLowerCase() === "user"  && await FetchInstruction()
       console.log(allNotification, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
 

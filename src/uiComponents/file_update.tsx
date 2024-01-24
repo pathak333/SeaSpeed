@@ -84,7 +84,7 @@ export default function FileUpdate(props: Props) {
     <div className="shadow p-3 m-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
       <p className="font-semibold mb-3">You have one file {props?.name}</p>
       <div className="flex flex-row justify-between ">
-        <a href={props?.link} className="text-blue-500"> <Download /> Download Document </a>
+        <a href={props?.link} target="_blank" rel="noopener noreferrer" download  className="text-blue-500"> <Download /> Download Document </a>
         <p className="inline-flex text-blue-500 cursor-pointer" onClick={() => updateFormEvent({ isUploadOpen: true })}><Edit />&nbsp; Edit Document </p>
       </div>
     </div>
