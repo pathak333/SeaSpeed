@@ -1,0 +1,22 @@
+
+#appPage {
+  
+   
+    margin: 10px; /* Remove default margin */
+    padding: 10px; /* Remove default padding */
+    
+  }
+
+
+ .pdfPadding{
+    font-size: 10px;
+    line-height: 1.5;
+    padding-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
+
+    
+  } 
+  .pdfPadding > b{
+    font-size: 10px;
+    font-family: 'Times New Roman', Times, serif;
+  }

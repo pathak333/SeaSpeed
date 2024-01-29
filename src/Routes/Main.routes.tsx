@@ -61,6 +61,7 @@ import VesselExpireDocs from "../Components/admin/Expire_documents/vessel_expire
 import CompanyExpireDocs from "../Components/admin/Expire_documents/company_expire_docs";
 import { adminProfileService } from "../services/admin.service";
 import UserExpireDocs from "../Components/admin/Expire_documents/user_expire_docs";
+import GenratePdf from "../Components/admin/contract_pdf/genratePdf";
 
 
 
@@ -702,6 +703,10 @@ const MainRoutes = () => {
             },
           ]
         },
+        {
+          path: "applicationPdf",
+          element: <GenratePdf />
+        }
 
       ]
     },
