@@ -2823,7 +2823,7 @@ export default function Contract({crew}:Props) {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+          {crew.EducationDetail.map((e:any) =>  <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
               <p className="text-base pdfPadding"></p>
             </td>
@@ -2851,66 +2851,8 @@ export default function Contract({crew}:Props) {
             >
               <p className="text-base pdfPadding"> </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+        
         </tbody>
       </table>
 
