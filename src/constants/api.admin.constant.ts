@@ -71,3 +71,4 @@ export const updateKinDetailApi = "/admin/updateKinDetail"
 export const updateProfileApi = "/admin/updateProfile"
 
 export const updateFileApi = "/file/admin/updateFile"
+export const applicationPdfApi = "/admin/applicationData"

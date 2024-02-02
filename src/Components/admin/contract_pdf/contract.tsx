@@ -1,7 +1,13 @@
 import React from "react";
 import "./application.css";
 
-export default function Contract() {
+interface Props{
+  crew:any
+}
+
+
+
+export default function Contract({crew}:Props) {
   const currentDate = new Date();
   const day = currentDate.getDate(); // 26
   const month = currentDate.getMonth() + 1; // Months are 0-indexed, so add 1
@@ -9,6 +15,7 @@ export default function Contract() {
   const formattedDay = String(day).padStart(2, "0");
   const formattedMonth = String(month).padStart(2, "0");
   const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
+  console.log(crew,"crew ???????????????")
   return (
     <div
       id="appPage"
@@ -128,7 +135,7 @@ export default function Contract() {
                   marginLeft: "0in",
                 }}
               >
-                <span style={{ fontFamily: "Arial, sans-serif" }}></span>
+                <span style={{ fontFamily: "Arial, sans-serif" }}>{crew && crew.rank.label }</span>
               </p>
             </td>
             <td
@@ -420,7 +427,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.firstname}
               </p>
             </td>
             {/* <td style={{ width: '85.0pt', border: '1.0pt solid windowtext', padding: '0in 5.4pt 0in 5.4pt', height: '17.9pt' }}>
@@ -461,7 +468,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.lastname}
               </p>
             </td>
           </tr>
@@ -497,7 +504,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+               {crew.PersonalDetail[0].dob}
               </p>
             </td>
             <td
@@ -531,7 +538,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.PersonalDetail[0].country}
               </p>
             </td>
             <td
@@ -562,7 +569,7 @@ export default function Contract() {
               }}
             >
               <p className="pdfPadding" style={{ fontSize: "9.0pt" }}>
-                {" "}
+              {crew.PersonalDetail[0].nationality}
               </p>
             </td>
           </tr>
@@ -606,7 +613,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.PassportDetail[0].passportNumber}
               </p>
             </td>
             <td
@@ -641,7 +648,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.PassportDetail[0].placeOfIssue}
               </p>
             </td>
             <td
@@ -675,7 +682,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                 {crew.PassportDetail[0].dateOfIssue}
               </p>
             </td>
             <td
@@ -708,14 +715,14 @@ export default function Contract() {
             >
               <p
                 className="pdfPadding"
-                style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
+                style={{ fontSize: "9pt", textAlign: "left", }}
               >
-                {" "}
+               {crew.PassportDetail[0].dateOfExpiry}
               </p>
             </td>
           </tr>
           {/* visa  */}
-          <tr style={{ height: "17.9pt" }}>
+         { crew.VisaDetailModel[0].visaList.map((e:any)=> <tr style={{ height: "17.9pt" }} >
             <td
               style={{
                 width: "64.6pt",
@@ -747,7 +754,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {e.visatype}
               </p>
             </td>
             <td
@@ -781,7 +788,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {e.number}
               </p>
             </td>
             <td
@@ -815,7 +822,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {e.placeOfIssue}
               </p>
             </td>
             <td
@@ -849,7 +856,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {e.dateOfIssue}
               </p>
             </td>
             <td
@@ -884,10 +891,13 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {e.dateOfExpiry}
               </p>
             </td>
-          </tr>
+          </tr>) }
+          {/* visa end */}
+
+
           <tr style={{ height: "17.9pt" }}>
             <td
               style={{
@@ -905,7 +915,7 @@ export default function Contract() {
                   fontSize: "9.0pt",
                 }}
               >
-                U.S. Visa Type
+                U.S. Visa Type No.
               </p>
             </td>
             <td
@@ -921,7 +931,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.VisaDetailModel[0].us_number}
               </p>
             </td>
             <td
@@ -956,7 +966,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.VisaDetailModel[0].us_placeOfIssue}
               </p>
             </td>
             <td
@@ -990,7 +1000,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.VisaDetailModel[0].us_dateOfIssue}
               </p>
             </td>
             <td
@@ -1025,7 +1035,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {crew.VisaDetailModel[0].us_dateOfExpiry}
               </p>
             </td>
           </tr>
@@ -1062,7 +1072,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.MedicalDetail.Covid_vaccination.lastDoseDate}
               </p>
             </td>
             <td
@@ -1098,7 +1108,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.MedicalDetail.Yellow_fever_vaccination.dateOfExpiry}
               </p>
             </td>
             <td
@@ -1219,7 +1229,7 @@ export default function Contract() {
                   textAlign: "left",
                 }}
               >
-                <span style={{ fontSize: "9.0pt" }}> </span>
+                {crew.PersonalDetail[0].flatnumber}, {crew.PersonalDetail[0].society}, {crew.PersonalDetail[0].city}, {crew.PersonalDetail[0].country}, {crew.PersonalDetail[0].pincode}
               </p>
             </td>
           </tr>
@@ -1266,7 +1276,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "center", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.phone_no}
               </p>
             </td>
             <td
@@ -1298,7 +1308,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {crew.email}
               </p>
             </td>
           </tr>
@@ -1384,7 +1394,8 @@ export default function Contract() {
                   textAlign: "left",
                 }}
               >
-                <span style={{ fontSize: "9.0pt" }}> </span>
+             {crew.PersonalDetail[0].isSameAddress ?  `${crew.PersonalDetail[0].flatnumber}, ${crew.PersonalDetail[0].society}, ${crew.PersonalDetail[0].city}, ${crew.PersonalDetail[0].country}, ${crew.PersonalDetail[0].pincode}`: `${crew.PersonalDetail[0].flatnumber2}, ${crew.PersonalDetail[0].society2}, ${crew.PersonalDetail[0].city2}, ${crew.PersonalDetail[0].country2}, ${crew.PersonalDetail[0].pincode2}`}
+
               </p>
             </td>
           </tr>
@@ -1433,7 +1444,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.alt_phone_no}
               </p>
             </td>
             <td
@@ -1467,7 +1478,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {crew.alt_email}
               </p>
             </td>
           </tr>
@@ -1510,7 +1521,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.PersonalDetail[0].marital_status}
               </p>
             </td>
             {/* <td style={{ width: '85.0pt', border: '1.0pt solid windowtext', padding: '0in 5.4pt 0in 5.4pt', height: '17.9pt' }}>
@@ -1550,7 +1561,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.PersonalDetail[0].nearest_airport}
               </p>
             </td>
           </tr>
@@ -1665,7 +1676,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+                {crew.KinDetail[0]?.fullName ?? ""}
               </p>
             </td>
             <td
@@ -1700,7 +1711,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {crew.KinDetail[0]?.relationship}
               </p>
             </td>
           </tr>
@@ -1760,7 +1771,8 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ textAlign: "left", fontSize: "9.0pt" }}
               >
-                {" "}
+              {crew.KinDetail[0]?.phoneNumber}
+
               </p>
             </td>
             <td
@@ -1795,7 +1807,7 @@ export default function Contract() {
                 className="pdfPadding"
                 style={{ fontSize: "10.5pt", fontFamily: "Arial, sans-serif" }}
               >
-                {" "}
+                {crew.KinDetail[0]?.email}
               </p>
             </td>
           </tr>
@@ -1841,7 +1853,7 @@ export default function Contract() {
                 Date of Birth
               </p>
             </th>
-            <th
+            {/* <th
               style={{
                 border: "solid windowtext 1.5pt",
                 borderRight: "solid windowtext 1.0pt",
@@ -1852,7 +1864,7 @@ export default function Contract() {
               <p className="text-center text-xs font-bold pdfPadding">
                 Place of Birth
               </p>
-            </th>
+            </th> */}
             <th
               style={{
                 border: "solid windowtext 1.5pt",
@@ -1889,7 +1901,7 @@ export default function Contract() {
                 Date of Expiry
               </p>
             </th>
-            <th
+            {/* <th
               style={{
                 border: "solid windowtext 1.5pt",
                 borderRight: "solid windowtext 1.0pt",
@@ -1900,106 +1912,59 @@ export default function Contract() {
               <p className="text-center text-xs font-bold pdfPadding">
                 Place of Issue
               </p>
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
           <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.name} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.nameOfChild}  </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.dob}  </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.passportNumber}  </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.dateOfIssues}  </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{crew.KinDetail[0]?.wifeDetail?.dateOfExpiry}  </p>
+            </td>
+            {/* <td
+              style={{ border: "solid windowtext 1.5pt" }}
+              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
+            >
+              <p className="text-base pdfPadding">{crew.KinDetail[0].wifeDetail.name}  </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base"> </p>
-            </td>
+              <p className="text-base">{crew.KinDetail[0].wifeDetail.name}  </p>
+            </td> */}
           </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          
         </tbody>
       </table>
       <br />
@@ -2080,41 +2045,24 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+          {crew.CertificateOfCompentency[0]?.map((e:any) => <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.grade} </p>
             </td>
             <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.licenseNumber} </p>
             </td>
             <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfIssue} </p>
             </td>
             <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfExpiry} </p>
             </td>
             <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.placeOfIssue} </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td style={{ border: "solid windowtext 1.5pt" }}>
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+         
         </tbody>
       </table>
       <br />
@@ -2199,77 +2147,42 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+       { crew.SeamenBookDetail?.map((e:any)=> <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.number} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfExpiry} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.placeOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.sidNumber} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.Indos} </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+         
         </tbody>
       </table>
       <br />
@@ -2353,77 +2266,42 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+         {crew.FlagEndorsement?.map((e:any)=> <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.name} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.number} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfExpiry} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.placeOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.Oil_tanker_DCE} </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+         
         </tbody>
       </table>
       <br />
@@ -2509,112 +2387,42 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+         {crew.DangerousCargoEndorsement?.map((e:any)=> <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base  pb-2">OIL TANKER ENDORSEMENT</p>
+              <p className="text-base  pb-2">{e.name }</p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.number} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfExpiry} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.placeOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.Oil_tanker_DCE} </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pb-2 ">CHEMICAL ENDORSEMENT</p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pb-2">GAS ENDORSEMENT</p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+         
         </tbody>
       </table>
 
@@ -2688,94 +2496,37 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+      {crew.CourseCertificate?.map((e:any)=>     <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
+          <p className="text-base pdfPadding">{e.courseName }</p>
+        </td>
+        <td
+              style={{ border: "solid windowtext 1.5pt" }}
+              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
+            >
+              <p className="text-base pdfPadding">{e.certificateName} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfIssue} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dateOfExpiry} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.placeOfIssue} </p>
             </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          
+          </tr>)}
+    
         </tbody>
       </table>
 
@@ -2926,149 +2677,78 @@ export default function Contract() {
         </thead>
         <tbody>
           {/* Repeat the following row structure as needed */}
-          <tr className="h-23">
+       {crew.WorkExperience?.map((e:any)=>   <tr className="h-23">
             <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
+           <p className="text-base pdfPadding">{e.vessel }</p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.vesselType} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.flag} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.rank} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.dwt} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.grt} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.bhp} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.engineType} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.startDate} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.endDate} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.reason} </p>
             </td>
             <td
               style={{ border: "solid windowtext 1.5pt" }}
               className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2.5"
             >
-              <p className="text-base pdfPadding"> </p>
+              <p className="text-base pdfPadding">{e.manningAgentsOrOwners} </p>
             </td>
-          </tr>
-          <tr className="h-23">
-            <td style={{ border: "solid windowtext 1.5pt" }} className="  p-2">
-              <p className="text-base pdfPadding"></p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-            <td
-              style={{ border: "solid windowtext 1.5pt" }}
-              className="border-top-none border-left-none border-bottom-solid windowtext border-1.0 border-right-1.0 p-2"
-            >
-              <p className="text-base pdfPadding"> </p>
-            </td>
-          </tr>
-          {/* End of repeated row structure */}
+          </tr>)}
+         
         </tbody>
       </table>
 

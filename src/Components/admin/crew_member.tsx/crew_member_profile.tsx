@@ -49,6 +49,10 @@ const CrewProfile = () => {
 
    }
 
+   function navigateApp() {
+      navigate("/adminDashboard/applicationPdf", { state: { id: data._id } })
+  }
+
    return <div className="">
       <div id="crewProfile" className="main  w-full">
          <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[40px] max-sm:p-[20px] flex flex-col justify-center items-start ">
@@ -71,7 +75,7 @@ const CrewProfile = () => {
                </div>
                <div className="h-10">
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2" onClick={()=>updateInstrucOpen(true)}>Send instructions</button>
-                  <button className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg"><Description /> Send contract</button>
+                  <button onClick={()=>navigateApp()} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Send contract</button>
                   <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2"><AirplaneTicket /> Send tickets & visa</button>
                 {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} />}
                </div>

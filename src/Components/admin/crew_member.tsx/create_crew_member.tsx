@@ -166,7 +166,7 @@ const CreateCrewMember = () => {
                 label={"Email"}
                 type={"text"}
                 error={errorReturn("email")}
-                onChange={(e) => updateEvent({ email: e.target.value, isFormChanged: true })}
+                onChange={(e) => updateEvent({ email: e.target.value.toLowerCase(), isFormChanged: true })}
                 value={formEvent.email}
                 />
             {/* <InputField
