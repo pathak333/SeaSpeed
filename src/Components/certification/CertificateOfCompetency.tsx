@@ -13,6 +13,8 @@ import { CertificateContext, CertificateState } from "../../contexts/certificate
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewCertificate } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
+import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
+import { Certificate_Of_competency_grade } from "../../constants/constData";
 
 
 const CertificateOfCompetency = () => {
@@ -219,7 +221,7 @@ const CertificateOfCompetency = () => {
     return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Certificate of competency</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"grade"}
                 label={"Grade (License)"}
@@ -227,7 +229,24 @@ const CertificateOfCompetency = () => {
                 error={errorReturn("grade")}
                 onChange={(e) => updateEvent({ grade: e.target.value, isFormChanged: true })}
                 value={formEvent.grade}
+            /> */}
+
+            <SearchSelect
+                className="m-4"
+
+                label={"Grade (License)"}
+                //type={""}
+                onChange={(e) => updateEvent({grade: e, isFormChanged: true, })}
+                value={formEvent.grade}
+                //error={errorReturn("Oil_tanker_DCE")}
+                options={Certificate_Of_competency_grade}
+                // onCreateOption={onCreate}
+                isDisabled={false}
+                isLoading={false}
             />
+
+
+
             <InputField
                 className="m-4"
                 fieldName={"licenseNumber"}

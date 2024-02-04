@@ -15,6 +15,8 @@ import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants
 import { getCrewFlagEndorsement } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
+import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
+import { Flag_endorsement_name } from "../../constants/constData";
 
 const FlagEndorsement = () => {
 
@@ -215,7 +217,7 @@ const FlagEndorsement = () => {
     return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Flag endorsement</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"name"}
                 label={"Name"}
@@ -223,7 +225,26 @@ const FlagEndorsement = () => {
                 error={errorReturn("name")}
                 onChange={(e) => updateEvent({ name: e.target.value, isFormChanged: true })}
                 value={formEvent.name}
+            /> */}
+
+
+            <SearchSelect
+                className="m-4"
+
+                label={"Name"}
+                //type={""}
+                onChange={(e) => updateEvent({ name: e, isFormChanged: true, })}
+                value={formEvent.name}
+                //error={errorReturn("Oil_tanker_DCE")}
+                options={Flag_endorsement_name}
+                // onCreateOption={onCreate}
+                isDisabled={false}
+                isLoading={false}
             />
+
+
+
+
             <InputField
                 className="m-4"
                 fieldName={"number"}
@@ -233,6 +254,7 @@ const FlagEndorsement = () => {
                 onChange={(e) => updateEvent({ number: e.target.value, isFormChanged: true })}
                 value={formEvent.number}
             />
+            
             <InputField
                 className="m-4"
                 fieldName={"placeOfIssue"}

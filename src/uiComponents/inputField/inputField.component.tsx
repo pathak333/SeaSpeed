@@ -44,7 +44,7 @@ function InputField(props: Props) {
           onBlur={handleBlur}
           disabled={props.disabled}
           onChange={props.onChange}
-          value={props.value}
+          value={props.value?.toUpperCase()}
           min={props.min}
           max={props.max}
           autoComplete="off"

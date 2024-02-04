@@ -74,7 +74,7 @@ export const SeamenBookValidation = (data: any) => joi.object({
     dateOfIssue: joi.date(),
     dateOfExpiry: joi.date(),
     sidNumber: joi.string(),
-    Indos: joi.string(),
+    Indos: joi.string().optional().allow(""),
     documentId:joi.string().required(),
 }).validateAsync(data, { abortEarly: true })
 

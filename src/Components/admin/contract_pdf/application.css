@@ -9,7 +9,7 @@
 
 
  .pdfPadding{
-    font-size: 10px;
+    font-size: 7px;
     line-height: 1.5;
     padding-bottom: 10px;
     font-family: 'Times New Roman', Times, serif;
@@ -17,6 +17,15 @@
     
   } 
   .pdfPadding > b{
-    font-size: 10px;
+    font-size: 7px;
     font-family: 'Times New Roman', Times, serif;
+  }
+
+  #appPage  td{
+    border: 1px solid black;
+    padding-left: 5px;
+    padding-right: 2px;
+  }
+  #appPage table{
+    border: 2px solid black;
   }

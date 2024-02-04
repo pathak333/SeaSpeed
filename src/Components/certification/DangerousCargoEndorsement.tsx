@@ -14,6 +14,8 @@ import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants
 import ApproveReject from "../../uiComponents/approve_reject";
 import { getCrewDangerousCargoEndorsement } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
+import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
+import { Dangerous_cargo_endorsement_name } from "../../constants/constData";
 
 
 
@@ -217,7 +219,7 @@ const DangerousCargoEndorsement = () => {
     return <form onSubmit={handlerSubmit}>
         <h3 className="pl-4 font-semibold">Dangerous cargo endorsement</h3>
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"name"}
                 label={"Name"}
@@ -225,7 +227,27 @@ const DangerousCargoEndorsement = () => {
                 error={errorReturn("name")}
                 onChange={(e) => updateEvent({ name: e.target.value, isFormChanged: true })}
                 value={formEvent.name}
+            /> */}
+
+            <SearchSelect
+                className="m-4"
+
+                label={"Name"}
+                //type={""}
+                onChange={(e) => updateEvent({name: e, isFormChanged: true, })}
+                value={formEvent.name}
+                //error={errorReturn("Oil_tanker_DCE")}
+                options={Dangerous_cargo_endorsement_name}
+                // onCreateOption={onCreate}
+                isDisabled={false}
+                isLoading={false}
             />
+
+
+
+
+
+
             <InputField
                 className="m-4"
                 fieldName={"number"}

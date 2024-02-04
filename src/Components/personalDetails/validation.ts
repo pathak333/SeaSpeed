@@ -17,8 +17,8 @@ interface ValidatePersonalDetailData {
   pincode: number;
   nearest_airport: String;
   isSameAddress: Boolean;
-  aadhaar: String;
-  pan: String;
+  aadhaar?: String;
+  pan?: String;
   CNC?: String;
   aadhaarId: String,
   panId: String,
@@ -90,12 +90,12 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       // }),
       aadhaar: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       pan: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       CNC: joi.string().when("nationality", {
@@ -105,12 +105,12 @@ export const PersonalDetailValidation = (data: ValidatePersonalDetailData) =>
       }), 
       aadhaarId: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       panId: joi.string().when("nationality", {
         is: "Indian",
-        then: joi.string().required(),
+        then: joi.string().optional().allow(""),
         otherwise: joi.string().optional().allow("")
       }),
       cncId: joi.string().when("nationality", {
@@ -217,13 +217,13 @@ export const BankDetailValidation = async (data: any) =>
     .object({
       bank_name: joi.string().required(),
       account_holder_name: joi.string().required(),
-      branch_code: joi.string().required(),
+      branch_code: joi.string().optional().allow(""),
       account_number: joi.number().required(),
       swift_code: joi.string().optional().allow(""),
       IBAN_number: joi.string().optional().allow(""),
       IFSC_code: joi.string().optional().allow(""),
       account_type: joi.string().valid("USD", "INR", "PKR", "AED").required(),
-      documentId: joi.string().optional(),
+      documentId: joi.string().optional().allow(""),
     })
     .validateAsync(data, { abortEarly: true });
 
@@ -238,7 +238,7 @@ export const UpdateBankDetailValidation = async (data: any) =>
       IBAN_number: joi.string().optional(),
       IFSC_code: joi.string().optional(),
       account_type: joi.string().valid("USD", "INR", "PKR", "AED").optional(),
-      documentId: joi.string().optional(),
+      documentId: joi.string().optional().allow(""),
 
     })
     .validateAsync(data, { abortEarly: true });
@@ -257,14 +257,14 @@ export const KinDetailValidation = async (data: any) =>
       state: joi.string().required(),
       country: joi.string().required(),
       pincode: joi.string().required(),
-      bankName: joi.string().required(),
-      accountHolderName: joi.string().required(),
-      branchCode: joi.string().required(),
-      accountNumber: joi.string().required(),
-      swiftCode: joi.string().required(),
+      bankName: joi.string().optional().allow(""),
+      accountHolderName: joi.string().optional().allow(""),
+      branchCode: joi.string().optional().allow(""),
+      accountNumber: joi.string().optional().allow(""),
+      swiftCode: joi.string().optional().allow(""),
       ifscCode: joi.string().optional().allow(""),
       iban: joi.string().optional().allow(""),
-      accountType: joi.string().required(),
+      accountType: joi.string().optional().allow(""),
       wifeDetail: joi.object({
         name: joi.string().optional().allow(""),
         dob: joi.string().optional().allow(""),
