@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllPendingCrew } from "../../../services/admin.service";
-import { Trash2 } from "react-feather";
+import { Minus, Plus, Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 
 import { useNavigate } from "react-router-dom";
@@ -9,26 +9,55 @@ import { toast } from "react-toastify";
 import { LOADING } from "../../../constants/action.constant";
 
 
+
 const AllPendingCrewMembers = () => {
- 
+
 
   //getAllCrew
+  const [pageno, updatepageno] = useState(0);
+  const [perpage, updateperpage] = useState(20);
+  const [totalpageno, updatetotalpageno] = useState(0);
+
   const [crewList, updateCrewList] = useState([]);
   const navigate = useNavigate();
-  const [globalState,dispatch] = useGlobalState();
+  const [globalState, dispatch] = useGlobalState();
   const adminData = globalState.data.data;
   useEffect(() => {
-    fetchData();
+    if (pageno > 0) {
+      fetchData();
+    }
   }, [])
+
+  useEffect(() => {
+    fetchData();
+  }, [pageno, perpage])
+
+
   async function fetchData() {
     dispatch({ type: LOADING, payload: true });
-    const { data } = await getAllPendingCrew();
+    const { data } = await getAllPendingCrew(pageno, perpage);
     console.log(data);
-    updateCrewList(data.data)
+    updateCrewList(data.data.userData)
+    updatetotalpageno(Math.ceil(data.data.totalCount / 20))
     dispatch({ type: LOADING, payload: false });
 
   }
 
+
+
+
+  function changepageno(type: any) {
+    if (!type) {
+      if (pageno < totalpageno) {
+        updatepageno(pageno + 1)
+      }
+    } else {
+      if (pageno > 0) {
+        updatepageno(pageno - 1)
+      }
+    }
+
+  }
 
 
   const listofData = crewList.map((item: any, index: any) => {
@@ -87,6 +116,16 @@ const AllPendingCrewMembers = () => {
           </thead>
           <tbody>{listofData}</tbody>
         </table>
+      </div>
+      <br />
+      <div className="page flex flex-row w-40 place-content-between p-3 mx-auto mt-3 border shadow">
+        <div>
+          <Plus className="scale-150" onClick={() => changepageno(1)} />
+        </div>
+        <p className="font-bold text-xl">{pageno}/{totalpageno}</p>
+        <div>
+          <Minus className="scale-150" onClick={() => changepageno(0)} />
+        </div>
       </div>
     </CommonLayout>
   </>

@@ -66,8 +66,8 @@ export const getAllCrew = () => {
     return httpService.get(getAllCrewApi);
 }
 
-export const getAllPendingCrew = () => {
-    return httpService.get(getAllPendingCrewApi);
+export const getAllPendingCrew = (pageno:number,perpage:number) => {
+    return httpService.get(getAllPendingCrewApi+`?pageno=${pageno}&perpage=${perpage}`);
 }
 
 export const getAllUnAssinedCrew = (rank: string) => {
