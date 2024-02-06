@@ -236,8 +236,8 @@ const CertificateOfCompetency = () => {
 
                 label={"Grade (License)"}
                 //type={""}
-                onChange={(e) => updateEvent({grade: e, isFormChanged: true, })}
-                value={formEvent.grade}
+                onChange={(e) => updateEvent({grade: e.value, isFormChanged: true, })}
+                value={formEvent.grade && {label:formEvent.grade,value:formEvent.grade}}
                 //error={errorReturn("Oil_tanker_DCE")}
                 options={Certificate_Of_competency_grade}
                 // onCreateOption={onCreate}

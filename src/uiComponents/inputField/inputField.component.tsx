@@ -27,6 +27,20 @@ function InputField(props: Props) {
 
   const handleBlur = () => setIsFocused(true);
 
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Convert the input value to uppercase only if it is a string
+    const updatedValue = typeof event.target.value === 'string'
+      ? event.target.value.toUpperCase()
+      : event.target.value;
+
+    // Call the original onChange prop with the updated value
+    if (props.onChange) {
+      props.onChange({ ...event, target: { ...event.target, value: updatedValue } });
+    }
+  };
+
+
   return (
     <div className={`${props.className}`}>
       <div
@@ -43,8 +57,8 @@ function InputField(props: Props) {
           onFocus={handleFocus}
           onBlur={handleBlur}
           disabled={props.disabled}
-          onChange={props.onChange}
-          value={props.value?.toUpperCase()}
+          onChange={handleChange}
+          value={props.value}
           min={props.min}
           max={props.max}
           autoComplete="off"

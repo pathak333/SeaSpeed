@@ -234,8 +234,8 @@ const DangerousCargoEndorsement = () => {
 
                 label={"Name"}
                 //type={""}
-                onChange={(e) => updateEvent({name: e, isFormChanged: true, })}
-                value={formEvent.name}
+                onChange={(e) => updateEvent({name: e.value, isFormChanged: true, })}
+                value={formEvent.name && {label:formEvent.name,value:formEvent.name}}
                 //error={errorReturn("Oil_tanker_DCE")}
                 options={Dangerous_cargo_endorsement_name}
                 // onCreateOption={onCreate}

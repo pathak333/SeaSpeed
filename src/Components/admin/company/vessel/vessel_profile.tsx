@@ -287,7 +287,7 @@ const VesselProfile = () => {
                </tr>
             </thead>
             {vesselData._id && <tbody>
-              {'value' in vesselData.crewManagerId && vesselData.crewManagerId.value !== "" && <tr className="border-b-2 hover:bg-slate-100 cursor-pointer">
+              {vesselData?.crewManagerId && 'value' in vesselData?.crewManagerId && vesselData.crewManagerId.value !== "" && <tr className="border-b-2 hover:bg-slate-100 cursor-pointer">
                   <td className="px-6 py-3">{vesselData.crewManagerId.label}</td>
                   <td className="px-6 py-3">{vesselData.crewManagerId.value.phone}</td>
                   <td className="px-6 py-3">{vesselData.crewManagerId.value.email}</td>
@@ -297,7 +297,7 @@ const VesselProfile = () => {
                      >Delete Manager</button>
                   </td>
                </tr>}
-              {'value' in vesselData.shipManagerId && vesselData.shipManagerId.value !== "" && <tr className="border-b-2 hover:bg-slate-100 cursor-pointer">
+              {vesselData?.shipManagerId && 'value' in vesselData?.shipManagerId && vesselData.shipManagerId.value !== "" && <tr className="border-b-2 hover:bg-slate-100 cursor-pointer">
                   <td className="px-6 py-3">{vesselData.shipManagerId.label}</td>
                   <td className="px-6 py-3">{vesselData.shipManagerId.value.phone}</td>
                   <td className="px-6 py-3">{vesselData.shipManagerId.value.email}</td>
@@ -307,7 +307,7 @@ const VesselProfile = () => {
                      >Delete Manager</button>
                   </td>
                </tr>}
-               {'value' in vesselData.crewAgencyManagerId && vesselData.crewAgencyManagerId.value !== "" && <tr className="hover:bg-slate-100 cursor-pointer">
+               {vesselData?.crewAgencyManagerId && 'value' in vesselData?.crewAgencyManagerId && vesselData.crewAgencyManagerId.value !== "" && <tr className="hover:bg-slate-100 cursor-pointer">
                   <td className="px-6 py-3">{vesselData.crewAgencyManagerId.label}</td>
                   <td className="px-6 py-3">{vesselData.crewAgencyManagerId.value.phone}</td>
                   <td className="px-6 py-3">{vesselData.crewAgencyManagerId.value.email}</td>

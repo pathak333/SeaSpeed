@@ -17,7 +17,7 @@ export default function Contract({ crew }: Props) {
   return (
     <div
       id="appPage"
-      // contentEditable={true}
+       contentEditable={true}
       className=" flex flex-col overflow-hidden"
     >
       <img src="/images/header.jpg" alt="header" />
