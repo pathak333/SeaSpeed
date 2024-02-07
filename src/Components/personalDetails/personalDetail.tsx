@@ -50,10 +50,10 @@ const PersonalDetail = () => {
       if (next.isFormChanged) {
         setUpdateData({ ...updateData, ...next })
       }
-      console.log(JSON.stringify(next) + "==========================");
-      console.log(updateData)
+      // console.log(JSON.stringify(next) + "==========================");
+      // console.log(updateData)
       const newEvent = { ...prev, ...next };
-      console.log(newEvent);
+      // console.log(newEvent);
       return newEvent;
     },
     {

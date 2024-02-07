@@ -129,6 +129,7 @@ const LoginForm: NoPropComponent = () => {
           }
           onIconClick={() => setShowPassword(!showPassword)}
           onChange={(e) => updateEvent({ password: e.target.value })}
+          isnotUpperCase={true}
         />
       </div>
       <div className="block mt-2  w-full ">

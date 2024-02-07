@@ -110,6 +110,13 @@ const ContactDetail = () => {
     
   };
 
+
+  const adminUpdate = async () => {
+  
+}
+
+
+
   return (
     <form onSubmit={handlerSubmit}>
       <h3 className="pl-4 font-semibold">Contact details</h3>

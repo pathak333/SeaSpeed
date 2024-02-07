@@ -15,12 +15,13 @@ interface Props {
   min?: string;
   max?: string;
   id?: string;
+  isnotUpperCase?: boolean;
 
   onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
   onChange(event: React.ChangeEvent<HTMLInputElement>): any;
 }
 
-function InputField(props: Props) {
+function InputField({isnotUpperCase = false,...props}: Props) {
   const [, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
@@ -30,13 +31,16 @@ function InputField(props: Props) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Convert the input value to uppercase only if it is a string
-    const updatedValue = typeof event.target.value === 'string'
+    const updatedValue = event.target.value && typeof event.target.value === 'string'
       ? event.target.value.toUpperCase()
       : event.target.value;
 
     // Call the original onChange prop with the updated value
-    if (props.onChange) {
+    
+    if (props.onChange && !isnotUpperCase) {
       props.onChange({ ...event, target: { ...event.target, value: updatedValue } });
+    } else {
+      props.onChange(event)
     }
   };
 
