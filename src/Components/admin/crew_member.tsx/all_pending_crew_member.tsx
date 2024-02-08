@@ -61,10 +61,10 @@ const AllPendingCrewMembers = () => {
 
 
   const listofData = crewList.map((item: any, index: any) => {
-    console.log(item)
+  //  console.log(item)
     return <tr key={index} className={`${item.isRequiredDoc ? "bg-green-200 " : "bg-white"}  border-b hover:bg-slate-100 cursor-pointer`}
       onClick={() => {
-        if (adminData.permission.includes("application")) {
+        if (adminData?.permission.includes("application")) {
           navigate("/adminDashboard/crewProfile", { state: { data: item, page: "pending" } });
         } else {
           toast.error("You are not authorized to perform this task");

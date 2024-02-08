@@ -14,6 +14,7 @@ export interface GlobalState {
   accessToken: string | null;
   role: String;
   data: any;
+  temp: any;
 }
 
 export interface ChildrenProps {

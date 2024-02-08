@@ -12,6 +12,7 @@ import { ContactDetailValidation } from "./validation";
 import { ProfileUpdate } from "../../services/user.service";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import ApproveReject from "../../uiComponents/approve_reject";
+import { ProfileUpdateadmin } from "../../services/admin.service";
 
 
 const ContactDetail = () => {
@@ -70,6 +71,7 @@ const ContactDetail = () => {
   const handlerSubmit = async (event: any) => {
     toast.dismiss();
     console.log("constact ")
+
     try {
       dispatch({ type: LOADING, payload: true });
       event.preventDefault();
@@ -111,8 +113,17 @@ const ContactDetail = () => {
   };
 
 
-  const adminUpdate = async () => {
-  
+  const adminUpdate = async (event: any) => {
+    //ProfileUpdateadmin
+    event.preventDefault();
+    dispatch({ type: LOADING, payload: true });
+    const { data } = await ProfileUpdateadmin({alt_email:formEvent.alt_email,alt_phone_no:formEvent.alt_phone_no,_id:id})
+    if (data) {
+      toast.info(data.message)
+      updateEvent({ 'isFormChanged': false })
+    }
+    dispatch({ type: LOADING, payload: false });
+    
 }
 
 
@@ -223,7 +234,7 @@ const ContactDetail = () => {
       </div>}
       { globalState.data.data.permission.includes("application") &&
       <div>
-      {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+      {id!== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={adminUpdate}>Save</button> }
       
       {id!== null && !formEvent.isFormChanged &&  <div id="approver">
          <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/educationDetail/?id=${id}`} locationStateData={crew}  doc_id="ContactDetail" user_id={id} />

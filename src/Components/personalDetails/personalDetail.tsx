@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import ApproveReject from "../../uiComponents/approve_reject";
 import { UpdatePersonalDetailAdmin, getCrewPersonalDetail } from "../../services/admin.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
-import FileUpdate from "../../uiComponents/file_update";
+
 
 const PersonalDetail = () => {
   const navigate = useNavigate();
@@ -38,8 +38,8 @@ const PersonalDetail = () => {
 
   const queryParams = new URLSearchParams(location.search);
 
-  const id = queryParams.get('id');
-  // console.log(id);
+  const id = globalState.temp //?? queryParams.get('id');
+   console.log(id,"????????????????????????????????/////////////////////");
 
 
   const { crew } = location.state != null ? location.state : { crew: null };

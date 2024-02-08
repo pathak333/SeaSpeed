@@ -1,5 +1,5 @@
 import { createContext, Dispatch, useContext, useReducer } from "react";
-import { LOADING, LOGIN, LOGOUT, DATA } from "../constants/action.constant";
+import { LOADING, LOGIN, LOGOUT, DATA, TEMP } from "../constants/action.constant";
 import { ChildrenProps, GlobalState } from "../types/propes.types";
 
 const initialGlobalState = {
@@ -7,6 +7,7 @@ const initialGlobalState = {
   role:"",
   loading: false,
   data: null,
+  temp: null,
 };
 
 export const globalContext = createContext<{
@@ -15,9 +16,13 @@ export const globalContext = createContext<{
 }>({ globalState: initialGlobalState, dispatch: () => null });
 
 const AuthReducer = (state: any, action: any) => {
+  console.log("state= ",state,"action=",action);
+  
   switch (action.type) {
     case LOADING:
       return { ...state, loading: action.payload };
+    case TEMP:
+      return { ...state, temp: action.payload };
     case DATA:
       return { ...state, data: action.payload };
     case LOGIN:

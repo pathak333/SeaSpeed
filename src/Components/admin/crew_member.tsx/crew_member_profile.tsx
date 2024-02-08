@@ -6,21 +6,21 @@ import AssignVessel from "./assign_vessel_to_crew";
 import { isObjectEmpty } from "../../../constants/commonFunction";
 import { useGlobalState } from "../../../contexts/global.context";
 import DialogBox from "../../../uiComponents/dialogBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
 import { toast } from "react-toastify";
+import { TEMP } from "../../../constants/action.constant";
 
 
 
 const CrewProfile = () => {
    const [globalState, dispatch] = useGlobalState();
 
-   // console.log("crew profile time")
+   
    const location = useLocation();
    const { data, page } = location.state;
-   // console.log(data, "user data");
-   // console.log(globalState.data.data, "globalState data");
+
 
    const navigate = useNavigate();
    const [isInstrucOpen,updateInstrucOpen] = useState(false)
@@ -53,6 +53,15 @@ const CrewProfile = () => {
       navigate("/adminDashboard/applicationPdf", { state: { id: data._id } })
   }
 
+
+   useEffect(() => {
+      dispatch({ type: TEMP, payload: data._id })
+   },[])
+
+
+
+
+   
    return <div className="">
       <div id="crewProfile" className="main  w-full">
          <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[40px] max-sm:p-[20px] flex flex-col justify-center items-start ">
