@@ -89,3 +89,6 @@ export const addCourseCertificateAdminApi = "/admin/addCourseCertificateAdmin"
 export const addMedicalDetailAdminApi = "/admin/addMedicalDetailAdmin"
 export const addUnionRegistrationAdminApi = "/admin/addUnionRegistrationAdmin"
 export const addReferencesAdminApi = "/admin/addReferencesAdmin"
+
+
+export const searchPendingCrewApi = "/admin/searchPendingCrew"

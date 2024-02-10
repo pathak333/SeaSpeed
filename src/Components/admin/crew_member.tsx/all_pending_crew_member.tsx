@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getAllPendingCrew } from "../../../services/admin.service";
+import { ChangeEvent, useEffect, useState } from "react";
+import { getAllPendingCrew, searchPendingCrew } from "../../../services/admin.service";
 import { Minus, Plus, Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 
@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
 import { toast } from "react-toastify";
 import { LOADING } from "../../../constants/action.constant";
-
+import InputField from "../../../uiComponents/inputField/inputField.component";
+import { debounce } from 'lodash';
 
 
 const AllPendingCrewMembers = () => {
@@ -17,11 +18,17 @@ const AllPendingCrewMembers = () => {
   const [pageno, updatepageno] = useState(0);
   const [perpage, updateperpage] = useState(20);
   const [totalpageno, updatetotalpageno] = useState(0);
+  const [searchText, updateSearchText] = useState("");
+  const [orderBy, updateOrderBy] = useState("");
 
   const [crewList, updateCrewList] = useState([]);
   const navigate = useNavigate();
   const [globalState, dispatch] = useGlobalState();
   const adminData = globalState.data.data;
+
+
+
+
   useEffect(() => {
     if (pageno > 0) {
       fetchData();
@@ -60,6 +67,39 @@ const AllPendingCrewMembers = () => {
   }
 
 
+  const search = async () => {
+    
+    const payload = {
+      searchValue: searchText,
+      orderByField:orderBy
+    }
+    if (payload.searchValue || payload.orderByField) {
+      const { data } = await searchPendingCrew(payload)
+      if (data) {
+        console.log(data);
+        updateCrewList(data.data)
+      }
+    } else {
+      fetchData()
+    }
+
+    
+  }
+
+ // Debounce the handleSearch function
+ const debouncedSearch = debounce(search, 800);
+
+ useEffect(() => {
+  debouncedSearch();
+
+  return () => {
+    debouncedSearch.cancel();
+  };
+}, [searchText,orderBy]);
+
+
+
+
   const listofData = crewList.map((item: any, index: any) => {
   //  console.log(item)
     return <tr key={index} className={`${item.isRequiredDoc ? "bg-green-200 " : "bg-white"}  border-b hover:bg-slate-100 cursor-pointer`}
@@ -89,23 +129,28 @@ const AllPendingCrewMembers = () => {
 
   return <>
     <CommonLayout heading={"View All Pending Crew"}>
-      <div className="relative overflow-x-auto mb-3">
+      <InputField
+        fieldName={"Search"}
+        label={"Search"}
+        type={"Search"}
+        onChange={(e:any)=>updateSearchText(e.target.value)} />
+      <div className="relative overflow-x-auto mb-3 mt-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'firstname' ? "" : 'firstname')}>
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'vessel.label' ? "" :'vessel.label')}>
                 Vessel assigned
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'email' ? "" :'email')}>
                 Email
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'phone_no' ? "" :'phone_no')}>
                 Phone
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy('')}>
                 Available Doc
               </th>
 

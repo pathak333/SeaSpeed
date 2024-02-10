@@ -18,8 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "typeRoots": ["../react-app-env.d.ts"]
+    "jsx": "preserve",
+    "typeRoots": [
+      "../react-app-env.d.ts"
+    ]
   },
   "include": [
     "src"
