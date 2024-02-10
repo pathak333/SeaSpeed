@@ -12,7 +12,7 @@ import { LOADING } from "../../constants/action.constant"
 import FileUpload from "../../uiComponents/inputField/fileUpload.component"
 import InputField from "../../uiComponents/inputField/inputField.component"
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent"
-import { getCrewMedicalDetail } from "../../services/admin.service"
+import { addMedicalDetailAdmin, getCrewMedicalDetail } from "../../services/admin.service"
 import ApproveReject from "../../uiComponents/approve_reject"
 import { isObjectEmpty } from "../../constants/commonFunction"
 import PdfViewer from "../../uiComponents/pdf_viewer"
@@ -229,10 +229,11 @@ const MedicalDetails = () => {
             const isValid = formEvent.hasOwnProperty("user_id") ? await UpdateMedicalDetailsValidation(formData) : await MedicalDetailsValidation(formData);
             if (isValid) {
 
-                const { data } = formEvent.hasOwnProperty("user_id") ? await updateMedicalDetail(formData, formEvent._id) : await addMedicalDetail(formData);
+                const { data } = id ? await addMedicalDetailAdmin({user_id:id,...formData}) : formEvent.hasOwnProperty("user_id") ? await updateMedicalDetail(formData, formEvent._id) : await addMedicalDetail(formData);
                 console.log(data);
                 if (data.success) {
-                    navigate("/dashboard/unionRegistrationDetail");
+                    updateEvent({isFormChanged:false})
+                if(!id) navigate("/dashboard/unionRegistrationDetail");
                 }
                 // dispatch({ type: LOADING, payload: false });
             } else {
@@ -458,7 +459,7 @@ const MedicalDetails = () => {
         </div>}
         {globalState.data.data.permission.includes("application") &&
             <div>
-                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleSubmit}>Save</button>}
 
                 {id !== null && !formEvent.isFormChanged && <div id="approver">
                     <ApproveReject name="traveldetails" navigation={`/adminDashboard/unionRegistrationDetail/?id=${id}`} locationStateData={{}} doc_id="MedicalDetails" user_id={id} />

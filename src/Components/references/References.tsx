@@ -8,7 +8,7 @@ import { addReferences, deletetReferences, getReferences } from "../../services/
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewReferences } from "../../services/admin.service";
+import { addReferencesAdmin, getCrewReferences } from "../../services/admin.service";
 
 
 
@@ -78,7 +78,7 @@ const References = () => {
             console.log(isValid)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList:id? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
                     companyName: "",
                     address: "",
                     personInCharge: "",
@@ -187,10 +187,11 @@ const References = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addReferences(formEvent.dataList);
+            const { data } =id? await addReferencesAdmin(formEvent.dataList) : await addReferences(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/");
+                updateEvent({isFormChanged:false})
+                if(!id) navigate("/");
             } else {
                 throw Error(data.message)
             }
@@ -351,7 +352,7 @@ const References = () => {
         </div>}
         { globalState.data.data.permission.includes("application") && 
         <div>
-        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={handlerSubmit}>Save</button>}
 
         {id !== null && !formEvent.isFormChanged && <div id="approver">
             <ApproveReject name="traveldetails" navigation={`/`} locationStateData={{}}  doc_id="References" user_id={id} />

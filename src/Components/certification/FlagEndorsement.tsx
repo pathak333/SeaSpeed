@@ -12,7 +12,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
-import { getCrewFlagEndorsement } from "../../services/admin.service";
+import { addFlagEndorsementAdmin, getCrewFlagEndorsement } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
@@ -93,7 +93,7 @@ const FlagEndorsement = () => {
             let isValid = await FlagEndorsementValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList: id ? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
                     name: "",
                     number: "",
                     dateOfIssue: "",
@@ -181,10 +181,11 @@ const FlagEndorsement = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addFlagEndorsement(formEvent.dataList);
+            const { data } =id ? await addFlagEndorsementAdmin(formEvent.dataList) : await addFlagEndorsement(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/dashboard/certificates/dangerousCargo");
+                updateEvent({isFormChanged:false})
+                if(!id) navigate("/dashboard/certificates/dangerousCargo");
             } else {
                 throw Error(data.message)
             }
@@ -394,7 +395,7 @@ const FlagEndorsement = () => {
         </div>}
         {globalState.data.data.permission.includes("application") &&
             <div>
-                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+                {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" disabled={!formEvent.isFormChanged} onClick={handlerSubmit}>Save</button>}
 
                 {id !== null && !formEvent.isFormChanged && <div id="approver">
                     <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/dangerousCargo/?id=${id}`} locationStateData={{}} doc_id="FlagEndorsement" user_id={id} />

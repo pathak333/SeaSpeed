@@ -244,7 +244,7 @@ const BankDetail = () => {
           onChange={(e) => updateEvent({ account_type: e.target.value, isFormChanged: true })}
           value={formEvent.account_type}
           error={errorReturn("account_type")}
-          option={["USD", "INR", "PKR", "AED"]}
+          option={["","USD", "INR", "PKR", "AED"]}
         />
 
         <FileUpload folder={"bankDetailDoc"} name="bank_cancel_cheque" from="user" dataFun={getDocId} />

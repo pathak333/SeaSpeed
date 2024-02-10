@@ -10,7 +10,7 @@ import { useGlobalState } from "../../contexts/global.context";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
-import { getCrewSeamenBook } from "../../services/admin.service";
+import { addSeamenBookAdmin, getCrewSeamenBook } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 
@@ -80,7 +80,7 @@ const SeaMenBookDetail = () => {
       let isValid = await SeamenBookValidation(data)
       if (isValid) {
         updateEvent({
-          dataList: [...formEvent.dataList, data],
+          dataList:id ? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
           placeOfIssue: "",
           number: "",
           dateOfIssue: "",
@@ -160,10 +160,11 @@ const SeaMenBookDetail = () => {
     event.preventDefault();
     dispatch({ type: LOADING, payload: true });
     try {
-      const { data } = await addSeamenBookDetail(formEvent.dataList);
+      const { data } = id ? await addSeamenBookAdmin(formEvent.dataList) : await addSeamenBookDetail(formEvent.dataList);
       if (data.success) {
         toast.info(data.message)
-        navigate("/dashboard/certificates");
+        updateEvent({isFormChanged:false})
+        if(!id)  navigate("/dashboard/certificates");
       } else {
         throw Error(data.message)
       }
@@ -355,7 +356,7 @@ const SeaMenBookDetail = () => {
     }
 { globalState.data.data.permission.includes("application") && 
         <div>
-    {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+    {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={handlerSubmit}>Save</button>}
 
     {id !== null && !formEvent.isFormChanged && <div id="approver">
       <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/?id=${id}`} locationStateData={{}}  doc_id="SeaMenBookDetail" user_id={id}/>

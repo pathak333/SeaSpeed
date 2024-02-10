@@ -12,7 +12,7 @@ import { PassportValidation } from "./validation";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
-import { getCrewPassportDetail } from "../../services/admin.service";
+import { getCrewPassportDetail, updatePassportDetailAdmin } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 
@@ -87,12 +87,13 @@ const PassPortDetail = (props: any) => {
 }
       const isValid = await PassportValidation(postData);
       if (isValid) {
-        const { data } = formEvent.hasOwnProperty("user_id") ? await updatePassportDetailService(postData) : await PassportDetailService(postData)
+        const { data } =id ? await updatePassportDetailAdmin({_id:id,...postData}) : formEvent.hasOwnProperty("user_id") ? await updatePassportDetailService(postData) : await PassportDetailService(postData)
         // const { data } = await updatePassportDetailApi(postData);
         // const { data } = await PassportDetailService(postData);
         if (data.success) {
           toast.info(data.message)
-          navigate("/dashboard/traveldetails/visadetail");
+          updateEvent({isFormChanged:false})
+        if(!id) navigate("/dashboard/traveldetails/visadetail");
         }
       } else {
         throw Error(isValid);
@@ -242,7 +243,8 @@ const PassPortDetail = (props: any) => {
       </div>}
       {globalState.data.data.permission.includes("application") &&
         <div>
-          {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+          {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={handlerSubmit}>Save</button>}
 
           {id !== null && !formEvent.isFormChanged && <div id="approver">
             <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/visadetail/?id=${id}`} locationStateData={{}} doc_id="PassPortDetail" user_id={id} />

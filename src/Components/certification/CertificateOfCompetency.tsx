@@ -11,7 +11,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewCertificate } from "../../services/admin.service";
+import { addCertificateOfCompetencyAdmin, getCrewCertificate } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
 import { Certificate_Of_competency_grade } from "../../constants/constData";
@@ -92,7 +92,7 @@ const CertificateOfCompetency = () => {
             let isValid = await CertificateOfCompetencyValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList: id ?  [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
                     grade: "",
                     licenseNumber: "",
                     dateOfIssue: "",
@@ -183,10 +183,11 @@ const CertificateOfCompetency = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addCertificateOfCompetency(formEvent.dataList);
+            const { data } = id ? await addCertificateOfCompetencyAdmin(formEvent.dataList) : await addCertificateOfCompetency(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/dashboard/certificates/flagEndorsement");
+                updateEvent({isFormChanged:false})
+            if(!id) navigate("/dashboard/certificates/flagEndorsement");
             } else {
                 throw Error(data.message)
             }

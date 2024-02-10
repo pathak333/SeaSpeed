@@ -12,7 +12,7 @@ import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { CertificateContext, CertificateState } from "../../contexts/certificate.context";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewDangerousCargoEndorsement } from "../../services/admin.service";
+import { addDangerousCargoEndorsementAdmin, getCrewDangerousCargoEndorsement } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
 import { Dangerous_cargo_endorsement_name } from "../../constants/constData";
@@ -89,7 +89,7 @@ const DangerousCargoEndorsement = () => {
             let isValid = await FlagEndorsementValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList:id ? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
                     name: "",
                     number: "",
                     dateOfIssue: "",
@@ -177,10 +177,11 @@ const DangerousCargoEndorsement = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addDangerousCargoEndorsement(formEvent.dataList);
+            const { data } = id ? await addDangerousCargoEndorsementAdmin(formEvent.dataList)  : await addDangerousCargoEndorsement(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/dashboard/workExperiance");
+                updateEvent({isFormChanged:false})
+                if(!id) navigate("/dashboard/workExperiance");
             } else {
                 throw Error(data.message)
             }

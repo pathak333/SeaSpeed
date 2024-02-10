@@ -18,7 +18,7 @@ import {
 
 import { EducationValidation } from "./validation";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { getCrewEducationDetail } from "../../services/admin.service";
+import { educationDetailAdmin, getCrewEducationDetail } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 
 const Education = () => {
@@ -184,12 +184,13 @@ const Education = () => {
       // formData = formEvent.dataList.length > 0 ? formEvent.dataList : ;
       if (formData.length > 0) {
         console.log(formData, formData.length);
-        const { data } = await AddEducationDetail(formData);
+        const { data } =id ? await educationDetailAdmin({ _id: id, dataList:formData }) : await AddEducationDetail(formData);
         console.log(data);
         if (data) {
           toast.done(data.message);
-          navigate("/dashboard/personaldetails/bankDetail");
+        if(!id) navigate("/dashboard/personaldetails/bankDetail");
           dispatch({ type: LOADING, payload: false });
+          clearAllData()
         }
       } else {
         toast.error("Add minimum one education detail");
@@ -197,11 +198,29 @@ const Education = () => {
       }
     } catch (e: any) {
       console.log(e);
-
       toast.error(e.message);
       dispatch({ type: LOADING, payload: false });
     }
   };
+
+
+//   const adminEdit = async () => {
+//     //educationDetailAdmin
+//     let formData;
+//       if (formEvent.dataList.length > 0) {
+//         for (let index = 0; index < formEvent.dataList.length; index++) {
+//           delete formEvent.dataList[index].isFormChanged;
+
+//         }
+//         formData = formEvent.dataList;
+//       }
+//     const { data } = await educationDetailAdmin({ _id: "", dataList:formData });
+//     if(data){}
+
+
+//  }
+
+
 
   return (
     <div>
@@ -419,7 +438,8 @@ const Education = () => {
         </div>}
 { globalState.data.data.permission.includes("application") && 
         <div>
-        {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+            {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              onClick={handleSubmit} >Save</button>}
 
         {id !== null && !formEvent.isFormChanged && <div id="approver">
           <ApproveReject name="education" navigation={`/adminDashboard/personaldetails/bankDetail/?id=${id}`} locationStateData={{}}  doc_id="Education" user_id={id} />

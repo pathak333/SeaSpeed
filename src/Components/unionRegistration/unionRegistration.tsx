@@ -7,7 +7,7 @@ import { Trash2 } from "react-feather";
 import { useGlobalState } from "../../contexts/global.context";
 import { addUnionRegistration, deletetUnionRegistration, getUnionRegistration } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
-import { getCrewUnionRegistration } from "../../services/admin.service";
+import { addUnionRegistrationAdmin, getCrewUnionRegistration } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 
 const UnionRegistrationDetail = () => {
@@ -77,7 +77,7 @@ const UnionRegistrationDetail = () => {
             let isValid = await UnionRegistrationValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList:id? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
                     unionName: "",
                     membershipNumber: "",
                     dateOfJoiningUnion: "",
@@ -173,10 +173,11 @@ const UnionRegistrationDetail = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addUnionRegistration(formEvent.dataList);
+            const { data } = id ? await addUnionRegistrationAdmin(formEvent.dataList)  : await addUnionRegistration(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/dashboard/references");
+                updateEvent({isFormChanged:false})
+                if(!id) navigate("/dashboard/references");
             } else {
                 throw Error(data.message)
             }

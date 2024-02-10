@@ -10,7 +10,7 @@ import { LOADING } from "../../constants/action.constant";
 import InputField from "../../uiComponents/inputField/inputField.component";
 import SelectInput from "../../uiComponents/inputField/selectInputField.comonent";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewWorkExperience } from "../../services/admin.service";
+import { addWorkExperienceAdmin, getCrewWorkExperience } from "../../services/admin.service";
 
 
 
@@ -35,7 +35,7 @@ const [globalState, dispatch] = useGlobalState();
 
 
 async function fetchData() {
-    const { data } =id === null ? await getWorkExperience() : await getCrewWorkExperience(id);
+    const { data } = id === null ? await getWorkExperience() : await getCrewWorkExperience(id);
     updateEvent({ savedData: data.data })
 }
 
@@ -88,7 +88,7 @@ useEffect(() => {
             let isValid = await WorkExperianceValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList: [...formEvent.dataList, data],
+                    dataList:id ? [...formEvent.dataList, {user_id:id,...data}]  : [...formEvent.dataList, data],
                     vessel: "",
                     vesselType: "AHT",
                     flag: "",
@@ -221,10 +221,11 @@ useEffect(() => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = await addWorkExperience(formEvent.dataList);
+            const { data } = id ? await addWorkExperienceAdmin(formEvent.dataList) : await addWorkExperience(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                navigate("/dashboard/courseCertificate");
+                updateEvent({isFormChanged:false})
+                if(!id) navigate("/dashboard/courseCertificate");
             } else {
                 throw Error(data.message)
             }
@@ -472,7 +473,7 @@ useEffect(() => {
         </div>}
         { globalState.data.data.permission.includes("application") && 
         <div>
-        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={()=>{}}>Save</button> }
+        {id!== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={handlerSubmit}>Save</button> }
       
       {id!== null && !formEvent.isFormChanged &&  <div id="approver">
          <ApproveReject name="traveldetails" navigation={`/adminDashboard/courseCertificate/?id=${id}`} locationStateData={{}}  doc_id="WorkExperiance" user_id={id} />

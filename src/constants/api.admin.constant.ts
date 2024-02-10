@@ -72,3 +72,20 @@ export const updateProfileApi = "/admin/updateProfile"
 
 export const updateFileApi = "/file/admin/updateFile"
 export const applicationPdfApi = "/admin/applicationData"
+
+
+export const educationDetailAdminApi = "/admin/educationDetailAdmin"
+export const updatePassportDetailApi = "/admin/updatePassportDetail"
+export const addVisaDetailAdminApi = "/admin/addVisaDetailAdmin"
+export const addSeamenBookAdminApi = "/admin/addSeamenBookAdmin"
+export const addCertificateOfCompetencyAdminApi = "/admin/addCertificateOfCompetencyAdmin"
+export const addFlagEndorsementAdminApi = "/admin/addFlagEndorsementAdmin"
+export const addDangerousCargoEndorsementAdminApi = "/admin/addDangerousCargoEndorsementAdmin"
+
+
+
+export const addWorkExperienceAdminApi = "/admin/addWorkExperienceAdmin"
+export const addCourseCertificateAdminApi = "/admin/addCourseCertificateAdmin"
+export const addMedicalDetailAdminApi = "/admin/addMedicalDetailAdmin"
+export const addUnionRegistrationAdminApi = "/admin/addUnionRegistrationAdmin"
+export const addReferencesAdminApi = "/admin/addReferencesAdmin"

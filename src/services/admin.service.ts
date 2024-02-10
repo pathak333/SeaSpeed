@@ -1,6 +1,6 @@
 
 import axios, { Axios } from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi, educationDetailAdminApi, addCertificateOfCompetencyAdminApi, addDangerousCargoEndorsementAdminApi, addFlagEndorsementAdminApi, addSeamenBookAdminApi, addVisaDetailAdminApi, updatePassportDetailApi, addCourseCertificateAdminApi, addMedicalDetailAdminApi, addReferencesAdminApi, addUnionRegistrationAdminApi, addWorkExperienceAdminApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -238,4 +238,19 @@ export const updateFile = (data: any) => {
 
 export const applicationPdf = (id:string) => httpService.get(applicationPdfApi+`?id=${id}`);
 
+export const educationDetailAdmin = (data:any) => httpService.post(educationDetailAdminApi,data)
+
+export const updatePassportDetailAdmin = (data:any) => httpService.put(updatePassportDetailApi,data)
+export const addVisaDetailAdmin = (data:any) => httpService.put(addVisaDetailAdminApi,data)
+export const addSeamenBookAdmin = (data:any) => httpService.post(addSeamenBookAdminApi,data)
+export const addCertificateOfCompetencyAdmin = (data:any) => httpService.post(addCertificateOfCompetencyAdminApi,data)
+export const addFlagEndorsementAdmin = (data:any) => httpService.post(addFlagEndorsementAdminApi,data)
+export const addDangerousCargoEndorsementAdmin = (data:any) => httpService.post(addDangerousCargoEndorsementAdminApi,data)
+
+
+export const addWorkExperienceAdmin = (data:any) => httpService.post(addWorkExperienceAdminApi,data)
+export const addCourseCertificateAdmin = (data:any) => httpService.post(addCourseCertificateAdminApi,data)
+export const addMedicalDetailAdmin = (data:any) => httpService.post(addMedicalDetailAdminApi,data)
+export const addUnionRegistrationAdmin = (data:any) => httpService.post(addUnionRegistrationAdminApi,data)
+export const addReferencesAdmin = (data:any) => httpService.post(addReferencesAdminApi,data)
 

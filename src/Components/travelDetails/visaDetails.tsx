@@ -11,7 +11,7 @@ import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } f
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import ApproveReject from "../../uiComponents/approve_reject";
-import { getCrewVisaDetail } from "../../services/admin.service";
+import { addVisaDetailAdmin, getCrewVisaDetail } from "../../services/admin.service";
 import { isObjectEmpty } from "../../constants/commonFunction";
 import ReactDOM from 'react-dom';
 import PdfViewer from "../../uiComponents/pdf_viewer";
@@ -210,11 +210,11 @@ const VisaDetail = (props: any) => {
       
       const isValid = await VisaDetailValidation(formdata)
       if (isValid) {
-        const { data } = formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata)
+        const { data } =id ? await addVisaDetailAdmin({user_id:id,...formdata}) : formEvent.hasOwnProperty("user_id") ? await UpdateVisaDetailService(formdata) : await addVisaDetailService(formdata)
         if (data.success) {
           toast.info(data.message)
-
-          navigate("/dashboard/traveldetails/SeaMenBookdetail");
+          updateEvent({isFormChanged:false})
+        if(!id){ navigate("/dashboard/traveldetails/SeaMenBookdetail");}
         }
       } else {
         throw Error(isValid);
@@ -483,7 +483,7 @@ const VisaDetail = (props: any) => {
       }
       {globalState.data.data.permission.includes("application") &&
         <div>
-          {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
+          {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleSubmit}>Save</button>}
 
           {id !== null && !formEvent.isFormChanged && <div id="approver">
             <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} doc_id="VisaDetail" user_id={id} />

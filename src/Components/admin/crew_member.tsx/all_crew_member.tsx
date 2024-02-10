@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllCrew } from "../../../services/admin.service";
 import { Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
-import { Edit } from "@mui/icons-material";
+
 import { useNavigate } from "react-router-dom";
 import { LOADING } from "../../../constants/action.constant";
 import { useGlobalState } from "../../../contexts/global.context";
@@ -28,6 +28,15 @@ const AllCrewMembers = () => {
 
     }
 
+  
+function calPer(value:any) {
+  
+
+    console.log(((value?.length ?? 0) / 15) * 100);
+
+
+    return ((value?.length ?? 0) / 15) * 100;
+  }
 
 
   const listofData = crewList.map((item: any, index: any) => {
@@ -39,7 +48,16 @@ const AllCrewMembers = () => {
           <td className="px-3 py-4">{item.vessel ? item.vessel.label : "UnAssined"}</td>
           <td className="px-6 py-4">{item.email}</td> 
        <td className="px-6 py-4">{item.phone_no}</td>
-        
+    <td className="pl-6 pr-2 py-4">
+      {/* {item.formState.length} */}
+    <div className="card__indicator">
+    <span className="card__indicator-amount">{item.formState.length}</span> Docs / &nbsp;
+        <span className="card__indicator-percentage">{ calPer(item.formState).toFixed(2)}&nbsp;%</span>
+  </div>
+      <div className="card__progress">
+        <progress max={15} value={item.formState.length}></progress>
+      </div>
+    </td>
     <td className="px-6 py-4 ">
      
         <Trash2
@@ -71,7 +89,10 @@ const AllCrewMembers = () => {
               <th scope="col" className="px-6 py-3">
                 Phone
               </th>
-             
+              <th scope="col" className="px-6 py-3">
+                Available Doc
+              </th>
+
               <th scope="col" className="px-6 py-3">
                 Action
               </th>
