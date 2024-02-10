@@ -83,7 +83,9 @@ const PassPortDetail = (props: any) => {
       }
       console.log(postData);
       if (formEvent.hasOwnProperty("user_id")) {
-        postData.documentId = postData.documentId._id
+        if (!(typeof formEvent.documentId === 'string')) {      
+          postData.documentId = postData.documentId._id
+        }
 }
       const isValid = await PassportValidation(postData);
       if (isValid) {

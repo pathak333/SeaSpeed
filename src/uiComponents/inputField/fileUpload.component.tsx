@@ -26,8 +26,8 @@ interface Props {
 
 const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = false, className }: Props) => {
     const uploadRef = useRef<HTMLInputElement>(null);
-    const [, dispatch] = useGlobalState();
-
+    const [globalState, dispatch] = useGlobalState();
+    const id = globalState.temp;
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;
@@ -77,7 +77,7 @@ const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = fals
             formData.append('name', formEvent.name)
             formData.append('expire', formEvent.expireDate)
             formData.append('foldername', folder)
-
+            if(id){formData.append("user_id",id)}
             updateFormEvent({ multipleData: [...formEvent.multipleData, formData] })
             dispatch({ type: LOADING, payload: false });
             uploadRef.current!.value = "";
@@ -102,6 +102,7 @@ const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = fals
             console.log(uploadRef.current!.files![0])
             try {
                 if (from === "user") {
+                    if(id){formData.append("user_id",id)}
                     const { data } = await singleFileUpload(formData)
                     console.log(data)
                     updateFormEvent({ data })
