@@ -90,9 +90,10 @@ const SeaMenBookDetail = () => {
       documentId:"",
 
         })
+      
         updateFileData("")
       }
-      return 'done'
+      return id? [{user_id:id,...data}] : [data];
     } catch (error: any) {
       if (error.name === "ValidationError") {
         for (let errorDetail of error.details) {
@@ -155,36 +156,57 @@ const SeaMenBookDetail = () => {
 
 
 
-  const handlerSubmit = async (event: any) => {
+  const handlerSubmit = async (event?: any) => {
     toast.dismiss();
-    event.preventDefault();
+    console.log("handle submit");
+    
+  if(event)  event.preventDefault();
     dispatch({ type: LOADING, payload: true });
+   
     try {
-      const { data } = id ? await addSeamenBookAdmin(formEvent.dataList) : await addSeamenBookDetail(formEvent.dataList);
-      if (data.success) {
-        toast.info(data.message)
-        updateEvent({isFormChanged:false})
-        if(!id)  navigate("/dashboard/certificates");
+      if (formEvent.dataList.length === 0) {
+        addMore().then(async (result:any) => {
+          const { data } = id ? await addSeamenBookAdmin(result) : await addSeamenBookDetail(result);
+          if (data.success) {
+            toast.info(data.message)
+            updateEvent({isFormChanged:false})
+            if(!id)  navigate("/dashboard/certificates"); 
+          } else {
+            throw Error(data.message)
+          }
+        })
+      
       } else {
-        throw Error(data.message)
-      }
-    } catch (error: any) {
-      if (error.name === "ValidationError") {
-        for (let errorDetail of error.details) {
-          updateEvent({
-            error: {
-              keys: errorDetail.context.key,
-              values: errorDetail.message,
-            },
-          });
-          toast.error(errorDetail.message);
+        const { data } = id ? await addSeamenBookAdmin(formEvent.dataList) : await addSeamenBookDetail(formEvent.dataList);
+        if (data.success) {
+          toast.info(data.message)
+          updateEvent({isFormChanged:false,dataList:[]})
+          if(!id)  navigate("/dashboard/certificates"); 
+        } else {
+          throw Error(data.message)
         }
-      } else if (error.name === "AxiosError") {
-        toast.error(error.response.data.message);
       }
-    } finally {
-      dispatch({ type: LOADING, payload: false });
-    }
+      
+      } catch (error: any) {
+        if (error.name === "ValidationError") {
+          for (let errorDetail of error.details) {
+            updateEvent({
+              error: {
+                keys: errorDetail.context.key,
+                values: errorDetail.message,
+              },
+            });
+            toast.error(errorDetail.message);
+          }
+        } else if (error.name === "AxiosError") {
+          toast.error(error.response.data.message);
+        }
+      } finally {
+        dispatch({ type: LOADING, payload: false });
+      }
+    
+  
+    
   }
 
   const getDocId = (data: any) => {
@@ -196,7 +218,7 @@ const SeaMenBookDetail = () => {
   const errorReturn = (field: string) =>
     formEvent.error.key === field ? formEvent.error.value : "";
 
-  return <form onSubmit={handlerSubmit} >
+  return <form  >
     <h3 className="pl-4 font-semibold">seamen book details (CDC)</h3>
     <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
     <InputField
@@ -325,9 +347,10 @@ const SeaMenBookDetail = () => {
         Previous
       </button>
       {formEvent.isFormChanged ? <button
-        type="submit"
+        type="button"
         disabled={formEvent.dataList.length === 0}
         className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:focus::bg-blue-300  disabled:hover:bg-blue-300 disabled:bg-blue-300"
+      onClick={(e:any)=>handlerSubmit(e)}
       >
         Save & next
       </button> :
@@ -356,7 +379,7 @@ const SeaMenBookDetail = () => {
     }
 { globalState.data.data.permission.includes("application") && 
         <div>
-    {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={handlerSubmit}>Save</button>}
+    {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={(e:any)=>handlerSubmit(e)}>Save</button>}
 
     {id !== null && !formEvent.isFormChanged && <div id="approver">
       <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/?id=${id}`} locationStateData={{}}  doc_id="SeaMenBookDetail" user_id={id}/>
