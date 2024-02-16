@@ -1,4 +1,5 @@
 
+import { Close } from "@mui/icons-material";
 import "./css/custom_button.css"
 
 type DialogBoxProps = {
@@ -19,9 +20,10 @@ const DialogBox = (props: DialogBoxProps) => {
               <h2 className="text-xl mb-4 font-semibold">{props.label}</h2>
               {props.component}
               <button
-                className="mt-4 border border-red-600 hover:bg-red-700 hover:text-white text-red-600 font-bold py-2 px-4 rounded"
+                className="mt-4 border border-red-600 hover:bg-red-700 hover:text-white text-red-600 font-bold py-2 px-2 rounded-lg leading-none"
                 onClick={props.onClose}
               >
+                <Close />
                 Close
               </button>
             </div>
