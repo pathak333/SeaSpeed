@@ -62,7 +62,7 @@ import CompanyExpireDocs from "../Components/admin/Expire_documents/company_expi
 import { adminProfileService } from "../services/admin.service";
 import UserExpireDocs from "../Components/admin/Expire_documents/user_expire_docs";
 import GenratePdf from "../Components/admin/contract_pdf/genratePdf";
-import Demo from "../uiComponents/demo";
+// import Demo from "../uiComponents/demo";
 
 
 
@@ -80,10 +80,10 @@ const MainRoutes = () => {
       ),
     },
 
-    {
-      path: "/demo",
-      element:<Demo />
-    },
+    // {
+    //   path: "/demo",
+    //   element:<Demo />
+    // },
     {
       path: "/auth",
       element: <AuthLayout />,
