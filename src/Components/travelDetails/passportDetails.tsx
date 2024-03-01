@@ -203,7 +203,7 @@ const PassPortDetail = (props: any) => {
             <Upload className="text-IbColor" />
             <p className="text-IbColor">Upload Passport PDF</p>
           </div> */}
-          <FileUpload folder={"passport"} name="passport" expireDate={formEvent.dateOfExpiry.split("T")[0]} from="user" dataFun={getDocId} />
+          <FileUpload folder={"passport"} name="passport" expireDate={formEvent.dateOfExpiry.split("T")[0]} from={id ? "admin" :"user"} dataFun={getDocId} />
           <h1 className="m-3 font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}, Click to download</a> : ""}</h1>
 
           <ul className="list-disc ml-4">

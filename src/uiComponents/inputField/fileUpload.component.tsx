@@ -102,7 +102,7 @@ const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = fals
             console.log(uploadRef.current!.files![0])
             try {
                 if (from === "user") {
-                    if(id){formData.append("user_id",id)}
+                    //if(id){formData.append("user_id",id)}
                     const { data } = await singleFileUpload(formData)
                     console.log(data)
                     updateFormEvent({ data })
@@ -110,6 +110,7 @@ const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = fals
                     dispatch({ type: LOADING, payload: false });
                     updateFormEvent({ isUploadOpen: false })
                 } else {
+                    if(id){formData.append("user_id",id)}
                     const { data } = await singleFileUploadAdmin(formData)
                     console.log(data)
                     dataFun(data.data)

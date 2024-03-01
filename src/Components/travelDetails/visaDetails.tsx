@@ -329,7 +329,7 @@ const VisaDetail = (props: any) => {
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>
         </div> */}
-        <FileUpload folder={"visaDetailDoc"} name="visa" expireDate={formEvent.dateOfExpiry} from="user"  dataFun={getDocId} />
+        <FileUpload folder={"visaDetailDoc"} name="visa" expireDate={formEvent.dateOfExpiry} from={id ? "admin" :"user"}  dataFun={getDocId} />
         <h1 className="ml-3 text-IbColor"> {fileData !== undefined && fileData !== "" ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }, Click to download</a> :""}</h1>
 
       </div>

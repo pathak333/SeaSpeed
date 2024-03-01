@@ -198,7 +198,7 @@ const AddCompany = () => {
         ) : (
             <div></div>
         )}
-         <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+         <button type="button" className="tracking-wider text-white bg-gradient-to-r from-cyan-600 to-blue-600 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 onClick={async (e:any) => {
                     e.preventDefault();
                     try {

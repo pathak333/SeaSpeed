@@ -535,7 +535,7 @@ const PersonalDetail = () => {
             value={formEvent.CNC}
           />
 
-          <FileUpload folder={"CNCDoc"} name="CNC" from="user" dataFun={cncDocId} />
+          <FileUpload folder={"CNCDoc"} name="CNC" from={id ? "admin" :"user"} dataFun={cncDocId} />
           <h1 className="ml-3 text-IbColor"> {formEvent.cncName !== "" ? <a href={formEvent.cncName?.link}>You have uploaded one file {formEvent.cncName?.name}</a> : ""}</h1>
 
         </div>
@@ -555,7 +555,7 @@ const PersonalDetail = () => {
             value={formEvent.aadhaar}
           />
 
-          <FileUpload folder={"aadhaarDoc"} name="aadhaar" from="user" dataFun={aadhaarDocId} />
+          <FileUpload folder={"aadhaarDoc"} name="aadhaar" from={id ? "admin" :"user"} dataFun={aadhaarDocId} />
           <h1 className="m-3 font-semibold text-IbColor"> {formEvent.aadhaarName !== "" && formEvent.aadhaarName !== undefined ? <a href={formEvent.aadhaarName?.link} target="_blank" rel="noopener noreferrer" download >You have uploaded one file {formEvent.aadhaarName?.name}, Click to download</a> : ""}</h1>
           {/* {fileData !== undefined ? <FileUpdate id={fileData._id} name={fileData.name} expireDate={fileData.expire} link={fileData.link} /> : <></>} */}
 
@@ -572,7 +572,7 @@ const PersonalDetail = () => {
             value={formEvent.pan}
 
           />
-          <FileUpload folder={"panDoc"} name="pan" from="user" dataFun={panDocId} />
+          <FileUpload folder={"panDoc"} name="pan" from={id ? "admin" :"user"} dataFun={panDocId} />
           <h1 className="m-3 font-semibold text-IbColor"> {formEvent.panName !== "" && formEvent.panName !== undefined ? <a href={formEvent.panName?.link} target="_blank" rel="noopener noreferrer" download >You have uploaded one file {formEvent.panName?.name}, Click to download</a> : ""}</h1>
 
 

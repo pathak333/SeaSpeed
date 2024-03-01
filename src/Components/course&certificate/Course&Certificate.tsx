@@ -282,7 +282,7 @@ const CourseCertificate = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"courseCertificate"} name="certificate" expireDate={formEvent.dateOfExpiry}  from="user" dataFun={getDocId} />
+            <FileUpload folder={"courseCertificate"} name="certificate" expireDate={formEvent.dateOfExpiry}  from={id ? "admin" :"user"} dataFun={getDocId} />
             <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
         </div>

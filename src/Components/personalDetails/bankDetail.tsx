@@ -247,7 +247,7 @@ const BankDetail = () => {
           option={["","USD", "INR", "PKR", "AED"]}
         />
 
-        <FileUpload folder={"bankDetailDoc"} name="bank_cancel_cheque" from="user" dataFun={getDocId} />
+        <FileUpload folder={"bankDetailDoc"} name="bank_cancel_cheque" from={id ? "admin" :"user"} dataFun={getDocId} />
 
         <p className="m-3 text-textGrey">(For-Example blank or cancel cheque)</p>
         {/* <h1 className="m-3  font-semibold text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}, Click to download</a> : ""}</h1> */}

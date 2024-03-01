@@ -110,7 +110,7 @@ const AddManager = (props:Props) => {
             />}
         </div>
         <div className="flex justify-center m-2">
-            <button type="button" className=" text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            <button type="button" className=" text-blue-500 border border-blue-500 bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white active:bg-blue-500 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 onClick={async (e:any) => {
                     e.preventDefault();
                     try {

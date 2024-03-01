@@ -325,7 +325,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"regularMedicalCertificate"} name="regular_certificate" expireDate={formEvent.dateOfExpiry} from="user" dataFun={getregularMedicalDocId} />
+            <FileUpload folder={"regularMedicalCertificate"} name="regular_certificate" expireDate={formEvent.dateOfExpiry} from={id ? "admin" :"user"} dataFun={getregularMedicalDocId} />
             <h1 className="ml-3 text-IbColor"> {fileRegularData !== undefined ? <a href={fileRegularData?.link}>You have uploaded one file {fileRegularData?.name}</a> : ""}</h1>
 
 
@@ -403,7 +403,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow_certificate" expireDate={formEvent.Yellow_fever_vaccination.dateOfExpiry} from="user" dataFun={getYellowFeverDocId} />
+            <FileUpload folder={"YellowFeverMedicalCertificate"} name="yellow_certificate" expireDate={formEvent.Yellow_fever_vaccination.dateOfExpiry} from={id ? "admin" :"user"} dataFun={getYellowFeverDocId} />
             <h1 className="ml-3 text-IbColor"> {fileYellowData !== undefined ? <a href={fileYellowData?.link} target="_blank" rel="noopener noreferrer" download>You have uploaded one file {fileYellowData?.name}</a> : ""}</h1>
 
         </div>
@@ -424,7 +424,7 @@ const MedicalDetails = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"covidMedicalCertificate"} name="covid_certificate" from="user" dataFun={getCovidDocId} />
+            <FileUpload folder={"covidMedicalCertificate"} name="covid_certificate" from={id ? "admin" :"user"} dataFun={getCovidDocId} />
             <h1 className="ml-3 text-IbColor"> {fileCovidData !== undefined ? <a href={fileCovidData?.link} target="_blank" rel="noopener noreferrer" download >You have uploaded one file {fileCovidData?.name}</a> : ""}</h1>
 
         </div>
