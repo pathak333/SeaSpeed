@@ -74,6 +74,14 @@
   border-radius: 100px;
 }
 
+.card__indicator{
+  font-size: 12px;
+}
 
 
+.datePlaceholder::placeholder{
+
+  color: red;
+
+}
 

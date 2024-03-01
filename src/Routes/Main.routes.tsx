@@ -79,7 +79,6 @@ const MainRoutes = () => {
         <Navigate to="/auth/login" />
       ),
     },
-
     // {
     //   path: "/demo",
     //   element:<Demo />

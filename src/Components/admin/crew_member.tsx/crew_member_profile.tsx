@@ -11,6 +11,7 @@ import InputField from "../../../uiComponents/inputField/inputField.component";
 import { sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
 import { toast } from "react-toastify";
 import { TEMP } from "../../../constants/action.constant";
+import CreateContract from "../contract_pdf/create_new_contract";
 
 
 
@@ -23,7 +24,8 @@ const CrewProfile = () => {
 
 
    const navigate = useNavigate();
-   const [isInstrucOpen,updateInstrucOpen] = useState(false)
+   const [isInstrucOpen, updateInstrucOpen] = useState(false)
+   const [isContractboxOpen,updateContractboxOpen] = useState(false)
    const [InstrucText,updateInstrucText] = useState("")
    function goBack() {
       navigate(-1)
@@ -59,7 +61,9 @@ const CrewProfile = () => {
    },[])
 
 
-
+   const closeContractbox = () => {
+      updateContractboxOpen(false)
+}
 
    
    return <div className="">
@@ -84,8 +88,9 @@ const CrewProfile = () => {
                </div>
                <div className="h-10">
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2" onClick={()=>updateInstrucOpen(true)}>Send instructions</button>
-                  <button onClick={()=>navigateApp()} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Send contract</button>
-                  <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2"><AirplaneTicket /> Send tickets & visa</button>
+                  <button onClick={() => updateContractboxOpen(true)} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Send contract</button>
+                  <CreateContract userData={data} isOpen={isContractboxOpen} onClose={closeContractbox} label={"Create Contract"} />
+                  
                 {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} />}
                </div>
             </div>
