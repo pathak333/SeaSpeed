@@ -92,3 +92,7 @@ export const addReferencesAdminApi = "/admin/addReferencesAdmin"
 
 
 export const searchPendingCrewApi = "/admin/searchPendingCrew"
+
+
+export const newContractApi = "/admin/newContract"
+export const getUserContractApi  = "/admin/getUserContract"
