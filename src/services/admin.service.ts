@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi, educationDetailAdminApi, addCertificateOfCompetencyAdminApi, addDangerousCargoEndorsementAdminApi, addFlagEndorsementAdminApi, addSeamenBookAdminApi, addVisaDetailAdminApi, updatePassportDetailApi, addCourseCertificateAdminApi, addMedicalDetailAdminApi, addReferencesAdminApi, addUnionRegistrationAdminApi, addWorkExperienceAdminApi, searchPendingCrewApi, newContractApi, getUserContractApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi, educationDetailAdminApi, addCertificateOfCompetencyAdminApi, addDangerousCargoEndorsementAdminApi, addFlagEndorsementAdminApi, addSeamenBookAdminApi, addVisaDetailAdminApi, updatePassportDetailApi, addCourseCertificateAdminApi, addMedicalDetailAdminApi, addReferencesAdminApi, addUnionRegistrationAdminApi, addWorkExperienceAdminApi, searchPendingCrewApi, newContractApi, getUserContractApi, getUserSingleContractApi, updateContractApi, getUserContractByVesselApi, getAllContractApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -183,6 +183,7 @@ export const singleFileUploadAdmin = (payload: any) => {
 export const assignVessel = (data: any) => {
     return httpService.put(assignVesselApi, data)
 }
+
 export const uploadProfileadmin = (payload: any, token: any) => {
     return httpService.post(uploadProfileadminApi, payload, {
         headers: {
@@ -262,3 +263,8 @@ export const searchPendingCrew = (data: any) => httpService.post(searchPendingCr
 
 export const newContract = (data: any) => httpService.post(newContractApi, data);
 export const getUserContract = (id:any) => httpService.get(getUserContractApi+`?id=${id}`);
+export const getUserSingleContract = (id:any) => httpService.get(getUserSingleContractApi+`?contractid=${id}`);
+export const updateContract = (data: any) => httpService.post(updateContractApi, data);
+
+export const getUserContractByVessel = (data: any) => httpService.post(getUserContractByVesselApi, data)
+export const getAllContract = ()=> httpService.get(getAllContractApi)

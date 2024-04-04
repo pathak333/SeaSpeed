@@ -96,3 +96,7 @@ export const searchPendingCrewApi = "/admin/searchPendingCrew"
 
 export const newContractApi = "/admin/newContract"
 export const getUserContractApi  = "/admin/getUserContract"
+export const getUserSingleContractApi  = "/admin/getUserSingleContract"
+export const updateContractApi  = "/admin/updateContract"
+export const getUserContractByVesselApi = "/admin/getUserContractByVessel"
+export const getAllContractApi = "/admin/getAllContract"

@@ -9,11 +9,12 @@ import { useGlobalState } from "../../contexts/global.context";
 import { FileText } from "react-feather";
 import { TodayDate } from "../../constants/values.constants";
 import InputField from "../../uiComponents/inputField/inputField.component";
-import { ProfileUpdate, getAllFile } from "../../services/user.service";
+import { ProfileUpdate, getAllFile, getUserContract } from "../../services/user.service";
 import { toast } from "react-toastify";
 import { LOADING } from "../../constants/action.constant";
 import { ContactDetailValidation } from "../personalDetails/validation";
 import UserInfoCard from "./user_info_card";
+import { CelebrationRounded } from "@mui/icons-material";
 
 
 
@@ -29,7 +30,7 @@ const Dashboard = () => {
       return newEvent;
     },
     {
-     
+     contractData:"",
       joiningDate:""
     }
   );
@@ -38,7 +39,9 @@ const Dashboard = () => {
   useEffect(() => {
     window.history.pushState(null, "", window.location.pathname);
     console.log("dashboard component");
+    fetchData();
     fetchAllDoc()
+    
     return () => { };
   }, []);
 
@@ -48,6 +51,19 @@ const Dashboard = () => {
     console.log(data)
     updateAllFile(data.data)
   }
+  
+  const fetchData = async () => {
+    dispatch({ type: LOADING, payload: true });
+    const { data } = await getUserContract()
+    if (data) {
+        console.log(data.data)
+      if (data.data.length > 0) {
+        updateEvent({contractData:data.data});
+      }
+    }
+    dispatch({ type: LOADING, payload: false });
+
+}
 
 
   const handlerSubmit = async (event: any) => {
@@ -56,9 +72,8 @@ const Dashboard = () => {
     try {
       dispatch({ type: LOADING, payload: true });
       event.preventDefault();
-      let formData = { ...formEvent }
-      delete formData.isFormChanged
-      delete formData.error
+      let formData = { joiningDate:formEvent.joiningDate }
+      
      // let isValid = await ContactDetailValidation(formData);
      
        
@@ -112,7 +127,12 @@ const Dashboard = () => {
 
   return (
     <div className="    ">
-      <div className="w-full h-fit bg-white p-4 mb-8 items-baseline inline-grid rounded-lg">
+    { formEvent.contractData !== "" &&  <div className="w-full h-fit   bg-green-100 text-green-700 p-4 mb-3 items-center flex flex-row i rounded-lg">
+        <CelebrationRounded className="mr-3" /> 
+          <p>A new contract has been created for you. Please check your email for more details.</p>
+        </div>}
+      <div className="w-full h-fit bg-white p-4 mb-3 items-baseline inline-grid rounded-lg">
+      
         {data != null && !data.isRequiredDoc && <p>
           Your Application <span>{memoizedValue > 100 ? 100 : memoizedValue.toFixed(2)}%</span>
         </p>}

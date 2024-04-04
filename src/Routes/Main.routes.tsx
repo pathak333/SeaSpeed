@@ -62,6 +62,9 @@ import CompanyExpireDocs from "../Components/admin/Expire_documents/company_expi
 import { adminProfileService } from "../services/admin.service";
 import UserExpireDocs from "../Components/admin/Expire_documents/user_expire_docs";
 import GenratePdf from "../Components/admin/contract_pdf/genratePdf";
+import AllContract from "../Components/admin/contract_pdf/all_crew_contract";
+import AllCrewContract from "../Components/admin/contract_pdf/all_crew_contract";
+import AllContractAdmin from "../Components/admin/contract_pdf/all_contract_Admin";
 // import Demo from "../uiComponents/demo";
 
 
@@ -411,6 +414,28 @@ const MainRoutes = () => {
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
               outlet={<CrewProfile />}
+            // Error Showing 
+            />
+          ),
+        },
+        {
+          path: "AllContract",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<AllCrewContract  />}
+            // Error Showing 
+            />
+          ),
+        },
+        {
+          path: "AllContractAdmin",
+          element: (
+            <AuthenticatedRoute
+              accessToken={globalState.accessToken}
+              // outlet={<PersonalDetail />}
+              outlet={<AllContractAdmin  />}
             // Error Showing 
             />
           ),

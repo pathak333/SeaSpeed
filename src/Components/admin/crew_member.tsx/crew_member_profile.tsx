@@ -8,9 +8,9 @@ import { useGlobalState } from "../../../contexts/global.context";
 import DialogBox from "../../../uiComponents/dialogBox";
 import { useEffect, useState } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
-import { sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
+import { getUserContract, sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
 import { toast } from "react-toastify";
-import { TEMP } from "../../../constants/action.constant";
+import { LOADING, TEMP } from "../../../constants/action.constant";
 import CreateContract from "../contract_pdf/create_new_contract";
 
 
@@ -26,10 +26,30 @@ const CrewProfile = () => {
    const navigate = useNavigate();
    const [isInstrucOpen, updateInstrucOpen] = useState(false)
    const [isContractboxOpen,updateContractboxOpen] = useState(false)
-   const [InstrucText,updateInstrucText] = useState("")
+   const [InstrucText, updateInstrucText] = useState("")
+   const [contract, updatecontract] = useState("")
+   
+
+
    function goBack() {
       navigate(-1)
    }
+
+
+
+
+   const fetchData = async (id:string) => {
+      dispatch({ type: LOADING, payload: true });
+      const { data } = await getUserContract(id)
+      if (data) {
+          if (data.data.length > 0) {
+            updatecontract({ ...data.data })
+          }
+      }
+      dispatch({ type: LOADING, payload: false });
+
+   }
+
 
    const handleSaveButton = async () => {
       const payload = {
@@ -58,6 +78,7 @@ const CrewProfile = () => {
 
    useEffect(() => {
       dispatch({ type: TEMP, payload: data._id })
+      fetchData(data._id )
    },[])
 
 
@@ -79,7 +100,7 @@ const CrewProfile = () => {
                <p className=" text-[32px] font-bold text-gray-200 leading-none items-start justify-start">Crew Profile</p>
            </div>
             <p className="pl-8 text-[#A5A5A5]">
-               {data.rank.label}
+               {data.rank.label}  {data.vessel && data.vessel.label ?  `At ${data.vessel.label}`:""}
             </p>
 
             <div className="flex flex-row items-center justify-center content-center">
@@ -88,10 +109,11 @@ const CrewProfile = () => {
                </div>
                <div className="h-10">
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2" onClick={()=>updateInstrucOpen(true)}>Send instructions</button>
-                  <button onClick={() => updateContractboxOpen(true)} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Send contract</button>
+                  <button onClick={() => updateContractboxOpen(true)} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Create contract</button>
+                  <button onClick={() => {navigate('/adminDashboard/AllContract', { state: { userdata: data, contractData: contract} })}} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  " ><Description />All contract</button>
                   <CreateContract userData={data} isOpen={isContractboxOpen} onClose={closeContractbox} label={"Create Contract"} />
                   
-                {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} />}
+                {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} replacement={!isObjectEmpty(data.replacement) ? data.replacement : null } />}
                </div>
             </div>
          </div>

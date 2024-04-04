@@ -2,7 +2,7 @@
 import DashboardCard from "../../smallerComponents/dashboardCard";
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { Business, Contacts, DirectionsBoatRounded, DockRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@mui/icons-material";
+import { Business, Contacts, ControlPoint, DirectionsBoatRounded, DockRounded, Domain, People, PersonAdd, SupervisedUserCircleRounded } from "@mui/icons-material";
 import DashboardCard2 from "../../smallerComponents/dashboardCard2";
 import { Sailing } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -108,6 +108,13 @@ const AdminDashboard = () => {
           }}
         />}
      
+        <DashboardCard2
+          label={"Manage Contract"}
+          icon={<ControlPoint className="" />}
+          onClick={() => {
+            navigate("/adminDashboard/AllContractAdmin");
+          }}
+        />
         <DashboardCard2
           label={"All Expire Doc"}
           icon={<DockRounded className="" />}

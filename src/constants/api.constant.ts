@@ -86,3 +86,6 @@ export const updateInstructionUserApi = "/user/updateInstruction"
 
 
 export const updateUserFileApi = "/file/user/updateFile"
+
+
+export const getUserContractApi  = "/user/getUserContract"

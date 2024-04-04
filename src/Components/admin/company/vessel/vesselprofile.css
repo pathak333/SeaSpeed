@@ -1,0 +1,37 @@
+.submain {
+
+    transform-style:
+        preserve-3d;
+
+    transition:
+        0.6s;
+
+}
+
+.infomain:hover .submain,
+.infomain .submain:hover {
+    transform: rotateY(180deg);
+    cursor: pointer;
+    transition: all 1000ms ease-in-out;
+}
+
+.back {
+
+    backface-visibility:
+        hidden;
+}
+
+.front {
+    backface-visibility:
+        hidden;
+}
+
+.front {
+    transform:
+        rotateY(0deg);
+}
+
+.back {
+    transform:
+        rotateY(180deg);
+}

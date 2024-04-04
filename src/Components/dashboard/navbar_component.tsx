@@ -173,7 +173,7 @@ console.log(group)
 
           <h2 className="font-bold text-2xl">SEA <span className="bg-[#2C77CF] text-white px-2 rounded-md">SPEED</span></h2>
         </div>
-        <ul className="mt-4" >
+    { data && data["role"] !== "user" &&  <ul className="mt-4" >
           {/* <span className="text-gray-400 font-bold">ADMIN</span> */}
           <li className="mb-1 group selected" onClick={(e:any)=>clickHandleronGroup(e)}>
             <div className="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-slate-300 hover:text-gray-900 rounded-md group-[.active]:bg-slate-300 group-[.active]:text-gray-900 group-[.selected]:bg-slate-300 group-[.selected]:text-gray-900"
@@ -223,7 +223,11 @@ console.log(group)
             </div>
           </li>}
 
-        </ul>
+        </ul>}
+
+         {data && data["role"] !== 'admin' && <ul className="mt-4">
+        
+        </ul>}
       </div>
       {!isSidebarOpen && <div className="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay" onClick={(e:any)=>setIsSidebarOpen(!isSidebarOpen)}></div>}
       {/* <!-- end sidenav --> */}

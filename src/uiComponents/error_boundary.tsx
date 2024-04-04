@@ -25,7 +25,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       // You can provide a custom fallback UI for the error state
       return <>
         <div>
-          <img src="/images/svg/error.svg" alt="" />
+          <img src="/images/error.gif" alt="" width={300} height={300} />
+    
         </div>
       </>;
     }

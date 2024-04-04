@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
     userId: string,
-    isVesselAvailable: boolean
+    isVesselAvailable: boolean,
+    replacement:any
 }
 
 
@@ -42,28 +43,28 @@ const AssignVessel = (props: Props) => {
     useEffect(() => {
         updateFormEvent({ userId: props.userId })
         updateisVessel(props.isVesselAvailable)
-        fetchData();
+    //    fetchData();
     }, [])
 
-    const createOption = (label: string, value: string) => ({
-        label,
-        value,
-    }) as Option;
+    // const createOption = (label: string, value: string) => ({
+    //     label,
+    //     value,
+    // }) as Option;
 
-    async function fetchData() {
-        dispatch({ type: LOADING, payload: true });
-        const { data } = await getAllVesselById();
-        console.log(data);
-        let vesselData: Option[] = [];
+    // async function fetchData() {
+    //     dispatch({ type: LOADING, payload: true });
+    //     const { data } = await getAllVesselById();
+    //     console.log(data);
+    //     let vesselData: Option[] = [];
 
-        data.data.map((e: any) => vesselData.push(createOption(e.name, e._id)))
+    //     data.data.map((e: any) => vesselData.push(createOption(e.name, e._id)))
 
-        updateVesselListOption(vesselData)
-        dispatch({ type: LOADING, payload: false });
+    //     updateVesselListOption(vesselData)
+    //     dispatch({ type: LOADING, payload: false });
       
 
 
-    }
+    // }
 
 
   
@@ -73,12 +74,11 @@ const AssignVessel = (props: Props) => {
        
         delete formEvent.isUploadOpen;
         delete formEvent.isUnAssign;
-
-        const { data } = await assignVessel(formEvent);
+        const { data } = await assignVessel({...formEvent,replacement: props.replacement});
         console.log(data)
         if (data) {
             updateFormEvent({ isUploadOpen: false })
-            updateisVessel(isfrom)
+            // updateisVessel(isfrom)
             toast.success(data.message);
         }
         dispatch({ type: LOADING, payload: false });
@@ -88,8 +88,9 @@ const AssignVessel = (props: Props) => {
 
 
     return <>
-        {!isVessel ? <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUploadOpen: true, vessel: {} })}><AirplaneTicket /> Assign Vessel</button>
-            : <button className="border border-red-600 bg-red-600 font-bold text-white p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUnAssign: true, vessel: {} })}><AirplaneTicket /> UnAssign Vessel</button>}
+        {props.isVesselAvailable &&
+            // ? <button className="border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUploadOpen: true, vessel: {} })}><AirplaneTicket /> Assign Vessel</button>
+             <button className="border border-red-600 bg-red-600 font-bold text-white p-2 rounded-lg mx-2" onClick={() => updateFormEvent({ isUnAssign: true, vessel: {} })}><AirplaneTicket /> UnAssign Vessel</button>}
 
         <DialogBox label="Assign Vessel" isOpen={formEvent.isUploadOpen} onClose={() => { updateFormEvent({ isUploadOpen: false, }) }} component={
             <>

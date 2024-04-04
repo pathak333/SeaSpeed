@@ -8,13 +8,17 @@ interface Props{
     subHeading?: String,
     lastHeading?: String,
     children?:ReactNode
-    
+    gobackone?:boolean
 }
 
 const CommonLayout = (props:Props) => {
     const navigate = useNavigate();
     function goBack() {
-        navigate("/dashboard/home", { replace: true });
+        if (props.gobackone) {
+            navigate(-1)
+        } else {
+            navigate("/dashboard/home", { replace: true });
+        }
     }
 
 

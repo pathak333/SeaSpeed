@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 let refresh = false;
 
-
+const pendingRequests = new Map();
 
 
 
@@ -24,12 +24,15 @@ let refresh = false;
     
     console.log("error = ", error);
     console.log(error.code, error.message);
+    if (error.code === "ERR_CANCELED") {
+      return {data:null}
+    }
     if (error.code === "ERR_NETWORK") {
       toast.error(error.message);
       
     }
-    if (!error.response) {
-      toast.error('No Network',{toastId: "Neterror"});
+    if (!error.response && error.code !== "ERR_CANCELED") {
+      toast.error('No Network....',{toastId: "Neterror"});
     }
     if (error.response && [404, 403].includes(error.response.status) && !refresh) {
      
@@ -64,10 +67,28 @@ let refresh = false;
   }
 );
 
-// axios.interceptors.request.use((request) => {
+axios.interceptors.request.use((request) => {
 
-//   return request;
-// });
+  if (pendingRequests.has(request.url)) {
+    // Duplicate request, cancel the previous one
+    console.log("url cancel = ",request.url);
+    
+    pendingRequests.get(request.url).abort();
+  }
+
+  const newAbortController = new AbortController();
+  pendingRequests.set(request.url, newAbortController);
+  setTimeout(() => {
+    pendingRequests.delete(request.url);
+  }, 1000);
+  
+  
+  request.signal = newAbortController.signal;
+
+
+  
+  return request;
+});
 
 const httpService = {
   get:  axios.get,

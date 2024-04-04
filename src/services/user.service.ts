@@ -53,7 +53,8 @@ import {
   uploadProfileApi,
   getInstructionUserApi,
   updateInstructionUserApi,
-  updateUserFileApi
+  updateUserFileApi,
+  getUserContractApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -290,3 +291,5 @@ export const updateUserFile = (data: any) => {
   
   return  httpService.put(updateUserFileApi, data,{ headers: { 'Content-Type': 'multipart/form-data', } });
 }
+
+export const getUserContract = () => httpService.get(getUserContractApi);
