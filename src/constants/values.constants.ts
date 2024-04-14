@@ -12,7 +12,9 @@ const dobValidation = new Date();
 dobValidation.setFullYear(today.getFullYear() - 16);
 export const dobDateValidation = dobValidation.toISOString().substring(0, 10);
 
-export const addMonths = (date: string, months: number): string => {
+export const addMonths = (date: string, months: number): any => {
+    console.log(date,months);
+    
     if (date === "") return "";
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() + months);

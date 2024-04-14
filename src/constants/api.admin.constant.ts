@@ -4,6 +4,7 @@ export const GetAdminProfileApi = "/admin/getProfile";
 export const getAllVessel = "/admin/getAllVessel";
 export const getVesselByIdApi = "/admin/getVesselById"
 export const getAllCrewByVesselIdApi = "/admin/getAllCrewByVesselId"
+export const getAllContractByVesselIdApi = "/admin/getAllContractByVesselId"
 export const updateVesselApi = "/admin/updateVessel"
 
 export const getAllVesselByCompanyIdApi = "/admin/getAllVesselByCompanyId"
@@ -92,6 +93,7 @@ export const addReferencesAdminApi = "/admin/addReferencesAdmin"
 
 
 export const searchPendingCrewApi = "/admin/searchPendingCrew"
+export const searchVesselApi = "/admin/searchVessel"
 
 
 export const newContractApi = "/admin/newContract"

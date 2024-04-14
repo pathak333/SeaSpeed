@@ -99,8 +99,8 @@ const CrewProfile = () => {
                </p>
                <p className=" text-[32px] font-bold text-gray-200 leading-none items-start justify-start">Crew Profile</p>
            </div>
-            <p className="pl-8 text-[#A5A5A5]">
-               {data.rank.label}  {data.vessel && data.vessel.label ?  `At ${data.vessel.label}`:""}
+            <p className="p-2 mb-2 rounded-full text-[#A5A5A5] text-sm bg-green-100 ">
+               {data.rank.label}  {data.vessel && data.vessel.label ?  <span>At <span className="font-bold text-green-400 tracking-wider">{data.vessel.label}</span></span> :""}
             </p>
 
             <div className="flex flex-row items-center justify-center content-center">

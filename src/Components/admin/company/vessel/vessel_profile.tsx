@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Trash2 } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UpdateVessel, assignNewCrewService, getAllCrewByVesselIdService, getAllUnAssinedCrew, getUserContractByVessel, getVesselByIdService } from "../../../../services/admin.service";
+import { UpdateVessel, assignNewCrewService, getAllContractByVesselIdService, getAllUnAssinedCrew, getUserContractByVessel, getVesselByIdService } from "../../../../services/admin.service";
 import { addMonths, createOption } from "../../../../constants/values.constants";
-import { ChangeCircleRounded, ArrowBack, OpenInFull, Delete, DeleteOutline, OpenInBrowserOutlined, OpenInFullOutlined, OpenInNewOffOutlined, OpenInNewOutlined } from "@mui/icons-material";
+import {  ArrowBack, OpenInNewOutlined } from "@mui/icons-material";
 import ModalBox from "../../../../uiComponents/custom_modal";
 import { SearchSelect } from "../../../../uiComponents/inputField/searchSelectInputField.component";
 import { Option } from "../../../../types/propes.types";
@@ -16,6 +16,8 @@ import PdfViewer from "../../../../uiComponents/pdf_viewer";
 
 import "./vesselprofile.css"
 import CreateContract from "../../contract_pdf/create_new_contract";
+import { displayDate } from "../../../../constants/commonFunction";
+
 
 
 
@@ -61,7 +63,8 @@ const VesselProfile = () => {
       dispatch({ type: LOADING, payload: true });
       console.log(location.state.id)
       var data = await getVesselByIdService(location.state.id)
-      var cData = await getAllCrewByVesselIdService(location.state.id)
+      // var cData = await getAllCrewByVesselIdService(location.state.id)
+      var cData = await getAllContractByVesselIdService(location.state.id)
       console.log(data.data.data);
       console.log(cData.data.data);
 
@@ -87,7 +90,7 @@ const VesselProfile = () => {
       if (selectedCrew && selectedCrew.label !== "" && selectedCrew.value !== "") {
          const oldContractData = await getUserContractByVessel({ vesselid: vesselData._id, userId: id })
          console.log(oldContractData);
-         await assignNewCrewService({ oldCrew: id, oldlastData: oldlastData, oldcontract:oldContractData.data._id  , newCrew: selectedCrew, vessel: { label: vesselData.name, value: vesselData._id } })
+         await assignNewCrewService({ oldCrew: id, oldlastData: oldContractData.data.data[0].end_of_contract, oldcontract:oldContractData.data.data[0]._id,rank:oldContractData.data.data[0].created_for.rank  , newCrew: selectedCrew, vessel: { label: vesselData.name, value: vesselData._id } })
          closeModal()
       }
    } 
@@ -113,7 +116,7 @@ const VesselProfile = () => {
 
    const listofData = crewData.length > 0 ? crewData.map((item: any, index: any) => {
       //  console.log(item)
-      return <><CreateContract userData={item} contractData={item.context?.replacement} isOpen={isContractboxOpen} onClose={() => updateisContractboxOpen(false)} label={"Update Contract"} />
+      return <><CreateContract userData={item.created_for} contractData={item.created_for.context?.replacement} isOpen={isContractboxOpen} onClose={() => updateisContractboxOpen(false)} label={"Update Contract"} />
       <Tooltip classes={{
          popper: `{
          backgroundColor: "black",
@@ -149,36 +152,40 @@ const VesselProfile = () => {
             className="flex p-4">
             <div
                className="first w-full bg-red-200 p-3 rounded-s-lg"  onClick={() => {
-                  navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
+                  navigate("/adminDashboard/crewProfile", { state: { data: item.created_for, page: "allCrew" } });
                }}  >
                <div
                   className="flex justify-between">
                   <p
-                     className="text-xl font-bold text-red-700 h-6 truncate">{item.firstname} {item.lastname}</p>
-                  <div className="bg-red-600 rounded-2xl self-center p-2 "><p className="text-xs font-semibold text-red-200 tracking-widest ">{item.phone_no}</p></div>
-               </div>
+                     className="text-xl font-bold text-red-700 h-6 truncate">{item.created_for.firstname} {item.created_for.lastname}</p>
+                  <div className="bg-red-600 rounded-2xl self-center p-2 "><p className="text-xs font-semibold text-red-200 tracking-widest ">{item.created_for.phone_no}</p></div>
+                  </div>
+                  <div
+                  className="flex justify-between">
                <p
-                  className="text-sm font-extrabold text-red-400">{item.rank.label}</p>
-               <div
+                        className="text-sm font-extrabold text-red-400">{item.rank?.label} </p>
+                     <div className="bg-green-600 rounded-2xl self-center  px-2 mt-1"><p className="text-xs font-semibold text-green-200 tracking-widest ">{ item.status}</p></div>
+               </div>
+                     <div
                   className="flex flex-row text-red-700">
                   <p
-                     className="">{item.joiningDate}</p>
+                     className="">{displayDate(item.created_for.joiningDate)}</p>
                   <p
                      className="mx-2">To</p>
-                  <p>{(addMonths(item.joiningDate, item.rank.value.period).toString())}</p>
+                  <p>{displayDate(addMonths(item.created_for.joiningDate, item.created_for.rank.value.period))}</p>
                </div>
             </div>
             <div
                className="infomain w-full transition duration-700 ease-in-out">
-               {item.context && item.context.hasOwnProperty('replacement') && item.context.replacement.label ? <div className="submain container relative w-full h-full">
+               {item.created_for.context && item.created_for.context.hasOwnProperty('replacement') && item.created_for.context.replacement.label ? <div className="submain container relative w-full h-full">
                   <div className="front absolute from-blue-200 to-blue-400 bg-gradient-to-br w-full h-full z-10  rounded-e-lg p-3"  >
                      <div
                         className="">
                         <p
-                           className="text-xl font-bold text-blue-700 h-6">{item.context.replacement.label.split('(')[0]}</p>
+                           className="text-xl font-bold text-blue-700 h-6">{item.created_for.context.replacement.label.split('(')[0]}</p>
 
                         <p
-                           className="text-sm font-extrabold text-blue-500">{item.context.replacement.label.split('(')[1].replace(')', "")}</p>
+                           className="text-sm font-extrabold text-blue-500">{item.created_for.context.replacement.label.split('(')[1].replace(')', "")}</p>
                      </div>
                      {/* <div
                         className="flex flex-row text-blue-700">
@@ -199,11 +206,11 @@ const VesselProfile = () => {
                         setIsModalOpen({ state: true, id: item._id });
                      }}>Remove Crew</p>
                      <p>Modify Contract</p> */}
-                     <p className="text-xl font-bold text-green-700 h-6 pb-2">{item.context.replacement.label.split('(')[0]}</p>
+                     <p className="text-xl font-bold text-green-700 h-6 pb-2">{item.created_for.context.replacement.label.split('(')[0]}</p>
                      <div className="flex flex-row mt-3">
                         <button type="button" onClick={() => {
-                           getUnassinedUser(item.rank.label)
-                           setIsModalOpen({ state: true, id: item._id,oldlastData:addMonths(item.joiningDate, item.rank.value.period).toString() });
+                           getUnassinedUser(item.created_for.rank.label)
+                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData:addMonths(item.created_for.joiningDate, item.created_for.rank.value.period).toString() });
                         }} className="text-white tracking-widest  bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                            Change Crew
                         </button>
@@ -218,8 +225,8 @@ const VesselProfile = () => {
                   <div className="relative w-full h-full">
                      <div className="front absolute  from-blue-200 to-blue-400 bg-gradient-to-br w-full h-full z-10  rounded-e-lg p-3 flex items-center place-content-center"  >
                         <button type="button" onClick={() => {
-                           getUnassinedUser(item.rank.label)
-                           setIsModalOpen({ state: true, id: item._id,oldlastData: addMonths(item.joiningDate, item.rank.value.period).toString() });
+                           getUnassinedUser(item.created_for.rank.label)
+                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData: addMonths(item.created_for.joiningDate, item.created_for.rank.value.period).toString() });
                         }} className="text-white tracking-widest  bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                            Replace Crew
                         </button>

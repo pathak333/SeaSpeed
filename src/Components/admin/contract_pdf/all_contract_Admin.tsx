@@ -47,10 +47,14 @@ export default function AllContractAdmin() {
                 //             <p>{item?.vessel?.label}</p>
                 // </div>
                     //1 
-                <div key={index} className="bg-blue-100 max-w-72 rounded-md container mx-auto  py-4  flex flex-col justify-center items-center ">
+                <div key={index} className={`${item.status ==='PENDING'? 'bg-slate-300' : item.status === 'PLANNED' ? 'bg-green-100' : item.status === 'SIGNON' ? 'bg-blue-200' : 'bg-blue-100'}   max-w-72 rounded-md container mx-auto  py-4  flex flex-col justify-center items-center `}>
                     <div className="text-blue-600 text-center ">
-                        <h1 className=" font-bold">{item?.vessel?.label ?? "Vessel Name"}</h1>
-                        <p className="text-sm">{item?.embarkation_port ?? "Embarkation port"}</p>
+                            <h1 className=" font-bold">{item?.vessel?.label ?? "Vessel Name"}</h1>
+                            <div className="flex justify-between bg-blue-400 items-center px-2 my-1 rounded-full"> 
+                                <p className="text-[10px] text-white font-bold ">{item.created_for.firstname} { item.created_for.lastname}</p>&nbsp;
+                                <p className="text-[10px] text-white font-bold">{ item.rank?.label}</p>
+                            </div>
+                        {/* <p className="text-sm">{item?.embarkation_port ? item?.embarkation_port : "Embarkation port"}</p> */}
                     </div>
                     <p className="font-medium text-blue-600 text-xs">{displayDate(item.start_of_contract)} - {displayDate(item.end_of_contract)}</p>
                     <div className="text-blue-600 text-left w-full">
@@ -74,6 +78,7 @@ export default function AllContractAdmin() {
                                 <span className="font-medium">{item.sign_off_reason}</span>
                             </li>
                             <li className="text-xs">Next Available From: <b>{displayDate(item.next_available_from)}</b></li>
+                            <li className="text-xs">Status: <b>{item.status}</b></li>
                         </ul>
                     </div>
                             <button className="mt-8 bg-white text-blue-700 py-2 px-4 rounded-md font-bold hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

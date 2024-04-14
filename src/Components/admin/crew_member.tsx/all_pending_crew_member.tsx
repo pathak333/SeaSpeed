@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { LOADING } from "../../../constants/action.constant";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { debounce } from 'lodash';
+import { ArrowDropDown } from "@mui/icons-material";
 
 
 const AllPendingCrewMembers = () => {
@@ -43,11 +44,15 @@ const AllPendingCrewMembers = () => {
   async function fetchData() {
     dispatch({ type: LOADING, payload: true });
     const { data } = await getAllPendingCrew(pageno, perpage);
+    if (data) {
+
     console.log(data);
     updateCrewList(data.data.userData)
     updatetotalpageno(Math.ceil(data.data.totalCount / 20))
+  
+    }
     dispatch({ type: LOADING, payload: false });
-
+      
   }
 
 
@@ -71,7 +76,8 @@ const AllPendingCrewMembers = () => {
     
     const payload = {
       searchValue: searchText,
-      orderByField:orderBy
+      orderByField: orderBy,
+      isPending:true
     }
     if (payload.searchValue || payload.orderByField) {
       const { data } = await searchPendingCrew(payload)
@@ -133,22 +139,23 @@ const AllPendingCrewMembers = () => {
         fieldName={"Search"}
         label={"Search"}
         type={"Search"}
-        onChange={(e:any)=>updateSearchText(e.target.value)} />
+        onChange={(e: any) => updateSearchText(e.target.value)} />
+      <p className="text-xs text-blue-600 mt-1">Search by Name, Email, Phone, or Vessel.</p>
       <div className="relative overflow-x-auto mb-3 mt-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">
             <tr>
               <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'firstname' ? "" : 'firstname')}>
-                Name
+                Name  <ArrowDropDown className={`${orderBy === 'firstname' ? 'rotate-180' : ""} `} />
               </th>
               <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'vessel.label' ? "" :'vessel.label')}>
-                Vessel assigned
+                Vessel assigned  <ArrowDropDown className={`${orderBy === 'vessel.label' ? 'rotate-180' : ""} `} />
               </th>
               <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'email' ? "" :'email')}>
-                Email
+                Email <ArrowDropDown className={`${orderBy === 'email' ? 'rotate-180' : ""} `} />
               </th>
               <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy(orderBy === 'phone_no' ? "" :'phone_no')}>
-                Phone
+                Phone  <ArrowDropDown className={`${orderBy === 'phone_no' ? 'rotate-180' : ""} `} />
               </th>
               <th scope="col" className="px-6 py-3 cursor-pointer" onClick={()=>updateOrderBy('')}>
                 Available Doc

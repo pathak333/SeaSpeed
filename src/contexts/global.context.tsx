@@ -3,7 +3,7 @@ import { LOADING, LOGIN, LOGOUT, DATA, TEMP } from "../constants/action.constant
 import { ChildrenProps, GlobalState } from "../types/propes.types";
 
 const initialGlobalState = {
-  accessToken: null,
+  accessToken: sessionStorage.getItem("token") || null,
   role:"",
   loading: false,
   data: null,

@@ -13,6 +13,8 @@ import ApproveReject from "../../uiComponents/approve_reject"
 import { addCourseCertificateAdmin, getCrewCourseCertificate } from "../../services/admin.service"
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants"
 import PdfViewer from "../../uiComponents/pdf_viewer"
+import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component"
+import { certificate_name } from "../../constants/constData"
 
 
 
@@ -228,7 +230,7 @@ const CourseCertificate = () => {
     return <form  onSubmit={handlerSubmit}>
         {/* <h3 className="pl-4 font-semibold">Bank details</h3> */}
         <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
-            <InputField
+            {/* <InputField
                 className="m-4"
                 fieldName={"courseName"}
                 label={"Course Name"}
@@ -236,7 +238,21 @@ const CourseCertificate = () => {
                 error={errorReturn("courseName")}
                 onChange={(e:any) => updateEvent({ courseName: e.target.value, isFormChanged: true })}
                 value={formEvent.courseName}
+            /> */}
+                <SearchSelect
+                className="m-4"
+
+                label={"Course Name"}
+                //type={""}
+                onChange={(e) => updateEvent({courseName: e.value, isFormChanged: true, })}
+                value={formEvent.courseName && {label:formEvent.courseName,value:formEvent.courseName}}
+                //error={errorReturn("Oil_tanker_DCE")}
+                options={certificate_name}
+                // onCreateOption={onCreate}
+                isDisabled={false}
+                isLoading={false}
             />
+
 
             <InputField
                 className="m-4"
@@ -282,7 +298,7 @@ const CourseCertificate = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Certificates PDF</p>
             </div> */}
-            <FileUpload folder={"courseCertificate"} name="certificate" expireDate={formEvent.dateOfExpiry}  from={id ? "admin" :"user"} dataFun={getDocId} />
+            <FileUpload folder={"courseCertificate"} name={formEvent.courseName ? formEvent.courseName :"certificate"} expireDate={formEvent.dateOfExpiry}  from={id ? "admin" :"user"} dataFun={getDocId} />
             <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file { fileData?.name }</a> :""}</h1>
 
         </div>
