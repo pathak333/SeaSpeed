@@ -17,7 +17,9 @@ export const addMonths = (date: string, months: number): any => {
     
     if (date === "") return "";
     const newDate = new Date(date);
-    newDate.setMonth(newDate.getMonth() + months);
+    if (months) {
+        newDate.setMonth(newDate.getMonth() + months ?? 0);
+    }
     return newDate.toISOString().split("T")[0];
 };
   
