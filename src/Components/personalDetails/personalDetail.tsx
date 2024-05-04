@@ -38,7 +38,7 @@ const PersonalDetail = () => {
 
   const queryParams = new URLSearchParams(location.search);
 
-  const id = globalState.temp //?? queryParams.get('id');
+  const id =  queryParams.get('id') ?? globalState.temp.data._id;
    console.log(id,"????????????????????????????????/////////////////////");
 
 
@@ -605,14 +605,14 @@ const PersonalDetail = () => {
           Clear all
         </button>
       </div>}
-      {globalState.data.data.permission.includes("application") && <div>
+      {globalState.data.data && globalState.data.data.permission.includes("application") && <div>
         {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={adminUpdate}>Save</button>}
 
         {id !== null && !formEvent.isFormChanged && <div id="approver">
           <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />
         </div>}
       </div>}
-      {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+      {((globalState.data.data && globalState.data.data.permission.includes("admin") )|| ("vessel")) && id !== null &&
         <div>
           <button
             type="button"

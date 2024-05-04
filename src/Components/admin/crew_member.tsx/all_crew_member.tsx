@@ -4,7 +4,7 @@ import { Trash2 } from "react-feather";
 import CommonLayout from "../../../views/AdminViews/commonLayout";
 
 import { useNavigate } from "react-router-dom";
-import { LOADING } from "../../../constants/action.constant";
+import { LOADING, TEMP } from "../../../constants/action.constant";
 import { useGlobalState } from "../../../contexts/global.context";
 import { displayDate } from "../../../constants/commonFunction";
 import InputField from "../../../uiComponents/inputField/inputField.component";
@@ -87,7 +87,9 @@ const AllCrewMembers = () => {
   const listofData = crewList.map((item: any, index: any) => {
     console.log(item)
     return <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={() => {
-      navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
+      dispatch({ type: TEMP, payload: {...globalState.temp,data:item,page:"allCrew"} });
+      navigate(`/adminDashboard/crewProfile/${item._id}/allCrew`);
+      // , { state: { data: item, page: "allCrew" } }
     }}>
       <td className="px-3 py-4 max-w-[130px] truncate">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{item.rank.label}</span></td>
       <td className="px-3 py-4">{item.vessel ? item.vessel.label : "UnAssined"}<br /> {displayDate(item.joiningDate)}</td>

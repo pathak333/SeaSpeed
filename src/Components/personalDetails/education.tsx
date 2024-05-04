@@ -51,6 +51,7 @@ const Education = () => {
     console.log("profile data", data);
     if (data) {
       sessionStorage.setItem("formState", data.data.formState)
+      sessionStorage.setItem("data", JSON.stringify(data.data));
       dispatch({ type: DATA, payload: data });
     }
  
@@ -60,7 +61,9 @@ const Education = () => {
   useEffect(() => {
     setState(Personalstate.educationBackground);
     fetchData();
-    if (id === null) updateProfileData();
+    if (id === null) {
+      updateProfileData();
+    }
     console.log("educationBackground component ");
   }, []);
 
@@ -436,7 +439,7 @@ const Education = () => {
             Previous
           </button>
         </div>}
-{ globalState.data.data.permission.includes("application") && 
+{ globalState.data.data && globalState.data.data.permission.includes("application") && 
         <div>
             {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               onClick={handleSubmit} >Save</button>}
@@ -445,7 +448,7 @@ const Education = () => {
           <ApproveReject name="education" navigation={`/adminDashboard/personaldetails/bankDetail/?id=${id}`} locationStateData={{}}  doc_id="Education" user_id={id} />
         </div>}
       </div> }
-      { (globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+      {globalState.data.data && (globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
         <div>
            <button
             type="button"

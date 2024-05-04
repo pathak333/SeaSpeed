@@ -408,7 +408,7 @@ const MainRoutes = () => {
           ),
         },
         {
-          path: "crewProfile",
+          path: "crewProfile/:id/:page",
           element: (
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
@@ -526,7 +526,7 @@ const MainRoutes = () => {
 
         },
         {
-          path: "vesselProfile",
+          path: "vesselProfile/:id",
           element: (
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
@@ -766,6 +766,7 @@ const AppWrapper = () => {
     const { data } = await adminProfileService();
     console.log("profile data", data);
     sessionStorage.setItem("formState", data.data.formState)
+    sessionStorage.setItem("data", JSON.stringify(data.data));
     dispatch({ type: DATA, payload: data });
     dispatch({ type: LOADING, payload: false });
   }
@@ -776,6 +777,7 @@ const AppWrapper = () => {
     const { data } = await ProfileService();
     console.log("profile data", data);
     sessionStorage.setItem("formState", data.data.formState)
+    sessionStorage.setItem("data", JSON.stringify(data.data));
     dispatch({ type: DATA, payload: data });
   }
   async function FetchInstruction() {

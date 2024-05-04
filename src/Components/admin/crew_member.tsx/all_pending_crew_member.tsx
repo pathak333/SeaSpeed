@@ -6,7 +6,7 @@ import CommonLayout from "../../../views/AdminViews/commonLayout";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
 import { toast } from "react-toastify";
-import { LOADING } from "../../../constants/action.constant";
+import { LOADING, TEMP } from "../../../constants/action.constant";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { debounce } from 'lodash';
 import { ArrowDropDown } from "@mui/icons-material";
@@ -111,7 +111,9 @@ const AllPendingCrewMembers = () => {
     return <tr key={index} className={`${item.isRequiredDoc ? "bg-green-200 " : "bg-white"}  border-b hover:bg-slate-100 cursor-pointer`}
       onClick={() => {
         if (adminData?.permission.includes("application")) {
-          navigate("/adminDashboard/crewProfile", { state: { data: item, page: "pending" } });
+          dispatch({ type: TEMP, payload: {...globalState.temp,data:item,page:"pending"} });
+          navigate(`/adminDashboard/crewProfile/${item._id}/pending`);
+          // , { state: { data: item, page: "pending" } }
         } else {
           toast.error("You are not authorized to perform this task");
         }

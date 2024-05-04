@@ -6,7 +6,7 @@ const initialGlobalState = {
   accessToken: sessionStorage.getItem("token") || null,
   role:"",
   loading: false,
-  data: null,
+  data: sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data") || {}.toString()) :  null,
   temp: null,
 };
 

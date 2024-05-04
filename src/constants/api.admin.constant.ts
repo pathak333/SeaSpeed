@@ -102,3 +102,5 @@ export const getUserSingleContractApi  = "/admin/getUserSingleContract"
 export const updateContractApi  = "/admin/updateContract"
 export const getUserContractByVesselApi = "/admin/getUserContractByVessel"
 export const getAllContractApi = "/admin/getAllContract"
+
+export const getCrewDataApi = "/admin/getCrewData"

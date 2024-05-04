@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Trash2 } from "react-feather";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { UpdateVessel, assignNewCrewService, getAllContractByVesselIdService, getAllUnAssinedCrew, getUserContractByVessel, getVesselByIdService } from "../../../../services/admin.service";
 import { addMonths, createOption } from "../../../../constants/values.constants";
 import {  ArrowBack, OpenInNewOutlined } from "@mui/icons-material";
@@ -9,7 +9,7 @@ import { SearchSelect } from "../../../../uiComponents/inputField/searchSelectIn
 import { Option } from "../../../../types/propes.types";
 import Tooltip from "@mui/material/Tooltip";
 import { useGlobalState } from "../../../../contexts/global.context";
-import { LOADING } from "../../../../constants/action.constant";
+import { LOADING, TEMP } from "../../../../constants/action.constant";
 import FileUpload from "../../../../uiComponents/inputField/fileUpload.component";
 import PdfViewer from "../../../../uiComponents/pdf_viewer";
 
@@ -23,7 +23,7 @@ import { displayDate } from "../../../../constants/commonFunction";
 
 
 const VesselProfile = () => {
-   const [, dispatch] = useGlobalState();
+   const [globalState, dispatch] = useGlobalState();
    const [vesselData, setVesselData] = useState<any>({})
    const [crewData, setcrewData] = useState<any>([])
    //const [newCrew, setNewCrew] = useState<Option>({ label: "", value: "" })
@@ -42,7 +42,7 @@ const VesselProfile = () => {
    const [fileData, updateFileData] = useState<any>()
    const [vesselDoc, updateVesselData] = useState<any>([])
    const [isContractboxOpen, updateisContractboxOpen] = useState(false)
-
+   const { id="" } = useParams();
 
    useEffect(() => {
       fetchData();
@@ -54,17 +54,17 @@ const VesselProfile = () => {
       const arrId = docdata.map((e: any) => e._id)
       updateVesselData([...vesselDoc, ...arrId])
       console.log(arrId);
-
-      let { data } = await UpdateVessel(location.state.id, { certificate: arrId })
+      
+      let { data } = await UpdateVessel(id, { certificate: arrId })
       setVesselData(data.data);
    }
 
    async function fetchData() {
       dispatch({ type: LOADING, payload: true });
-      console.log(location.state.id)
-      var data = await getVesselByIdService(location.state.id)
-      // var cData = await getAllCrewByVesselIdService(location.state.id)
-      var cData = await getAllContractByVesselIdService(location.state.id)
+      console.log(id)
+      var data = await getVesselByIdService(id)
+      // var cData = await getAllCrewByVesselIdService(id)
+      var cData = await getAllContractByVesselIdService(id)
       console.log(data.data.data);
       console.log(cData.data.data);
 
@@ -151,8 +151,10 @@ const VesselProfile = () => {
          <div
             className="flex p-4">
             <div
-               className="first w-full bg-red-200 p-3 rounded-s-lg"  onClick={() => {
-                  navigate("/adminDashboard/crewProfile", { state: { data: item.created_for, page: "allCrew" } });
+                  className="first w-full bg-red-200 p-3 rounded-s-lg" onClick={() => {
+                  dispatch({ type: TEMP, payload: {...globalState.temp,data:item.created_for,page:"allCrew"} });
+                     navigate(`/adminDashboard/crewProfile/${item.created_for._id}/allCrew`);
+                     //, { state: { data: item.created_for, page: "allCrew" } }
                }}  >
                <div
                   className="flex justify-between">

@@ -27,7 +27,7 @@ export default function AllCrewContract() {
         <CommonLayout heading={`View All Contract of ${userdata.firstname} ${userdata.lastname}`} gobackone subHeading={"Active Contract is display in green and rest is in blue"}>
         
             <div className="grid m-3 grid-cols-3 gap-y-3">
-            <CreateContract contractData={{contract:isContractboxOpen.contract}}  isOpen={isContractboxOpen.isOpen} onClose={() => updateisContractboxOpen({isOpen:false,contract:""})} label={"Update Contract"} />
+            <CreateContract userData={userdata} contractData={{contract:isContractboxOpen.contract}}  isOpen={isContractboxOpen.isOpen} onClose={() => updateisContractboxOpen({isOpen:false,contract:""})} label={"Update Contract"} />
                 
             {contractData && Object.values(contractData).map((item: any, index: any) => (
                 //         <div key={index} className="max-w-72 bg-blue-200">

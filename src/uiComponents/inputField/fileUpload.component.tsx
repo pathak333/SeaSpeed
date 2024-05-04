@@ -8,6 +8,7 @@ import { singleFileUploadAdmin } from "../../services/admin.service";
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 //import useLocalStorage from "../../hooks/saveToLocal";
 
 interface Props {
@@ -27,7 +28,9 @@ interface Props {
 const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = false, className }: Props) => {
     const uploadRef = useRef<HTMLInputElement>(null);
     const [globalState, dispatch] = useGlobalState();
-    const id = globalState.temp;
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id =  queryParams.get('id') ?? globalState.temp.data._id;
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;

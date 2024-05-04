@@ -69,7 +69,7 @@ const CompanyProfile = () => {
   const listofData = vessel.map((item: any, index: any) => (
     <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
-      navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
+      navigate(`/adminDashboard/vesselProfile/${item._id}`)
     }}>
       <td className="px-6 py-4 text-lg font-semibold leading-none">{item.name}<br /><span className="font-normal text-sm text-textGrey text-">{item.imoNumber}</span></td>
       <td className="px-6 py-4">{item.type}</td>
@@ -91,7 +91,7 @@ const CompanyProfile = () => {
   const listofManagerData = manager.map((item: any, index: any) => (
     <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
-      //navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
+  
     }}>
       <td className="px-6 py-4 text-lg font-semibold leading-none">{item.name}<br /><span className="font-normal text-sm text-textGrey text-">{item.imoNumber}</span></td>
       <td className="px-6 py-4">{item.email}</td>
@@ -112,8 +112,7 @@ const CompanyProfile = () => {
 
   const listofDocData = company.documentId.map((item: any, index: any) => (
     <tr key={index} className="bg-slate-100 border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
-      console.log("click on vessel",item)
-      //navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
+    
     }}>
       <td className="px-6 py-4 text-lg font-semibold leading-none">{item.name}</td>
       <td className="px-6 py-4">{item.expire && item.expire.split("T")[0]}</td>

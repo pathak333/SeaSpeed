@@ -1,5 +1,5 @@
 import { ArrowLeft } from "react-feather";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AirplaneTicket, Description } from "@mui/icons-material";
 import DasboardCardLayout from "../../dashboard/dashboard_card_layout";
 import AssignVessel from "./assign_vessel_to_crew";
@@ -8,7 +8,7 @@ import { useGlobalState } from "../../../contexts/global.context";
 import DialogBox from "../../../uiComponents/dialogBox";
 import { useEffect, useState } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
-import { getUserContract, sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
+import { getCrewData, getUserContract, sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
 import { toast } from "react-toastify";
 import { LOADING, TEMP } from "../../../constants/action.constant";
 import CreateContract from "../contract_pdf/create_new_contract";
@@ -19,8 +19,11 @@ const CrewProfile = () => {
    const [globalState, dispatch] = useGlobalState();
 
    
-   const location = useLocation();
-   const { data, page } = location.state;
+   // const location = useLocation();
+   console.log(globalState)
+   // const { data, page } = globalState.temp;
+   const { id="",page="" } = useParams();
+   // const { data, page } = location.state;
 
 
    const navigate = useNavigate();
@@ -28,13 +31,24 @@ const CrewProfile = () => {
    const [isContractboxOpen,updateContractboxOpen] = useState(false)
    const [InstrucText, updateInstrucText] = useState("")
    const [contract, updatecontract] = useState("")
-   
+   const [data, updateCrewData] = useState<any>()
 
 
    function goBack() {
       navigate(-1)
    }
 
+
+   const fetchCrewData = async () => {
+      dispatch({ type: LOADING, payload: true });
+      const { data } = await getCrewData(id)
+      if (data) {
+         console.log(data);
+         updateCrewData(data.data)
+         fetchData(id )
+     }
+     dispatch({ type: LOADING, payload: false });
+   }
 
 
 
@@ -77,8 +91,9 @@ const CrewProfile = () => {
 
 
    useEffect(() => {
-      dispatch({ type: TEMP, payload: data._id })
-      fetchData(data._id )
+      fetchCrewData()
+      // dispatch({ type: TEMP, payload: data._id })
+      
    },[])
 
 
@@ -87,14 +102,16 @@ const CrewProfile = () => {
 }
 
    
-   return <div className="">
+   return <div>
+      {data && <div className="">
       <div id="crewProfile" className="main  w-full">
          <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[40px] max-sm:p-[20px] flex flex-col justify-center items-start ">
             <div className="flex w-full justify-between">
             <p className="font-medium text-[22px] leading-none flex flex-row  items-start justify-start">
                <span className="mr-2">
                   <ArrowLeft onClick={() => { goBack() }} />
-               </span>{" "}
+                  </span>{" "}
+                  {console.log(data)}
                {data.firstname} {data.lastname} Profile
                </p>
                <p className=" text-[32px] font-bold text-gray-200 leading-none items-start justify-start">Crew Profile</p>
@@ -111,7 +128,7 @@ const CrewProfile = () => {
                   <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2" onClick={()=>updateInstrucOpen(true)}>Send instructions</button>
                   <button onClick={() => updateContractboxOpen(true)} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Create contract</button>
                   <button onClick={() => {navigate('/adminDashboard/AllContract', { state: { userdata: data, contractData: contract} })}} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  " ><Description />All contract</button>
-                  <CreateContract userData={data} isOpen={isContractboxOpen} onClose={closeContractbox} label={"Create Contract"} />
+                  <CreateContract userData={data ?? null} isOpen={isContractboxOpen} onClose={closeContractbox} label={"Create Contract"} />
                   
                 {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} replacement={!isObjectEmpty(data.replacement) ? data.replacement : null } />}
                </div>
@@ -138,6 +155,7 @@ const CrewProfile = () => {
          </>
 
       } />
+   </div>}
    </div>
 }
 

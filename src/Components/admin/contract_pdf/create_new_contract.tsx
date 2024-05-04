@@ -101,7 +101,7 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
         isFormChanged: false,
         _id: "",
         vessel: {},
-        rank:{label:userData?.rank.label,value:userData?.rank.value._id}
+        rank:{label:userData?.rank.label,value:typeof userData?.rank.value === 'string' ? userData?.rank.value : userData?.rank.value._id}
 
     })
 
@@ -140,7 +140,7 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
                     isFormChanged: false,
                     _id: data.data._id ?? "",
                     vessel: data.data.vessel ?? {},
-                    rank:{label:userData?.rank.label,value:userData?.rank.value._id}
+                    rank:{label:data.data.created_for?.rank.label,value:data.data.created_for?.rank.value}
                 })
                 // updateEvent({ ...data.data[0] })
 

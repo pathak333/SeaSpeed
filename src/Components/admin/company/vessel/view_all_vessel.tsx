@@ -71,7 +71,7 @@ const ViewAllVessel = () => {
   const listofData = vesselList.map((item: any, index: any) => (
     <tr title={`Crew Manager: ${item.crewManagerId && item.crewManagerId.label} \nShip Manager: ${item.shipManagerId && item.shipManagerId.label} \nCrew Agency: ${item.crewAgencyManagerId && item.crewAgencyManagerId.label}`} key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={(e: any) => {
       console.log("click on vessel")
-      navigate("/adminDashboard/vesselProfile", { state: { id: item._id } })
+      navigate(`/adminDashboard/vesselProfile/${item._id}`)
     }}>
       <td className="px-6 py-4">{item.name}</td>
       <td className="px-6 py-4">{item.type}</td>
