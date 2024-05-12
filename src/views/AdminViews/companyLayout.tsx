@@ -20,7 +20,7 @@ const CompanyLayout = () => {
     <p className="pl-8 text-[#A5A5A5]">
         Add new company with the required details
     </p>
-        <span className="ml-4 text-lg">Owner basic details</span>
+        <span className="ml-4 text-lg">Vessel Manager details</span>
         <Outlet />
 </div>
 }

@@ -190,13 +190,13 @@ console.log(group)
             </div>
             <ul className="pl-7 mt-2 hidden group-[.selected]:block">
               <li className="mb-4">
-                <div  className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/viewAllAdmin")}>All Admin</div>
+                <div  className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/viewAllAdmin")}>Admin</div>
               </li>
               <li className="mb-4">
-                <div className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/allCrewMember")}>All Crew</div>
+                <div className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/allCrewMember")}>Approved Crew</div>
               </li>
               <li className="mb-4">
-                <div className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/allPendinCrewMember")}>All Pending Crew</div>
+                <div className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3" onClick={()=>navigate("/adminDashboard/allPendinCrewMember")}>Pending Crew</div>
               </li>
             </ul>
           </li>

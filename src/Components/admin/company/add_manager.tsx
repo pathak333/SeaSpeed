@@ -106,7 +106,7 @@ const AddManager = (props:Props) => {
                 onChange={(e: any) => updateEvent({ type: e.target.value, isFormChanged: true })}
                 value={formEvent.type}
                 error={errorReturn("type")}
-                option={["CREW MANAGER", "SHIP MANAGER", "CREW AGENCY"]}
+                option={["CREW MANAGER", "SHIP OWNER", "CREW AGENCY"]}
             />}
         </div>
         <div className="flex justify-center m-2">

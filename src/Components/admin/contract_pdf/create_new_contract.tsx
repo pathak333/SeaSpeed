@@ -25,7 +25,7 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
     const [globalState, dispatch] = useGlobalState();
     const id = userData?._id;
     const [vesselListOption, updateVesselListOption] = useState<Option[]>([]);
-
+const [contractUserData,setcontractUserData] = useState<any>()
     const createOption = (label: string, value: string) => ({
         label,
         value,
@@ -119,10 +119,10 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
     const fetchData = async () => {
         dispatch({ type: LOADING, payload: true });
         if (contractData) {
-            const { data } = await getUserSingleContract(contractData.contract)
+            const { data } = await getUserSingleContract(contractData.contract ?? contractData._id)
             if (data) {
                 console.log(data)
-
+                setcontractUserData(data.data)
                 updateEvent({
                     created_for: data.data.created_for,
                     start_of_contract: data.data.start_of_contract ?? "",
@@ -153,6 +153,8 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
     const handleupdateContract = async (e: any) => {
         e.preventDefault();
         delete formEvent.isFormChanged
+        formEvent.replacementof = contractUserData.replacementof
+        formEvent.isreplacement = contractUserData.isreplacement
         dispatch({ type: LOADING, payload: true });
         const { data } = await updateContract(formEvent);
 
@@ -212,7 +214,7 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
                             type={"date"}
                             //max={IssuesformattedDate}
                             //   error={errorReturn("dateOfIssue")}
-                            onChange={(e) => updateEvent({ start_of_contract: e.target.value, end_of_contract: addMonths(e.target.value, userData?.rank.value.period), isFormChanged: true })}
+                            onChange={(e) => updateEvent({ start_of_contract: e.target.value, end_of_contract: addMonths(e.target.value, userData?.rank.value.period ?? contractUserData?.rank?.value?.period), isFormChanged: true })}
                             value={formEvent.start_of_contract?.split("T")[0]}
                         />
                         <InputField
@@ -275,7 +277,7 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
                             //max={IssuesformattedDate}
                             //   error={errorReturn("dateOfIssue")}
                             onChange={(e) => updateEvent({ end_of_contract: e.target.value, isFormChanged: true })}
-                            value={formEvent.end_of_contract.split("T")[0]}
+                            value={formEvent.end_of_contract.includes("T") ? formEvent.end_of_contract.split("T")[0] : formEvent.end_of_contract}
                         />
                     </div>
                     <InputField
@@ -335,15 +337,15 @@ export default function CreateContract({ isOpen, label, onClose, userData, contr
                         />
                         <SelectInput
                             className="m-4 mt-5"
-                            fieldName={"Oil_tanker_DCE"}
-                            label={"Oil tanker DCE"}
+                            fieldName={"status"}
+                            label={"Status"}
                             type={""}
                             onChange={(e) => updateEvent({ status: e.target.value, isFormChanged: true })}
                             value={formEvent.status}
                             //error={errorReturn("Oil_tanker_DCE")}
                             option={['PENDING','PLANNED','SIGNON','SIGNOFF','CANCEL']}
                         />
-                    </div>
+                    </div> 
                 </div>
                 <FileUpload folder={"vessel"} name="Ticket or other" from="admin" dataFun={getDocId} isMultiple={true} className="align-sub inline-flex" />
                 {/* <button className=" border border-[#0075FF] text-IbColor p-2 rounded-lg mx-2 hover:text-white hover:bg-[#0075FF] leading-none"><AirplaneTicket /> Send Tickets & Visa</button> */}

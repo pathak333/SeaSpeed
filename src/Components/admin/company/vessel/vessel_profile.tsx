@@ -3,7 +3,7 @@ import { ArrowLeft, Trash2 } from "react-feather";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { UpdateVessel, assignNewCrewService, getAllContractByVesselIdService, getAllUnAssinedCrew, getUserContractByVessel, getVesselByIdService } from "../../../../services/admin.service";
 import { addMonths, createOption } from "../../../../constants/values.constants";
-import {  ArrowBack, OpenInNewOutlined } from "@mui/icons-material";
+import {  ArrowBack, Close, Edit, OpenInNewOutlined } from "@mui/icons-material";
 import ModalBox from "../../../../uiComponents/custom_modal";
 import { SearchSelect } from "../../../../uiComponents/inputField/searchSelectInputField.component";
 import { Option } from "../../../../types/propes.types";
@@ -41,7 +41,7 @@ const VesselProfile = () => {
    const location = useLocation();
    const [fileData, updateFileData] = useState<any>()
    const [vesselDoc, updateVesselData] = useState<any>([])
-   const [isContractboxOpen, updateisContractboxOpen] = useState(false)
+   const [isContractboxOpen, updateisContractboxOpen] = useState<{isOpen:boolean,data:any}>({isOpen:false,data:null})
    const { id="" } = useParams();
 
    useEffect(() => {
@@ -90,7 +90,7 @@ const VesselProfile = () => {
       if (selectedCrew && selectedCrew.label !== "" && selectedCrew.value !== "") {
          const oldContractData = await getUserContractByVessel({ vesselid: vesselData._id, userId: id })
          console.log(oldContractData);
-         await assignNewCrewService({ oldCrew: id, oldlastData: oldContractData.data.data[0].end_of_contract, oldcontract:oldContractData.data.data[0]._id,rank:oldContractData.data.data[0].created_for.rank  , newCrew: selectedCrew, vessel: { label: vesselData.name, value: vesselData._id } })
+         await assignNewCrewService({ oldCrew: id, oldlastData: oldContractData.data.data[0].end_of_contract ?? new Date(), oldcontract:oldContractData.data.data[0]._id,rank:oldContractData.data.data[0].created_for.rank  , newCrew: selectedCrew, vessel: { label: vesselData.name, value: vesselData._id } })
          closeModal()
       }
    } 
@@ -116,7 +116,7 @@ const VesselProfile = () => {
 
    const listofData = crewData.length > 0 ? crewData.map((item: any, index: any) => {
       //  console.log(item)
-      return <><CreateContract userData={item.created_for} contractData={item.created_for.context?.replacement} isOpen={isContractboxOpen} onClose={() => updateisContractboxOpen(false)} label={"Update Contract"} />
+      return <>
       <Tooltip classes={{
          popper: `{
          backgroundColor: "black",
@@ -168,14 +168,21 @@ const VesselProfile = () => {
                         className="text-sm font-extrabold text-red-400">{item.rank?.label} </p>
                      <div className="bg-green-600 rounded-2xl self-center  px-2 mt-1"><p className="text-xs font-semibold text-green-200 tracking-widest ">{ item.status}</p></div>
                </div>
-                     <div
+                  <div className="flex justify-between mt-2">
+                  <div
                   className="flex flex-row text-red-700">
                   <p
-                     className="">{displayDate(item.created_for.joiningDate)}</p>
+                     className="">{displayDate(item.start_of_contract)}</p>
                   <p
                      className="mx-2">To</p>
-                  <p>{displayDate(addMonths(item.created_for.joiningDate, item.created_for.rank.value.period))}</p>
-               </div>
+                  <p>{displayDate(item.end_of_contract)}</p>
+                     </div>
+                     <button className="flex text-red-200  bg-gradient-to-br from-red-400 to-red-600 rounded-lg self-center p-2" onClick={(e) => {
+                        e.stopPropagation()
+                        updateisContractboxOpen({ isOpen: true, data: item });
+                        
+                     }} ><Edit /> Edit Contract</button>
+                  </div>
             </div>
             <div
                className="infomain w-full transition duration-700 ease-in-out">
@@ -208,15 +215,16 @@ const VesselProfile = () => {
                         setIsModalOpen({ state: true, id: item._id });
                      }}>Remove Crew</p>
                      <p>Modify Contract</p> */}
+                        <Close className=" absolute top-0 right-0" />
                      <p className="text-xl font-bold text-green-700 h-6 pb-2">{item.created_for.context.replacement.label.split('(')[0]}</p>
                      <div className="flex flex-row mt-3">
                         <button type="button" onClick={() => {
                            getUnassinedUser(item.created_for.rank.label)
-                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData:addMonths(item.created_for.joiningDate, item.created_for.rank.value.period).toString() });
+                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData:item.end_of_contract ?? "" });
                         }} className="text-white tracking-widest  bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                            Change Crew
                         </button>
-                        <button type="button" onClick={() => updateisContractboxOpen(true)} className="text-white tracking-widest bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        <button type="button" onClick={() => updateisContractboxOpen({isOpen:true,data:item})} className="text-white tracking-widest bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                            Modify Contract
                         </button>
 
@@ -228,7 +236,7 @@ const VesselProfile = () => {
                      <div className="front absolute  from-blue-200 to-blue-400 bg-gradient-to-br w-full h-full z-10  rounded-e-lg p-3 flex items-center place-content-center"  >
                         <button type="button" onClick={() => {
                            getUnassinedUser(item.created_for.rank.label)
-                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData: addMonths(item.created_for.joiningDate, item.created_for.rank.value.period).toString() });
+                           setIsModalOpen({ state: true, id: item.created_for._id,oldlastData: item.end_of_contract ?? "" });
                         }} className="text-white tracking-widest  bg-gradient-to-br from-blue-400 to-blue-600 hover:bg-gradient-to-bl  focus:outline-none   font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                            Replace Crew
                         </button>
@@ -243,7 +251,8 @@ const VesselProfile = () => {
 
 
    return <>
-   
+   {isContractboxOpen.data && <CreateContract userData={isContractboxOpen.data.created_for} contractData={isContractboxOpen.data.created_for?.context?.replacement ?? isContractboxOpen.data} isOpen={isContractboxOpen.isOpen} onClose={() => updateisContractboxOpen({isOpen:false,data:null})} label={"Update Contract"} />}
+   {/* {isContractboxOpen.data && <CreateContract userData={isContractboxOpen.data.created_for} contractData={isContractboxOpen.data.created_for.context?.replacement??} isOpen={isContractboxOpen.isOpen} onClose={() => updateisContractboxOpen({isOpen:false,data:null})} label={"Update Contract"} />} */}
 
       <div id="companyProfile" className="main  w-full">
 
@@ -277,7 +286,7 @@ const VesselProfile = () => {
                {/* <button type="button"
                   className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                >Upload Certificate</button> */}
-               <FileUpload folder={"vessel"} name="vessel_doc" from="admin" dataFun={getDocId} isMultiple={true} className="align-sub inline-flex" />
+               <FileUpload  folder={"vessel"} name="vessel_doc" from="admin" dataFun={getDocId} isMultiple={true} className="align-sub inline-flex" />
                <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}</a> : ""}</h1>
 
             </div>
@@ -450,7 +459,7 @@ const VesselProfile = () => {
             isDisabled={false}
             isLoading={isLoading} />
          <button
-            onClick={() => AssignNewUser(isModalOpen.id,isModalOpen.oldlastData)}
+            onClick={() => AssignNewUser(isModalOpen.id,isModalOpen.oldlastData )}
             disabled={selectedCrew && selectedCrew.value === ""}
             type="button"
             className="ml-4 text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-slate-500 disabled:focus:bg-slate-400 disabled:hover:bg-slate-400"

@@ -78,7 +78,7 @@ const AddVessel = () => {
             let allCrewData: Option[] = [];
              let allagencyData: Option[] =[];
 
-            data.data.map((e: any) => e.type === "CREW MANAGER" ? allCrewData.push(createOption(e.name, e._id)) : e.type === "SHIP MANAGER" ? allShipData.push(createOption(e.name, e._id)): allagencyData.push(createOption(e.name, e._id)))
+            data.data.map((e: any) => e.type === "CREW MANAGER" ? allCrewData.push(createOption(e.name, e._id)) : e.type === "SHIP OWNER" ? allShipData.push(createOption(e.name, e._id)): allagencyData.push(createOption(e.name, e._id)))
             updateCrewManagerOption(allCrewData)
             updateShipManagerOption(allShipData)
             updateCrewAgencyManagerOption(allagencyData)

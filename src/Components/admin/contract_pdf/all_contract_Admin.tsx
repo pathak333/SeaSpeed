@@ -81,9 +81,9 @@ export default function AllContractAdmin() {
                             <li className="text-xs">Status: <b>{item.status}</b></li>
                         </ul>
                     </div>
-                            <button className="mt-8 bg-white text-blue-700 py-2 px-4 rounded-md font-bold hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            {item.status !=='SIGNOFF' && item.status !=='CANCEL' && <button className="mt-8 bg-white text-blue-700 py-2 px-4 rounded-md font-bold hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             onClick={() => updateisContractboxOpen({isOpen:true,contract:item._id})}
-                            >Modify Now</button>
+                            >Modify Now</button>}
                 </div>
                 // end 1
 

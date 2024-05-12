@@ -64,9 +64,10 @@ export default function AllCrewContract() {
                                 <span className="font-medium">{item.sign_off_reason}</span>
                             </li>
                             <li className="text-xs">Next Available From: {displayDate(item.next_available_from)}</li>
+                            <li className="text-xs">Status: {item.status}</li>
                         </ul>
                     </div>
-                    <button onClick={() => updateisContractboxOpen({isOpen:true,contract:item._id})} className="mt-8 bg-white text-blue-700 py-2 px-4 rounded-md font-bold hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Modify Now</button>
+                    { item.status !=='SIGNOFF' && item.status !=='CANCEL' && item.isActive &&  <button onClick={() => updateisContractboxOpen({isOpen:true,contract:item._id})} className="mt-8 bg-white text-blue-700 py-2 px-4 rounded-md font-bold hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Modify Now</button>}
                 </div>
                 // end 1
 

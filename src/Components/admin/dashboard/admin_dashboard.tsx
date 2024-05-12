@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       <div className="flex flex-wrap  justify-center ">
         {/* card */}
       {data &&  (data['permission'].includes("application") || data['permission'].includes("vessel") || data.role === "superadmin" ) &&  <DashboardCard2
-          label={"All crew members"}
+          label={"Approved crew"}
           icon={<People className="text-IbColor " />}
           iconbg=""
           onClick={() => {

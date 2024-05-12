@@ -7,7 +7,7 @@ import joi from "joi";
     email: joi.string().required(),
     phone: joi.number().required(),
     address: joi.string().allow(""),
-    type: joi.string().valid("SHIP MANAGER", "CREW MANAGER", "CREW AGENCY").required()
+    type: joi.string().valid("SHIP OWNER", "CREW MANAGER", "CREW AGENCY").required()
 });
 const managerWithCompany =  manager.keys({
   company: joi.string().required(), // Define your new field and validation rules here

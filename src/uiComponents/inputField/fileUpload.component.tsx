@@ -30,7 +30,7 @@ const FileUpload = ({ folder, name, from, expireDate, dataFun, isMultiple = fals
     const [globalState, dispatch] = useGlobalState();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const id =  queryParams.get('id') ?? globalState.temp.data._id;
+    const id =  queryParams.get('id') ?? (globalState.temp ? globalState.temp.data._id : "");
     const [formEvent, updateFormEvent] = useReducer((prev: any, next: any) => {
         const newEvent = { ...prev, ...next };
         return newEvent;

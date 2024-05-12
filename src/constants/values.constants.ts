@@ -19,8 +19,11 @@ export const addMonths = (date: string, months: number): any => {
     const newDate = new Date(date);
     if (months) {
         newDate.setMonth(newDate.getMonth() + months ?? 0);
+        return newDate.toISOString().split("T")[0]
+    } else {
+        return null
     }
-    return newDate.toISOString().split("T")[0];
+    // return newDate.toISOString().split("T")[0];
 };
   
 export const createOption = (label: string, value: string) => ({
