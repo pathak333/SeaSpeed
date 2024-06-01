@@ -15,6 +15,7 @@ import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants
 import { getCrewPassportDetail, updatePassportDetailAdmin } from "../../services/admin.service";
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
+import { UNLIMITED } from "../../constants/constData";
 
 
 const PassPortDetail = (props: any) => {
@@ -177,8 +178,9 @@ const PassPortDetail = (props: any) => {
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfIssue.split("T")[0]}
         />
+        <div className="flex">
         <InputField
-          className="m-4"
+          className="m-4 flex-1"
           fieldName={"dateOfExpiry"}
           label={"Date of expiry"}
           type={"date"}
@@ -186,7 +188,19 @@ const PassPortDetail = (props: any) => {
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfExpiry.split("T")[0]}
-        />
+          />
+          <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+          </div>
         {/* <SelectInput
           className="m-4"
           fieldName={"ECNR"}

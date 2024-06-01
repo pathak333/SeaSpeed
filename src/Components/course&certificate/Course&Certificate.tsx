@@ -14,7 +14,7 @@ import { addCourseCertificateAdmin, getCrewCourseCertificate } from "../../servi
 import { IssuesformattedDate, ExpireformattedDateFormNow } from "../../constants/values.constants"
 import PdfViewer from "../../uiComponents/pdf_viewer"
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component"
-import { certificate_name } from "../../constants/constData"
+import { UNLIMITED, certificate_name } from "../../constants/constData"
 
 
 
@@ -135,7 +135,7 @@ const CourseCertificate = () => {
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
 
 
@@ -156,7 +156,7 @@ const CourseCertificate = () => {
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0] === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
 
             <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{ item.documentId.name ?? "File" }</td>
@@ -274,8 +274,9 @@ const CourseCertificate = () => {
                 onChange={(e:any) => updateEvent({ dateOfIssue: e.target.value , isFormChanged: true })}
                 value={formEvent.dateOfIssue}
             />
+            <div className="flex">
             <InputField
-                className="m-4"
+                className="m-4 flex-1"
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
@@ -283,7 +284,19 @@ const CourseCertificate = () => {
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e:any) => updateEvent({ dateOfExpiry: e.target.value , isFormChanged: true })}
                 value={formEvent.dateOfExpiry}
-            />
+                />
+                    <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+                </div>
             <InputField
                 className="m-4"
                 fieldName={"placeOfIssue"}

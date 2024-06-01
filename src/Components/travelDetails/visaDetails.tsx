@@ -15,6 +15,7 @@ import { addVisaDetailAdmin, getCrewVisaDetail } from "../../services/admin.serv
 import { isObjectEmpty } from "../../constants/commonFunction";
 import ReactDOM from 'react-dom';
 import PdfViewer from "../../uiComponents/pdf_viewer";
+import { UNLIMITED } from "../../constants/constData";
 
 const VisaDetail = (props: any) => {
 
@@ -145,7 +146,7 @@ const VisaDetail = (props: any) => {
       <td className="px-6 py-4">{item.placeOfIssue}</td>
       <td className="px-6 py-4">{item.number}</td>
       <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-      <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+      <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0] === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry.split("T")[0]}</td>
       {/* <td className="px-6 py-4"><a href={item.documentId.link}>{ item.documentId.name ?? "File" }</a></td> */}
       <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)} onDoubleClick={()=>handleDoubleClick(item.documentId.link)} >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
@@ -316,8 +317,9 @@ const VisaDetail = (props: any) => {
           onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfIssue ?? ""}
         />
+        <div className="flex">
         <InputField
-          className="m-4"
+          className="m-4 flex-1"
           fieldName={"dateOfExpiry"}
           label={"Date of expiry"}
           disabled={formEvent.haveNoVisa}
@@ -326,7 +328,19 @@ const VisaDetail = (props: any) => {
           error={errorReturn("dateOfExpiry")}
           onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
           value={formEvent.dateOfExpiry ?? ""}
-        />
+          />
+          <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+          </div>
         {/* <div className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A]">
           <Upload className="text-IbColor" />
           <p className="text-IbColor">Upload Visa PDF</p>

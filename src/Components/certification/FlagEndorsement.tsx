@@ -16,7 +16,7 @@ import { addFlagEndorsementAdmin, getCrewFlagEndorsement } from "../../services/
 import ApproveReject from "../../uiComponents/approve_reject";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
-import { Flag_endorsement_name } from "../../constants/constData";
+import { Flag_endorsement_name, UNLIMITED } from "../../constants/constData";
 
 const FlagEndorsement = () => {
 
@@ -103,6 +103,7 @@ const FlagEndorsement = () => {
                     Oil_tanker_DCE: "Support",
 
                 })
+                updateFileData(undefined)
             }
         } catch (error: any) {
             if (error.name === "ValidationError") {
@@ -127,7 +128,7 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.number}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry === UNLIMITED ? "UNLIMITED" :item.dateOfExpiry}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
 
@@ -147,7 +148,7 @@ const FlagEndorsement = () => {
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.number}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0] === UNLIMITED ? "UNLIMITED" :item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
             <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{item.documentId.name ?? "File"}</td>
@@ -275,8 +276,9 @@ const FlagEndorsement = () => {
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
                 value={formEvent.dateOfIssue}
             />
+            <div className="flex">
             <InputField
-                className="m-4"
+                className="m-4 flex-1"
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
@@ -284,7 +286,19 @@ const FlagEndorsement = () => {
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
-            />
+                />
+                <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+                </div>
             <SelectInput
                 className="m-4"
                 fieldName={"Oil_tanker_DCE"}

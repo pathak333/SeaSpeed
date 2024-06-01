@@ -15,7 +15,7 @@ import ApproveReject from "../../uiComponents/approve_reject";
 import { addDangerousCargoEndorsementAdmin, getCrewDangerousCargoEndorsement } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
-import { Dangerous_cargo_endorsement_name } from "../../constants/constData";
+import { Dangerous_cargo_endorsement_name, UNLIMITED } from "../../constants/constData";
 
 
 
@@ -89,7 +89,7 @@ const DangerousCargoEndorsement = () => {
             let isValid = await FlagEndorsementValidation(data)
             if (isValid) {
                 updateEvent({
-                    dataList:id ? [...formEvent.dataList, {user_id:id,...data}] : [...formEvent.dataList, data],
+                    dataList: id ? [...formEvent.dataList, { user_id: id, ...data }] : [...formEvent.dataList, data],
                     name: "",
                     number: "",
                     dateOfIssue: "",
@@ -97,6 +97,7 @@ const DangerousCargoEndorsement = () => {
                     placeOfIssue: "",
                     Oil_tanker_DCE: "Support",
                 })
+                updateFileData(undefined)
             }
         } catch (error: any) {
             if (error.name === "ValidationError") {
@@ -121,7 +122,7 @@ const DangerousCargoEndorsement = () => {
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.number}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
 
@@ -142,7 +143,7 @@ const DangerousCargoEndorsement = () => {
             <td className="px-6 py-4">{item.name}</td>
             <td className="px-6 py-4">{item.number}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0] === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.Oil_tanker_DCE}</td>
             <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{item.documentId.name ?? "File"}</td>
@@ -177,11 +178,11 @@ const DangerousCargoEndorsement = () => {
         event.preventDefault();
         dispatch({ type: LOADING, payload: true });
         try {
-            const { data } = id ? await addDangerousCargoEndorsementAdmin(formEvent.dataList)  : await addDangerousCargoEndorsement(formEvent.dataList);
+            const { data } = id ? await addDangerousCargoEndorsementAdmin(formEvent.dataList) : await addDangerousCargoEndorsement(formEvent.dataList);
             if (data.success) {
                 toast.info(data.message)
-                updateEvent({isFormChanged:false})
-                if(!id) navigate("/dashboard/workExperiance");
+                updateEvent({ isFormChanged: false })
+                if (!id) navigate("/dashboard/workExperiance");
             } else {
                 throw Error(data.message)
             }
@@ -235,8 +236,8 @@ const DangerousCargoEndorsement = () => {
 
                 label={"Name"}
                 //type={""}
-                onChange={(e) => updateEvent({name: e.value, isFormChanged: true, })}
-                value={formEvent.name && {label:formEvent.name,value:formEvent.name}}
+                onChange={(e) => updateEvent({ name: e.value, isFormChanged: true, })}
+                value={formEvent.name && { label: formEvent.name, value: formEvent.name }}
                 //error={errorReturn("Oil_tanker_DCE")}
                 options={Dangerous_cargo_endorsement_name}
                 // onCreateOption={onCreate}
@@ -277,16 +278,29 @@ const DangerousCargoEndorsement = () => {
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
                 value={formEvent.dateOfIssue}
             />
-            <InputField
-                className="m-4"
-                fieldName={"dateOfExpiry"}
-                label={"Date of expiry"}
-                type={"date"}
-                min={ExpireformattedDateFormNow}
-                error={errorReturn("dateOfExpiry")}
-                onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
-                value={formEvent.dateOfExpiry}
-            />
+            <div className="flex">
+                <InputField
+                    className="m-4 flex-1"
+                    fieldName={"dateOfExpiry"}
+                    label={"Date of expiry"}
+                    type={"date"}
+                    min={ExpireformattedDateFormNow}
+                    error={errorReturn("dateOfExpiry")}
+                    onChange={(e) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
+                    value={formEvent.dateOfExpiry}
+                />
+                <span className="flex self-center items-center">
+                    <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                        name="unlimited"
+                        type={"checkbox"}
+                        value={formEvent.dateOfExpiry}
+                        onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+            </div>
             <SelectInput
                 className="m-4"
                 fieldName={"Oil_tanker_DCE"}
@@ -302,7 +316,7 @@ const DangerousCargoEndorsement = () => {
                 <Upload className="text-IbColor" />
                 <p className="text-IbColor">Upload Passport PDF</p>
             </div> */}
-            <FileUpload folder={"dangerousCargo"} name="endorsement" expireDate={formEvent.dateOfExpiry} from={id ? "admin" :"user"} dataFun={getDocId} />
+            <FileUpload folder={"dangerousCargo"} name="endorsement" expireDate={formEvent.dateOfExpiry} from={id ? "admin" : "user"} dataFun={getDocId} />
             <h1 className="ml-3 text-IbColor"> {fileData !== undefined ? <a href={fileData?.link}>You have uploaded one file {fileData?.name}</a> : ""}</h1>
 
         </div>

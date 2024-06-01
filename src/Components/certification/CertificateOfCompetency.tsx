@@ -14,7 +14,7 @@ import ApproveReject from "../../uiComponents/approve_reject";
 import { addCertificateOfCompetencyAdmin, getCrewCertificate } from "../../services/admin.service";
 import PdfViewer from "../../uiComponents/pdf_viewer";
 import { SearchSelect } from "../../uiComponents/inputField/searchSelectInputField.component";
-import { Certificate_Of_competency_grade } from "../../constants/constData";
+import { Certificate_Of_competency_grade, UNLIMITED } from "../../constants/constData";
 
 
 const CertificateOfCompetency = () => {
@@ -64,7 +64,6 @@ const CertificateOfCompetency = () => {
 
 
 
-
     const [formEvent, updateEvent] = useReducer((prev: any, next: any) => {
         let newEvent = { ...prev, ...next };
         return newEvent;
@@ -101,7 +100,9 @@ const CertificateOfCompetency = () => {
                     issuingAuthorityCountry: "",
                     documentId: "",
 
+
                 })
+                updateFileData(undefined)
             }
         } catch (error: any) {
             if (error.name === "ValidationError") {
@@ -126,7 +127,7 @@ const CertificateOfCompetency = () => {
             <td className="px-6 py-4">{item.grade}</td>
             <td className="px-6 py-4">{item.licenseNumber}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry === UNLIMITED ? "UNLIMITED" : item.dateOfExpiry}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.issuingAuthorityCountry}</td>
             <td className="px-6 py-4">file</td>
@@ -146,7 +147,7 @@ const CertificateOfCompetency = () => {
             <td className="px-6 py-4">{item.grade}</td>
             <td className="px-6 py-4">{item.licenseNumber}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
-            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0]}</td>
+            <td className="px-6 py-4">{item.dateOfExpiry.split("T")[0] === UNLIMITED ? "UNLIMITED" :item.dateOfExpiry.split("T")[0]}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.issuingAuthorityCountry}</td>
             {/* <td className="px-6 py-4"><a href={item.documentId.link}>{item.documentId.name}</a></td> */}
@@ -276,8 +277,9 @@ const CertificateOfCompetency = () => {
                 onChange={(e) => updateEvent({ dateOfIssue: e.target.value })}
                 value={formEvent.dateOfIssue}
             />
+            <div className="flex">
             <InputField
-                className="m-4"
+                className="m-4 flex-1"
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
@@ -285,7 +287,19 @@ const CertificateOfCompetency = () => {
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e) => updateEvent({ dateOfExpiry: e.target.value })}
                 value={formEvent.dateOfExpiry}
-            />
+                />
+                <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+            </div>
             <InputField
                 className="m-4"
                 fieldName={"issuingAuthorityCountry"}

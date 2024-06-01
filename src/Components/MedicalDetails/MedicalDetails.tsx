@@ -16,6 +16,7 @@ import { addMedicalDetailAdmin, getCrewMedicalDetail } from "../../services/admi
 import ApproveReject from "../../uiComponents/approve_reject"
 import { isObjectEmpty } from "../../constants/commonFunction"
 import PdfViewer from "../../uiComponents/pdf_viewer"
+import { UNLIMITED } from "../../constants/constData"
 
 
 
@@ -293,8 +294,9 @@ const MedicalDetails = () => {
                 onChange={(e: any) => updateEvent({ dateOfIssue: e.target.value, isFormChanged: true })}
                 value={formEvent.dateOfIssue}
             />
+            <div className="flex">
             <InputField
-                className="m-4"
+                className="m-4 flex-1"
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
@@ -302,7 +304,19 @@ const MedicalDetails = () => {
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e: any) => updateEvent({ dateOfExpiry: e.target.value, isFormChanged: true })}
                 value={formEvent.dateOfExpiry}
-            />
+                />
+                <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({ dateOfExpiry: UNLIMITED })}
+                    />
+                </span>
+                </div>
             <InputField
                 className="m-4"
                 fieldName={"placeOfIssue"}
@@ -379,8 +393,9 @@ const MedicalDetails = () => {
                 onChange={(e: any) => updateEvent({...formEvent, Yellow_fever_vaccination: { ...formEvent.Yellow_fever_vaccination, dateOfIssue: e.target.value }, isFormChanged: true })}
                 value={formEvent.Yellow_fever_vaccination.dateOfIssue}
             />
+            <div className="flex">
             <InputField
-                className="m-4"
+                className="m-4 flex-1"
                 fieldName={"dateOfExpiry"}
                 label={"Date of expiry"}
                 type={"date"}
@@ -388,7 +403,19 @@ const MedicalDetails = () => {
                 error={errorReturn("dateOfExpiry")}
                 onChange={(e: any) => updateEvent({...formEvent, Yellow_fever_vaccination: { ...formEvent.Yellow_fever_vaccination, dateOfExpiry: e.target.value }, isFormChanged: true })}
                 value={formEvent.Yellow_fever_vaccination.dateOfExpiry}
-            />
+                />
+                <span className="flex self-center items-center">
+                <p>| &nbsp;</p>
+                    <label htmlFor="unlimited" className=" font-semibold" >NO Expiry&nbsp;&nbsp;</label>
+                    <input className="w-4 h-4 mr-4"
+                        id="unlimited"
+                name="unlimited"
+                type={"checkbox"}
+                value={formEvent.dateOfExpiry}
+                onChange={(e) => updateEvent({...formEvent, Yellow_fever_vaccination: { ...formEvent.Yellow_fever_vaccination, dateOfExpiry: UNLIMITED }, isFormChanged: true })}
+                    />
+                </span>
+                </div>
             <InputField
                 className="m-4"
                 fieldName={"placeOfIssue"}
