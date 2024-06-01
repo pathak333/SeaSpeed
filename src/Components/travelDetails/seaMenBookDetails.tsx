@@ -4,7 +4,7 @@ import { Trash2, Upload } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SeamenBookValidation } from "./validation";
 import { toast } from "react-toastify";
-import { addSeamenBookDetail, getSeamenBookDetail } from "../../services/user.service";
+import { addSeamenBookDetail, deleteSeamenBookDetail, getSeamenBookDetail } from "../../services/user.service";
 import { LOADING } from "../../constants/action.constant";
 import { useGlobalState } from "../../contexts/global.context";
 import { TravelDetailContext, TravelState } from "../../contexts/travelDetail.context";
@@ -144,9 +144,11 @@ const SeaMenBookDetail = () => {
        <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)}  >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
         <Trash2
-          onClick={() => {
-            // formEvent.dataList.splice(index, 1);
-            // updateEvent({ dataList: formEvent.dataList });
+          onClick={async () => {
+            
+            formEvent.savedData.splice(index, 1);
+            updateEvent({ dataList: formEvent.dataList });
+          await deleteSeamenBookDetail(item._id)
           }}
         />
       </td>
@@ -377,7 +379,7 @@ const SeaMenBookDetail = () => {
 
     </div>
     }
-{ globalState.data.data.permission.includes("application") && 
+{ globalState?.data?.data?.permission.includes("application") && 
         <div>
     {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled={!formEvent.isFormChanged} onClick={(e:any)=>handlerSubmit(e)}>Save</button>}
 
@@ -385,7 +387,7 @@ const SeaMenBookDetail = () => {
       <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/?id=${id}`} locationStateData={{}}  doc_id="SeaMenBookDetail" user_id={id}/>
     </div>}
     </div>}
-    { (globalState.data.data.permission.includes("admin") || ("vessel") ) && id !== null &&
+    { (globalState?.data?.data?.permission.includes("admin") || ("vessel") ) && id !== null &&
         <div>
            <button
             type="button"

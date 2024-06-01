@@ -54,7 +54,9 @@ import {
   getInstructionUserApi,
   updateInstructionUserApi,
   updateUserFileApi,
-  getUserContractApi
+  getUserContractApi,
+  deleteVisaDetailApi,
+  DeleteSeamenBookApi
 } from "../constants/api.constant";
 import httpService from "./api.service";
 
@@ -117,8 +119,8 @@ export const GetKinDetail = () => {
   return httpService.get(GetKinDetailApi);
 };
 
-export const DeleteEducationDetail = (id: string) => {
-  return httpService.delete(DeleteEducationDetailApi + `/${id}`);
+export const DeleteEducationDetail = (id: string,userId:string) => {
+  return httpService.delete(DeleteEducationDetailApi + `/${id}/?userId=${userId}`);
 };
 
 
@@ -145,6 +147,10 @@ export const GetVisaDetailService = () => {
   return httpService.get(GetVisaDetailApi)
 }
 
+export const deleteVisaDetailService = (id:any,data:any) => {
+  return httpService.post(deleteVisaDetailApi+`?docId=${id}`,data)
+}
+
 export const addSeamenBookDetail = (data: any) => {
   return httpService.post(AddSeamenBookApi, data)
 }
@@ -153,6 +159,9 @@ export const getSeamenBookDetail = () => {
   return httpService.get(GetSeamenBookApi)
 }
 
+export const deleteSeamenBookDetail = (id:String) => {
+  return httpService.delete(DeleteSeamenBookApi+`?docId=${id}`)
+}
 
 export const addCertificateOfCompetency = (data:any) => {
   return httpService.post(AddCertificateApi,data)

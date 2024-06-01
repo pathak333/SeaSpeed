@@ -38,7 +38,7 @@ const PersonalDetail = () => {
 
   const queryParams = new URLSearchParams(location.search);
 
-  const id =  queryParams.get('id') ?? globalState.temp.data._id;
+  const id =  queryParams.get('id') ?? globalState.temp?.data._id;
    console.log(id,"????????????????????????????????/////////////////////");
 
 
@@ -57,8 +57,8 @@ const PersonalDetail = () => {
       return newEvent;
     },
     {
-      firstname: id != null ? crew.firstname ?? "" : "",
-      lastname: id != null ? crew.lastname ?? "" : "",
+      firstname: id  ?  globalState.temp?.data.firstname ?? "" : globalState.data.firstname,
+      lastname: id  ? globalState.temp?.data.lastname ?? "" : globalState.data.lastname,
       dob: "",
       gender: "male",
       marital_status: "unmarried",
@@ -100,8 +100,8 @@ const PersonalDetail = () => {
   async function fetchData() {
     dispatch({ type: LOADING, payload: true });
 
-    const { data } = id === null ? await GetPersonalDetail() : await getCrewPersonalDetail(id);
-    console.log("personal data = ", data);
+    const { data } = id ?  await getCrewPersonalDetail(id) : await GetPersonalDetail();
+    console.log("personal data = ", globalState.data);
     let formData = data.data.personaldata;
     console.log("personal formData = ", formData);
     if (formData) {
@@ -111,6 +111,8 @@ const PersonalDetail = () => {
         aadhaarName: data.data.personaldata.aadhaarId,
         panName: data.data.personaldata.panId,
         cncName: data.data.personaldata.cncId,
+        firstname: id  ?  globalState.temp?.data.firstname ?? "" : globalState.data.firstname,
+        lastname: id  ? globalState.temp?.data.lastname ?? "" : globalState.data.lastname,
       })
     }
     dispatch({ type: LOADING, payload: false });
@@ -579,7 +581,7 @@ const PersonalDetail = () => {
         </div>
       </div>}
 
-      {id === null && <div>
+      {!id  && <div>
 
         {formEvent.isFormChanged ? <button
           type="submit"
@@ -612,7 +614,7 @@ const PersonalDetail = () => {
           <ApproveReject name="personalDetail" navigation={`/adminDashboard/personaldetails/contactDetail/?id=${id}`} locationStateData={crew} doc_id="PersonalDetail" user_id={id} />
         </div>}
       </div>}
-      {((globalState.data.data && globalState.data.data.permission.includes("admin") )|| ("vessel")) && id !== null &&
+      {globalState.data.data && globalState.data.data.permission.includes("admin")  && id !== null &&
         <div>
           <button
             type="button"

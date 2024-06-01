@@ -206,7 +206,7 @@ const Dashboard = () => {
             <tbody>
               {allFile.map((item: any, index: any) => (
 
-                <tr key={index} className="bg-[#E4F0FF] border-b-8 border-white text-IbColor" onClick={() => window.location.href = item.link}>
+                <tr key={index} className="bg-[#E4F0FF] border-b-8 border-white text-IbColor" onClick={() => window.open(item.link, '_blank')}>
                   <td className="px-6 py-4">{item.name}</td>
                   <td className="px-6 py-4">{item.expire && item.expire.split('T')[0]}</td></tr>
 

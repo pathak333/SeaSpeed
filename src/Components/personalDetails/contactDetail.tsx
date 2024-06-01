@@ -145,20 +145,6 @@ const ContactDetail = () => {
           }
           value={id!= null ? crew.email :globalState.data.data.email}
         />
-        <div className="flex flex-row  max-sm:flex-col">
-          {/* <InputField
-            className="m-4 w-24"
-            fieldName={"code"}
-            label={"Code"}
-            disabled={true}
-            type={"text"}
-            //   error={errorReturn("firstname")}
-            onChange={
-              (e) => ""
-              //updateEvent({ firstname: e.target.value })
-            }
-            value={id!= null ? crew.country_code :globalState.data.data.country_code}
-          /> */}
           <InputField
             className="m-4 "
             fieldName={"phone"}
@@ -172,7 +158,22 @@ const ContactDetail = () => {
             }
             value={id!= null ? crew.phone_no : globalState.data.data.phone_no}
           />
-        </div>
+        {/* <div className="flex flex-row  max-sm:flex-col">
+          <InputField
+            className="m-4 w-24"
+            fieldName={"code"}
+            label={"Code"}
+            disabled={true}
+            type={"text"}
+            //   error={errorReturn("firstname")}
+            onChange={
+              (e) => ""
+              //updateEvent({ firstname: e.target.value })
+            }
+            value={id!= null ? crew.country_code :globalState.data.data.country_code}
+          />
+        
+        </div> */}
       </div>
       <div className="grid grid-flow-row max-sm:grid-flow-row grid-cols-2 max-sm:grid-cols-1 ">
         <InputField
@@ -184,16 +185,6 @@ const ContactDetail = () => {
           onChange={(e) => updateEvent({ alt_email: e.target.value,isFormChanged:true })}
           value={formEvent.alt_email}
         />
-        <div className="flex flex-row max-sm:flex-col">
-          {/* <InputField
-            className="m-4 w-24 max-sm:w-100"
-            fieldName={"altcode"}
-            label={"Code"}
-            type={"text"}
-            //   error={errorReturn("firstname")}
-            onChange={(e) => updateEvent({ alt_country_code: e.target.value,isFormChanged:true })}
-            value={formEvent.alt_country_code }
-          /> */}
           <InputField
             className="m-4 "
             fieldName={"alt_phone_no"}
@@ -203,7 +194,18 @@ const ContactDetail = () => {
             onChange={(e) => updateEvent({ alt_phone_no: e.target.value,isFormChanged:true })}
             value={formEvent.alt_phone_no}
           />
-        </div>
+        {/* <div className="flex flex-row max-sm:flex-col">
+          <InputField
+            className="m-4 w-24 max-sm:w-100"
+            fieldName={"altcode"}
+            label={"Code"}
+            type={"text"}
+            //   error={errorReturn("firstname")}
+            onChange={(e) => updateEvent({ alt_country_code: e.target.value,isFormChanged:true })}
+            value={formEvent.alt_country_code }
+          />
+        
+        </div> */}
       </div>
       
     

@@ -353,7 +353,7 @@ const CertificateOfCompetency = () => {
         ) : (
             <div></div>
         )}
-        {selectedPdf && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove} />}
+        {selectedPdf && (globalState?.data?.data?.role === 'admin' || globalState?.data?.data?.role === 'superadmin') && <PdfViewer url={selectedPdf} close={remove} />}
 
         {id === null && <div>
             <button
@@ -391,7 +391,7 @@ const CertificateOfCompetency = () => {
             </button>
         </div>
         }
-        {globalState.data.data.permission.includes("application") &&
+        {globalState?.data?.data?.permission.includes("application") &&
             <div>
                 {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => { }}>Save</button>}
 
@@ -399,7 +399,7 @@ const CertificateOfCompetency = () => {
                     <ApproveReject name="traveldetails" navigation={`/adminDashboard/certificates/flagEndorsement/?id=${id}`} locationStateData={{}} doc_id="CertificateOfCompetency" user_id={id} />
                 </div>}
             </div>}
-        {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+        {(globalState?.data?.data?.permission.includes("admin") || ("vessel")) && id !== null &&
             <div>
                 <button
                     type="button"

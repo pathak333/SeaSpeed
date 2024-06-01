@@ -7,7 +7,7 @@ import { NormalVisaValidation, VisaDetailValidation } from "./validation";
 import { toast } from "react-toastify";
 import { useGlobalState } from "../../contexts/global.context";
 import { LOADING } from "../../constants/action.constant";
-import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService } from "../../services/user.service";
+import { GetVisaDetailService, UpdateVisaDetailService, addVisaDetailService, deleteVisaDetailService } from "../../services/user.service";
 import FileUpload from "../../uiComponents/inputField/fileUpload.component";
 import { ExpireformattedDateFormNow, IssuesformattedDate } from "../../constants/values.constants";
 import ApproveReject from "../../uiComponents/approve_reject";
@@ -150,8 +150,10 @@ const VisaDetail = (props: any) => {
       <td className="px-6 py-4 text-blue-800 font-semibold cursor-pointer" onClick={() => openPdfViewerWindow(item.documentId.link)} onDoubleClick={()=>handleDoubleClick(item.documentId.link)} >{ item.documentId.name ?? "File" }</td>
       <td className="px-6 py-4">
         <Trash2
-          onClick={() => {
+          onClick={async () => {
+            console.log(formEvent)
             formEvent.visaList.splice(index, 1);
+            await deleteVisaDetailService(formEvent._id,{data:formEvent.visaList,deleteDoc:item.documentId._id})
             updateEvent({ visaList: formEvent.visaList });
           }}
         />
@@ -481,7 +483,7 @@ const VisaDetail = (props: any) => {
         </button>
       </div>
       }
-      {globalState.data.data.permission.includes("application") &&
+      {globalState?.data?.data?.permission.includes("application") &&
         <div>
           {id !== null && formEvent.isFormChanged && <button className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleSubmit}>Save</button>}
 
@@ -489,7 +491,7 @@ const VisaDetail = (props: any) => {
             <ApproveReject name="traveldetails" navigation={`/adminDashboard/traveldetails/SeaMenBookdetail/?id=${id}`} locationStateData={{}} doc_id="VisaDetail" user_id={id} />
           </div>}
         </div>}
-      {(globalState.data.data.permission.includes("admin") || ("vessel")) && id !== null &&
+      {(globalState?.data?.data?.permission.includes("admin") || globalState?.data?.data?.permission.includes("vessel")) && id !== null &&
         <div>
           <button
             type="button"

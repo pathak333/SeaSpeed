@@ -121,7 +121,7 @@ const Education = () => {
             dispatch({ type: LOADING, payload: true });
             let newData = [...oldData];
 
-            const { data } = await DeleteEducationDetail(newData[index]["_id"]);
+            const { data } = await DeleteEducationDetail(newData[index]["_id"],id??"");
             newData.splice(index, 1);
             setOldData(newData);
             console.log(data);

@@ -217,7 +217,7 @@ const PassPortDetail = (props: any) => {
           </ul>
         </div>
       </div>
-      {fileData?.link && (globalState.data.data.role === 'admin' || globalState.data.data.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
+      {fileData?.link && (globalState?.data?.data?.role === 'admin' || globalState?.data?.data?.role === 'superadmin') && <PdfViewer url={fileData?.link} />}
       {id === null && <div className="m-3">
         {formEvent.isFormChanged ? <button
           type="submit"
@@ -243,7 +243,7 @@ const PassPortDetail = (props: any) => {
           Clear all
         </button>
       </div>}
-      {globalState.data.data.permission.includes("application") &&
+      {globalState?.data?.data?.permission.includes("application") &&
         <div>
           {id !== null && formEvent.isFormChanged && <button type="button" className="text-white font-semibold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-xl px-16 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             onClick={handlerSubmit}>Save</button>}

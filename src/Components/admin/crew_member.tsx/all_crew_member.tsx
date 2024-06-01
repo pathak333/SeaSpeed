@@ -125,7 +125,7 @@ const AllCrewMembers = () => {
         label={"Search"}
         type={"Search"}
         onChange={(e: any) => updateSearchText(e.target.value)} />
-      <p className="text-xs text-blue-600 mt-1">Search by Name, Email, Phone, or Vessel.</p>
+      <p className="text-xs text-blue-600 mt-1">Search by Name, Email, Phone,Rank or Vessel.</p>
       <div className="relative overflow-x-auto mb-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
           <thead className="text-xs text-grey-700 uppercase ">

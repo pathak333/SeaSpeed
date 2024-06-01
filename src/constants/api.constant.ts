@@ -33,9 +33,11 @@ export const updatePassportDetailApi = "/user/updatePassportDetail"
 export const AddVisaDetailApi = "/user/addVisaDetail"
 export const UpdateVisaDetailApi = "/user/updateVisaDetail"
 export const GetVisaDetailApi = "/user/getVisaDetail"
+export const deleteVisaDetailApi = "/user/deleteVisaDetail"
 
 export const AddSeamenBookApi = "/user/addSeamenBook"
-export const GetSeamenBookApi ="/user/getSeamenBook"
+export const GetSeamenBookApi = "/user/getSeamenBook"
+export const DeleteSeamenBookApi = "/user/deleteSeamenBook"
 
 export const AddCertificateApi = "/user/addCertificateOfCompetency"
 export const GetCertificateApi = "/user/getCertificateOfCompetency"
