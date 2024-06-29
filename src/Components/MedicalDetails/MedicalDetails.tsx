@@ -72,7 +72,7 @@ const MedicalDetails = () => {
         const newEvent = { ...prev, ...next }
 
         if (next.isFormChanged) {
-            setUpdateData({ ...updateData, ...next  })
+            setUpdateData({...next, ...updateData  })
         }
       
         
@@ -186,22 +186,23 @@ const MedicalDetails = () => {
 
     const handleSubmit = async (event: any) => {
         // BankDetail
+        console.log("medical details")
         toast.dismiss();
         dispatch({ type: LOADING, payload: true });
         try {
             event.preventDefault();
            
-            console.log(formEvent);
-            console.log(updateData);
+            console.log(formEvent,"=======");
+            // console.log(updateData,"+++++++++");
             if (formEvent.hasOwnProperty("user_id")) {
                 console.log('updateData',updateData);
-                if (typeof updateData.Covid_vaccination.link !== 'string') {
-                    updateData.Covid_vaccination.link = updateData.Covid_vaccination.link._id;
+                if (typeof formEvent?.Covid_vaccination?.link !== 'string') {
+                    formEvent.Covid_vaccination.link = formEvent.Covid_vaccination.link._id;
                 }
-                if (typeof updateData.Yellow_fever_vaccination.link !== 'string') {
-                    updateData.Yellow_fever_vaccination.link = updateData.Yellow_fever_vaccination.link._id;
+                if (typeof formEvent?.Yellow_fever_vaccination?.link !== 'string') {
+                    formEvent.Yellow_fever_vaccination.link = formEvent.Yellow_fever_vaccination.link._id;
                 }
-                console.log(updateData);
+            
                 
             }
 
@@ -225,6 +226,8 @@ const MedicalDetails = () => {
             delete formData.type
             delete formData.Yellow_fever_vaccination.isFormChanged
             delete formData.Covid_vaccination.isFormChanged
+            delete formData.isDeleted
+            delete formData.__v
             formData.typeMedicalDetails = newtypeMedicalDetails
             console.log(formData);
             const isValid = formEvent.hasOwnProperty("user_id") ? await UpdateMedicalDetailsValidation(formData) : await MedicalDetailsValidation(formData);

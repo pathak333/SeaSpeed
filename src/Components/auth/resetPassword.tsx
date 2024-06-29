@@ -106,6 +106,7 @@ const ResetPassword: NoPropComponent = () => {
           fieldName="password"
           error={errorReturn("password")}
           label="Create new password"
+          isnotUpperCase={true}
           className="mb-4"
           icon={
             <VisibilityOff
@@ -120,6 +121,7 @@ const ResetPassword: NoPropComponent = () => {
           fieldName="confirmPassword"
           error={errorReturn("confirmPassword")}
           label="Confirm password"
+          isnotUpperCase={true}
           // disabled={event.password && event.error === "" ? false : true}
           icon={<VisibilityOff className="text-gray-300 " />}
           onChange={(e) => updateEvent({ confirmPassword: e.target.value })}
