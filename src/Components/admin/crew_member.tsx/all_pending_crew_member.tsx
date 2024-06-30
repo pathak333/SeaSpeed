@@ -10,15 +10,17 @@ import { LOADING, TEMP } from "../../../constants/action.constant";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { debounce } from 'lodash';
 import { ArrowDropDown } from "@mui/icons-material";
+import Pagination from "../../../uiComponents/pagination_new";
+// import Pagination from "../../../uiComponents/pagination";
 
 
 const AllPendingCrewMembers = () => {
 
 
   //getAllCrew
-  const [pageno, updatepageno] = useState(0);
+  const [pageno, updatepageno] = useState(1);
   const [perpage, updateperpage] = useState(20);
-  const [totalpageno, updatetotalpageno] = useState(0);
+  const [totalpageno, updatetotalpageno] = useState(1);
   const [searchText, updateSearchText] = useState("");
   const [orderBy, updateOrderBy] = useState("");
 
@@ -48,7 +50,7 @@ const AllPendingCrewMembers = () => {
 
     console.log(data);
     updateCrewList(data.data.userData)
-    updatetotalpageno(Math.ceil(data.data.totalCount / 20))
+    updatetotalpageno(Math.ceil(data.data.totalCount / perpage))
   
     }
     dispatch({ type: LOADING, payload: false });
@@ -58,18 +60,22 @@ const AllPendingCrewMembers = () => {
 
 
 
-  function changepageno(type: any) {
-    if (!type) {
-      if (pageno < totalpageno) {
-        updatepageno(pageno + 1)
-      }
-    } else {
-      if (pageno > 0) {
-        updatepageno(pageno - 1)
-      }
-    }
+  // function changepageno(type: any) {
+  //   if (!type) {
+  //     if (pageno < totalpageno) {
+  //       updatepageno(pageno + 1)
+  //     }
+  //   } else {
+  //     if (pageno > 0) {
+  //       updatepageno(pageno - 1)
+  //     }
+  //   }
 
-  }
+  // }
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalpageno) return;
+    updatepageno(page);
+  };
 
 
   const search = async () => {
@@ -172,7 +178,7 @@ const AllPendingCrewMembers = () => {
         </table>
       </div>
       <br />
-      <div className="page flex flex-row w-40 place-content-between p-3 mx-auto mt-3 border shadow">
+      {/* <div className="page flex flex-row w-40 place-content-between p-3 mx-auto mt-3 border shadow">
         <div>
           <Plus className="scale-150" onClick={() => changepageno(1)} />
         </div>
@@ -180,7 +186,8 @@ const AllPendingCrewMembers = () => {
         <div>
           <Minus className="scale-150" onClick={() => changepageno(0)} />
         </div>
-      </div>
+      </div> */}
+      <Pagination currentPage={pageno} onPageChange={handlePageChange} totalPages={totalpageno} />
     </CommonLayout>
   </>
 }

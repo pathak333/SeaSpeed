@@ -10,13 +10,16 @@ import { displayDate } from "../../../constants/commonFunction";
 import InputField from "../../../uiComponents/inputField/inputField.component";
 import { debounce } from "lodash";
 import { ArrowDropDown } from "@mui/icons-material";
+import Pagination from "../../../uiComponents/pagination_new";
 
 
 const AllCrewMembers = () => {
   const [globalState, dispatch] = useGlobalState();
   const [searchText, updateSearchText] = useState("");
   const [orderBy, updateOrderBy] = useState("");
-
+  const [pageno, updatepageno] = useState(1);
+  const [perpage, updateperpage] = useState(20);
+  const [totalpageno, updatetotalpageno] = useState(1);
   //getAllCrew
   const [crewList, updateCrewList] = useState([]);
   const navigate = useNavigate();
@@ -25,6 +28,10 @@ const AllCrewMembers = () => {
   useEffect(() => {
     fetchData();
   }, [])
+  
+  useEffect(() => {
+    fetchData();
+  }, [pageno, perpage])
 
   //search start
   
@@ -63,11 +70,11 @@ const AllCrewMembers = () => {
 
   async function fetchData() {
     dispatch({ type: LOADING, payload: true });
-    const { data } = await getAllCrew();
+    const { data } = await getAllCrew(pageno, perpage);
     if (data) {
       console.log(data);
-    updateCrewList(data.data)
-
+    updateCrewList(data.data.Admin)
+    updatetotalpageno(Math.ceil(data.data.totalCount / perpage))
     }
     
     dispatch({ type: LOADING, payload: false });
@@ -82,6 +89,12 @@ const AllCrewMembers = () => {
 
     return ((value?.length ?? 0) / 15) * 100;
   }
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalpageno) return;
+    updatepageno(page);
+  };
+
 
 
   const listofData = crewList.map((item: any, index: any) => {
@@ -156,6 +169,7 @@ const AllCrewMembers = () => {
 
         </table>
       </div>
+      <Pagination currentPage={pageno} onPageChange={handlePageChange} totalPages={totalpageno} />
     </CommonLayout>
   </>
 }

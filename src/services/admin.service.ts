@@ -64,8 +64,8 @@ export const createNewUser = (data: any) => {
     return httpService.post(createNewUserApi, data);
 }
 
-export const getAllCrew = () => {
-    return httpService.get(getAllCrewApi);
+export const getAllCrew = (pageno:number,perpage:number) => {
+    return httpService.get(getAllCrewApi+`?pageno=${pageno}&perpage=${perpage}`);
 }
 
 export const getAllPendingCrew = (pageno:number,perpage:number) => {
