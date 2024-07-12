@@ -184,7 +184,7 @@ const Dashboard = () => {
 
           </div>
         </div> */}
-        <div className="w-2/5 max-sm:w-full "><UserInfoCard data={data} onInputChange={(e) => updateEvent({joiningDate:e.target.value})} submit={handlerSubmit}/></div>
+      {data &&  <div className="w-2/5 max-sm:w-full "><UserInfoCard data={data} onInputChange={(e) => updateEvent({joiningDate:e.target.value})} submit={handlerSubmit}/></div>}
         <div id="agrement" className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center shadow">
           <FileText width={"100px"} height={"100px"} className="text-activeIconColor mb-2" />
           <button className="text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">Download agreement</button>

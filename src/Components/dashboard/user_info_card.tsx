@@ -75,13 +75,13 @@ export default function UserInfoCard(p: Props) {
                             </div>
                             <div className="solu_description">
                                 <div className="flex justify-between">
-                                <p id="name" className="h-5 m-0">{p.data !== null ? p.data.firstname : ""} {p.data != null ? p.data.lastname : ""}</p>
-                                <p id="name" className=" font-semibold text-gray-500">{p.data !== null ? p.data.rank.label : ""}</p>
+                                <p id="name" className="h-5 m-0">{p.data !== null ? p.data?.firstname : ""} {p.data != null ? p.data?.lastname : ""}</p>
+                                <p id="name" className=" font-semibold text-gray-500">{p.data !== null ? p.data?.rank.label : ""}</p>
                                 </div>
-                                <p id="name" className="py-2 text-sm">{p.data !== null && p.data.hasOwnProperty('vessel') && p.data.vessel.hasOwnProperty("value") ? `Vessel: ${p.data.vessel.label}` : "No Vessel Assigned Yet"}</p>
+                                <p id="name" className="py-2 text-sm">{p.data !== null && p.data?.hasOwnProperty('vessel') && p.data?.vessel.hasOwnProperty("value") ? `Vessel: ${p.data.vessel.label}` : "No Vessel Assigned Yet"}</p>
                                 {p.data && p.data.joiningDate !== "" && <hr className=" w-full " />}
                                 {p.data !== null && p.data.joiningDate
-                                    ? <p id="name" className="py-2 text-sm">{p.data !== null ? `Available after : ${p.data.joiningDate}` : ""}</p>
+                                    ? <p id="name" className="py-2 text-sm">{p.data !== null ? `Available after : ${p.data?.joiningDate}` : ""}</p>
                                     : <>
                                         <InputField
                                             className=""

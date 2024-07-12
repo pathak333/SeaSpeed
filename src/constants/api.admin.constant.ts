@@ -1,5 +1,6 @@
 
 export const GetAdminProfileApi = "/admin/getProfile";
+export const getCrewProfileApi = "/admin/getCrewProfile";
 
 export const getAllVessel = "/admin/getAllVessel";
 export const getVesselByIdApi = "/admin/getVesselById"
@@ -20,6 +21,7 @@ export const assignNewCrewApi = "/admin/assignNewCrew"
 
 export const getAllRankApi = "/admin/getAllRank";
 export const createNewUserApi = "/admin/addNewUser";
+export const updateCrewApi = "/admin/updateCrew";
 
 export const addCompanyApi = "/admin/addCompany";
 export const updateCompanyApi = "/admin/updateCompany";
@@ -56,6 +58,7 @@ export const approveOrRejectApi = "/admin/approveOrReject"
 export const singleFileUploadAdminApi = "/file/admin/singleFileUpload"
 export const assignVesselApi = "/admin/assignVessel"
 export const uploadProfileadminApi = "/file/admin/uploadProfile"
+export const getAllFileCrewApi = "/file/admin/getAllFileCrew"
 
 export const sendInstructionApi = "/admin/sendInstruction"
 export const getInstructionApi = "/admin/getInstruction"

@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi, educationDetailAdminApi, addCertificateOfCompetencyAdminApi, addDangerousCargoEndorsementAdminApi, addFlagEndorsementAdminApi, addSeamenBookAdminApi, addVisaDetailAdminApi, updatePassportDetailApi, addCourseCertificateAdminApi, addMedicalDetailAdminApi, addReferencesAdminApi, addUnionRegistrationAdminApi, addWorkExperienceAdminApi, searchPendingCrewApi, newContractApi, getUserContractApi, getUserSingleContractApi, updateContractApi, getUserContractByVesselApi, getAllContractApi, getAllContractByVesselIdApi, searchVesselApi, getCrewDataApi } from "../constants/api.admin.constant";
+import { GetAdminProfileApi, GetCrewBankDetailApi, GetCrewCertificateApi, GetCrewCourseCertificateApi, GetCrewDangerousCargoEndorsementApi, GetCrewEducationDetailApi, GetCrewFlagEndorsementApi, GetCrewKinDetailApi, GetCrewMedicalDetailApi, GetCrewPassportDetailApi, GetCrewReferencesApi, GetCrewSeamenBookApi, GetCrewUnionRegistrationApi, GetCrewVisaDetailApi, GetCrewWorkExperienceApi, addCompanyApi, updateCompanyApi, addManagerApi, addSubAdminApi, addVesselApi, approveOrRejectApi, assignNewCrewApi, assignVesselApi, createNewUserApi, getAllCompanyApi, getAllCrewApi, getAllCrewByVesselIdApi, getAllManagerByCompanyIdApi, getAllPendingCrewApi, getAllRankApi, getAllUnAssinedCrewApi, getAllVessel, getAllVesselByCompanyIdApi, getAllVesselForAdminApi, getCrewPersonalDetailApi, getSubAdminApi, getVesselByIdApi, singleFileUploadAdminApi, updateSubAdminApi, uploadProfileadminApi, UpdatePersonalDetailAdminApi, sendInstructionApi, deleteInstructionApi, getInstructionApi, getExpireDocVesselApi, getExpireDocCompanyApi, updateVesselApi, getExpireDocUserApi, updateBankDetailApi, updateKinDetailApi, updateFileApi, applicationPdfApi, updateProfileApi, educationDetailAdminApi, addCertificateOfCompetencyAdminApi, addDangerousCargoEndorsementAdminApi, addFlagEndorsementAdminApi, addSeamenBookAdminApi, addVisaDetailAdminApi, updatePassportDetailApi, addCourseCertificateAdminApi, addMedicalDetailAdminApi, addReferencesAdminApi, addUnionRegistrationAdminApi, addWorkExperienceAdminApi, searchPendingCrewApi, newContractApi, getUserContractApi, getUserSingleContractApi, updateContractApi, getUserContractByVesselApi, getAllContractApi, getAllContractByVesselIdApi, searchVesselApi, getCrewDataApi, getAllFileCrewApi, updateCrewApi, getCrewProfileApi } from "../constants/api.admin.constant";
 import httpService from "./api.service";
 
 
@@ -64,9 +64,24 @@ export const createNewUser = (data: any) => {
     return httpService.post(createNewUserApi, data);
 }
 
+
+
+export const updateCrew = (id:any,data: any) => {
+    return httpService.post(updateCrewApi+`?id=${id}`,data)
+}
+
+export const getcrewData = (id:any) => {
+    return httpService.get(getCrewProfileApi+`?id=${id}`)
+}
+
+
 export const getAllCrew = (pageno:number,perpage:number) => {
     return httpService.get(getAllCrewApi+`?pageno=${pageno}&perpage=${perpage}`);
 }
+
+export const getAllFileCrew = (userid:any) => {
+    return httpService.get(getAllFileCrewApi+`?id=${userid}`)
+  }
 
 export const getAllPendingCrew = (pageno:number,perpage:number) => {
     return httpService.get(getAllPendingCrewApi+`?pageno=${pageno}&perpage=${perpage}`);

@@ -380,7 +380,7 @@ const MainRoutes = () => {
             <AuthenticatedRoute
               accessToken={globalState.accessToken}
               // outlet={<PersonalDetail />}
-              outlet={<CreateCrewMember />}
+              outlet={<CreateCrewMember  />}
             />
           ),
 

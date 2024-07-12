@@ -1,4 +1,4 @@
-import { ArrowLeft } from "react-feather";
+import { ArrowLeft, Edit } from "react-feather";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AirplaneTicket, Description } from "@mui/icons-material";
 import DasboardCardLayout from "../../dashboard/dashboard_card_layout";
@@ -8,7 +8,7 @@ import { useGlobalState } from "../../../contexts/global.context";
 import DialogBox from "../../../uiComponents/dialogBox";
 import { useEffect, useState } from "react";
 import InputField from "../../../uiComponents/inputField/inputField.component";
-import { getCrewData, getUserContract, sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
+import { getAllFileCrew, getCrewData, getUserContract, sendInstruction, sendMessageToWhatsapp } from "../../../services/admin.service";
 import { toast } from "react-toastify";
 import { LOADING, TEMP } from "../../../constants/action.constant";
 import CreateContract from "../contract_pdf/create_new_contract";
@@ -32,6 +32,7 @@ const CrewProfile = () => {
    const [InstrucText, updateInstrucText] = useState("")
    const [contract, updatecontract] = useState("")
    const [data, updateCrewData] = useState<any>()
+   const [allFile, updateAllFile] = useState([])
 
 
    function goBack() {
@@ -45,7 +46,8 @@ const CrewProfile = () => {
       if (data) {
          console.log(data);
          updateCrewData(data.data)
-         fetchData(id )
+         fetchData(id)
+         fetchAllDoc(id)
      }
      dispatch({ type: LOADING, payload: false });
    }
@@ -63,6 +65,13 @@ const CrewProfile = () => {
       dispatch({ type: LOADING, payload: false });
 
    }
+
+   async function fetchAllDoc(userid:any) {
+      const { data } = await getAllFileCrew(userid);
+      console.log(data)
+      updateAllFile(data.data)
+    }
+
 
 
    const handleSaveButton = async () => {
@@ -119,8 +128,9 @@ const CrewProfile = () => {
             <p className="p-2 mb-2 rounded-full text-[#A5A5A5] text-sm bg-green-100 ">
                {data.rank.label}  {data.vessel && data.vessel.label ?  <span>At <span className="font-bold text-green-400 tracking-wider">{data.vessel.label}</span></span> :""}
             </p>
-
-            <div className="flex flex-row items-center justify-center content-center">
+            <div className="flex  items-center w-full ">
+                  
+            <div className="flex flex-1 flex-row items-center justify-start content-center">
                <div id="pic" className="w-20 h-20 bg-slate-300 rounded-full overflow-hidden">
                <img src={data.avatar ? data.avatar : "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="seaSpeed Profile " className="overflow-hidden rounded-full" />
                </div>
@@ -132,7 +142,11 @@ const CrewProfile = () => {
                   
                 {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} replacement={!isObjectEmpty(data.replacement) ? data.replacement : null } />}
                </div>
-            </div>
+               </div>
+               
+                  <Edit className="" onClick={()=>{navigate(`/adminDashboard/createCrew/?id=${data._id}`)}} />
+               
+               </div>
          </div>
 
       </div>
@@ -155,7 +169,30 @@ const CrewProfile = () => {
          </>
 
       } />
-   </div>}
+      </div>}
+      <div id="agrement" className="mb-5 mt-2 mr-4 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white  h-80 overflow-auto max-sm:w-full items-center shadow">
+          <h1>All Documents</h1>
+          <table className="table-auto w-full text-sm text-left text-grey-500">
+            <thead className="text-xs text-grey-700 uppercase ">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Expire
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {allFile.map((item: any, index: any) => (
+
+                <tr key={index} className="bg-[#E4F0FF] border-b-8 border-white text-IbColor" onClick={() => window.open(item.link, '_blank')}>
+                  <td className="px-6 py-4">{item.name}</td>
+                  <td className="px-6 py-4">{item.expire && item.expire.split('T')[0]}</td></tr>
+
+              ))}</tbody>
+          </table>
+        </div>
    </div>
 }
 
