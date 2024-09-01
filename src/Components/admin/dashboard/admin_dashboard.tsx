@@ -7,6 +7,7 @@ import DashboardCard2 from "../../smallerComponents/dashboardCard2";
 import { Sailing } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../../../contexts/global.context";
+import GenratePdf from "../contract_pdf/genratePdf";
 // import GenratePdf from "../contract_pdf/genratePdf";
 
 

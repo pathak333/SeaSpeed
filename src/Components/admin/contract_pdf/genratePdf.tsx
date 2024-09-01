@@ -127,10 +127,10 @@ export default function GenratePdf() {
   console.log(crew)
   return (
     <div>
-      <button className="button" onClick={convertToPDF}>
+      <button className="tracking-wider text-white bg-gradient-to-r from-cyan-600 to-blue-600 font-bold px-14 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onClick={convertToPDF}>
         Generate PDF
       </button>
-      <div ref={reportTemplateRef} style={{width:600}}>
+      <div className='bg-white' ref={reportTemplateRef} style={{width:600,}}>
         {crew && <Contract crew={crew} />}
       </div>
       {/* Display the canvas element */}

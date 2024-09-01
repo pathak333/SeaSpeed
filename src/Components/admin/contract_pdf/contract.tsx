@@ -233,7 +233,7 @@ export default function Contract({ crew }: Props) {
                 <p className="pdfPadding"><b>Date of Issue</b></p>
               </td>
               <td>
-                <p className="pdfPadding">{e.dateOfIssue}</p>
+                <p className="pdfPadding">{e.dateOfIssue.includes('T') ? e.dateOfIssue.split("T")[0] : e.dateOfIssue}</p>
               </td>
               <td>
                 <p className="pdfPadding"><b>Date of Expiry</b></p>
@@ -573,7 +573,7 @@ export default function Contract({ crew }: Props) {
         </tbody>
       </table>
       <br />
-      <p className="MsoNormal pb-2">
+      <p className="">
         <b>
           <u>FOR OFFICER`S</u>
         </b>
@@ -581,9 +581,9 @@ export default function Contract({ crew }: Props) {
 
       <br />
       {/* Certificate of Competency */}
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 mt-2">
         <b>
-          <u>Certificate of Competency</u>
+          Certificate of Competency
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -639,9 +639,9 @@ export default function Contract({ crew }: Props) {
       <br />
 
       {/* Seaman Book (CDC) */}
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>Seaman Book (CDC)</u>
+          Seaman Book (CDC)
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -702,9 +702,9 @@ export default function Contract({ crew }: Props) {
       </table>
       <br />
       {/* Flag Endorsement */}
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>Flag Endorsement</u>
+          Flag Endorsement
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -765,9 +765,9 @@ export default function Contract({ crew }: Props) {
       </table>
       <br />
       {/* Dangerous cargo endorsement */}
-      <p className="MsoNormal pb-2">
+      <p className=" text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>Dangerous cargo endorsement</u>
+          Dangerous cargo endorsement
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -830,9 +830,9 @@ export default function Contract({ crew }: Props) {
       </table>
 
       <br />
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>COURSES AND CERTIFICATION</u>
+          COURSES AND CERTIFICATION
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -887,12 +887,12 @@ export default function Contract({ crew }: Props) {
       </table>
 
       <br />
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>
+        
             PREVIOUS SEA EXPERIENCE OF LAST FIVE YEARS [Start with your last
             vessel served]
-          </u>
+          
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -995,9 +995,9 @@ export default function Contract({ crew }: Props) {
       </table>
 
       <br />
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1 ">
         <b>
-          <u>EDUCATIONAL BACKGROUND INCLUDINGPRE-SEA TRAINING</u>
+          EDUCATIONAL BACKGROUND INCLUDINGPRE-SEA TRAINING
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -1054,9 +1054,9 @@ export default function Contract({ crew }: Props) {
       </table>
 
       <br />
-      <p className="MsoNormal pb-2">
+      <p className="text-[12px] flex flex-col pb-1  ">
         <b>
-          <u>References</u>
+          References
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -1124,7 +1124,7 @@ export default function Contract({ crew }: Props) {
         <tbody>
           <tr>
             <td colSpan={4} valign="top">
-              <p className="MsoNormal">
+              <p className=" pdfPadding">
                 <span>
                   1) Are you involved in any marine accident / Investigations?
                 </span>{" "}
@@ -1135,7 +1135,7 @@ export default function Contract({ crew }: Props) {
           </tr>
           <tr>
             <td colSpan={4} valign="top">
-              <p className="">
+              <p className="pdfPadding">
                 <span>
                   2) Are you currently under medical treatment or taking
                   medication for existing conditions? Yes No (if YES please give
@@ -1146,7 +1146,7 @@ export default function Contract({ crew }: Props) {
           </tr>
           <tr>
             <td colSpan={4} valign="top">
-              <p className="">
+              <p className="pdfPadding">
                 <span>
                   3) Did you suffer or do you presently suffer from any diseases
                   likely to render you unfit for sea service or likely to
@@ -1158,7 +1158,7 @@ export default function Contract({ crew }: Props) {
           </tr>
           <tr>
             <td colSpan={4} valign="top">
-              <p className="">
+              <p className="pdfPadding">
                 <span>
                   4) Did you undergo Psychiatric treatment? Yes No (if YES
                   please give details as to when you had undergone)
@@ -1168,7 +1168,7 @@ export default function Contract({ crew }: Props) {
           </tr>
           <tr>
             <td colSpan={4} valign="top">
-              <p className="">
+              <p className="pdfPadding">
                 <span>
                   5) Are you addicted to Alcohol or Drugs of any kind? Yes No
                   (if YES please give details)
@@ -1185,51 +1185,51 @@ export default function Contract({ crew }: Props) {
         <tbody>
           <tr>
             <td colSpan={4}>
-              <p>
+              <p className="text-[12px] flex flex-col pb-1">
                 <b>BANK DETAILS:</b>
               </p>
             </td>
           </tr>
           <tr>
             <td>
-              <p>Name of Bank</p>
+              <p className="pdfPadding">Name of Bank</p>
             </td>
             <td>
-              <p>{crew.BankDetail[0].bank_name}</p>
+              <p className="pdfPadding">{crew.BankDetail[0].bank_name}</p>
             </td>
             <td>
-              <p>Full Bank Address</p>
+              <p className="pdfPadding">Full Bank Address</p>
             </td>
             <td>
-              <p></p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Name of A/c Holder</p>
-            </td>
-            <td>
-              <p>{crew.BankDetail[0].account_holder_name}</p>
-            </td>
-            <td>
-              <p>Branch Code</p>
-            </td>
-            <td>
-              <p>{crew.BankDetail[0].branch_code}</p>
+              <p className="pdfPadding"></p>
             </td>
           </tr>
           <tr>
             <td>
-              <p>Account No.</p>
+              <p className="pdfPadding">Name of A/c Holder</p>
             </td>
             <td>
-              <p>{crew.BankDetail[0].account_number}</p>
+              <p className="pdfPadding">{crew.BankDetail[0].account_holder_name}</p>
             </td>
             <td>
-              <p>Swift Code</p>
+              <p className="pdfPadding">Branch Code</p>
             </td>
             <td>
-              <p>{crew.BankDetail[0].swift_code}</p>
+              <p className="pdfPadding">{crew.BankDetail[0].branch_code}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p className="pdfPadding">Account No.</p>
+            </td>
+            <td>
+              <p className="pdfPadding">{crew.BankDetail[0].account_number}</p>
+            </td>
+            <td>
+              <p className="pdfPadding">Swift Code</p>
+            </td>
+            <td>
+              <p className="pdfPadding">{crew.BankDetail[0].swift_code}</p>
             </td>
           </tr>
           {/* ... (similar structure for other rows) */}
@@ -1238,9 +1238,9 @@ export default function Contract({ crew }: Props) {
       <br />
 
       {/* UNION REGISTERATION */}
-      <p className=" pb-2">
+      <p className=" text-[12px] flex flex-col pb-1">
         <b>
-          <u>Union Registeration</u>
+          Union Registeration
         </b>
       </p>
       <table className="table-auto border border-collapse border-1">
@@ -1347,7 +1347,7 @@ export default function Contract({ crew }: Props) {
         <tbody>
           <tr>
             <td width="715" valign="top">
-              <p className="">
+              <p className="text-[12px] flex flex-col pb-2">
                 <b>
                   <span>FOR OFFICE USE ONLY</span>
                 </b>

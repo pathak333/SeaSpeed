@@ -139,8 +139,9 @@ const CrewProfile = () => {
                   <button onClick={() => updateContractboxOpen(true)} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  "><Description /> Create contract</button>
                   <button onClick={() => {navigate('/adminDashboard/AllContract', { state: { userdata: data, contractData: contract} })}} className="bg-[#0075FF] mx-2 text-white text-xl p-2 rounded-lg  " ><Description />All contract</button>
                   <CreateContract userData={data ?? null} isOpen={isContractboxOpen} onClose={closeContractbox} label={"Create Contract"} />
+                  <button className="border border-[#0075FF] text-IbColor rounded-lg text-xl p-2 mx-2" onClick={()=>navigateApp()}>Genrate Pdf</button>
                   
-                {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} replacement={!isObjectEmpty(data.replacement) ? data.replacement : null } />}
+                {/* {globalState.data.data && (globalState.data.data.role === 'superadmin' || globalState.data.data.permission.includes("application")) &&  <AssignVessel userId={data._id} isVesselAvailable={!isObjectEmpty(data.vessel)} replacement={!isObjectEmpty(data.replacement) ? data.replacement : null } />} */}
                </div>
                </div>
                
