@@ -31,14 +31,14 @@ const PersonalDetailLayout = (props: any) => {
 
   return (
     <PersonalDetailContext.Provider value={contextValue}>
-      <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px]">
-        <p className="font-medium text-[22px] leading-none flex flex-row  items-center">
+      <div className="box-border border border-[1] border-[#C7C7C7] dark:border-gray-600 bg-white dark:bg-gray-800 rounded-2xl p-[50px] max-sm:p-[20px]">
+        <p className="font-medium text-[22px] leading-none flex flex-row items-center dark:text-gray-100">
           <span className="mr-2">
             <ArrowLeft onClick={() => goBack()} />
           </span>{" "}
           Personal details
         </p>
-        <p className="pl-8 text-[#A5A5A5]">
+        <p className="pl-8 text-[#A5A5A5] dark:text-gray-400">
           Contact Details, Education background, Bank details, kin details,
         </p>
         <div className=" my-5 ml-4">

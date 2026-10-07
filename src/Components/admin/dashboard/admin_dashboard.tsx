@@ -62,7 +62,7 @@ const AdminDashboard = () => {
           }}
         />
       </div>}
-      <div className="h-1 bg-[#E4F0FF] my-8" />
+      <div className="h-1 bg-[#E4F0FF] dark:bg-blue-900/30 my-8" />
       <div className="flex flex-wrap  justify-center ">
         {/* card */}
       {data &&  (data['permission'].includes("application")||data['permission'].includes("vessel")) &&  <DashboardCard2

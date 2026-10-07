@@ -35,12 +35,12 @@ const Dashboard = () => {
 
   return (
     <div className="    ">
-      <div className="w-full h-fit bg-white p-4 mb-8 items-baseline inline-grid rounded-lg">
+      <div className="w-full h-fit bg-white dark:bg-gray-800 p-4 mb-8 items-baseline inline-grid rounded-lg">
       { data != null && !data.isRequiredDoc && <p>
           Your Application <span>{ memoizedValue > 100 ? 100 : memoizedValue.toFixed(2)}%</span>
         </p>}
        {data != null && data.isRequiredDoc && <p>Well done! you have completed your application</p>}
-        <div className=" w-full  bg-gray-200 rounded-full h-2.5 dark:bg-gray-200 overflow-clip relative">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-clip relative">
           <div
             className={`bg-green-600  h-2.5 rounded-full  absolute`}
              style={{"width":`${memoizedValue}%`}}
@@ -50,18 +50,18 @@ const Dashboard = () => {
       </div>
     <DasboardCardLayout comeFrom="user" />
    <div id="bottomMenu" className="flex flex-wrap">
-   <div className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
+   <div className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white dark:bg-gray-800 w-[260px] max-sm:w-full items-center">
       <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="seaSpeed Profile " className="p-3 w-24 h-24 rounded-full" />
-     
-     <p id="name" className="h-5">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
-      <p id="name" className="text-slate-400 font-medium pb-2 text-sm">{data !== null ? data.vessel.label : ""}</p>
-      <hr className=" w-full" />
-      <p id="name" className="p-2 text-sm">{data !== null ?data.joiningDate : ""}</p>
-      <hr className=" w-full " />
-      <p id="name" className="p-2 text-sm">{data !== null ?data.joiningPort : ""}</p>
+
+     <p id="name" className="h-5 dark:text-gray-100">{data !== null ? data.firstname : ""} {data != null ? data.lastname : ""}</p>
+      <p id="name" className="text-slate-400 dark:text-gray-400 font-medium pb-2 text-sm">{data !== null ? data.vessel.label : ""}</p>
+      <hr className="w-full dark:border-gray-600" />
+      <p id="name" className="p-2 text-sm dark:text-gray-300">{data !== null ?data.joiningDate : ""}</p>
+      <hr className="w-full dark:border-gray-600" />
+      <p id="name" className="p-2 text-sm dark:text-gray-300">{data !== null ?data.joiningPort : ""}</p>
      
     </div>
-    <div id="agrement" className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white w-[260px] max-sm:w-full items-center">
+    <div id="agrement" className="mb-5 mt-2 flex flex-col px-3 pt-3 ml-2 rounded-lg bg-white dark:bg-gray-800 w-[260px] max-sm:w-full items-center">
           <FileText width={"100px"} height={"100px"} className="text-activeIconColor mb-2" />
           <button className="text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 font-bold px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">Download agreement</button>
           <button className="text-activeIconColor my-3 ">Upload signed agreement</button>

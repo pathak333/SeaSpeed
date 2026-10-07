@@ -21,7 +21,7 @@ const FileUpload = (props: Props) => {
     
 
 
-    return <div onClick={handleButtonClick} className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] bg-[#0075FF1A] cursor-pointer">
+    return <div onClick={handleButtonClick} className="flex flex-row m-3 items-center justify-center p-3 rounded-2xl border-2 border-[#C7C7C7] dark:border-gray-600 bg-[#0075FF1A] dark:bg-blue-900/20 cursor-pointer">
     <input ref={uploadRef} className="hidden" type="file" name="uploadPdf"  accept="application/pdf" id="" />
 <Upload className="text-IbColor" />
 <p className="text-IbColor">Upload {props.name} PDF</p>

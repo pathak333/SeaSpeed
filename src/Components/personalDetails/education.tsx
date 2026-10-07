@@ -77,7 +77,7 @@ const Education = () => {
     formEvent.error.keys === field ? formEvent.error.values : "";
 
   const listofData = formEvent.dataList.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b">
+    <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
       <td className="px-6 py-4">{item.institution}</td>
       <td className="px-6 py-4">{item.qualification}</td>
       <td className="px-6 py-4">{item.startDate}</td>
@@ -96,7 +96,7 @@ const Education = () => {
   ));
 
   const listOfOldData = oldData.map((item: any, index: any) => (
-    <tr key={index} className="bg-white border-b">
+    <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
       <td className="px-6 py-4">{item.institution}</td>
       <td className="px-6 py-4">{item.qualification}</td>
       <td className="px-6 py-4">{item.startDate}</td>
@@ -253,7 +253,7 @@ const Education = () => {
         {formEvent.dataList.length > 0 ? (
           <div className="relative overflow-x-auto">
             <table className="table-auto w-full text-sm text-left text-grey-500">
-              <thead className="text-xs text-grey-700 uppercase ">
+              <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Institution
@@ -340,7 +340,7 @@ const Education = () => {
         {oldData.length > 0 ? (
           <div className="relative overflow-x-auto">
             <table className="table-auto w-full text-sm text-left text-grey-500">
-              <thead className="text-xs text-grey-700 uppercase ">
+              <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Institution

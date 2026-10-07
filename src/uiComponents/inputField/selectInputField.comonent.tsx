@@ -17,15 +17,13 @@ const SelectInput = (props: Props) => {
   return (
     <div className={`${props.className}`}>
       <div
-        className={`flex
-       
-       f-outline h-fit   pr-0 relative border border-inputBorderColor rounded-lg focus-within:border-indigo-500`}
+        className={`flex f-outline h-fit pr-0 relative border border-inputBorderColor dark:border-gray-600 rounded-lg focus-within:border-indigo-500 dark:focus-within:border-indigo-400`}
       >
         <select
           value={props.value}
           id="countries"
           onChange={props.onChange}
-          className="block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent"
+          className="block pl-2 pr-12 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent dark:text-gray-100 dark:bg-transparent"
         >
           {props.option.map((x) => (
             <option key={x} value={x}>
@@ -35,7 +33,7 @@ const SelectInput = (props: Props) => {
         </select>
         <label
           htmlFor="countries"
-          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0   text-gray-400 bg-white mt-2  duration-300 origin-0 "
+          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0 text-gray-400 bg-white dark:bg-gray-800 mt-2 duration-300 origin-0"
         >
           {props.label}
         </label>

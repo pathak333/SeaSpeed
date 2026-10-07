@@ -47,7 +47,7 @@ const AddManager = (props:Props) => {
     
     
     return <>
-       {/* <div className="box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px]">
+       {/* <div className="box-border border border-[1] border-[#C7C7C7] dark:border-gray-600 bg-white dark:bg-gray-800 rounded-2xl p-[50px] max-sm:p-[20px]">
             <p className="font-medium text-[22px] leading-none flex flex-row  items-center">
                 <span className="mr-2">
                     <ArrowLeft onClick={() => goBack()} />

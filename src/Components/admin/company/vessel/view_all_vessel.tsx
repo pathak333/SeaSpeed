@@ -26,7 +26,7 @@ const ViewAllVessel = () => {
 
 
     const listofData = vesselList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b" onClick={(e:any)=>{
+        <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700" onClick={(e:any)=>{
           console.log("click on vessel")
           navigate("/adminDashboard/vesselProfile",{state:{id:item._id}})}}>
           <td className="px-6 py-4">{item.name}</td>
@@ -50,7 +50,7 @@ const ViewAllVessel = () => {
     return <CommonLayout heading={"View All Vessel"} subHeading={"Vessel and their details"} lastHeading={""}>
          <div className="relative overflow-x-auto mb-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
-          <thead className="text-xs text-grey-700 uppercase ">
+          <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name

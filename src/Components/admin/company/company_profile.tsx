@@ -71,7 +71,7 @@ import { getAllVesselByCompanyIdService } from "../../../services/admin.service"
         
          <div id="companyProfile" className="main  w-full">
 
-            <div className="pl-8 box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px] flex flex-col justify-center items-start ">
+            <div className="pl-8 box-border border border-[1] border-[#C7C7C7] dark:border-gray-600 bg-white dark:bg-gray-800 rounded-2xl p-[50px] max-sm:p-[20px] flex flex-col justify-center items-start ">
                {/* <p className="font-medium text-[22px] leading-none flex flex-row  items-start justify-start">
                   <span className="mr-2">
                      <ArrowLeft onClick={() => { goBack() }} />
@@ -97,12 +97,12 @@ import { getAllVesselByCompanyIdService } from "../../../services/admin.service"
             </div>
 
          </div>
-         <div className="px-5 pt-4 pb-4 box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl max-sm:p-[20px] flex flex-col justify-center items-start mt-4">
+         <div className="px-5 pt-4 pb-4 box-border border border-[1] border-[#C7C7C7] dark:border-gray-600 bg-white dark:bg-gray-800 rounded-2xl max-sm:p-[20px] flex flex-col justify-center items-start mt-4">
             <p className="text-lg ml-2">Company Vessel List</p>
             {/* <InputField className="m-1" fieldName="Name" type="text" label={"Name"} onChange={(e) => updateEvent({ name: e.target.value, isFormChanged: true })}/>  */}
             {/* <AddCompany /> */}
             <table className="table-auto w-full text-sm text-left text-grey-500">
-          <thead className="text-xs text-grey-700 uppercase ">
+          <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name

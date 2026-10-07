@@ -26,7 +26,7 @@ const AllCrewMembers = () => {
 
   const listofData = crewList.map((item: any, index: any) => {
     console.log(item)
-  return  <tr key={index} className="bg-white border-b hover:bg-slate-100 cursor-pointer" onClick={() => {
+  return  <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => {
     navigate("/adminDashboard/crewProfile",{state:{data:item,page:"allCrew"}});
    }}>
       <td className="px-6 py-4">{item.firstname} {item.lastname}<br /> <span className="text-xs text-textGrey">{ item.rank.label}</span></td>
@@ -51,7 +51,7 @@ const AllCrewMembers = () => {
         <CommonLayout heading={"View All Crew"}>
          <div className="relative overflow-x-auto mb-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
-          <thead className="text-xs text-grey-700 uppercase ">
+          <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name

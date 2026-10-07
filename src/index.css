@@ -35,10 +35,35 @@ code {
 
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus,
+html.dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+html.dark body {
+    background-color: #121212;
+    color: #e2e8f0;
+}
+
+html.dark table {
+    color: #e2e8f0;
+}
+
+html.dark th {
+    color: #cbd5e1;
+}
+
+html.dark p, html.dark span, html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5 {
+    color: inherit;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

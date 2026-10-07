@@ -21,7 +21,7 @@ const ViewAllCompany = () => {
     }
 
     const listofData = companyList.map((item: any, index: any) => (
-        <tr key={index} className="bg-gray-200 border-b-2 border-b-gray-50" onClick={(e:any)=>{
+        <tr key={index} className="bg-gray-200 dark:bg-gray-700 border-b-2 border-b-gray-50 dark:border-gray-600 cursor-pointer" onClick={(e:any)=>{
           console.log("click on vessel")
           navigate("/adminDashboard/companyProfile",{state:{company:item}})}}>
           <td className="px-6 py-4">{item.name}</td>
@@ -43,7 +43,7 @@ const ViewAllCompany = () => {
 return <CommonLayout heading={"View All Company"} subHeading={"Company and their details"} lastHeading={""}>
 <div className="relative overflow-x-auto mb-3 rounded-lg  ">
 <table className="table-auto w-full text-sm text-left text-grey-500   ">
- <thead className="text-xs text-grey-700  bg-gray-400 uppercase ">
+ <thead className="text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 uppercase">
    <tr>
      <th scope="col" className="px-6 py-3">
        Name

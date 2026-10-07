@@ -42,6 +42,7 @@ import AdminDashboardLayout from "../views/AdminViews/adminDashboardLayout";
 import AdminDashboard from "../Components/admin/dashboard/admin_dashboard";
 import CreateCrewMember from "../Components/admin/crew_member.tsx/create_crew_member";
 import { LOGIN } from "../constants/action.constant";
+import { useThemeContext } from "../contexts/theme.context";
 import CreateSubAdmin from "../Components/admin/sub_admin.tsx/create_sub_admin";
 import AddCompany from "../Components/admin/company/add_company";
 import AddVessel from "../Components/admin/company/vessel/add_vessel";
@@ -681,6 +682,7 @@ const MainRoutes = () => {
 };
 const AppWrapper = () => {
   const [globalState, dispatch] = useGlobalState();
+  const { mode } = useThemeContext();
 console.log("App Wrapper");
 
   axios.defaults.headers.common["Authorization"] =
@@ -703,7 +705,7 @@ console.log("App Wrapper");
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme={mode}
       />
       {globalState.loading && <Loader />}
       <MainRoutes />

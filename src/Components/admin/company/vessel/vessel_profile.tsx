@@ -81,7 +81,7 @@ const VesselProfile = () => {
 
    const listofData = crewData.length > 0 ? crewData.map((item: any, index: any) => {
       //  console.log(item)
-      return <Tooltip  arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr key={index} className={` bg-white border-b hover:bg-slate-100 cursor-pointer ${'replacement' in item.context ? "bg-green-200" : ""}`}>
+      return <Tooltip arrow title={`${'replacement' in item.context ? "New Crew: "+item.context.replacement.label :""}`} placement="top"><tr key={index} className={`bg-white dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-700 cursor-pointer ${'replacement' in item.context ? "bg-green-200 dark:bg-green-900" : ""}`}>
         
          <td onClick={() => {
             navigate("/adminDashboard/crewProfile", { state: { data: item, page: "allCrew" } });
@@ -113,7 +113,7 @@ const VesselProfile = () => {
    return <>
       <div id="companyProfile" className="main  w-full">
 
-         <div className="pl-8 box-border border border-[1] border-[#C7C7C7] bg-white rounded-2xl p-[50px] max-sm:p-[20px] flex flex-col justify-center items-start ">
+         <div className="pl-8 box-border border border-[1] border-[#C7C7C7] dark:border-gray-600 bg-white dark:bg-gray-800 rounded-2xl p-[50px] max-sm:p-[20px] flex flex-col justify-center items-start ">
             <p className="font-medium text-[22px] leading-none flex flex-row  items-start justify-start">
                <span className="mr-2">
                   <ArrowLeft onClick={() => { goBack() }} />
@@ -148,7 +148,7 @@ const VesselProfile = () => {
          </div>
          <div className="relative overflow-x-auto mb-3">
             <table className="table-auto w-full text-sm text-left text-grey-500">
-               <thead className="text-xs text-grey-700 uppercase ">
+               <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                   <tr>
                      <th scope="col" className="px-6 py-3">
                         Name
@@ -184,7 +184,7 @@ const VesselProfile = () => {
 
          </div>
          <table className="table-auto table-row w-full text-sm text-left text-grey-500">
-            <thead className="text-xs text-grey-700 uppercase ">
+            <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                <tr className="border-b-2">
                   <th scope="col" className="px-6 py-3">
                      Name

@@ -98,7 +98,7 @@ const DasboardCardLayout = ({ className, comeFrom, id, data,page }: Props) => {
 
       {/* card */}
     </div>
-    <div className="h-1 bg-[#E4F0FF] my-8" />
+    <div className="h-1 bg-[#E4F0FF] dark:bg-blue-900/30 my-8" />
     <div className="flex flex-wrap  justify-start ">
       {/* card */}
       <DashboardCard2

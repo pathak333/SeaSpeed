@@ -49,7 +49,7 @@ const [msg, updateMsg] = useState("")
         {/* <button className="border border-blue-600 border-2 rounded-lg p-3 text-blue-600 font-semibold m-3">Reject</button> */}
       </div>
         <div className="relative w-full">
-        <textarea  onChange={(e:any) => updateMsg(e.target.value)} className="border border-2 rounded-lg mx-3 p-2 w-full" name="Reject" id="rejectbox" cols={30} rows={10} placeholder="Enter Your Reason For Rejection"  /> 
+        <textarea onChange={(e:any) => updateMsg(e.target.value)} className="border border-2 rounded-lg mx-3 p-2 w-full bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600" name="Reject" id="rejectbox" cols={30} rows={10} placeholder="Enter Your Reason For Rejection" />
     <button onClick={(e:any) => {
           console.log("reject and next");
           let postData = {

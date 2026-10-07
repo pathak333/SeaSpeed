@@ -117,7 +117,7 @@ const CourseCertificate = () => {
     };
 
     const listofData = formEvent.dataList.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
@@ -138,7 +138,7 @@ const CourseCertificate = () => {
     ));
 
     const SavelistofData = formEvent.savedData.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b">
+        <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
             <td className="px-6 py-4">{item.courseName}</td>
             <td className="px-6 py-4">{item.certificateName}</td>
             <td className="px-6 py-4">{item.dateOfIssue.split("T")[0]}</td>
@@ -280,7 +280,7 @@ const CourseCertificate = () => {
         {formEvent.dataList.length > 0 || formEvent.savedData.length > 0 ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
-                    <thead className="text-xs text-grey-700 uppercase ">
+                    <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 Course Name

@@ -122,7 +122,7 @@ const MedicalDetails = () => {
     }
 
     const listofData = formEvent.typeMedicalDetails.map((item: any, index: any) => (
-        <tr key={index} className="bg-white border-b mb-3">
+        <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 mb-3">
             <td className="px-6 py-4">{item.type}</td>
             <td className="px-6 py-4">{item.placeOfIssue}</td>
             <td className="px-6 py-4">{item.dateOfIssue}</td>
@@ -276,7 +276,7 @@ const MedicalDetails = () => {
         {formEvent.typeMedicalDetails.length > 0 ? (
             <div className="relative overflow-x-auto mb-3">
                 <table className="table-auto w-full text-sm text-left text-grey-500">
-                    <thead className="text-xs text-grey-700 uppercase ">
+                    <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 Type

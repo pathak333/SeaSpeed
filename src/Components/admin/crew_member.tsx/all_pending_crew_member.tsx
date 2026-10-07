@@ -28,7 +28,7 @@ const AllPendingCrewMembers = () => {
 
   const listofData = crewList.map((item: any, index: any) => {
     console.log(item)
-    return <tr key={index} className={`${item.isRequiredDoc ? "bg-green-200 " : "bg-white"}  border-b hover:bg-slate-100 cursor-pointer`}
+    return <tr key={index} className={`${item.isRequiredDoc ? "bg-green-200 dark:bg-green-900" : "bg-white dark:bg-gray-800"} border-b dark:border-gray-700 hover:bg-slate-100 dark:hover:bg-gray-700 cursor-pointer`}
       onClick={() => {
         if (adminData.permission.includes("application")) {
           navigate("/adminDashboard/crewProfile", { state: { data: item, page: "pending" } });
@@ -55,7 +55,7 @@ const AllPendingCrewMembers = () => {
     <CommonLayout heading={"View All Pending Crew"}>
       <div className="relative overflow-x-auto mb-3">
         <table className="table-auto w-full text-sm text-left text-grey-500">
-          <thead className="text-xs text-grey-700 uppercase ">
+          <thead className="text-xs text-gray-600 dark:text-gray-300 uppercase">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name

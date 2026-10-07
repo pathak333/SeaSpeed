@@ -30,15 +30,13 @@ function InputField(props: Props) {
   return (
     <div className={`${props.className}`}>
       <div
-        className={`
-       
-           f-outline   pr-0 relative border border-inputBorderColor rounded-lg focus-within:border-indigo-500`}
+        className={`f-outline pr-0 relative border border-inputBorderColor dark:border-gray-600 rounded-lg focus-within:border-indigo-500 dark:focus-within:border-indigo-400`}
       >
         <input
           type={props.type}
           id={props.id ?? props.fieldName}
           name={props.fieldName}
-          className={`block pl-2 pr-12 max-sm:pr-0  w-full h-10 text-lg appearance-none focus:outline-none bg-transparent ${props.inputClass}`}
+          className={`block pl-2 pr-12 max-sm:pr-0 w-full h-10 text-lg appearance-none focus:outline-none bg-transparent dark:text-gray-100 dark:placeholder-gray-400 ${props.inputClass}`}
           placeholder=" "
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -59,7 +57,7 @@ function InputField(props: Props) {
         </button>}
         <label
           htmlFor={props.id ?? props.fieldName}
-          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0   text-gray-400 bg-white mt-2  duration-300 origin-0 "
+          className="absolute block left-0 appearance-none cursor-text ml-5 top-0 bottom-0 max-sm:top-1 max-sm:text-sm pl-0 text-gray-400 bg-white dark:bg-gray-800 mt-2 duration-300 origin-0"
         >
           {props.label}
         </label>
