@@ -21,7 +21,7 @@ const AuthLayout: NoPropComponent = () => {
     >
 <div className="rounded-xl p-4 max-md:p-5 max-lg:p-6 lg:p-8 bg-white dark:bg-gray-800 ml-16 mr-16 text-center items-center flex flex-col">
         <p className="text-3xl max-sm:text-2xl dark:text-gray-100">Hello!</p>
-        <p className="text-gray-400 dark:text-gray-400 mt-2">Welcome to Manner Marine</p>
+        <p className="text-gray-400 dark:text-gray-400 mt-2">Welcome to SeaSpeed Marine</p>
         <div className="rounded-full bg-white dark:bg-gray-700 items-center max-sm:w-20 max-sm:mb-2 max-sm:mt-2 max-md:w-32 max-lg:w-48 lg:w-48">
           <img src="/images/logo.png" alt="seaSpeed" className="" />
         </div>
