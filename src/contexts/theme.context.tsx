@@ -8,16 +8,12 @@ type ThemeMode = "light" | "dark";
 const STORAGE_KEY = "seaspeed-theme-mode";
 
 function getInitialMode(): ThemeMode {
+  // Dark mode toggle is currently hidden; always start in light mode and clear
+  // any previously persisted dark preference so returning users aren't left in dark mode.
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "light" || saved === "dark") return saved;
+    localStorage.removeItem(STORAGE_KEY);
   } catch {
-    // localStorage unavailable (e.g. Safari private mode)
-  }
-  try {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  } catch {
-    // matchMedia not available
+    // localStorage unavailable
   }
   return "light";
 }

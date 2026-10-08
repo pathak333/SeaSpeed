@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, Bell, ChevronDown, Menu, Sun, Moon } from "react-feather";
+import { Home, Bell, ChevronDown, Menu } from "react-feather";
 import { useGlobalState } from "../../contexts/global.context";
-import { useThemeContext } from "../../contexts/theme.context";
 import SideBarMenuItem from "../smallerComponents/sidebarMenuItems";
 
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,6 @@ import { BusinessCenterOutlined, DirectionsBoatRounded } from "@mui/icons-materi
 
 const NavbarComponent = (props: any) => {
   const [globalState, dispatch] = useGlobalState();
-  const { mode, toggleMode } = useThemeContext();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let data = globalState.data != null ? globalState.data.data : null;
@@ -63,14 +61,7 @@ const NavbarComponent = (props: any) => {
               <Bell className="absolute" />
               <div className="bg-blue-600 w-2 h-2 rounded-xl ml-auto"></div>
             </div>
-            <button
-              onClick={toggleMode}
-              aria-label="Toggle dark mode"
-              className="my-auto p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
-            >
-              {mode === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <div className="relative flex flex-row items-center">
+<div className="relative flex flex-row items-center">
               <div className="flex flex-row items-center" id="menu-button" aria-expanded="true" aria-haspopup="true" onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
                 <div className="profileImage flex justify-center items-center rounded-full w-12 h-12 max-sm:hidden bg-slate-400">
