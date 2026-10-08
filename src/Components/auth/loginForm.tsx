@@ -141,7 +141,7 @@ const LoginForm: NoPropComponent = () => {
         className="w-full h-12 font-bold text-base mt-5 bg-IbColor text-white rounded-lg"
         type="submit"
       >
-        Logged In
+        Login
       </button>
     </form>
   );
