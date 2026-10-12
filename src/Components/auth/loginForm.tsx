@@ -131,14 +131,14 @@ const LoginForm: NoPropComponent = () => {
       </div>
       <div className="block mt-2  w-full ">
         <p className="float-right  font-semibold text-base text-IbColor pl-1 ">
-          Inform admin
+          Contact admin
         </p>
       </div>
       <button
         className="w-full h-12 font-bold text-base mt-5 bg-IbColor text-white rounded-lg"
         type="submit"
       >
-        Login
+        Start
       </button>
     </form>
   );
